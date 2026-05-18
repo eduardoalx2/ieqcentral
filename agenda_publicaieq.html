@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Pública IEQ</title>
+    <script src="https://unpkg.com/lucide@0.300.0"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc; 
+            text-transform: uppercase; 
+            letter-spacing: 0.025em;
+        }
+
+        .tab-active { 
+            border-bottom: 3px solid #4f46e5; 
+            color: #4f46e5; 
+            font-weight: 800; 
+        }
+
+        .event-card { 
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .event-card:hover { 
+            border-color: #4f46e5;
+            background-color: #ffffff;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        
+        select, input {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='C19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+        }
+        input[type="text"] { background-image: none; }
+    </style>
+</head>
+<body class="pb-24 text-[#1e293b]">
+
+    <!-- Header -->
+    <header class="w-full shadow-sm bg-white border-b">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="mini.png" alt="Logo" class="h-8 md:h-10 w-auto object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3243/3243452.png'">
+                <div class="border-l border-gray-200 pl-3">
+                    <h1 class="text-sm md:text-base font-black tracking-tight leading-none uppercase text-slate-800">Agenda Pública IEQ</h1>
+                    <p class="text-[9px] md:text-[10px] font-bold text-slate-400 tracking-widest mt-0.5 uppercase weather-date-display">Carregando...</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 md:gap-3">
+                <a href="javascript:history.back()" class="text-[10px] font-bold text-slate-500 hover:text-blue-600 flex items-center gap-1 uppercase tracking-wider px-2 py-1.5">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Voltar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-3 mt-6">
+        
+        <!-- Filtros -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 mb-6 grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div class="col-span-2 md:col-span-1">
+                <label class="text-[9px] font-extrabold text-slate-400 ml-1 mb-1 block">BUSCAR</label>
+                <input type="text" id="filterSearch" oninput="window.render()" placeholder="NOME DO EVENTO..." class="w-full border border-slate-200 rounded-xl px-3 py-2 text-[11px] focus:ring-1 focus:ring-indigo-500 outline-none font-bold uppercase">
+            </div>
+            <div>
+                <label class="text-[9px] font-extrabold text-slate-400 ml-1 mb-1 block">MÊS</label>
+                <select id="filterMonth" onchange="window.render()" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-[11px] bg-white outline-none font-bold cursor-pointer uppercase">
+                    <option value="">TODOS</option>
+                    <option value="01">JANEIRO</option><option value="02">FEVEREIRO</option><option value="03">MARÇO</option>
+                    <option value="04">ABRIL</option><option value="05">MAIO</option><option value="06">JUNHO</option>
+                    <option value="07">JULHO</option><option value="08">AGOSTO</option><option value="09">SETEMBRO</option>
+                    <option value="10">OUTUBRO</option><option value="11">NOVEMBRO</option><option value="12">DEZEMBRO</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-[9px] font-extrabold text-slate-400 ml-1 mb-1 block">MINISTÉRIO</label>
+                <select id="filterMin" onchange="window.render()" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-[11px] bg-white outline-none font-bold cursor-pointer uppercase">
+                    <option value="">TODOS</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Abas -->
+        <div class="flex gap-6 border-b border-slate-200 mb-6 overflow-x-auto scrollbar-hide px-1">
+            <button onclick="window.setTab('upcoming')" id="tUpcoming" class="tab-active py-3 text-[10px] font-black tracking-widest whitespace-nowrap transition-all">PRÓXIMOS</button>
+            <button onclick="window.setTab('past')" id="tPast" class="py-3 text-[10px] font-black text-slate-400 tracking-widest whitespace-nowrap transition-all">ANTERIORES</button>
+            <button onclick="window.setTab('all')" id="tAll" class="py-3 text-[10px] font-black text-slate-400 tracking-widest whitespace-nowrap transition-all">TODOS</button>
+        </div>
+
+        <!-- Lista de Eventos -->
+        <div id="eventList" class="space-y-2">
+            <div class="flex justify-center py-20 text-indigo-600 font-bold text-[10px] tracking-widest animate-pulse">SINCRONIZANDO DADOS...</div>
+        </div>
+
+    </main>
+
+    <script type="module">
+        import { db } from './firebase-config.js';
+        import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+        let events = [];
+        let currentTab = 'upcoming';
+        const MONTHS = ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"];
+        const WEEKDAYS = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"];
+
+        async function load() {
+            try {
+                const snap = await getDocs(query(collection(db, "agenda"), orderBy("data", "asc")));
+                events = [];
+                snap.forEach(doc => events.push({ id: doc.id, ...doc.data() }));
+                populateMinistries();
+                window.render();
+            } catch (error) {
+                console.error("Erro ao carregar dados do Firebase:", error);
+                document.getElementById('eventList').innerHTML = `<div class="text-center py-16 text-red-500 font-bold text-[10px] tracking-widest">ERRO AO CARREGAR AGENDA.</div>`;
+            }
+        }
+
+        function isExcludedEvent(e) {
+            const eTipo = (e.tipo || "").toUpperCase();
+            if (eTipo === 'NACIONAL') return true;
+            if (eTipo === 'ANIVERSARIOS' || eTipo === 'ANIVERSÁRIOS') return true;
+            const eNome = (e.evento || "").toUpperCase();
+            if (eNome.includes('ANIVERSÁRIO') || eNome.includes('ANIVERSARIO')) return true;
+            const eMin = (e.ministerio || "").toUpperCase();
+            if (eMin.includes('NACIONAL')) return true;
+            if (eMin.includes('EXCLUSIVO')) return true;
+            return false;
+        }
+
+        function populateMinistries() {
+            const select = document.getElementById('filterMin');
+            select.innerHTML = '<option value="">TODOS</option>';
+            const mins = new Set();
+            events.forEach(e => {
+                if ((e.tipo || '').toUpperCase() !== 'LOCAL') return;
+                if (isExcludedEvent(e)) return;
+                if(e.ministerio) e.ministerio.split(',').forEach(m => {
+                    if(m.trim()) mins.add(m.trim().toUpperCase());
+                });
+            });
+            Array.from(mins).sort().forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m; opt.textContent = m;
+                select.appendChild(opt);
+            });
+        }
+
+        window.render = () => {
+            const list = document.getElementById('eventList');
+            const search = document.getElementById('filterSearch').value.toLowerCase();
+            const monthF = document.getElementById('filterMonth').value;
+            const minF = document.getElementById('filterMin').value;
+            const today = new Date().toISOString().split('T')[0];
+
+            let filtered = events.filter(e => {
+                const tipoUpper = (e.tipo || '').toUpperCase();
+                if (tipoUpper !== 'LOCAL') return false;
+                if (isExcludedEvent(e)) return false;
+
+                const isPast = e.data < today;
+                const eNome = (e.evento || "").toLowerCase();
+                const eMonth = e.data.split('-')[1];
+                const eMins = (e.ministerio || "").toUpperCase();
+
+                if (currentTab === 'upcoming' && isPast) return false;
+                if (currentTab === 'past' && !isPast) return false;
+
+                if (search && !eNome.includes(search)) return false;
+                if (monthF && eMonth !== monthF) return false;
+                if (minF && !eMins.includes(minF)) return false;
+
+                return true;
+            });
+
+            filtered.sort((a,b) => currentTab === 'past' ? b.data.localeCompare(a.data) : a.data.localeCompare(b.data));
+
+            if (filtered.length === 0) {
+                list.innerHTML = `<div class="text-center py-16 text-slate-400 font-bold text-[10px] tracking-widest">NENHUM EVENTO ENCONTRADO.</div>`;
+                return;
+            }
+
+            list.innerHTML = filtered.map(e => {
+                const [y, m, d] = e.data.split('-');
+                const monthName = MONTHS[parseInt(m)-1];
+                const dateObj = new Date(e.data + 'T12:00:00');
+                const dow = WEEKDAYS[dateObj.getDay()];
+                const hasLink = e.link && e.link.trim().length > 5;
+                const hasValidAddress = e.local && !e.local.toUpperCase().includes('ONLINE') && !e.local.toUpperCase().includes('DEFINIR');
+
+                return `
+                <div class="event-card bg-white rounded-xl p-4 shadow-sm border border-slate-100 relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-indigo-500"></div>
+                    
+                    <div class="flex flex-col gap-3">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                            <h3 class="text-sm md:text-base font-bold text-slate-800 leading-tight flex items-center">
+                                <div class="flex flex-col items-center mr-3 min-w-[42px]">
+                                    <span class="text-indigo-600 font-black tracking-tighter">${d} ${monthName}</span>
+                                    <span class="text-slate-400 text-[7px] font-bold -mt-0.5">${dow}</span>
+                                </div>
+                                <span class="text-slate-200 font-light mr-3">|</span>
+                                <div class="flex-1">
+                                    <img src="mini.png" class="w-4 h-4 inline-block align-middle mr-1.5" onerror="this.style.display='none'">${e.evento}
+                                </div>
+                            </h3>
+                            <div class="flex gap-1">
+                                <span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 text-[8px] font-black border border-slate-200">${e.tipo}</span>
+                                ${(e.ministerio || "").split(',').map(min => min.trim() ? `<span class="px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-600 text-[8px] font-black border border-indigo-100">${min}</span>` : '').join('')}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] font-bold text-slate-400">
+                            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3 text-indigo-400"></i> ${e.horario || 'A DEFINIR'}</span>
+                            <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3 text-indigo-400"></i> ${e.local || 'IEQ CENTRAL'}</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 pt-2 border-t border-slate-50">
+                            ${hasValidAddress ? `
+                                <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(e.local)}" target="_blank" class="flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[9px] font-black transition-colors">
+                                    <i data-lucide="map" class="w-3 h-3"></i> MAPA
+                                </a>` : ''}
+                            
+                            <button onclick="window.shareWhatsApp('${e.evento}', '${d}/${m}/${y}', '${e.horario}', '${e.local}')" class="flex items-center justify-center gap-1.5 px-3 py-2 bg-green-50 text-green-700 hover:bg-green-100 rounded-lg text-[9px] font-black transition-colors">
+                                <i data-lucide="send" class="w-3 h-3"></i> ENVIAR
+                            </button>
+                            
+                            <button onclick="window.saveCalendar('${e.evento}', '${e.data}', '${e.horario}', '${e.duracao}', '${e.local}')" class="flex items-center justify-center gap-1.5 px-3 py-2 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded-lg text-[9px] font-black transition-colors">
+                                <i data-lucide="calendar-plus" class="w-3 h-3"></i> SALVAR
+                            </button>
+
+                            ${hasLink ? `
+                                <a href="${e.link}" target="_blank" class="flex items-center justify-center gap-1.5 px-3 py-2 bg-[#1e293b] text-white hover:bg-black rounded-lg text-[9px] font-black transition-colors">
+                                    <i data-lucide="info" class="w-3 h-3"></i> DETALHES
+                                </a>` : ''}
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+            lucide.createIcons();
+        };
+
+        window.shareWhatsApp = (title, date, time, local) => {
+            const msg = `*IEQ*\n📌 *${title}*\n📅 DATA: ${date}\n🕒 HORA: ${time}\n📍 LOCAL: ${local}`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`);
+        };
+
+        window.saveCalendar = (title, date, time, duration, local) => {
+            const cleanTime = time ? time.replace(':', '') : '0000';
+            const start = date.replace(/-/g, '') + 'T' + cleanTime + '00';
+            const dur = parseFloat(duration) || 2;
+            const hour = parseInt(cleanTime.substring(0,2)) || 0;
+            const endHour = (hour + Math.floor(dur)).toString().padStart(2, '0');
+            const end = date.replace(/-/g, '') + 'T' + endHour + cleanTime.substring(2) + '00';
+            const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start}/${end}&location=${encodeURIComponent(local)}`;
+            window.open(url);
+        };
+
+        window.setTab = (t) => {
+            currentTab = t;
+            ['tUpcoming', 'tAll', 'tPast'].forEach(id => {
+                const el = document.getElementById(id);
+                el.className = 'py-3 text-[10px] font-black text-slate-400 tracking-widest whitespace-nowrap transition-all';
+            });
+            const activeId = t === 'upcoming' ? 'tUpcoming' : t === 'all' ? 'tAll' : 'tPast';
+            document.getElementById(activeId).className = 'tab-active py-3 text-[10px] font-black tracking-widest whitespace-nowrap transition-all';
+            window.render();
+        };
+
+        load();
+    </script>
+
+    <script>
+        window.fetchWeatherAndDate = async () => {
+            const dateStr = new Date().toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' }).replace('.', '').toUpperCase();
+            const els = document.querySelectorAll('.weather-date-display');
+            els.forEach(el => el.textContent = `${dateStr} • CARREGANDO CLIMA...`);
+            
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-23.31&longitude=-51.16&current_weather=true');
+                if(!res.ok) throw new Error();
+                const data = await res.json();
+                const temp = Math.round(data.current_weather.temperature);
+                els.forEach(el => el.textContent = `${dateStr} • ${temp}°C LONDRINA`);
+            } catch (e) {
+                els.forEach(el => el.textContent = dateStr);
+            }
+        };
+        document.addEventListener('DOMContentLoaded', window.fetchWeatherAndDate);
+    </script>
+</body>
+</html>

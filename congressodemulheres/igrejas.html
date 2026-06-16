@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Igrejas — Congresso de Mulheres</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>* { font-family:'Inter',sans-serif; }</style>
+</head>
+<body class="bg-rose-50 min-h-screen">
+
+  <header class="bg-gradient-to-br from-rose-500 to-pink-500 text-white shadow-md">
+    <div class="max-w-2xl mx-auto px-5 py-4 flex items-center gap-3">
+      <a href="index.html" class="text-rose-100 hover:text-white text-sm mr-1">← Início</a>
+      <span class="text-rose-200">|</span>
+      <span class="text-lg">⛪</span>
+      <h1 class="font-bold text-lg">Igrejas Participantes</h1>
+    </div>
+  </header>
+
+  <main class="max-w-2xl mx-auto px-4 py-6">
+
+    <!-- Totais -->
+    <div class="grid grid-cols-3 gap-3 mb-6">
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-rose-100 text-center">
+        <p class="text-2xl font-bold text-rose-600" id="cnt">—</p>
+        <p class="text-xs text-slate-500 mt-1 font-medium uppercase tracking-wide">Igrejas</p>
+      </div>
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-rose-100 text-center">
+        <p class="text-2xl font-bold text-rose-600" id="cnt-vagas">—</p>
+        <p class="text-xs text-slate-500 mt-1 font-medium uppercase tracking-wide">Vagas</p>
+      </div>
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-rose-100 text-center">
+        <p class="text-xl font-bold text-emerald-600" id="cnt-valor">—</p>
+        <p class="text-xs text-slate-500 mt-1 font-medium uppercase tracking-wide">Total</p>
+      </div>
+    </div>
+
+    <!-- Botões -->
+    <div class="flex justify-end gap-2 mb-4">
+      <button onclick="importarIgrejas()" id="btn-importar"
+        class="border border-rose-300 text-rose-600 hover:bg-rose-50 text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
+        ⬇ Importar lista
+      </button>
+      <button onclick="abrirModal()"
+        class="bg-rose-500 hover:bg-rose-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
+        + Nova Igreja
+      </button>
+    </div>
+
+    <!-- Cards -->
+    <div id="lista-igrejas" class="space-y-3">
+      <div class="text-center py-10 text-slate-400">Carregando...</div>
+    </div>
+
+    <p class="text-xs text-slate-400 mt-5 text-center">
+      💡 Vagas × R$ 210,00 = valor total por igreja
+    </p>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
+      <h2 class="font-bold text-slate-800 text-lg mb-5" id="modal-titulo">Nova Igreja</h2>
+      <input type="hidden" id="field-id" />
+      <div class="grid gap-4">
+        <div>
+          <label class="text-sm font-medium text-slate-700 block mb-1">Nome da Igreja *</label>
+          <input id="field-nome" type="text" placeholder="Ex: 0252 IEQ CENTRAL"
+            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300" />
+        </div>
+        <div>
+          <label class="text-sm font-medium text-slate-700 block mb-1">Vagas / Inscrições liberadas *</label>
+          <input id="field-vagas" type="number" min="0" placeholder="Ex: 5"
+            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300" />
+          <p class="text-xs text-slate-400 mt-1">Cada vaga = 1 inscrição = R$ 210,00</p>
+        </div>
+      </div>
+      <div class="flex gap-3 mt-6">
+        <button onclick="fecharModal()" class="flex-1 border border-slate-200 text-slate-600 font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition-colors text-sm">Cancelar</button>
+        <button onclick="salvar()" class="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { apiGet, apiPost, showToast, VALOR_INSCRICAO } from './js/config.js';
+
+    const IGREJAS_PADRAO = [
+      '0252 IEQ CENTRAL', '1328 IEQ PIZA', '3441 IEQ MARIA CECÍLIA',
+      '3744 ALTO DA BOA VISTA', '3852 INDUSVILLE', '4016 MONACO',
+      '4394 LESTE', '6018 SÃO JORGE', '9078 FARID LIBOS',
+      '60205 SABARÁ', '60328 CONJ. LUIS DE SÁ', '63236 COLUMBIA', '63288 CARNASCIALLI'
+    ];
+
+    let igrejas   = [];
+    let inscritos = [];
+
+    async function render() {
+      [igrejas, inscritos] = await Promise.all([apiGet('getIgrejas'), apiGet('getInscricoes')]);
+
+      const totalVagas = igrejas.reduce((s, ig) => s + (Number(ig.qtdVagas) || 0), 0);
+      const totalValor = totalVagas * VALOR_INSCRICAO;
+
+      document.getElementById('cnt').textContent       = igrejas.length;
+      document.getElementById('cnt-vagas').textContent = totalVagas;
+      document.getElementById('cnt-valor').textContent = 'R$ ' + totalValor.toLocaleString('pt-BR', {minimumFractionDigits:2});
+      document.getElementById('btn-importar').style.display = igrejas.length > 0 ? 'none' : '';
+
+      const lista = document.getElementById('lista-igrejas');
+      if (!igrejas.length) {
+        lista.innerHTML = '<div class="text-center py-10 text-slate-400">Nenhuma igreja cadastrada.<br>Use "Importar lista" para começar.</div>';
+        return;
+      }
+
+      lista.innerHTML = igrejas.map(ig => {
+        const vagas      = Number(ig.qtdVagas) || 0;
+        const preench    = inscritos.filter(i => i.igrejaId === ig.id).length;
+        const disponiveis = Math.max(0, vagas - preench);
+        const total      = vagas * VALOR_INSCRICAO;
+
+        let statusColor, statusText;
+        if (vagas === 0)          { statusColor = 'bg-slate-100 text-slate-400'; statusText = 'Sem vagas'; }
+        else if (disponiveis === 0){ statusColor = 'bg-emerald-100 text-emerald-700'; statusText = 'Completo'; }
+        else                      { statusColor = 'bg-amber-100 text-amber-700'; statusText = `${disponiveis} disponível${disponiveis > 1 ? 'is' : ''}`; }
+
+        return `
+        <div class="bg-white rounded-2xl shadow-sm border border-rose-100 p-4">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-slate-800 text-sm leading-tight">${ig.nome}</p>
+              <div class="flex items-center gap-2 mt-2 flex-wrap">
+                <span class="text-xs px-2.5 py-1 rounded-full font-semibold ${statusColor}">${statusText}</span>
+                ${vagas > 0 ? `<span class="text-xs text-slate-500">${preench}/${vagas} inscritas</span>` : ''}
+                ${vagas > 0 ? `<span class="text-xs font-semibold text-emerald-700">R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits:2})}</span>` : ''}
+              </div>
+            </div>
+            <div class="flex flex-col items-center gap-1 flex-shrink-0">
+              <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold ${vagas > 0 ? 'bg-rose-100 text-rose-600' : 'bg-slate-50 text-slate-400'}">
+                ${vagas}
+              </div>
+              <p class="text-xs text-slate-400">vagas</p>
+            </div>
+          </div>
+          ${vagas > 0 ? `
+          <div class="mt-3">
+            <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+              <div class="h-1.5 rounded-full ${preench === vagas ? 'bg-emerald-500' : 'bg-rose-500'}" style="width:${vagas > 0 ? Math.round(preench/vagas*100) : 0}%"></div>
+            </div>
+          </div>` : ''}
+          <div class="flex gap-2 mt-3 pt-3 border-t border-rose-50">
+            <button onclick="window.editar('${ig.id}')"
+              class="flex-1 text-rose-600 hover:bg-rose-50 font-semibold text-xs py-2 rounded-lg border border-rose-200 transition-colors">
+              Editar
+            </button>
+            <button onclick="window.excluir('${ig.id}')"
+              class="flex-1 text-rose-500 hover:bg-rose-50 font-semibold text-xs py-2 rounded-lg border border-rose-200 transition-colors">
+              Excluir
+            </button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+    window.importarIgrejas = async function() {
+      if (!confirm(`Importar as ${IGREJAS_PADRAO.length} igrejas da Região 655?`)) return;
+      const btn = document.getElementById('btn-importar');
+      btn.disabled = true;
+
+      // Não duplica: só importa nomes que ainda não existem no banco
+      const existentes = new Set(igrejas.map(ig => (ig.nome || '').trim()));
+      const aImportar  = IGREJAS_PADRAO.filter(nome => !existentes.has(nome.trim()));
+
+      if (!aImportar.length) {
+        showToast('Todas as igrejas já estão cadastradas.', 'info');
+        btn.disabled = false;
+        return;
+      }
+
+      let ok = 0;
+      const falhas = [];
+      for (let i = 0; i < aImportar.length; i++) {
+        const nome = aImportar[i];
+        btn.textContent = `Importando ${i + 1}/${aImportar.length}...`;
+        try {
+          await apiPost('addIgreja', { data: { nome, qtdVagas: 0 } });
+          ok++;
+        } catch (e) {
+          falhas.push(nome);
+        }
+        await sleep(700); // respiro pra não sobrecarregar o Apps Script
+      }
+
+      if (falhas.length) {
+        showToast(`${ok} importada(s). ${falhas.length} falhou(aram) — clique de novo para tentar as restantes.`, 'error');
+      } else {
+        showToast(`${ok} igreja(s) importada(s)!`);
+      }
+      btn.textContent = '⬇ Importar lista';
+      btn.disabled = false;
+      await render();
+    };
+
+    window.abrirModal = function() {
+      document.getElementById('field-id').value    = '';
+      document.getElementById('field-nome').value  = '';
+      document.getElementById('field-vagas').value = '';
+      document.getElementById('modal-titulo').textContent = 'Nova Igreja';
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    };
+
+    window.editar = function(id) {
+      const ig = igrejas.find(i => i.id === id);
+      if (!ig) return;
+      document.getElementById('field-id').value    = ig.id;
+      document.getElementById('field-nome').value  = ig.nome;
+      document.getElementById('field-vagas').value = ig.qtdVagas || 0;
+      document.getElementById('modal-titulo').textContent = 'Editar Igreja';
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    };
+
+    window.fecharModal = function() {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+    };
+
+    window.salvar = async function() {
+      const id    = document.getElementById('field-id').value;
+      const nome  = document.getElementById('field-nome').value.trim();
+      const vagas = document.getElementById('field-vagas').value;
+      if (!nome)        { showToast('Informe o nome.', 'error'); return; }
+      if (vagas === '') { showToast('Informe a quantidade de vagas.', 'error'); return; }
+      try {
+        if (id) {
+          await apiPost('editIgreja', { data: { id, nome, qtdVagas: Number(vagas) } });
+          showToast('Igreja atualizada!');
+        } else {
+          await apiPost('addIgreja', { data: { nome, qtdVagas: Number(vagas) } });
+          showToast('Igreja cadastrada!');
+        }
+        fecharModal();
+        await render();
+      } catch(e) { showToast(e.message, 'error'); }
+    };
+
+    window.excluir = async function(id) {
+      if (!confirm('Excluir esta igreja?')) return;
+      try {
+        await apiPost('deleteIgreja', { id });
+        showToast('Igreja removida.', 'info');
+        await render();
+      } catch(e) { showToast(e.message, 'error'); }
+    };
+
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagamentos — Congresso de Mulheres</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { font-family:'Inter',sans-serif; }
+    details > summary { list-style:none; cursor:pointer; }
+    details > summary::-webkit-details-marker { display:none; }
+    details[open] .arrow { transform:rotate(90deg); }
+    .arrow { transition:transform .2s; display:inline-block; }
+  </style>
+</head>
+<body class="bg-rose-50 min-h-screen">
+
+  <header class="bg-gradient-to-br from-rose-500 to-pink-500 text-white shadow-md">
+    <div class="max-w-2xl mx-auto px-5 py-4 flex items-center gap-3">
+      <a href="index.html" class="text-rose-100 hover:text-white text-sm mr-1">← Início</a>
+      <span class="text-rose-200">|</span>
+      <span class="text-lg">💰</span>
+      <h1 class="font-bold text-lg">Pagamentos por Igreja</h1>
+    </div>
+  </header>
+
+  <main class="max-w-2xl mx-auto px-4 py-6">
+
+    <!-- Resumo geral -->
+    <div class="grid grid-cols-2 gap-3 mb-6">
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-rose-100 text-center">
+        <p class="text-xl font-bold text-slate-700" id="res-total">—</p>
+        <p class="text-xs text-slate-500 mt-1 font-medium uppercase tracking-wide">Valor Total</p>
+      </div>
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-rose-100 text-center">
+        <p class="text-xl font-bold text-rose-600" id="res-vagas">—</p>
+        <p class="text-xs text-slate-500 mt-1 font-medium uppercase tracking-wide">Total de Vagas</p>
+      </div>
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-rose-100 text-center">
+        <p class="text-xl font-bold text-emerald-600" id="res-pago">—</p>
+        <p class="text-xs text-slate-500 mt-1 font-medium uppercase tracking-wide">Confirmado</p>
+      </div>
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-rose-100 text-center">
+        <p class="text-xl font-bold text-amber-500" id="res-provisorio">—</p>
+        <p class="text-xs text-slate-500 mt-1 font-medium uppercase tracking-wide">Pix Provisório</p>
+      </div>
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-rose-100 text-center col-span-2">
+        <p class="text-xl font-bold text-pink-500" id="res-pendente">—</p>
+        <p class="text-xs text-slate-500 mt-1 font-medium uppercase tracking-wide">Pendente (sem provisório)</p>
+      </div>
+    </div>
+
+    <!-- Seção Pix a confirmar -->
+    <div id="secao-pix" class="hidden mb-6">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <h2 class="font-bold text-slate-700 text-sm uppercase tracking-wide">Pix aguardando confirmação</h2>
+      </div>
+      <div id="lista-pix-provisorio" class="space-y-2"></div>
+    </div>
+
+    <!-- Cards por igreja -->
+    <h2 class="font-bold text-slate-700 text-sm uppercase tracking-wide mb-3">Igrejas</h2>
+    <div id="lista-igrejas" class="space-y-4">
+      <p class="text-center text-slate-400 py-10">Carregando...</p>
+    </div>
+  </main>
+
+  <!-- Modal lançar/editar pagamento -->
+  <div id="modal" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
+      <h2 class="font-bold text-slate-800 text-lg mb-1" id="modal-titulo">Lançar Pagamento</h2>
+      <p class="text-sm text-slate-500 mb-5" id="modal-subtitulo"></p>
+      <input type="hidden" id="field-id" />
+      <input type="hidden" id="field-igrejaId" />
+      <input type="hidden" id="field-igrejaNome" />
+
+      <div class="grid gap-4">
+        <div>
+          <label class="text-sm font-medium text-slate-700 block mb-1">Valor (R$) *</label>
+          <input id="field-valor" type="number" min="0" step="0.01" placeholder="0,00"
+            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300" />
+        </div>
+        <div>
+          <label class="text-sm font-medium text-slate-700 block mb-1">Forma de Pagamento *</label>
+          <div class="flex gap-3">
+            <label class="flex-1 flex items-center gap-2 border border-slate-200 rounded-xl px-4 py-2.5 cursor-pointer hover:border-rose-400 transition-colors" id="label-pix">
+              <input type="radio" name="forma" value="Pix" class="accent-rose-600" onchange="toggleForma()" /> <span class="text-sm">Pix</span>
+            </label>
+            <label class="flex-1 flex items-center gap-2 border border-slate-200 rounded-xl px-4 py-2.5 cursor-pointer hover:border-rose-400 transition-colors">
+              <input type="radio" name="forma" value="Dinheiro" class="accent-rose-600" onchange="toggleForma()" /> <span class="text-sm">Dinheiro</span>
+            </label>
+          </div>
+          <!-- Aviso Pix provisório -->
+          <div id="aviso-pix" class="hidden mt-2 p-3 bg-amber-50 border border-amber-200 rounded-xl">
+            <p class="text-xs text-amber-700 font-medium">⏳ Pagamentos via Pix entram como <strong>provisórios</strong> até serem conferidos com senha.</p>
+          </div>
+        </div>
+        <div>
+          <label class="text-sm font-medium text-slate-700 block mb-1">Observação <span class="text-slate-400 font-normal">(opcional)</span></label>
+          <input id="field-obs" type="text" placeholder="Ex: comprovante recebido"
+            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300" />
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-6">
+        <button onclick="fecharModal()" class="flex-1 border border-slate-200 text-slate-600 font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition-colors text-sm">Cancelar</button>
+        <button onclick="salvarPagamento()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal confirmar Pix (senha) -->
+  <div id="modal-senha" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
+      <h2 class="font-bold text-slate-800 text-lg mb-1">Confirmar Pagamento Pix</h2>
+      <p class="text-sm text-slate-500 mb-5" id="senha-subtitulo"></p>
+      <input type="hidden" id="senha-pagamento-id" />
+
+      <div>
+        <label class="text-sm font-medium text-slate-700 block mb-1">Senha de confirmação *</label>
+        <input id="field-senha" type="password" placeholder="Digite a senha"
+          class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300"
+          onkeydown="if(event.key==='Enter') confirmarPix()" />
+        <p id="erro-senha" class="text-xs text-rose-500 mt-1 hidden">Senha incorreta.</p>
+      </div>
+
+      <div class="flex gap-3 mt-6">
+        <button onclick="fecharModalSenha()" class="flex-1 border border-slate-200 text-slate-600 font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition-colors text-sm">Cancelar</button>
+        <button onclick="confirmarPix()" class="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { apiGet, apiPost, formatBRL, showToast, VALOR_INSCRICAO } from './js/config.js';
+
+    const SENHA = 'admin';
+
+    let igrejas    = [];
+    let pagamentos = [];
+
+    async function render() {
+      [igrejas, pagamentos] = await Promise.all([
+        apiGet('getIgrejas'),
+        apiGet('getPagamentos')
+      ]);
+
+      const igrejasAtivas  = igrejas.filter(ig => Number(ig.qtdVagas) > 0);
+      const totalVagas     = igrejasAtivas.reduce((s, ig) => s + Number(ig.qtdVagas), 0);
+      const totalDevido    = totalVagas * VALOR_INSCRICAO;
+
+      // Confirmado = dinheiro + pix conferido
+      const totalConfirmado  = pagamentos
+        .filter(p => p.formaPagamento === 'Dinheiro' || p.conferido === 'sim')
+        .reduce((s, p) => s + Number(p.valor || 0), 0);
+
+      // Provisório = pix não conferido
+      const totalProvisorio  = pagamentos
+        .filter(p => p.formaPagamento === 'Pix' && p.conferido !== 'sim')
+        .reduce((s, p) => s + Number(p.valor || 0), 0);
+
+      const totalPendente = Math.max(0, totalDevido - totalConfirmado);
+
+      document.getElementById('res-vagas').textContent      = totalVagas;
+      document.getElementById('res-total').textContent      = formatBRL(totalDevido);
+      document.getElementById('res-pago').textContent       = formatBRL(totalConfirmado);
+      document.getElementById('res-provisorio').textContent = formatBRL(totalProvisorio);
+      document.getElementById('res-pendente').textContent   = formatBRL(totalPendente);
+
+      // Seção Pix provisório
+      const pixProvisorio = pagamentos.filter(p => p.formaPagamento === 'Pix' && p.conferido !== 'sim');
+      const secaoPix = document.getElementById('secao-pix');
+      if (pixProvisorio.length > 0) {
+        secaoPix.classList.remove('hidden');
+        document.getElementById('lista-pix-provisorio').innerHTML = pixProvisorio.map(p => `
+          <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center gap-3">
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-slate-800 text-sm">${p.igrejaNome}</p>
+              <p class="text-xs text-slate-500 mt-0.5">${formatBRL(p.valor)} · ${p.dataLancamento || ''}${p.observacao ? ' · ' + p.observacao : ''}</p>
+            </div>
+            <button onclick="window.abrirConfirmacao('${p.id}')"
+              class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold px-3 py-2 rounded-xl transition-colors whitespace-nowrap flex-shrink-0">
+              ✓ Conferir
+            </button>
+          </div>
+        `).join('');
+      } else {
+        secaoPix.classList.add('hidden');
+      }
+
+      // Cards por igreja
+      const container = document.getElementById('lista-igrejas');
+      if (!igrejasAtivas.length) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-slate-400">
+            <div class="text-4xl mb-3">⛪</div>
+            <p class="font-medium">Nenhuma igreja com vagas definidas.</p>
+            <p class="text-sm mt-1">Acesse <a href="igrejas.html" class="text-rose-500 underline">Igrejas</a> e defina as vagas primeiro.</p>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = igrejasAtivas.map(ig => {
+        const vagas    = Number(ig.qtdVagas);
+        const devido   = vagas * VALOR_INSCRICAO;
+        const pagsList = pagamentos.filter(p => p.igrejaId === ig.id);
+
+        const pagoConfirmado  = pagsList
+          .filter(p => p.formaPagamento === 'Dinheiro' || p.conferido === 'sim')
+          .reduce((s, p) => s + Number(p.valor || 0), 0);
+        const pagoProvisorio  = pagsList
+          .filter(p => p.formaPagamento === 'Pix' && p.conferido !== 'sim')
+          .reduce((s, p) => s + Number(p.valor || 0), 0);
+
+        const pendente = Math.max(0, devido - pagoConfirmado);
+        const pct      = Math.min(100, Math.round(pagoConfirmado / devido * 100));
+        const pctProv  = Math.min(100 - pct, Math.round(pagoProvisorio / devido * 100));
+
+        let statusClass, statusLabel;
+        if (pendente === 0)         { statusClass = 'bg-emerald-100 text-emerald-700'; statusLabel = 'Quitado'; }
+        else if (pagoProvisorio > 0 && pagoConfirmado === 0) { statusClass = 'bg-amber-100 text-amber-700'; statusLabel = 'Pix provisório'; }
+        else if (pagoConfirmado > 0){ statusClass = 'bg-amber-100 text-amber-700'; statusLabel = 'Parcial'; }
+        else                        { statusClass = 'bg-rose-100 text-rose-600';   statusLabel = 'Pendente'; }
+
+        const historico = pagsList.length ? pagsList.map(p => {
+          const isPix        = p.formaPagamento === 'Pix';
+          const isProvisorio = isPix && p.conferido !== 'sim';
+          return `
+          <div class="flex items-center gap-2 py-2 border-b border-slate-50 last:border-0 flex-wrap">
+            <span class="text-xs px-2 py-0.5 rounded-full font-semibold ${isPix ? 'bg-rose-100 text-rose-700' : 'bg-slate-100 text-slate-600'}">${p.formaPagamento}</span>
+            ${isProvisorio ? '<span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-amber-100 text-amber-700">Provisório</span>' : ''}
+            <span class="text-sm font-semibold ${isProvisorio ? 'text-amber-600' : 'text-slate-800'}">${formatBRL(p.valor)}</span>
+            <span class="text-xs text-slate-400 flex-1">${p.dataLancamento || ''}${p.observacao ? ' · ' + p.observacao : ''}</span>
+            ${isProvisorio ? `<button onclick="window.abrirConfirmacao('${p.id}')" class="text-amber-600 hover:text-amber-800 text-xs font-medium">Conferir</button>` : '<span class="text-xs text-emerald-600 font-medium">✓ Confirmado</span>'}
+            <button onclick="window.editarPag('${p.id}')" class="text-rose-500 hover:text-rose-700 text-xs font-medium ml-1">Editar</button>
+            <button onclick="window.excluirPag('${p.id}')" class="text-rose-400 hover:text-rose-600 text-xs font-medium ml-1">Excluir</button>
+          </div>`;
+        }).join('') : '<p class="text-xs text-slate-400 py-2">Nenhum pagamento lançado.</p>';
+
+        return `
+        <div class="bg-white rounded-2xl shadow-sm border border-rose-100 overflow-hidden">
+          <div class="p-4">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="font-semibold text-slate-800 text-sm">${ig.nome}</h3>
+                  <span class="text-xs px-2 py-0.5 rounded-full font-semibold ${statusClass}">${statusLabel}</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">${vagas} vaga${vagas !== 1 ? 's' : ''} · Total: ${formatBRL(devido)}</p>
+              </div>
+              <button onclick="window.abrirPag('${ig.id}','${ig.nome.replace(/'/g, "\\'")}')"
+                class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-xl transition-colors whitespace-nowrap flex-shrink-0">
+                + Pagamento
+              </button>
+            </div>
+
+            <div class="mt-3">
+              <div class="flex justify-between text-xs text-slate-500 mb-1">
+                <span>Confirmado: ${formatBRL(pagoConfirmado)}${pagoProvisorio > 0 ? ` · Provisório: ${formatBRL(pagoProvisorio)}` : ''}</span>
+                <span>Falta: ${formatBRL(pendente)}</span>
+              </div>
+              <!-- Barra dupla: confirmado + provisório -->
+              <div class="h-2 bg-slate-100 rounded-full overflow-hidden flex">
+                <div class="h-2 transition-all bg-rose-500" style="width:${pct}%"></div>
+                <div class="h-2 transition-all bg-amber-400" style="width:${pctProv}%"></div>
+              </div>
+              <p class="text-xs text-right text-slate-400 mt-1">${pct}% confirmado</p>
+            </div>
+          </div>
+
+          <details class="border-t border-rose-100">
+            <summary class="px-4 py-3 flex items-center gap-2 text-sm text-slate-500 hover:bg-slate-50 transition-colors">
+              <span class="arrow text-slate-400 text-xs">▶</span>
+              Histórico de lançamentos (${pagsList.length})
+            </summary>
+            <div class="px-4 pb-4">${historico}</div>
+          </details>
+        </div>`;
+      }).join('');
+    }
+
+    window.toggleForma = function() {
+      const isPix = document.querySelector('input[name="forma"]:checked')?.value === 'Pix';
+      document.getElementById('aviso-pix').classList.toggle('hidden', !isPix);
+    };
+
+    window.abrirPag = function(igrejaId, igrejaNome) {
+      document.getElementById('field-id').value          = '';
+      document.getElementById('field-igrejaId').value    = igrejaId;
+      document.getElementById('field-igrejaNome').value  = igrejaNome;
+      document.getElementById('field-valor').value       = '';
+      document.getElementById('field-obs').value         = '';
+      document.getElementById('aviso-pix').classList.add('hidden');
+      document.querySelectorAll('input[name="forma"]').forEach(r => r.checked = false);
+      document.getElementById('modal-titulo').textContent    = 'Lançar Pagamento';
+      document.getElementById('modal-subtitulo').textContent = igrejaNome;
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    };
+
+    window.editarPag = function(id) {
+      const p = pagamentos.find(x => x.id === id);
+      if (!p) return;
+      document.getElementById('field-id').value          = p.id;
+      document.getElementById('field-igrejaId').value    = p.igrejaId;
+      document.getElementById('field-igrejaNome').value  = p.igrejaNome;
+      document.getElementById('field-valor').value       = p.valor;
+      document.getElementById('field-obs').value         = p.observacao || '';
+      document.querySelectorAll('input[name="forma"]').forEach(r => { r.checked = r.value === p.formaPagamento; });
+      const isPix = p.formaPagamento === 'Pix';
+      document.getElementById('aviso-pix').classList.toggle('hidden', !isPix);
+      document.getElementById('modal-titulo').textContent    = 'Editar Pagamento';
+      document.getElementById('modal-subtitulo').textContent = p.igrejaNome;
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    };
+
+    window.fecharModal = function() {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+    };
+
+    window.salvarPagamento = async function() {
+      const id         = document.getElementById('field-id').value;
+      const igrejaId   = document.getElementById('field-igrejaId').value;
+      const igrejaNome = document.getElementById('field-igrejaNome').value;
+      const valor      = parseFloat(document.getElementById('field-valor').value);
+      const forma      = document.querySelector('input[name="forma"]:checked')?.value;
+      const obs        = document.getElementById('field-obs').value.trim();
+
+      if (!valor || valor <= 0) { showToast('Informe um valor válido.', 'error'); return; }
+      if (!forma)               { showToast('Selecione a forma de pagamento.', 'error'); return; }
+
+      try {
+        if (id) {
+          // Ao editar, preserva o status de conferência atual do lançamento
+          const atual = pagamentos.find(x => x.id === id);
+          const conferido = forma === 'Dinheiro' ? 'sim' : (atual?.conferido === 'sim' ? 'sim' : 'nao');
+          await apiPost('editPagamento', { data: { id, igrejaId, igrejaNome, valor, formaPagamento: forma, observacao: obs, conferido } });
+          showToast('Pagamento atualizado!');
+        } else {
+          // Pix entra como provisório; dinheiro já entra confirmado
+          const conferido = forma === 'Dinheiro' ? 'sim' : 'nao';
+          await apiPost('addPagamento', { data: { igrejaId, igrejaNome, valor, formaPagamento: forma, observacao: obs, conferido } });
+          showToast(forma === 'Pix' ? 'Pix lançado como provisório.' : 'Pagamento lançado!', forma === 'Pix' ? 'info' : 'success');
+        }
+        fecharModal();
+        await render();
+      } catch(e) { showToast(e.message, 'error'); }
+    };
+
+    window.abrirConfirmacao = function(id) {
+      const p = pagamentos.find(x => x.id === id);
+      if (!p) return;
+      document.getElementById('senha-pagamento-id').value  = id;
+      document.getElementById('senha-subtitulo').textContent = `${p.igrejaNome} · ${formatBRL(p.valor)}`;
+      document.getElementById('field-senha').value         = '';
+      document.getElementById('erro-senha').classList.add('hidden');
+      document.getElementById('modal-senha').classList.remove('hidden');
+      document.getElementById('modal-senha').classList.add('flex');
+      setTimeout(() => document.getElementById('field-senha').focus(), 100);
+    };
+
+    window.fecharModalSenha = function() {
+      document.getElementById('modal-senha').classList.add('hidden');
+      document.getElementById('modal-senha').classList.remove('flex');
+    };
+
+    window.confirmarPix = async function() {
+      const senha = document.getElementById('field-senha').value;
+      if (senha !== SENHA) {
+        document.getElementById('erro-senha').classList.remove('hidden');
+        document.getElementById('field-senha').value = '';
+        document.getElementById('field-senha').focus();
+        return;
+      }
+      const id = document.getElementById('senha-pagamento-id').value;
+      const p  = pagamentos.find(x => x.id === id);
+      if (!p) return;
+      try {
+        await apiPost('editPagamento', { data: { ...p, conferido: 'sim' } });
+        showToast('Pagamento Pix confirmado!');
+        fecharModalSenha();
+        await render();
+      } catch(e) { showToast(e.message, 'error'); }
+    };
+
+    window.excluirPag = async function(id) {
+      if (!confirm('Excluir este lançamento?')) return;
+      try {
+        await apiPost('deletePagamento', { id });
+        showToast('Lançamento removido.', 'info');
+        await render();
+      } catch(e) { showToast(e.message, 'error'); }
+    };
+
+    render();
+  </script>
+</body>
+</html>

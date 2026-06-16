@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscrições — Congresso do Diaconato</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>* { font-family:'Inter',sans-serif; }</style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+  <header class="bg-indigo-700 text-white shadow-md">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center gap-3">
+      <a href="index.html" class="text-indigo-200 hover:text-white text-sm mr-1">← Início</a>
+      <span class="text-indigo-400">|</span>
+      <span class="text-lg">📋</span>
+      <h1 class="font-bold text-lg">Inscrições</h1>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-6 py-8">
+
+    <!-- Seletor de igreja -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 mb-6">
+      <label class="text-sm font-semibold text-slate-700 block mb-2">Selecione a Igreja</label>
+      <select id="sel-igreja" onchange="selecionarIgreja()"
+        class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white">
+        <option value="">— Escolha uma igreja —</option>
+      </select>
+    </div>
+
+    <!-- Área de vagas (aparece após selecionar igreja) -->
+    <div id="area-vagas" class="hidden">
+
+      <!-- Cabeçalho da igreja -->
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <h2 class="font-bold text-slate-800" id="titulo-igreja"></h2>
+          <p class="text-sm text-slate-500" id="subtitulo-vagas"></p>
+        </div>
+        <span id="badge-status" class="text-xs font-semibold px-3 py-1 rounded-full"></span>
+      </div>
+
+      <!-- Lista de vagas -->
+      <div id="lista-vagas" class="space-y-3"></div>
+
+    </div>
+
+    <!-- Estado vazio -->
+    <div id="area-vazia" class="hidden text-center py-16 text-slate-400">
+      <div class="text-4xl mb-3">⛪</div>
+      <p class="font-medium">Esta igreja não tem vagas definidas.</p>
+      <p class="text-sm mt-1">Acesse <a href="igrejas.html" class="text-indigo-500 underline">Igrejas</a> e defina a quantidade de vagas primeiro.</p>
+    </div>
+
+  </main>
+
+  <!-- Modal de inscrição -->
+  <div id="modal" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+      <h2 class="font-bold text-slate-800 text-lg mb-1" id="modal-titulo">Preencher Inscrição</h2>
+      <p class="text-sm text-slate-500 mb-5" id="modal-subtitulo"></p>
+      <input type="hidden" id="field-id" />
+      <input type="hidden" id="field-vaga-idx" />
+
+      <div class="grid gap-4">
+        <div>
+          <label class="text-sm font-medium text-slate-700 block mb-1">Nome Completo *</label>
+          <input id="field-nome" type="text" placeholder="Nome completo do diácono"
+            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+        </div>
+        <div>
+          <label class="text-sm font-medium text-slate-700 block mb-1">WhatsApp *</label>
+          <input id="field-whatsapp" type="tel" placeholder="(43) 9 9999-9999"
+            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-sm font-medium text-slate-700 block mb-1">CPF <span class="text-slate-400 font-normal">(opcional)</span></label>
+            <input id="field-cpf" type="text" placeholder="000.000.000-00"
+              class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+          </div>
+          <div>
+            <label class="text-sm font-medium text-slate-700 block mb-1">RG <span class="text-slate-400 font-normal">(opcional)</span></label>
+            <input id="field-rg" type="text" placeholder="0.000.000-0"
+              class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+          </div>
+        </div>
+        <div>
+          <label class="text-sm font-medium text-slate-700 block mb-1">Data de Nascimento <span class="text-slate-400 font-normal">(opcional)</span></label>
+          <input id="field-nascimento" type="date"
+            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-6">
+        <button onclick="fecharModal()" class="flex-1 border border-slate-200 text-slate-600 font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition-colors text-sm">Cancelar</button>
+        <button onclick="salvar()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { apiGet, apiPost, showToast } from './js/config.js';
+
+    let igrejas   = [];
+    let inscritos = [];
+    let igrejaSelecionada = null;
+
+    async function init() {
+      [igrejas, inscritos] = await Promise.all([apiGet('getIgrejas'), apiGet('getInscricoes')]);
+      const sel = document.getElementById('sel-igreja');
+      sel.innerHTML = '<option value="">— Escolha uma igreja —</option>' +
+        igrejas.map(ig => `<option value="${ig.id}">${ig.nome} (${ig.qtdVagas || 0} vagas)</option>`).join('');
+    }
+
+    window.selecionarIgreja = function() {
+      const igrejaId = document.getElementById('sel-igreja').value;
+      document.getElementById('area-vagas').classList.add('hidden');
+      document.getElementById('area-vazia').classList.add('hidden');
+
+      if (!igrejaId) return;
+
+      igrejaSelecionada = igrejas.find(ig => ig.id === igrejaId);
+      if (!igrejaSelecionada) return;
+
+      const vagas = Number(igrejaSelecionada.qtdVagas) || 0;
+      if (vagas === 0) {
+        document.getElementById('area-vazia').classList.remove('hidden');
+        return;
+      }
+
+      renderVagas();
+      document.getElementById('area-vagas').classList.remove('hidden');
+    };
+
+    function renderVagas() {
+      const ig    = igrejaSelecionada;
+      const vagas = Number(ig.qtdVagas) || 0;
+      const inscrIgreja = inscritos.filter(i => i.igrejaId === ig.id);
+      const preenchidas = inscrIgreja.length;
+
+      document.getElementById('titulo-igreja').textContent   = ig.nome;
+      document.getElementById('subtitulo-vagas').textContent = `${preenchidas} de ${vagas} vagas preenchidas · R$ ${(vagas * 150).toLocaleString('pt-BR', {minimumFractionDigits:2})} total`;
+
+      const badge = document.getElementById('badge-status');
+      if (preenchidas === vagas) {
+        badge.textContent  = 'Completo';
+        badge.className    = 'text-xs font-semibold px-3 py-1 rounded-full bg-emerald-100 text-emerald-700';
+      } else if (preenchidas > 0) {
+        badge.textContent  = `${vagas - preenchidas} vaga(s) em aberto`;
+        badge.className    = 'text-xs font-semibold px-3 py-1 rounded-full bg-amber-100 text-amber-700';
+      } else {
+        badge.textContent  = 'Nenhuma preenchida';
+        badge.className    = 'text-xs font-semibold px-3 py-1 rounded-full bg-rose-100 text-rose-600';
+      }
+
+      // Monta lista de vagas
+      const lista = document.getElementById('lista-vagas');
+      let html = '';
+      for (let i = 0; i < vagas; i++) {
+        const insc = inscrIgreja[i] || null;
+        if (insc) {
+          html += `
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 flex items-center gap-4">
+            <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold flex-shrink-0">${i+1}</div>
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-slate-800 truncate">${insc.nomeCompleto}</p>
+              <p class="text-xs text-slate-500">${insc.whatsapp || ''}${insc.cpf ? ' · CPF: '+insc.cpf : ''}${insc.rg ? ' · RG: '+insc.rg : ''}</p>
+            </div>
+            <div class="flex gap-2 flex-shrink-0">
+              <button onclick="window.editar('${insc.id}', ${i})" class="text-indigo-600 hover:text-indigo-800 text-xs font-medium border border-indigo-200 px-3 py-1.5 rounded-lg hover:bg-indigo-50 transition-colors">Editar</button>
+              <button onclick="window.excluir('${insc.id}')" class="text-rose-500 hover:text-rose-700 text-xs font-medium border border-rose-200 px-3 py-1.5 rounded-lg hover:bg-rose-50 transition-colors">Remover</button>
+            </div>
+          </div>`;
+        } else {
+          html += `
+          <div class="bg-white rounded-2xl border-2 border-dashed border-slate-200 p-4 flex items-center gap-4 hover:border-indigo-300 transition-colors cursor-pointer" onclick="window.novaInscricao(${i})">
+            <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-xs font-bold flex-shrink-0">${i+1}</div>
+            <div class="flex-1">
+              <p class="text-slate-400 text-sm">Vaga ${i+1} — clique para preencher</p>
+            </div>
+            <span class="text-indigo-400 text-lg">+</span>
+          </div>`;
+        }
+      }
+      lista.innerHTML = html;
+    }
+
+    window.novaInscricao = function(idx) {
+      document.getElementById('field-id').value          = '';
+      document.getElementById('field-vaga-idx').value    = idx;
+      document.getElementById('field-nome').value        = '';
+      document.getElementById('field-whatsapp').value    = '';
+      document.getElementById('field-cpf').value         = '';
+      document.getElementById('field-rg').value          = '';
+      document.getElementById('field-nascimento').value  = '';
+      document.getElementById('modal-titulo').textContent    = `Vaga ${idx + 1} — ${igrejaSelecionada.nome}`;
+      document.getElementById('modal-subtitulo').textContent = 'Preencha os dados do diácono';
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    };
+
+    window.editar = function(id, idx) {
+      const insc = inscritos.find(i => i.id === id);
+      if (!insc) return;
+      document.getElementById('field-id').value          = insc.id;
+      document.getElementById('field-vaga-idx').value    = idx;
+      document.getElementById('field-nome').value        = insc.nomeCompleto || '';
+      document.getElementById('field-whatsapp').value    = insc.whatsapp || '';
+      document.getElementById('field-cpf').value         = insc.cpf || '';
+      document.getElementById('field-rg').value          = insc.rg || '';
+      document.getElementById('field-nascimento').value  = insc.dataNascimento ? insc.dataNascimento.split('/').reverse().join('-') : '';
+      document.getElementById('modal-titulo').textContent    = `Vaga ${idx + 1} — ${igrejaSelecionada.nome}`;
+      document.getElementById('modal-subtitulo').textContent = 'Editando inscrição';
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    };
+
+    window.fecharModal = function() {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+    };
+
+    window.salvar = async function() {
+      const id       = document.getElementById('field-id').value;
+      const nome     = document.getElementById('field-nome').value.trim();
+      const whatsapp = document.getElementById('field-whatsapp').value.trim();
+      const cpf      = document.getElementById('field-cpf').value.trim();
+      const rg       = document.getElementById('field-rg').value.trim();
+      const nascRaw  = document.getElementById('field-nascimento').value;
+      const dataNascimento = nascRaw ? nascRaw.split('-').reverse().join('/') : '';
+
+      if (!nome)     { showToast('Informe o nome completo.', 'error'); return; }
+      if (!whatsapp) { showToast('Informe o WhatsApp.', 'error'); return; }
+
+      const data = {
+        nomeCompleto: nome, whatsapp, cpf, rg, dataNascimento,
+        igrejaId: igrejaSelecionada.id, igrejaNome: igrejaSelecionada.nome
+      };
+
+      try {
+        if (id) {
+          await apiPost('editInscricao', { data: { id, ...data } });
+          showToast('Inscrição atualizada!');
+        } else {
+          await apiPost('addInscricao', { data });
+          showToast('Inscrição salva!');
+        }
+        fecharModal();
+        inscritos = await apiGet('getInscricoes');
+        renderVagas();
+      } catch(e) { showToast(e.message, 'error'); }
+    };
+
+    window.excluir = async function(id) {
+      if (!confirm('Remover esta inscrição?')) return;
+      try {
+        await apiPost('deleteInscricao', { id });
+        showToast('Inscrição removida.', 'info');
+        inscritos = await apiGet('getInscricoes');
+        renderVagas();
+      } catch(e) { showToast(e.message, 'error'); }
+    };
+
+    init();
+  </script>
+</body>
+</html>

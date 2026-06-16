@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relatórios — Congresso do Diaconato</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { font-family:'Inter',sans-serif; }
+    @media print { .no-print { display:none !important; } }
+
+    /* Estilos do PDF */
+    #area-pdf {
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      color: #1e293b;
+    }
+    #area-pdf h1 { font-size:14px; font-weight:700; margin:0 0 2px; }
+    #area-pdf .sub { font-size:10px; color:#64748b; margin-bottom:12px; }
+    #area-pdf table { width:100%; border-collapse:collapse; margin-top:8px; }
+    #area-pdf th { background:#4338ca; color:#fff; padding:6px 8px; text-align:left; font-size:10px; }
+    #area-pdf td { padding:5px 8px; border-bottom:1px solid #e2e8f0; font-size:10px; }
+    #area-pdf tr:nth-child(even) td { background:#f8fafc; }
+    #area-pdf .totais { margin-top:12px; padding:8px; background:#f1f5f9; border-radius:4px; font-size:10px; }
+    #area-pdf .status-q { color:#16a34a; font-weight:600; }
+    #area-pdf .status-p { color:#d97706; font-weight:600; }
+    #area-pdf .status-n { color:#dc2626; font-weight:600; }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-indigo-700 text-white shadow-md no-print">
+    <div class="max-w-4xl mx-auto px-6 py-4 flex items-center gap-3">
+      <a href="index.html" class="text-indigo-200 hover:text-white text-sm mr-1">← Início</a>
+      <span class="text-indigo-400">|</span>
+      <span class="text-lg">📄</span>
+      <h1 class="font-bold text-lg">Relatórios</h1>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-6 py-8 no-print">
+
+    <!-- Seletor de relatório -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
+      <h2 class="font-semibold text-slate-800 mb-4">Selecione o Relatório</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <button onclick="setRel(1)" id="btn-rel-1"
+          class="p-4 rounded-xl border-2 text-left transition-all border-indigo-500 bg-indigo-50">
+          <div class="text-xl mb-1">🚌</div>
+          <div class="font-semibold text-sm text-slate-800">Lista para Ônibus</div>
+          <div class="text-xs text-slate-500 mt-1">Nome, documento, nascimento</div>
+        </button>
+        <button onclick="setRel(2)" id="btn-rel-2"
+          class="p-4 rounded-xl border-2 text-left transition-all border-slate-200 hover:border-indigo-300">
+          <div class="text-xl mb-1">📋</div>
+          <div class="font-semibold text-sm text-slate-800">Lista Completa</div>
+          <div class="text-xs text-slate-500 mt-1">Nome, WhatsApp, igreja</div>
+        </button>
+        <button onclick="setRel(3)" id="btn-rel-3"
+          class="p-4 rounded-xl border-2 text-left transition-all border-slate-200 hover:border-indigo-300">
+          <div class="text-xl mb-1">💰</div>
+          <div class="font-semibold text-sm text-slate-800">Situação Financeira</div>
+          <div class="text-xs text-slate-500 mt-1">Pagamentos por igreja</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6">
+      <h2 class="font-semibold text-slate-800 mb-4">Filtros</h2>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="flex-1">
+          <label class="text-sm font-medium text-slate-700 block mb-1">Igreja</label>
+          <select id="filtro-igreja"
+            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white">
+            <option value="">Todas as igrejas</option>
+          </select>
+        </div>
+        <div class="flex-1" id="filtro-status-wrap">
+          <label class="text-sm font-medium text-slate-700 block mb-1">Situação de Pagamento</label>
+          <select id="filtro-status"
+            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white">
+            <option value="">Todas</option>
+            <option value="quitado">Quitado</option>
+            <option value="parcial">Parcial</option>
+            <option value="pendente">Pendente</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão gerar -->
+    <div class="flex gap-3 justify-end mb-8">
+      <button onclick="gerarPDF()"
+        class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">
+        ⬇ Baixar PDF
+      </button>
+      <button onclick="imprimirDireto()"
+        class="border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">
+        🖨 Imprimir
+      </button>
+    </div>
+
+    <!-- Pré-visualização -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+      <h2 class="font-semibold text-slate-800 mb-4 text-sm uppercase tracking-wide text-slate-500">Pré-visualização</h2>
+      <div id="area-pdf" class="border border-slate-200 rounded-xl p-6 bg-white min-h-[400px]">
+        <p class="text-slate-400 text-sm text-center py-10">Selecione um relatório para visualizar.</p>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { apiGet, formatBRL } from './js/config.js';
+
+    let inscritos  = [];
+    let pagamentos = [];
+    let igrejas    = [];
+    let relAtual   = 1;
+
+    const agora = () => new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+
+    async function init() {
+      [inscritos, pagamentos, igrejas] = await Promise.all([
+        apiGet('getInscricoes'),
+        apiGet('getPagamentos'),
+        apiGet('getIgrejas')
+      ]);
+      const sel = document.getElementById('filtro-igreja');
+      sel.innerHTML = '<option value="">Todas as igrejas</option>' +
+        igrejas.map(ig => `<option value="${ig.id}">${ig.nome}</option>`).join('');
+      renderizarRelatorio();
+    }
+
+    window.setRel = function(n) {
+      relAtual = n;
+      [1,2,3].forEach(i => {
+        const btn = document.getElementById('btn-rel-' + i);
+        if (i === n) {
+          btn.classList.add('border-indigo-500','bg-indigo-50');
+          btn.classList.remove('border-slate-200','hover:border-indigo-300');
+        } else {
+          btn.classList.remove('border-indigo-500','bg-indigo-50');
+          btn.classList.add('border-slate-200','hover:border-indigo-300');
+        }
+      });
+      // Oculta filtro de status para rel 1
+      document.getElementById('filtro-status-wrap').style.display = n === 1 ? 'none' : '';
+      renderizarRelatorio();
+    };
+
+    document.getElementById('filtro-igreja').addEventListener('change', renderizarRelatorio);
+    document.getElementById('filtro-status').addEventListener('change', renderizarRelatorio);
+
+    function getSituacaoIgreja(igrejaId, qtdInscritos) {
+      const devido = qtdInscritos * 150;
+      const pago   = pagamentos.filter(p => p.igrejaId === igrejaId).reduce((s,p) => s + Number(p.valor||0), 0);
+      const pend   = Math.max(0, devido - pago);
+      const status = pend === 0 ? 'quitado' : (pago > 0 ? 'parcial' : 'pendente');
+      return { devido, pago, pendente: pend, status };
+    }
+
+    function renderizarRelatorio() {
+      const igrejaFiltro  = document.getElementById('filtro-igreja').value;
+      const statusFiltro  = document.getElementById('filtro-status').value;
+      const area          = document.getElementById('area-pdf');
+      const dataEmissao   = agora();
+
+      const cabecalho = `
+        <h1>Congresso Estadual do Diaconato — IEQ Região 655</h1>
+        <div class="sub">Emitido em: ${dataEmissao}</div>
+      `;
+
+      if (relAtual === 1) {
+        // Lista para ônibus
+        let lista = igrejaFiltro ? inscritos.filter(i => i.igrejaId === igrejaFiltro) : inscritos;
+        lista = lista.sort((a,b) => a.nomeCompleto.localeCompare(b.nomeCompleto));
+
+        area.innerHTML = cabecalho + `
+          <h2 style="font-size:12px;font-weight:600;margin-bottom:4px;">Lista para Empresa de Ônibus${igrejaFiltro ? ' — ' + lista[0]?.igrejaNome : ''}</h2>
+          <p style="font-size:10px;color:#64748b;margin-bottom:8px;">${lista.length} participante(s)</p>
+          <table>
+            <thead><tr>
+              <th>#</th><th>Nome Completo</th><th>CPF</th><th>RG</th><th>Data de Nascimento</th>
+            </tr></thead>
+            <tbody>
+              ${lista.map((ins, i) => `
+                <tr>
+                  <td>${i+1}</td>
+                  <td>${ins.nomeCompleto}</td>
+                  <td>${ins.cpf || '—'}</td>
+                  <td>${ins.rg  || '—'}</td>
+                  <td>${ins.dataNascimento || '—'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          <div class="totais">Total: ${lista.length} participante(s)</div>
+        `;
+
+      } else if (relAtual === 2) {
+        // Lista completa
+        let lista = igrejaFiltro ? inscritos.filter(i => i.igrejaId === igrejaFiltro) : inscritos;
+
+        // Filtro por status de pagamento da igreja
+        if (statusFiltro) {
+          const igrejasMap = {};
+          lista.forEach(ins => {
+            if (!igrejasMap[ins.igrejaId]) igrejasMap[ins.igrejaId] = [];
+            igrejasMap[ins.igrejaId].push(ins);
+          });
+          lista = Object.values(igrejasMap)
+            .filter(grupo => getSituacaoIgreja(grupo[0].igrejaId, grupo.length).status === statusFiltro)
+            .flat();
+        }
+
+        lista = lista.sort((a,b) => a.igrejaNome.localeCompare(b.igrejaNome) || a.nomeCompleto.localeCompare(b.nomeCompleto));
+
+        area.innerHTML = cabecalho + `
+          <h2 style="font-size:12px;font-weight:600;margin-bottom:4px;">Lista Completa de Inscritos</h2>
+          <p style="font-size:10px;color:#64748b;margin-bottom:8px;">${lista.length} inscrito(s)</p>
+          <table>
+            <thead><tr>
+              <th>#</th><th>Nome Completo</th><th>Igreja</th><th>WhatsApp</th>
+            </tr></thead>
+            <tbody>
+              ${lista.map((ins, i) => `
+                <tr>
+                  <td>${i+1}</td>
+                  <td>${ins.nomeCompleto}</td>
+                  <td>${ins.igrejaNome || '—'}</td>
+                  <td>${ins.whatsapp   || '—'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          <div class="totais">Total: ${lista.length} inscrito(s)</div>
+        `;
+
+      } else if (relAtual === 3) {
+        // Situação financeira
+        const mapaIgrejas = {};
+        inscritos.forEach(ins => {
+          if (!mapaIgrejas[ins.igrejaId]) {
+            mapaIgrejas[ins.igrejaId] = { igrejaId: ins.igrejaId, igrejaNome: ins.igrejaNome, qtd: 0 };
+          }
+          mapaIgrejas[ins.igrejaId].qtd++;
+        });
+
+        let lista = Object.values(mapaIgrejas).map(ig => ({
+          ...ig,
+          ...getSituacaoIgreja(ig.igrejaId, ig.qtd),
+          pix:      pagamentos.filter(p => p.igrejaId === ig.igrejaId && p.formaPagamento === 'Pix')     .reduce((s,p) => s+Number(p.valor||0), 0),
+          dinheiro: pagamentos.filter(p => p.igrejaId === ig.igrejaId && p.formaPagamento === 'Dinheiro').reduce((s,p) => s+Number(p.valor||0), 0),
+        }));
+
+        if (statusFiltro) lista = lista.filter(ig => ig.status === statusFiltro);
+        if (igrejaFiltro) lista = lista.filter(ig => ig.igrejaId === igrejaFiltro);
+
+        lista = lista.sort((a,b) => a.igrejaNome.localeCompare(b.igrejaNome));
+
+        const totDevido   = lista.reduce((s,ig) => s + ig.devido, 0);
+        const totPago     = lista.reduce((s,ig) => s + ig.pago, 0);
+        const totPendente = lista.reduce((s,ig) => s + ig.pendente, 0);
+        const totPix      = lista.reduce((s,ig) => s + ig.pix, 0);
+        const totDinheiro = lista.reduce((s,ig) => s + ig.dinheiro, 0);
+
+        const statusLabel = s => s === 'quitado' ? '<span class="status-q">Quitado</span>' : s === 'parcial' ? '<span class="status-p">Parcial</span>' : '<span class="status-n">Pendente</span>';
+
+        area.innerHTML = cabecalho + `
+          <h2 style="font-size:12px;font-weight:600;margin-bottom:4px;">Situação Financeira por Igreja</h2>
+          <p style="font-size:10px;color:#64748b;margin-bottom:8px;">${lista.length} igreja(s)</p>
+          <table>
+            <thead><tr>
+              <th>Igreja</th><th>Inscritos</th><th>Devido</th><th>Pago (Pix)</th><th>Pago (Dinheiro)</th><th>Pendente</th><th>Status</th>
+            </tr></thead>
+            <tbody>
+              ${lista.map(ig => `
+                <tr>
+                  <td>${ig.igrejaNome}</td>
+                  <td style="text-align:center">${ig.qtd}</td>
+                  <td>${formatBRL(ig.devido)}</td>
+                  <td>${formatBRL(ig.pix)}</td>
+                  <td>${formatBRL(ig.dinheiro)}</td>
+                  <td>${formatBRL(ig.pendente)}</td>
+                  <td>${statusLabel(ig.status)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          <div class="totais">
+            <strong>Totais:</strong>
+            Devido: ${formatBRL(totDevido)} &nbsp;|&nbsp;
+            Pago (Pix): ${formatBRL(totPix)} &nbsp;|&nbsp;
+            Pago (Dinheiro): ${formatBRL(totDinheiro)} &nbsp;|&nbsp;
+            Pendente: ${formatBRL(totPendente)}
+          </div>
+        `;
+      }
+    }
+
+    const nomesRel = ['', 'lista-onibus', 'lista-completa', 'financeiro'];
+
+    window.gerarPDF = function() {
+      const el  = document.getElementById('area-pdf');
+      const opt = {
+        margin:     [10, 10, 10, 10],
+        filename:   `congresso-diaconato-${nomesRel[relAtual]}-${new Date().toISOString().slice(0,10)}.pdf`,
+        image:      { type:'jpeg', quality:0.98 },
+        html2canvas:{ scale:2 },
+        jsPDF:      { unit:'mm', format:'a4', orientation:'portrait' }
+      };
+      html2pdf().set(opt).from(el).save();
+    };
+
+    window.imprimirDireto = function() {
+      const conteudo = document.getElementById('area-pdf').innerHTML;
+      const w = window.open('', '_blank');
+      w.document.write(`
+        <html><head>
+        <style>
+          body { font-family:Arial,sans-serif; font-size:11px; color:#1e293b; margin:20px; }
+          h1 { font-size:14px; font-weight:700; margin:0 0 2px; }
+          .sub { font-size:10px; color:#64748b; margin-bottom:12px; }
+          table { width:100%; border-collapse:collapse; margin-top:8px; }
+          th { background:#4338ca; color:#fff; padding:6px 8px; text-align:left; font-size:10px; }
+          td { padding:5px 8px; border-bottom:1px solid #e2e8f0; font-size:10px; }
+          tr:nth-child(even) td { background:#f8fafc; }
+          .totais { margin-top:12px; padding:8px; background:#f1f5f9; font-size:10px; }
+          .status-q { color:#16a34a; font-weight:600; }
+          .status-p { color:#d97706; font-weight:600; }
+          .status-n { color:#dc2626; font-weight:600; }
+        </style>
+        </head><body>${conteudo}</body></html>
+      `);
+      w.document.close();
+      w.print();
+    };
+
+    init();
+  </script>
+</body>
+</html>

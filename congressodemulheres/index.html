@@ -54,16 +54,33 @@
     </div>
   </div>
 
+  <!-- Chave PIX -->
+  <div class="max-w-5xl mx-auto px-6 mt-6">
+    <div class="bg-gradient-to-br from-rose-500 to-pink-500 rounded-2xl p-5 shadow-lg shadow-rose-200 fade-up">
+      <div class="flex items-center gap-4 flex-wrap">
+        <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-2xl flex-shrink-0">🔑</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-xs font-semibold text-rose-100 uppercase tracking-wide">Chave PIX para pagamentos</p>
+          <p class="text-white font-bold text-lg leading-tight truncate" id="pix-key">eventos@ieqlondrina.com.br</p>
+        </div>
+        <button onclick="copyPix()" id="pix-copy-btn"
+          class="bg-white text-rose-600 hover:bg-rose-50 font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors flex items-center gap-2 flex-shrink-0">
+          <span id="pix-copy-icon">📋</span> <span id="pix-copy-text">Copiar chave</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Cards de navegação -->
   <main class="max-w-5xl mx-auto px-6 py-8">
     <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5">Módulos</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
-      <a href="inscricoes.html" class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-rose-100 flex items-start gap-4 fade-up delay-1">
-        <div class="w-12 h-12 rounded-xl bg-rose-100 flex items-center justify-center text-2xl flex-shrink-0">📋</div>
+      <a href="igrejas.html" class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-rose-100 flex items-start gap-4 fade-up delay-1">
+        <div class="w-12 h-12 rounded-xl bg-fuchsia-100 flex items-center justify-center text-2xl flex-shrink-0">⛪</div>
         <div>
-          <h3 class="font-semibold text-slate-800">Inscrições</h3>
-          <p class="text-sm text-slate-500 mt-1">Cadastrar e gerenciar as mulheres inscritas no congresso.</p>
+          <h3 class="font-semibold text-slate-800">Igrejas</h3>
+          <p class="text-sm text-slate-500 mt-1">Gerenciar a lista de igrejas participantes.</p>
         </div>
       </a>
 
@@ -75,19 +92,19 @@
         </div>
       </a>
 
-      <a href="relatorios.html" class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-rose-100 flex items-start gap-4 fade-up delay-3">
+      <a href="inscricoes.html" class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-rose-100 flex items-start gap-4 fade-up delay-3">
+        <div class="w-12 h-12 rounded-xl bg-rose-100 flex items-center justify-center text-2xl flex-shrink-0">📋</div>
+        <div>
+          <h3 class="font-semibold text-slate-800">Inscrições</h3>
+          <p class="text-sm text-slate-500 mt-1">Cadastrar e gerenciar as mulheres inscritas no congresso.</p>
+        </div>
+      </a>
+
+      <a href="relatorios.html" class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-rose-100 flex items-start gap-4 fade-up delay-4">
         <div class="w-12 h-12 rounded-xl bg-pink-100 flex items-center justify-center text-2xl flex-shrink-0">📄</div>
         <div>
           <h3 class="font-semibold text-slate-800">Relatórios</h3>
           <p class="text-sm text-slate-500 mt-1">Gerar relatórios em PDF para impressão A4.</p>
-        </div>
-      </a>
-
-      <a href="igrejas.html" class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-rose-100 flex items-start gap-4 fade-up delay-4">
-        <div class="w-12 h-12 rounded-xl bg-fuchsia-100 flex items-center justify-center text-2xl flex-shrink-0">⛪</div>
-        <div>
-          <h3 class="font-semibold text-slate-800">Igrejas</h3>
-          <p class="text-sm text-slate-500 mt-1">Gerenciar a lista de igrejas participantes.</p>
         </div>
       </a>
 
@@ -107,12 +124,41 @@
     </div>
   </main>
 
+  <!-- Rodapé -->
+  <footer class="text-center pb-8 pt-2">
+    <p class="text-[11px] text-slate-400">Site desenvolvido por Pr. Eduardo Silva — Secretário Regional</p>
+  </footer>
+
   <script type="module">
     import { apiGet, formatBRL, VALOR_INSCRICAO } from './js/config.js';
 
     // Link da planilha — substitua pelo ID real após criar o Sheets
     const SHEET_LINK = 'https://docs.google.com/spreadsheets/d/1vMnFg4A1sHNgIe6Yu5GkLMhaFkLvtYZxnyamzBaBNXs/edit';
     document.getElementById('link-sheets').href = SHEET_LINK;
+
+    // Copiar chave PIX
+    window.copyPix = function() {
+      const key  = document.getElementById('pix-key').textContent.trim();
+      const icon = document.getElementById('pix-copy-icon');
+      const text = document.getElementById('pix-copy-text');
+      const done = () => {
+        icon.textContent = '✓';
+        text.textContent = 'Copiado!';
+        setTimeout(() => { icon.textContent = '📋'; text.textContent = 'Copiar chave'; }, 2500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(key).then(done).catch(fallback);
+      } else {
+        fallback();
+      }
+      function fallback() {
+        const el = document.createElement('textarea');
+        el.value = key; el.style.position = 'fixed'; el.style.opacity = '0';
+        document.body.appendChild(el); el.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(el); done();
+      }
+    };
 
     async function loadStats() {
       try {

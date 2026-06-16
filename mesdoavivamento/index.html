@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devocional do Avivamento · IEQ Central Londrina · Junho 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --flame: #C94B1A;
+  --flame-light: #F2784B;
+  --gold: #C89B3C;
+  --gold-light: #F0D080;
+  --deep: #1A1208;
+  --parchment: #FAF6EE;
+  --parchment-dark: #EDE7D8;
+  --text: #2C2010;
+  --text-muted: #7A6A50;
+  --text-light: #A8956E;
+  --white: #FFFDF8;
+  --border: rgba(200,155,60,0.25);
+  --border-strong: rgba(200,155,60,0.5);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  background: var(--parchment);
+  color: var(--text);
+  line-height: 1.75;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--deep);
+  color: var(--white);
+  padding: 4rem 2rem 3.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 80%, rgba(201,75,26,0.35) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 1.25rem;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: .5rem;
+}
+.hero h1 em { font-style: italic; color: var(--flame-light); }
+.hero-sub {
+  font-family: 'Source Serif 4', serif;
+  font-weight: 300;
+  font-size: 1rem;
+  color: rgba(255,253,248,.65);
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+.hero-verse {
+  display: inline-block;
+  border-top: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
+  padding: .75rem 2rem;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: .95rem;
+  color: var(--gold-light);
+  max-width: 520px;
+  line-height: 1.6;
+}
+.hero-verse cite {
+  display: block;
+  font-style: normal;
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(240,208,128,.7);
+  margin-top: .4rem;
+}
+
+/* ── INTRO ── */
+.intro {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.intro p {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.85;
+  margin-bottom: .85rem;
+}
+.intro p:last-child { margin-bottom: 0; }
+.intro strong { font-weight: 400; color: var(--text); }
+
+/* ── NAV ── */
+.nav-wrap {
+  background: var(--deep);
+  padding: 1rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(200,155,60,.2);
+}
+.nav-label {
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  white-space: nowrap;
+}
+.nav-scroll {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+}
+.nav-scroll::-webkit-scrollbar { display: none; }
+.nav-btn {
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border: 1px solid rgba(200,155,60,.3);
+  border-radius: 20px;
+  background: transparent;
+  color: rgba(255,253,248,.5);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.nav-btn:hover, .nav-btn.active {
+  background: var(--flame);
+  border-color: var(--flame);
+  color: var(--white);
+}
+
+/* ── MAIN ── */
+.main { max-width: 720px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+/* ── DAY CARD ── */
+.day {
+  padding: 3.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.day:last-child { border-bottom: none; }
+
+.day-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+.day-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 400;
+  color: var(--parchment-dark);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 3.5rem;
+  text-align: right;
+}
+.day-meta { flex: 1; }
+.day-date {
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--flame);
+  margin-bottom: .25rem;
+}
+.day-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.65rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: .2rem;
+}
+.day-period {
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  color: var(--text-light);
+  letter-spacing: .05em;
+}
+.day-era {
+  display: inline-block;
+  font-family: 'Barlow', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 20px;
+  color: var(--gold);
+  margin-top: .4rem;
+}
+
+/* ── SECTIONS ── */
+.section {
+  margin-bottom: 1.75rem;
+}
+.section-label {
+  font-family: 'Barlow', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: .65rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.abertura {
+  font-size: 1.05rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.85;
+  padding: 1.25rem 1.5rem;
+  background: var(--white);
+  border-left: 3px solid var(--flame-light);
+  border-radius: 0 6px 6px 0;
+}
+.abertura.first-day {
+  font-size: 1.1rem;
+  padding: 1.5rem 1.75rem;
+  background: linear-gradient(135deg, #FFF9F0, var(--white));
+  border-left: 3px solid var(--flame);
+}
+.abertura p { margin-bottom: .6rem; }
+.abertura p:last-child { margin-bottom: 0; }
+
+.texto {
+  font-size: .975rem;
+  color: var(--text);
+  line-height: 1.9;
+}
+.texto p { margin-bottom: .9rem; }
+.texto p:last-child { margin-bottom: 0; }
+
+.oracao {
+  background: var(--deep);
+  color: rgba(255,253,248,.85);
+  padding: 1.5rem 1.75rem;
+  border-radius: 8px;
+  font-size: .93rem;
+  font-style: italic;
+  line-height: 1.9;
+}
+.oracao p { margin-bottom: .65rem; }
+.oracao p:last-child { margin-bottom: 0; }
+.oracao .amen {
+  font-style: normal;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: var(--gold-light);
+  margin-top: .85rem;
+}
+
+/* ── VÍDEO (Shorts) ── */
+.video-wrap {
+  max-width: 300px;
+  margin: 0 auto;
+  aspect-ratio: 9 / 16;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+}
+.video-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* ── ENCERRAMENTO ── */
+.encerramento {
+  margin-top: 2.5rem;
+  padding: 2.5rem;
+  background: var(--deep);
+  border-radius: 12px;
+  text-align: center;
+  color: var(--white);
+}
+.encerramento h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  margin-bottom: 1rem;
+}
+.encerramento p {
+  font-size: .95rem;
+  font-weight: 300;
+  color: rgba(255,253,248,.75);
+  line-height: 1.85;
+  margin-bottom: .75rem;
+}
+.encerramento p:last-child { margin-bottom: 0; }
+.encerramento strong { color: var(--flame-light); font-weight: 400; }
+
+/* ── LOCKED CARD ── */
+.locked-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+  padding: 2.5rem 1.5rem;
+  background: var(--white);
+  border: 1px dashed var(--border-strong);
+  border-radius: 10px;
+  text-align: center;
+}
+.locked-icon { font-size: 2rem; opacity: .45; }
+.locked-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.locked-msg {
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  color: var(--text-light);
+}
+
+/* ── SCROLL TO TOP ── */
+.scroll-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 40px;
+  height: 40px;
+  background: var(--flame);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  transition: opacity .2s;
+}
+.scroll-top.show { display: flex; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">IEQ Central Londrina · Junho de 2026</div>
+  <h1>Devocional do<br><em>Avivamento</em></h1>
+  <p class="hero-sub">30 dias · 30 vidas · Um mesmo Espírito</p>
+  <div class="hero-verse">
+    "Reaviva a tua obra no meio dos anos, no meio dos anos a faz conhecida; na tua ira lembra-te da misericórdia."
+    <cite>Habacuque 3.2</cite>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro">
+  <p>Paz, família. Neste mês de junho, a <strong>IEQ Central declara: este é o mês do avivamento.</strong> Não como um slogan, mas como uma postura de coração, uma decisão coletiva de abrir espaço para que Deus faça o que só Ele sabe fazer.</p>
+  <p>Ao longo da história, o Espírito Santo se moveu sobre gerações que, assim como nós, tinham mais perguntas do que respostas, mais fraqueza do que força. E foi exatamente ali que Ele apareceu. Avivamento não começa com grandes estruturas. Começa com corações disponíveis.</p>
+  <p>Por 30 dias, uma história por dia. Deixe que cada vida fale ao seu coração.</p>
+</div>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <span class="nav-label">Dia</span>
+  <div class="nav-scroll" id="nav-scroll"></div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main"></div>
+
+<!-- SCROLL TOP -->
+<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const dias = [
+  {
+    n: 1, nome: "John Wycliffe", periodo: "1320–1384", era: "Medieval",
+    abertura: `<p>Paz, família. Começamos hoje nosso devocional do avivamento, e começamos de propósito bem longe do que conhecemos, no século XIV, em meio à névoa da Idade Média. Porque avivamento não é invenção moderna. É o padrão de Deus ao longo de toda a história: onde há rendição, Ele se move.</p><p>Antes da Reforma, antes de Lutero, antes dos grandes evangelistas, houve um homem chamado John Wycliffe que ousou fazer uma coisa simples e revolucionária: colocar a Bíblia nas mãos do povo comum.</p>`,
+    texto: `<p>John Wycliffe nasceu por volta de 1320 na Inglaterra, num tempo em que a Igreja controlava não só a espiritualidade, mas a política, a economia e o acesso à Palavra de Deus. A Bíblia existia somente em latim, língua que o povo não entendia. O clero era intermediário obrigatório entre Deus e os fiéis.</p><p>Wycliffe, teólogo em Oxford, chegou a uma conclusão que mudaria a história: a Escritura, não o papa, é a autoridade suprema da Igreja. E se a Escritura é para todos, então todos precisam lê-la no seu idioma. Com essa convicção, ele liderou a primeira tradução completa da Bíblia para o inglês, à mão, cópia por cópia.</p><p>Seus seguidores, chamados de Lolardos, espalharam o fogo por toda a Inglaterra, levando o evangelho às aldeias e aos pobres. Wycliffe morreu de causas naturais em 1384, mas o Concílio de Constança, décadas depois, considerou-o tão perigoso que mandou desenterrar seus ossos e queimá-los. Ele assustou o sistema mesmo do além-túmulo.</p><p>Lutero o chamou de "estrela da manhã da Reforma". Jan Hus o leu. A Reforma do século XVI tem as raízes fincadas no que esse inglês medievalista semeou.</p>`,
+    oracao: `<p>Senhor, que és o Deus da Palavra e da história,</p><p>obrigado por começar este mês nos mostrando que o avivamento não depende de tecnologia, de plataforma ou de visibilidade. Depende de coragem de voltar à Escritura e confiar nela acima de tudo.</p><p>Como Wycliffe colocou a Bíblia nas mãos do povo, que nós também, neste junho, abramos de verdade a Tua Palavra, sem filtros, sem preguiça, sem excuses. Que ela faça em nós o que só ela pode fazer.</p><p>Desperta em nossa igreja a fome da Tua Palavra. Faz que este mês seja marcado pelo retorno à fonte.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 2, nome: "Jan Hus", periodo: "1369–1415", era: "Medieval",
+    abertura: `<p>Ontem vimos Wycliffe plantar uma semente. Hoje vemos essa semente germinar em outro coração, num outro país, com o mesmo fogo e um preço ainda mais alto. Jan Hus era tcheco, pregador em Praga, e leu Wycliffe como quem encontra uma brasa no escuro.</p>`,
+    texto: `<p>Jan Hus nasceu na Boêmia (atual República Tcheca) em 1369 e tornou-se um dos pregadores mais amados de Praga. Influenciado pelas ideias de Wycliffe, ele passou a denunciar a corrupção da Igreja com uma clareza que desconfortava bispos e papas.</p><p>Hus pregava que Cristo é a única cabeça da Igreja, não o papa. Que a salvação não se compra com indulgências. Que o povo merecia ouvir a Palavra no próprio idioma. Era simples. Era bíblico. Era revolucionário.</p><p>Convocado ao Concílio de Constança com promessa de salvo-conduto, foi preso ao chegar. Em 6 de julho de 1415, foi queimado vivo por se recusar a renunciar ao que pregava. Seus últimos momentos foram de oração e perdão.</p><p>Cem anos depois, Martinho Lutero diria: "Todos nós somos hussitas sem saber." A semente de Hus germinou na Reforma que transformou o mundo ocidental.</p>`,
+    oracao: `<p>Senhor, diante da vida de Jan Hus, ficamos em silêncio.</p><p>Há quanto tempo não sustentamos uma convicção com esse nível de fidelidade? Que este devocional não seja só leitura de histórias antigas, mas provocação real para hoje.</p><p>Dá-nos a coragem que Hus teve, não necessariamente para o martírio, mas para não ceder ao que é cômodo quando a verdade pede firmeza. Que a IEQ Central seja uma igreja que não negocia o essencial.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 3, nome: "Martin Lutero", periodo: "1483–1546", era: "Reforma",
+    abertura: `<p>Chegou o dia que muitos esperavam neste devocional. O homem que pegou a brasa de Wycliffe e Hus e transformou em incêndio. Martin Lutero não planejava fundar nada. Só queria que a Igreja voltasse à verdade do evangelho. Mas quando Deus acende um fogo, não é fácil controlar onde ele vai.</p>`,
+    texto: `<p>Martin Lutero nasceu em 1483 na Saxônia, Alemanha. Monge agostiniano de consciência atormentada, vivia assombrado pela pergunta: como posso ser justo diante de Deus? A resposta veio lendo Romanos: "o justo viverá pela fé."</p><p>Em 31 de outubro de 1517, afixou 95 teses contra a venda de indulgências na porta da Igreja do Castelo em Wittenberg. O que era acadêmico tornou-se popular: graças à recém-inventada imprensa, as teses se espalharam pela Europa em semanas.</p><p>Convocado a renunciar em Worms (1521), respondeu com uma frase que ecoou pelos séculos: "Aqui estou, não posso fazer de outro jeito. Deus me ajude." Foi excomungado. Escondido no Castelo Wartburg, traduziu o Novo Testamento para o alemão em onze semanas.</p><p>A Reforma Protestante que ele iniciou mudou não só a teologia, mas a educação, a política, a família e o conceito de vocação. Avivamento com raízes bíblicas transforma estruturas inteiras.</p>`,
+    oracao: `<p>Senhor da Reforma e da história,</p><p>obrigado por Lutero, que descobriu na Tua Palavra aquilo que nenhum sistema religioso podia dar: a certeza da graça.</p><p>Que neste mês, cada irmão e irmã da IEQ Central redescopra essa mesma certeza. Não como doutrina fria, mas como fogo vivo: eu sou salvo pela graça, não pelo desempenho. Isso liberta. Isso aviva.</p><p>Onde há religiosidade sem graça em nossos corações, Senhor, reforma. Onde há desânimo, aviva. Onde há conformismo, provoca.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 4, nome: "João Calvino", periodo: "1509–1564", era: "Reforma",
+    abertura: `<p>Avivamento não é só emoção. Avivamento sem raízes não sobrevive ao inverno. Calvino entendeu isso como ninguém. Ele veio depois da chama de Lutero para fazer o que chamas precisam: dar estrutura, forma, durabilidade.</p>`,
+    texto: `<p>João Calvino nasceu em Noyon, França, em 1509. Convertido ao protestantismo por volta dos 23 anos, tornou-se rapidamente o sistematizador da teologia reformada. Sua obra principal, "As Institutas da Religião Cristã", escrita com 26 anos, permanece até hoje um dos tratados teológicos mais influentes da história.</p><p>Em Genebra, Calvino construiu uma cidade moldada pela Palavra de Deus, com escolas, sistema de cuidado aos pobres, formação pastoral e governo eclesiástico. A sua ênfase na soberania de Deus sobre todas as coisas, na eleição pela graça e na santificação da vida inteira tornou-se a espinha dorsal do presbiterianismo, do congregacionalismo e do movimento batista reformado.</p><p>Calvino nos ensina que avivamento sem discernimento vira fanatismo. Que a experiência espiritual precisa ser ancorada na Palavra, examinada pela comunidade e expressa em santidade de vida.</p>`,
+    oracao: `<p>Senhor soberano,</p><p>que a lição de Calvino nos alcance hoje: que o Teu Espírito e a Tua Palavra sempre andam juntos. Guarda-nos do entusiasmo sem fundamento, da experiência sem discernimento.</p><p>Que o avivamento que pedimos neste junho não seja um fim em si mesmo, mas o começo de uma caminhada mais profunda, mais madura, mais fundamentada em Ti.</p><p>Dá à nossa igreja líderes que aliam paixão e sabedoria, fogo e doutrina, experiência e discernimento.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 5, nome: "John Knox", periodo: "1514–1572", era: "Reforma",
+    abertura: `<p>Se Lutero reformou a Alemanha e Calvino organizou Genebra, Knox incendiou a Escócia. E o fez com uma oração que se tornou uma das mais famosas da história cristã: "Dá-me a Escócia ou morrerei." Toda uma nação como objeto de intercessão.</p>`,
+    texto: `<p>John Knox nasceu na Escócia por volta de 1514 e passou parte de sua vida como escravo em galeras francesas, consequência de seu envolvimento com o protestantismo. Libertado, foi a Genebra estudar com Calvino e voltou transformado.</p><p>Na Escócia, enfrentou a rainha Maria I com uma franqueza que poucos ousavam ter diante da realeza. Seus sermões moviam multidões e provocavam choro e arrependimento. A rainha chegou a dizer que temia mais as orações de Knox do que todos os exércitos da Europa.</p><p>Knox fundou a Igreja Presbiteriana da Escócia e estabeleceu um sistema de educação pública para que todo cidadão pudesse ler a Bíblia. Avivamento que não educa o povo não sustenta a transformação social.</p>`,
+    oracao: `<p>Senhor, que a ousadia de Knox nos desafie hoje,</p><p>queremos pedir pela nossa cidade. Por Londrina. Como Knox pediu pela Escócia, nós declaramos: Senhor, aviva Londrina. Enche as igrejas. Rompe as fortalezas. Transforma famílias.</p><p>Que a IEQ Central seja uma igreja que intercede com nome e endereço, que chora sobre a sua cidade como Jesus chorou sobre Jerusalém.</p><p>Dá-nos a fome de intercessão que Knox tinha. Não como performance, mas como amor real pela alma das pessoas.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 6, nome: "George Fox", periodo: "1624–1691", era: "Puritano",
+    abertura: `<p>Depois dos grandes sistematizadores da Reforma, chegamos a um homem que não se encaixava em nenhuma caixa. George Fox não fundou uma denominação planejada, não escreveu tratados elegantes. Ele simplesmente saiu andando pela Inglaterra com uma convicção: Cristo habita em cada pessoa que crê.</p>`,
+    texto: `<p>George Fox nasceu em 1624 na Inglaterra e desde jovem foi atormentado pela superficialidade religiosa ao seu redor. Após anos de busca espiritual intensa, teve uma experiência transformadora: "Há aquele que fala à tua condição", sentiu Deus dizer. E isso bastou.</p><p>Fundador do movimento Quaker (Sociedade dos Amigos), Fox pregava que o Espírito Santo habita diretamente no crente, sem necessidade de mediação clerical. Isso era radical num século em que religião e poder estavam intimamente ligados. Foi preso oito vezes.</p><p>Ele percorreu a Inglaterra, Irlanda, América do Norte e Caribe, reunindo comunidades que se distinguiam pela simplicidade, pela paz e pela igualdade entre homens e mulheres. Os Quakers tornaram-se pioneiros do abolicionismo e dos direitos civis.</p>`,
+    oracao: `<p>Senhor, como Fox descobriu que Tu falas diretamente a cada coração,</p><p>lembra-nos hoje que o Teu Espírito não é propriedade de nenhuma instituição. Tu não precisas de palco para se manifestar. Tu habitas corações humildes.</p><p>Que cada membro da nossa igreja viva essa realidade: não só nos cultos, não só nas reuniões, mas no silêncio da manhã, no trânsito, no trabalho. Tu és Emmanuel, Deus conosco, em todo lugar.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 7, nome: "Jonathan Edwards", periodo: "1703–1758", era: "Grande Despertar",
+    abertura: `<p>Chegamos ao Primeiro Grande Despertar americano, e chegamos pelo pensador mais profundo que ele produziu. Jonathan Edwards prova que avivamento e intelecto não são opostos. Pelo contrário: quando a mente está rendida a Deus, ela se torna um instrumento poderoso de avivamento.</p>`,
+    texto: `<p>Jonathan Edwards nasceu em 1703 em Connecticut, EUA. Filho de pastor, tornou-se presidente de Princeton e um dos maiores teólogos que a América produziu. Mas é como instrumento de avivamento que sua história mais nos fala.</p><p>Em 1734 e 1735, a pregação de Edwards em Northampton desencadeou o que seria chamado de Primeiro Grande Despertar. Igrejas lotadas, choro de arrependimento, vidas transformadas, comunidades inteiras sacudidas. Seu sermão "Pecadores nas mãos de um Deus irado" (1741) é o mais citado da história americana, não pela crueldade mas pela seriedade com que tratou a eternidade.</p><p>Edwards foi o primeiro a tentar sistematizar uma teologia do avivamento, distinguindo obras genuínas do Espírito das imitações emocionais. Seu livro "O Relato Fiel do Avivamento" permanece obrigatório para quem quer entender como Deus se move.</p>`,
+    oracao: `<p>Senhor da sabedoria e do fogo,</p><p>obrigado por Edwards, que nos ensina que a mente entregue a Ti é uma arma no Teu Reino.</p><p>Que neste mês não separemos o emocional do intelectual. Que a nossa experiência com o Teu Espírito seja examinada, discernida e aprofundada. Guarda-nos do avivamento que só agita as emoções e não transforma o caráter.</p><p>Queremos o avivamento que Edwards registrou: duradouro, profundo, que muda famílias e cidades de dentro para fora.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 8, nome: "John Wesley", periodo: "1703–1791", era: "Metodismo",
+    abertura: `<p>Se há alguém que personifica avivamento com estrutura, é John Wesley. Ele não apenas pregava o fogo; ele construiu canais para que o fogo fluísse. Suas sociedades de classe foram a célula viva que sustentou o metodismo por gerações.</p>`,
+    texto: `<p>John Wesley nasceu em 1703 na Inglaterra, um dos dezenove filhos de um pastor anglicano. Com seu irmão Charles, fundou o movimento metodista, assim chamado pela disciplina metódica de oração, estudo e serviço que praticavam.</p><p>Expulso das igrejas estabelecidas por causa de sua pregação de conversão e santidade, Wesley começou a pregar ao ar livre para mineiros, trabalhadores e pobres que jamais pisariam numa catedral. Cavalgou mais de 400 mil quilômetros ao longo de 50 anos de ministério. Pregou mais de 40 mil sermões. Morreu com poucos pertences materiais, mas havia dado tudo.</p><p>Seu maior legado talvez não seja a pregação, mas o sistema de discipulado: pequenos grupos semanais onde os membros prestavam contas uns aos outros, estudavam a Palavra e oravam juntos. Avivamento que não gera discipulado é fogo de palha.</p>`,
+    oracao: `<p>Senhor, como Wesley cavalgou sem parar em direção às almas perdidas,</p><p>que nós também tenhamos esse senso de urgência. Não há tempo a perder. Não há desculpa que aguente diante da eternidade.</p><p>Mas que junto com o fogo, Senhor, venha a estrutura. Que as pessoas que encontram Cristo em nossa igreja sejam acompanhadas, discipuladas, enraizadas. Não basta converter, precisamos formar.</p><p>Que o modelo de Wesley inspire nossa liderança de células, nossos grupos, nossa estrutura de cuidado.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 9, nome: "George Whitefield", periodo: "1714–1770", era: "Grande Despertar",
+    abertura: `<p>Antes de Billy Graham, antes dos estádios e dos telões, houve George Whitefield. Sem microfone, sem amplificação, sem redes sociais, ele reunia 30 mil pessoas numa campina e era ouvido por todos. A voz mais poderosa do Primeiro Grande Despertar.</p>`,
+    texto: `<p>George Whitefield nasceu em 1714 em Gloucester, Inglaterra, filho de uma proprietária de taverna. Convertido em Oxford e amigo próximo dos Wesley, tornou-se o pregador mais popular de seu tempo no mundo anglófono.</p><p>Cruzou o Atlântico treze vezes em uma época em que cada travessia levava meses e envolvia risco de vida. Pregou ao ar livre porque as igrejas fecharam suas portas para ele, e descobriu que Deus não precisa de edifícios. Benjamin Franklin calculou uma vez que Whitefield podia ser ouvido por 30 mil pessoas ao ar livre sem amplificação.</p><p>Sua pregação era dramática, apaixonada e profundamente bíblica. Gente que nunca havia chorado derramava lágrimas. Homens rudes de mineração paravam para ouvir. O Primeiro Grande Despertar na América deve tanto a Whitefield quanto a Edwards.</p>`,
+    oracao: `<p>Senhor, que usaste uma voz simples para mover nações,</p><p>lembra-nos que o Teu Espírito é o verdadeiro pregador. Sem Ele, mil técnicas de comunicação não convertem uma alma. Com Ele, uma palavra simples rompe a mais dura resistência.</p><p>Que os pregadores e líderes da IEQ Central nunca confiem no preparo sem depender da unção. Que cada palavra falada no púlpito, na célula, na rua, saia mergulhada em oração.</p><p>E que o nosso avivamento de junho não fique nas quatro paredes. Que saia para a rua, como Whitefield ia.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 10, nome: "Charles Finney", periodo: "1792–1875", era: "Segundo Despertar",
+    abertura: `<p>Chegamos ao décimo dia. Chegamos também a um homem que divide opiniões até hoje, um advogado convertido que tratou o avivamento com a mesma lógica analítica com que tratava um caso jurídico. E o resultado foi controverso, sim, mas também inegável.</p>`,
+    texto: `<p>Charles Finney nasceu em 1792 em Connecticut e trabalhava como advogado quando foi dramaticamente convertido em 1821. Largou a advocacia e disse: "Tenho uma causa superior para advogar: a causa de Cristo."</p><p>Tornou-se o principal instrumento do Segundo Grande Despertar nos EUA, percorrendo as cidades do norte do país com campanhas que duravam semanas. Introduziu o que chamou de "novos métodos": o banco de ansiedade (cadeiras na frente para quem queria orar), o convite público ao altar, a oração pelo nome de pessoas resistentes.</p><p>Cidades inteiras mudaram de rosto com sua pregação. Em Rochester (1830), estima-se que 100 mil pessoas se converteram numa única campanha. Sua ênfase era clara: avivamento não é milagre sobrenatural aguardado passivamente. É resultado de condições criadas pelo povo de Deus em oração e obediência.</p>`,
+    oracao: `<p>Senhor, como Finney nos desafia a não esperar passivamente pelo avivamento,</p><p>que nós façamos nossa parte. Criar as condições, criar os espaços, preparar os corações, orar com nome e situação específicos.</p><p>Neste mês, Senhor, que cada família da IEQ Central prepare sua própria "câmara de avivamento": um tempo intencional de oração, rendição e expectativa. O avivamento começa em casa.</p><p>Obrigado por nos lembrar que dependência de Deus e responsabilidade humana andam juntas.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 11, nome: "William Booth", periodo: "1829–1912", era: "Séc. XIX",
+    abertura: `<p>Avivamento que fica dentro das quatro paredes da igreja não é avivamento completo. Booth entendeu isso de forma radical. Ele foi para as ruas de Londres quando as ruas eram o lugar mais perigoso e miserável da Inglaterra vitoriana.</p>`,
+    texto: `<p>William Booth nasceu em Nottingham em 1829, de família pobre. Convertido aos 15 anos, tornou-se pregador metodista e logo percebeu que as igrejas de sua época não alcançavam os mais pobres, os viciados, os sem-teto, os que viviam nos becos do leste de Londres.</p><p>Em 1865, fundou o que se tornaria o Exército da Salvação, uma organização com estrutura militar, uniforme, hinos marchantes e missão clara: ir onde outros não iam. O Exército combinava pregação do evangelho com distribuição de comida, cuidado de mães solteiras, reabilitação de alcoólatras e acolhimento de desabrigados.</p><p>Booth foi ridicularizado pelos religiosos de sua época. Mas enquanto eles debatiam nos púlpitos, ele alimentava os famintos. Sua frase ficou: "Enquanto houver uma alma perdida, eu lutarei."</p>`,
+    oracao: `<p>Senhor dos pobres e esquecidos,</p><p>a vida de Booth nos pergunta hoje: quem é o nosso Leste de Londres? Quem são os que nossa igreja ainda não alcança?</p><p>Que o avivamento de junho não seja só para os que já estão aqui. Que nos faça sair. Que acenda em nós a urgência pelas almas que vivem a poucos quilômetros daqui e nunca ouviram uma boa notícia.</p><p>Que a IEQ Central seja, como o Exército da Salvação, uma combinação de evangelho e ação, de Palavra e pão, de salvação e compaixão.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 12, nome: "D. L. Moody", periodo: "1837–1899", era: "Séc. XIX",
+    abertura: `<p>Existe uma categoria de pessoa que Deus parece especialmente amar usar: o homem simples que simplesmente se entrega de verdade. Moody era esse homem. Nenhuma teologia formal, nenhum título acadêmico. Só disponibilidade total.</p>`,
+    texto: `<p>Dwight Lyman Moody nasceu em 1837 em Northfield, Massachusetts. Filho de família pobre, trabalhou como vendedor de sapatos em Chicago quando foi convertido por volta dos 18 anos. Nunca frequentou seminário. Sua gramática era irregular e seus críticos não perdiam chance de apontar isso.</p><p>Mas ninguém pregou para mais pessoas no século XIX. Estima-se que Moody alcançou mais de 100 milhões de pessoas em suas campanhas na América e na Grã-Bretanha, em uma era sem microfone ou transmissão.</p><p>Além das campanhas, fundou escolas, um instituto bíblico que existe até hoje (Moody Bible Institute) e foi um dos pioneiros da educação cristã leiga. Quando alguém perguntava sobre sua unção, Moody respondia com simplicidade: "Sou só um homem disponível." Disponibilidade é o pré-requisito do avivamento.</p>`,
+    oracao: `<p>Senhor, que usaste um sapateiro para mover nações,</p><p>quebra em nós o complexo de inferioridade que nos faz pensar que só os preparados, os ordenados, os experientes podem ser usados por Ti.</p><p>Cada membro da IEQ Central é um instrumento em potencial. Cada vida entregue é um canal possível do Teu mover.</p><p>Que neste mês, assim como Moody se tornou disponível, nós também digamos: "Senhor, aqui estou. Usa o que Eu tenho. Usa o que sou."</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 13, nome: "Andrew Murray", periodo: "1828–1917", era: "Séc. XIX/XX",
+    abertura: `<p>Até agora, vimos avivalistas que foram para as ruas, para os campos, para os rincões do mundo. Hoje chegamos a um homem que nos lembra que antes de sair, é preciso entrar. Entrar no quarto de oração. Entrar no silêncio com Deus.</p>`,
+    texto: `<p>Andrew Murray nasceu em 1828 na África do Sul, filho de um pastor escocês. Tornou-se pastor, avivalista, e depois de uma crise espiritual profunda em seus quarenta anos, emergiu como um dos maiores escritores sobre a vida de oração que a Igreja já produziu.</p><p>Seus livros, como "Com Cristo na Escola da Oração", "A Vida Humilhada" e "A Vida Plena", foram traduzidos para dezenas de idiomas e formaram gerações de cristãos ao redor do mundo. Murray não era apenas um teórico da oração: sua vida era marcada por horas diárias de intercesão.</p><p>Em 1860, foi instrumento de um avivamento que varreu a África do Sul, com reuniões marcadas por choro de arrependimento e conversões em massa. O fogo que saiu para as multidões foi gestado em anos de câmara secreta.</p>`,
+    oracao: `<p>Senhor que vês em secreto e recompensas abertamente,</p><p>Murray nos desafia hoje com uma pergunta direta: como está nossa vida de oração pessoal? Não a oração pública, não a oração do culto. A oração do quarto fechado.</p><p>Que este mês de avivamento produza em cada lar uma câmara de oração. Que casais orem juntos. Que pais orem sobre os filhos. Que a IEQ Central seja formada por pessoas que sabem estar diante de Ti em silêncio.</p><p>Ensina-nos a orar, Senhor. Como os discípulos pediram, nós também pedimos.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 14, nome: "R. A. Torrey", periodo: "1856–1928", era: "Séc. XIX/XX",
+    abertura: `<p>Reuben Archer Torrey prova que é possível ser ao mesmo tempo teológico e apaixonado, sistemático e ungido, intelectual e cheio do Espírito. Numa geração em que esses extremos eram vistos como opostos, Torrey recusou a falsa divisão.</p>`,
+    texto: `<p>R. A. Torrey nasceu em 1856 nos EUA, estudou nas melhores universidades e teologia em Yale. Foi pastor e evangelista, sucedendo D. L. Moody na liderança do Instituto Bíblico de Moody após a morte deste.</p><p>Torrey realizou campanhas ao redor do mundo, pregando na Austrália, Nova Zelândia, Grã-Bretanha, China e outros países com resultados impressionantes. Mas o que mais define seu legado teológico é sua ênfase no batismo no Espírito Santo não como experiência emocional, mas como equipamento para o serviço e o testemunho.</p><p>Escreveu mais de 40 livros. Defendia que todo crente poderia e deveria ser cheio do Espírito Santo, e que essa experiência não era um luxo espiritual, mas uma necessidade para qualquer ministério eficaz. Sua teologia sólida e sua experiência ardente se reforçavam mutuamente.</p>`,
+    oracao: `<p>Senhor que enches de Teu Espírito Santo,</p><p>como Torrey nos ensina, não queremos só conhecer sobre o Teu Espírito. Queremos ser cheios d'Ele. Equipados por Ele. Movidos por Ele.</p><p>Que o avivamento de junho em nossa igreja seja marcado pelo Espírito Santo em operação real: convicção de pecado, poder para o testemunho, dons em funcionamento, curas, libertações.</p><p>Que o Espírito Santo não seja apenas um tópico doutrinário, mas uma presença sentida em cada reunião, cada vida, cada lar da IEQ Central.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 15, nome: "Evan Roberts", periodo: "1878–1951", era: "País de Gales",
+    abertura: `<p>Meio caminho do nosso devocional. E chegamos ao avivamento que muitos consideram o mais impressionante do século XX em número e profundidade. País de Gales, 1904. Um ex-mineiro de carvão com 26 anos. Cem mil convertidos em seis meses.</p>`,
+    texto: `<p>Evan Roberts nasceu em 1878 em Loughor, País de Gales, de família mineira. Trabalhou nas minas de carvão e depois foi estudar para o ministério. Mas antes de completar o primeiro mês de estudos, voltou para sua cidade natal com uma mensagem de quatro pontos: confesse todo pecado conhecido, acabe com toda dúvida, obedeça ao Espírito Santo prontamente, confesse Cristo publicamente.</p><p>O que aconteceu entre 1904 e 1905 é difícil de categorizar racionalmente. Em seis meses, 100 mil pessoas foram convertidas no País de Gales, uma nação de pouco mais de 2 milhões. Prisões se esvaziaram. Juízes receberam luvas brancas, símbolo de que não havia casos para julgar. Bares fecharam por falta de clientes. Os cavalos nas minas pararam de funcionar porque os mineiros, convertidos, deixaram de xingá-los.</p><p>Roberts sobreviveu ao avivamento por décadas, mas em relativo silêncio. Avivamento custa tudo de quem Deus usa. Ele entendeu isso na própria pele.</p>`,
+    oracao: `<p>Senhor do Avivamento de Gales,</p><p>hoje queremos orar como Evan Roberts orou: com os quatro pontos dele como base. Confessamos nossos pecados conhecidos. Renunciamos às nossas dúvidas. Declaramos obediência ao Teu Espírito. E confessamos Cristo publicamente.</p><p>Que esse padrão simples e poderoso seja o coração do nosso mês de avivamento. Que Londrina veja um mover semelhante. Que nossa geração seja surpreendida pela Tua presença.</p><p>Como Roberts, Senhor, somos simples. Mas estamos disponíveis.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 16, nome: "Charles Parham", periodo: "1873–1929", era: "Pentecostal",
+    abertura: `<p>Chegamos à virada do século XX e chegamos ao momento em que o pentecostalismo moderno nasce. Não no glamour de uma grande cidade, mas numa escola bíblica simples em Topeka, Kansas, onde um grupo de estudantes fez uma pergunta que mudou o mundo cristão.</p>`,
+    texto: `<p>Charles Parham nasceu em 1873 no Kansas e tornou-se pregador independente com forte interesse nas obras do Espírito Santo. Em 1900, fundou o Bethel Bible College em Topeka, onde desafiou seus alunos a estudarem o Atos dos Apóstolos e identificarem a evidência bíblica do batismo no Espírito Santo.</p><p>Na virada do ano, em 1º de janeiro de 1901, uma aluna chamada Agnes Ozman começou a falar em outras línguas enquanto orava. Parham identificou isso como glossolalia, a mesma do dia de Pentecostes. Era o nascimento teológico do pentecostalismo moderno.</p><p>Parham percorreu o Texas pregando essa doutrina e uma de suas reuniões em Houston, em 1905, seria frequentada por William J. Seymour, que levaria a mensagem para Los Angeles e o mundo. Parham plantou a semente teológica que Seymour regaria até virar floresta.</p>`,
+    oracao: `<p>Senhor que és o mesmo Deus de Pentecostes,</p><p>obrigado por restaurar no século XX a consciência dos dons do Teu Espírito. Que a IEQ Central nunca trate o Espírito Santo como patrimônio denominacional. Ele é Deus, não teologia de grupo.</p><p>Aviva em nós a fome pelos dons. Não para impressionar, mas para servir. Não para demonstrar, mas para edificar. Que línguas, profecia, cura e discernimento sejam realidade viva em nossa igreja, como eram na Igreja primitiva.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 17, nome: "William J. Seymour", periodo: "1870–1922", era: "Pentecostal",
+    abertura: `<p>Se há uma história que resume o paradoxo do avivamento, é a de William Seymour. O homem que liderou o avivamento mais influente do século XX era filho de escravos libertos, pregava com um olho cego, e às vezes orava com a cabeça dentro de uma caixa de sapato. Deus tem um senso de humor profundo.</p>`,
+    texto: `<p>William Joseph Seymour nasceu em 1870 em Centerville, Louisiana, filho de ex-escravos. Ouviu Charles Parham pregar em Houston mas, por ser negro, foi obrigado a ficar do lado de fora da sala, ouvindo pela janela. Isso não o amargou. Pelo contrário, levou aquela semente para Los Angeles em 1906.</p><p>No porão de uma casa na Rua Bonnie Brae e depois num antigo estábulo na Rua Azusa, 312, o avivamento explodiu. Por três anos, reuniões aconteciam três vezes por dia, sete dias por semana. Brancos, negros, latinos, asiáticos oravam e adoravam lado a lado, num tempo em que a segregação racial era lei nos EUA.</p><p>O jornal Los Angeles Times publicou uma reportagem zombando do "avivamento da rua Azusa". Mas em dez anos, o pentecostalismo havia se espalhado por cinco continentes. Hoje, mais de 600 milhões de cristãos em todo o mundo são pentecostais ou carismáticos. Tudo começou com um homem orando com a cabeça numa caixa de sapato.</p>`,
+    oracao: `<p>Senhor da Rua Azusa,</p><p>hoje ficamos sem palavras diante do Teu modus operandi. Tu escolhes o fraco para envergonhar o forte. O rejeitado para inaugurar o novo. O esquecido para iniciar o mover.</p><p>Que a IEQ Central nunca despreze o que parece pequeno ou improvável. Que nunca coloque a unção nos títulos e nos talentos. Que olhemos para cada vida com a pergunta: e se esse for o próximo Seymour?</p><p>Senhor, faz o Teu mover começar pelos humildes, pelos menos prováveis, pelos que oram em silêncio sem que ninguém veja.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 18, nome: "Aimee Semple McPherson", periodo: "1890–1944", era: "Pentecostal",
+    abertura: `<p>Hoje chegamos ao nome que ocupa o coração desta lista. Uma mulher. Uma mãe. Uma avivalista que não pediu permissão para ser o que Deus a chamou a ser. Numa época em que o púlpito era território exclusivamente masculino, Aimee Semple McPherson simplesmente subiu nele e pregou.</p>`,
+    texto: `<p>Aimee Kennedy nasceu em 1890 em Ingersoll, Canadá, filha de uma mãe fervorosa no Exército da Salvação. Convertida numa reunião pentecostal aos 17 anos, casou-se com o evangelista Robert Semple, com quem foi como missionária à China. Robert morreu de malária, deixando Aimee viúva, grávida e praticamente sem recursos em Hong Kong.</p><p>Voltou para os EUA, casou-se novamente, teve outro filho, mas o chamado evangélico era irresistível. Com dois filhos pequenos e praticamente sem dinheiro, viajou de carro pelo país inteiro pregando em cidades, acampamentos e qualquer lugar que a recebesse. Curas, conversões, multidões: o mover era real e inegável.</p><p>Em 1923, inaugurou o Angelus Temple em Los Angeles, com capacidade para 5.300 pessoas, um dos primeiros grandes templos evangélicos da América. Fundou a Igreja do Evangelho Quadrangular, hoje presente em mais de 140 países, e foi pioneira no uso do rádio para evangelismo, alcançando milhões de ouvintes décadas antes de qualquer outro ministério.</p><p>A IEQ, nossa própria denominação, tem DNA de Aimee. Somos Quadrangulares porque ela não cedeu ao impossível.</p>`,
+    oracao: `<p>Senhor que chamas quem escolhes, independente de gênero, origem ou circunstância,</p><p>obrigado por Aimee. Obrigado por nos lembrar que o chamado não tem limite de sexo ou de situação. Que Tu usas quem está disponível.</p><p>Como IEQ Central, hoje honramos a mulher cujo sim custou tudo e cujos frutos chegaram até nós. Que a chama que ela carregou continue viva nesta geração.</p><p>Que nossas irmãs chamadas ao ministério não encontrem muros em nossa igreja. Que nossos irmãos tenham a humildade de aprender com quem Deus usa, independente do nome ou do gênero.</p><p>Obrigado, Senhor, pela herança Quadrangular. Que nós a honremos com fidelidade e fogo.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 19, nome: "Smith Wigglesworth", periodo: "1859–1947", era: "Pentecostal",
+    abertura: `<p>Existe uma pergunta que a vida de Smith Wigglesworth responde de forma perturbadora: o que acontece quando um homem completamente comum decide levar a Bíblia ao pé da letra, sem sofisticação, sem filtros acadêmicos, sem concessões?</p>`,
+    texto: `<p>Smith Wigglesworth nasceu em 1859 em Menston, Yorkshire, Inglaterra. Começou a trabalhar aos seis anos de idade. Nunca frequentou escola formalmente. Sua esposa Polly o ensinou a ler, usando a Bíblia como único texto. Era encanador.</p><p>Batizado no Espírito Santo em 1907, na Rua Azusa, tornou-se um dos maiores ministros de curas milagrosas da história do pentecostalismo. Relatos de ressurreições, curas de câncer e milagres extraordinários acompanharam seu ministério por décadas, em todos os continentes.</p><p>Wigglesworth afirmava ler somente a Bíblia. "Se eu ler outro livro, a Bíblia me deixa. Se eu ficar com a Bíblia, a Bíblia não me deixa." Sua fé era de uma simplicidade que desarmava os teólogos. Uma de suas frases mais conhecidas: "Não estou movido pelo que vejo. Não estou movido pelo que sinto. Sou movido somente pelo que acredito."</p>`,
+    oracao: `<p>Senhor da fé simples e do poder real,</p><p>Wigglesworth nos envergonha com a nossa complexidade. Nós que temos acesso a tantos recursos, tantos livros, tantos estudos, e às vezes temos menos fé do que esse encanador iletrado que levou a Tua Palavra ao pé da letra.</p><p>Que neste mês, Senhor, voltemos à fé simples. Que quando a Bíblia diz que Tu curas, nós acreditemos sem negociação. Que quando ela diz que o Espírito está disponível, nós estendamos a mão sem cerimônia.</p><p>Que a IEQ Central seja uma igreja de fé prática, não teórica.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 20, nome: "Billy Sunday", periodo: "1862–1935", era: "Séc. XX",
+    abertura: `<p>Avivamento fala a linguagem do povo. E se existe alguém que entendeu isso de forma visceral, é Billy Sunday. Ele não poliu o evangelho para fazer bonito. Ele levou o evangelho para onde estava o povo, na linguagem que o povo entendia.</p>`,
+    texto: `<p>William Ashley Sunday nasceu em 1862 em Iowa. Ficou órfão de pai ainda bebê, cresceu em orfanatos e se tornnou jogador profissional de beisebol nos Chicago White Stockings. Foi convertido num culto ao ar livre e, após anos como leigo ativo, abandonou o beisebol para se tornar evangelista.</p><p>Sua pregação era radicalmente diferente de tudo que se via nos púlpitos da época: ele gesticulava, andava de um lado para o outro, ficava de cócoras, saltava, usava gírias do esporte. Falava a língua do homem comum com uma eficiência impressionante.</p><p>Ao longo de 20 anos de ministério, conduziu campanhas em todas as grandes cidades americanas. Estimou-se que mais de um milhão de pessoas responderam ao seu chamado de forma pública. Seus sermões contra o alcoolismo foram um dos fatores que levaram à Lei Seca americana em 1919.</p>`,
+    oracao: `<p>Senhor que Te encarnas na linguagem de cada cultura,</p><p>que nós não façamos do evangelismo uma apresentação elegante para um público já convertido. Que saibamos falar com o mundo ao nosso redor, no idioma do mundo ao nosso redor.</p><p>Que a IEQ Central seja uma igreja que entende a cultura da sua cidade sem se contaminar pelos seus valores. Que nossos membros saibam conectar o evangelho à vida real das pessoas, sem jargão religioso que ninguém de fora entende.</p><p>Que este mês nos desperte para o evangelismo criativo e corajoso.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 21, nome: "Frank Bartleman", periodo: "1871–1936", era: "Pentecostal",
+    abertura: `<p>Nem todo avivalista lidera multidões. Alguns têm outro papel: registrar, testemunhar, guardar a memória do que Deus faz para que gerações futuras possam aprender. Frank Bartleman foi esse homem na Rua Azusa.</p>`,
+    texto: `<p>Frank Bartleman nasceu em 1871 em Carversville, Pennsylvania. Pregador itinerante, escritor prolífico e intercessor fervoroso, estava em Los Angeles quando o avivamento da Rua Azusa explodiu em 1906. Frequentou as reuniões desde os primeiros dias e registrou tudo em cartas, artigos e diários.</p><p>Seu livro "Azusa Street: The Roots of Modern-Day Pentecost" (originalmente publicado como "Como Pentecostes Chegou à Los Angeles") permanece o registro mais próximo e confiável do que aconteceu naquele avivamento histórico. Sem Bartleman, grande parte da história do pentecostalismo teria se perdido.</p><p>Ele também pregou e escreveu sobre avivamento em outros países. Uma de suas frases mais citadas resume tudo: "A profundidade do avivamento é determinada pela profundidade do arrependimento." Simples e absolutamente precisa.</p>`,
+    oracao: `<p>Senhor, obrigado por quem guarda a memória do que Tu fazes.</p><p>Que este devocional seja, de alguma forma, nossa tentativa de guardar a memória dos Teus movimentos ao longo da história, para que ela nos inspire e nos responsabilize.</p><p>E que a frase de Bartleman nos habite: a profundidade do avivamento é determinada pela profundidade do arrependimento. Senhor, leva-nos ao arrependimento real. Não ao emocional de superfície, mas ao que muda estruturas internas.</p><p>Onde há pecado não confessado, que seja confessado. Onde há relacionamentos quebrados, que sejam restaurados. Essa é a fundação do avivamento genuíno.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 22, nome: "Kathryn Kuhlman", periodo: "1907–1976", era: "Séc. XX",
+    abertura: `<p>Se Aimee abriu o caminho, Kathryn Kuhlman foi por ele com uma graça e uma dependência do Espírito Santo que até hoje emociona quem estuda sua vida. Ela se descrevia como a pessoa menos provável de Deus usar. E talvez por isso Deus a tenha usado tanto.</p>`,
+    texto: `<p>Kathryn Kuhlman nasceu em 1907 em Concordia, Missouri. Começou a pregar ainda adolescente, percorrendo a região com sua irmã e o marido dela. Após uma falha matrimonial que quase destruiu seu ministério, passou por uma renda espiritual profunda e emergiu com uma consciência radical de sua própria fraqueza.</p><p>"Eu morri para Kathryn Kuhlman", ela dizia. "A pessoa que antes tinha egos, ambições, sonhos. Morri. E foi só quando morri que o Espírito Santo pôde viver através de mim."</p><p>Seus "Miracle Services" em Pittsburgh e depois em Los Angeles atraíam milhares toda semana. Médicos documentaram curas inexplicáveis. Sua ênfase constante era: "Não tenho nada. É Ele. Se Ele não vier, não há nada aqui." Essa dependência absoluta do Espírito Santo era genuína e visível.</p>`,
+    oracao: `<p>Espírito Santo, como Kuhlman nos ensina a Te honrar e a depender de Ti,</p><p>que nenhum serviço da IEQ Central seja planejado sem a pergunta: o que Tu queres fazer aqui hoje? Que nenhum culto seja só um roteiro cumprido.</p><p>Dá-nos a sensibilidade de Kuhlman: perceber quando Tu estás se movendo e ter coragem de parar tudo para seguir a Tua direção. Que a Tua presença seja mais preciosa para nós do que nossos programas.</p><p>Neste mês, Senhor, surpreende-nos. Faz coisas que não cabem no roteiro.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 23, nome: "Billy Graham", periodo: "1918–2018", era: "Séc. XX",
+    abertura: `<p>Chegamos ao maior evangelista do século XX, um homem que pregou pessoalmente para mais gente do que qualquer outro na história da Igreja. Mas o que mais impressiona em Billy Graham não é o número de pessoas que ele alcançou. É o número de décadas que ele durou sem se perder.</p>`,
+    texto: `<p>William Franklin Graham Jr. nasceu em 1918 em Charlotte, Carolina do Norte. Convertido aos 16 anos numa reunião de evangelismo, foi ordenado batista e começou a pregar em acampamentos e igrejas locais. Sua primeira grande cruzada aconteceu em Los Angeles em 1949, onde ficou 8 semanas quando havia planejado 3.</p><p>Por seis décadas, Graham percorreu o mundo com suas "cruzadas de evangelismo", pregando em estádios em todos os continentes, para presidentes e para pobres, para o mundo livre e para países comunistas. Estima-se que 215 milhões de pessoas ouviram sua pregação pessoalmente. Bilhões pelo rádio e televisão.</p><p>Mas o que mais define Graham é sua integridade. Desde o início, com seus colegas do "Pacto de Modesto" (1948), estabeleceu regras de conduta para proteger o ministério: nunca ser visto em público a sós com uma mulher além de sua esposa, nunca administrar dinheiro pessoalmente, nunca depreciar outros ministérios. Sessenta anos depois, as regras ainda estavam de pé. E ele também.</p>`,
+    oracao: `<p>Senhor da integridade e do chamado de longo prazo,</p><p>obrigado por Graham, que nos ensina que a grandeza do ministério não se mede pelo tamanho dos estádios, mas pela fidelidade ao longo do tempo.</p><p>Que os líderes da IEQ Central sejam homens e mulheres de caráter. Que o que acontece quando ninguém está olhando seja o mesmo que acontece no palco. Que nossas famílias possam atestar a nossa integridade.</p><p>Avivamento que cai sobre líderes com vida dupla vira escândalo. Que nos tornemos o tipo de solo que sustenta a chama.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 24, nome: "Duncan Campbell", periodo: "1898–1972", era: "Séc. XX",
+    abertura: `<p>Ilhas Hébridas, costa ocidental da Escócia, 1949. Um lugar remoto, uma população que mal chegava a poucos milhares. E um avivamento tão soberano que as pessoas acordavam no meio da noite com convicção de pecado sem jamais ter pisado num culto.</p>`,
+    texto: `<p>Duncan Campbell nasceu em 1898 em Argyll, Escócia. Serviu na Primeira Guerra Mundial, foi convertido após retornar, e tornou-se pregador da Faith Mission na Escócia.</p><p>Em 1949, foi convidado para as Ilhas Hébridas por um grupo de idosas que levavam dois anos orando pelo avivamento. Uma delas, Peggy Smith, com 84 anos e cega, havia recebido uma promessa de Deus: "Derramarei água sobre o sedento e torrentes sobre a terra seca."</p><p>O que aconteceu entre 1949 e 1952 foi extraordinário. Campbell relatava pessoas sendo tomadas por convicção de pecado em plena estrada, sem ter ouvido um sermão. Um baile foi interrompido quando os jovens pararam de dançar e começaram a chorar de arrependimento. Igrejas ficavam cheias às 3 da manhã. Em duas ilhas, praticamente a população inteira se converteu.</p><p>Campbell disse depois: "O avivamento não foi produto do planejamento humano. Nós nos tornamos participantes de algo que Deus já havia decidido fazer."</p>`,
+    oracao: `<p>Senhor soberano, que não precisas da nossa habilidade para agir, só da nossa disponibilidade,</p><p>o Avivamento das Hébridas nos lembra que há moveres que não cabem em nenhuma estratégia. Que às vezes Tu simplesmente decides agir, e o que Tu precisas é de um povo em oração que não desiste.</p><p>Que haja em nossa igreja as "Peggys e Christinas" de hoje: intercessores fiéis, talvez invisíveis, que carregam em oração o que ainda não existe no visível.</p><p>Senhor, faze o que só Tu podes fazer. E nos encontra em oração quando isso acontecer.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 25, nome: "Oral Roberts", periodo: "1918–2009", era: "Séc. XX",
+    abertura: `<p>Oral Roberts é um nome que divide opiniões. Mas antes de entrar nas controvérsias, é importante ver o pioneiro: o homem que levou o evangelho da cura e do Espírito Santo para a televisão americana quando essa combinação parecia impossível.</p>`,
+    texto: `<p>Granville Oral Roberts nasceu em 1918 em Pontotoc County, Oklahoma. Gago na infância, tuberculoso na adolescência, foi curado ao 17 anos e sentiu o chamado para o ministério de curas. Tornou-se um dos evangelistas de tendas mais populares da América nos anos 1940 e 1950.</p><p>Em 1954, foi o primeiro pregador a transmitir um programa semanal de curas e evangelismo na televisão americana. O programa chegou a 80 países. Em 1963, fundou a Oral Roberts University, integrando fé, cura e excelência acadêmica num modelo pioneiro.</p><p>Sua vida teve momentos controversos, especialmente nos anos finais. Mas seu pioneirismo em unir pregação do evangelho, ministério de curas e mídia de massa abriu caminhos que toda uma geração de ministros percorreu depois.</p>`,
+    oracao: `<p>Senhor de toda graça,</p><p>Roberts nos lembra que instrumentos humanos são imperfeitos, mas os Teus propósitos são maiores que as falhas dos Teus servos.</p><p>Que nós olhemos para os líderes da história com misericórdia e aprendizado, não com o cinismo que encontra o erro e esquece o fruto.</p><p>E que a nossa própria vida seja entregue ao Teu uso hoje, cientes de que somos vasos de barro com o tesouro inestimável. Que o tesouro brilhe mais do que as rachaduras do vaso.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 26, nome: "A. A. Allen", periodo: "1911–1970", era: "Séc. XX",
+    abertura: `<p>Asa Alonso Allen representa um aspecto do avivamento que as igrejas mais organizadas às vezes ignoram: a mensagem que encontra os que ninguém quer na plataforma. Os viciados, os pobres, os de segunda categoria social. O evangelho dos excluídos.</p>`,
+    texto: `<p>A. A. Allen nasceu em 1911 em Sulphur Rock, Arkansas, em condições de pobreza extrema. O pai era alcoólatra, a família vivia na miséria. Convertido no início dos anos 1930, tornou-se pastor assembliano e depois evangelista independente com uma "Tenda Milagrosa" itinerante.</p><p>Suas reuniões atraíam especialmente os pobres, os negros (numa América ainda segregada), os sem esperança. Relatos de curas físicas extraordinárias eram frequentes. Sua abordagem era direta, às vezes rude para os padrões religiosos da época, mas o alcance era inegável.</p><p>Sua vida também foi marcada por controvérsias, especialmente ligadas ao álcool, uma ironia diante do contexto de seu próprio pai. Morreu em 1970 com contradições visíveis. Mas o fato permanece: Allen alcançava quem ninguém queria na plataforma, e isso é profundamente evangélico.</p>`,
+    oracao: `<p>Senhor que buscas os perdidos, os quebrados, os que os outros descartam,</p><p>que a IEQ Central nunca se torne uma igreja de gente arrumada que não sabe o que fazer com gente bagunçada.</p><p>Que tenhamos coragem de receber os que chegam com cheiro de álcool, com tatuagens, com passado pesado, com presente confuso. Que o nosso amor seja maior do que o nosso desconforto.</p><p>Que o avivamento de junho nos abra para os que precisam de graça, não de performance.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 27, nome: "Rex Humbard", periodo:"1919–2007", era: "Séc. XX",
+    abertura: `<p>Há uma virtude que os grandes não celebram tanto quanto deveriam: a consistência. O avivamento que dura não é só o que explode, mas o que permanece. Rex Humbard construiu algo que durou décadas, não porque era o mais talentoso, mas porque era o mais consistente.</p>`,
+    texto: `<p>Alpha Rex Emmanuel Humbard nasceu em 1919 em Little Rock, Arkansas, numa família de evangelistas itinerantes. Cresceu no ministério, percorrendo estradas com seus pais e irmãos antes de fixar raízes em Akron, Ohio, nos anos 1950.</p><p>Em 1953, fundou a Cathedral of Tomorrow em Akron, um dos primeiros templos evangélicos construídos especificamente para transmissão televisiva. A partir daí, transmitiu cultos para 650 cidades ao redor do mundo por décadas. Chegou a 113 países. Elvis Presley convidou Humbard para cantar no seu funeral em 1977.</p><p>Humbard não tinha o carisma explosivo de outros evangelistas da sua época. Mas era consistente, confiável, sem escândalos, semana após semana, ano após ano. Avivamento sustentado precisa desse tipo de fidelidade silenciosa.</p>`,
+    oracao: `<p>Senhor da fidelidade e do longo prazo,</p><p>que a lição de Humbard ecoe em nossa igreja. Que não busquemos só os grandes momentos de explosão espiritual, mas a fidelidade de semana em semana, mês em mês, ano em ano.</p><p>Que as famílias da IEQ Central cultivem consistência: no devocional diário, na presença nas reuniões, na generosidade regular, no relacionamento com a comunidade.</p><p>O avivamento que pedimos não é só de junho. Queremos um mover que dure. E isso começa com fidelidade.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 28, nome: "David Wilkerson", periodo: "1931–2011", era: "Séc. XX/XXI",
+    abertura: `<p>Avivamento segue o mesmo roteiro de Jesus: vai primeiro aos que a sociedade jogou fora. David Wilkerson entendeu isso não como teologia abstrata, mas como chamado prático que levou um pastor de interior para as gangues de Nova York.</p>`,
+    texto: `<p>David Ray Wilkerson nasceu em 1931 em Hammond, Indiana, neto e filho de pastores pentecostais. Em 1958, lendo uma revista sobre o julgamento de membros de gangue em Nova York, sentiu um chamado inexplicável de ir àquela cidade. Sem conhecer ninguém, sem recursos, foi.</p><p>Suas tentativas iniciais foram fracassadas e até cômicas. Mas a persistência gerou frutos. Começou a alcançar membros de gangues, viciados e jovens em situação de rua. Fundou o Teen Challenge em 1960, organização que existe hoje em mais de 100 países e é reconhecida até por estudos seculares como uma das abordagens mais eficazes para reabilitação de dependentes químicos.</p><p>Seu livro "A Cruz e o Punhal" (1963) vendeu mais de 15 milhões de cópias e tornou-se um dos livros cristãos mais influentes do século XX. Em 1987, fundou a Times Square Church em Manhattan. Wilkerson morreu num acidente de carro em 2011, mas sua obra continua alcançando os excluídos.</p>`,
+    oracao: `<p>Senhor que chamaste Wilkerson para onde ninguém queria ir,</p><p>que nós tenhamos coragem de ouvir os chamados improváveis. De ir onde é desconfortável. De amar o que é difícil de amar.</p><p>Que a IEQ Central olhe para as gangues, para os viciados, para os jovens perdidos de Londrina não com medo, mas com o amor que Wilkerson teve. Que o Teen Challenge de Londrina seja um parceiro do nosso avivamento.</p><p>Que o nosso avivamento tenha endereço na periferia.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 29, nome: "Luis Palau", periodo: "1934–2021", era: "Séc. XX/XXI",
+    abertura: `<p>O avivamento tem sotaque latino. Deus não fala só inglês americano, e Luis Palau foi prova disso por décadas. O argentino que percorreu 75 países e provou que o evangelho é tão poderoso nas Américas quanto era em Azusa, no País de Gales, nas Hébridas.</p>`,
+    texto: `<p>Luis Palau nasceu em 1934 em Ingeniero-Maschwitz, Argentina, numa família de fé evangélica sólida. Convertido em criança, perdeu o pai aos 10 anos e ajudou a sustentar a família. Formado teologicamente, trabalhou com Billy Graham nos anos 1960 antes de lançar seu próprio ministério em 1978.</p><p>Palau pregou para mais de 30 milhões de pessoas ao vivo em 75 países, em estádios, praças públicas e festivais urbanos. Seu ministério pelo rádio alcançou populações que nenhum evangelista físico jamais chegaria. Na América Latina, foi reconhecido como "o Billy Graham latino".</p><p>Sua abordagem era urbana e culturalmente relevante. Adaptava o formato das cruzadas para festivais de música, esporte e arte, atraindo jovens que jamais entrariam num culto tradicional. Até o fim da vida, com diagnóstico de câncer, continuou pregando. Morreu em 2021, servindo até os últimos dias.</p>`,
+    oracao: `<p>Senhor que falas em todas as línguas e culturas,</p><p>obrigado por Palau e pela prova de que o avivamento não é patrimônio do mundo anglo-saxão. Que essa consciência nos liberte de importar modelos que não são nossos e nos convoque a sermos, com autenticidade, a expressão do Reino na cultura brasileira.</p><p>Que a IEQ Central seja brasileira de verdade: no louvor, na hospitalidade, na intensidade da oração, na expressão da fé. Que o nosso avivamento tenha cheiro de Brasil.</p><p>E que Londrina seja, neste junho, uma cidade tocada pelo Teu Espírito.</p><p class="amen">Amém.</p>`
+  },
+  {
+    n: 30, nome: "Reinhard Bonnke", periodo: "1940–2019", era: "Séc. XX/XXI",
+    abertura: `<p>Chegamos ao último dia do nosso devocional. Encerramos com um homem que ouviu uma promessa de Deus aos 11 anos de idade, levou essa promessa a sério por 70 anos, e a viu ser cumprida de uma forma que desafia qualquer estatística humana.</p>`,
+    texto: `<p>Reinhard Bonnke nasceu em 1940 em Königsberg, Alemanha, filho de um pastor pietista. Aos 11 anos, sentiu Deus dizer a ele: "Africa shall be saved." A África será salva. Com o mapa da África na parede do seu quarto, levou essa palavra como missão de vida.</p><p>Missionário na África desde os anos 1960, suas campanhas foram crescendo de pequenas reuniões a eventos de um milhão de pessoas por noite. Em Lagos, na Nigéria, chegou a reunir 3,4 milhões de pessoas num único culto, o maior evento cristão da história registrado. Ao longo de cinco décadas, documentaram-se 79 milhões de conversões na África subsaariana através do seu ministério.</p><p>Bonnke nunca perdeu a simplicidade. Pregava com fervor inabalável, cria com simplicidade absoluta e não se envergonhava do evangelho em nenhum contexto. Morreu em 26 de dezembro de 2019, deixando um ministério em plena atividade.</p><p>E uma frase que resume tudo: "O evangelho não é boa sugestão. É boa notícia. E boa notícia precisa ser gritada."</p>`,
+    oracao: `<p>Senhor do avivamento que atravessa continentes,</p><p>chegamos ao fim destes 30 dias com o coração cheio. Trinta vidas. Trinta formas diferentes de dizer sim. Trinta provas de que Tu és fiel em cada geração.</p><p>Que tudo o que vimos neste devocional não fique na admiração histórica. Que se transforme em fogo prático na IEQ Central. Que junho de 2026 em Londrina seja lembrado como o mês em que a igreja acordou de vez.</p><p>Nós cremos na promessa que Tu fizeste sobre esta cidade. Nós cremos que o Teu Espírito se move sobre nós. Nós cremos que o avivamento é possível aqui, agora, nesta geração.</p><p>Como Bonnke levou "Africa shall be saved" a sério, nós levamos a sério a nossa declaração: Londrina será salva. A IEQ Central será avivada. E o Teu nome será glorificado.</p><p class="amen">Amém.</p>`,
+    encerramento: true
+  }
+];
+
+// ── VÍDEOS DO YOUTUBE (Shorts) — índice 0 = Dia 1, ... ──
+// Adicione novos IDs aqui conforme os vídeos forem publicados.
+const videos = [
+  "5Kq6iR9WLBQ", // Dia 1
+  "rb3jr4oDQWY", // Dia 2
+  "1SDPVVlUubo", // Dia 3
+  "5iVfW2jgHNY", // Dia 4
+  "f9oAVK9eUsA", // Dia 5
+  "IG30ynji6js", // Dia 6
+  "o1JR0Lo2B8k", // Dia 7
+  "-98boV4fklM", // Dia 8
+  "kd_-zjQcfjA", // Dia 9
+  "SNuFegcbspk", // Dia 10
+  "BvI03QPKlBQ", // Dia 11
+  "A3_0WREjQ7I", // Dia 12
+  "H3WgUl7RUeY", // Dia 13
+  "OskfXdV5K70", // Dia 14
+  "ReUwK2YYVhQ"  // Dia 15
+];
+
+// ── LÓGICA DE DATAS ──
+// Dia 1 do devocional = 02/06/2026 (hoje, sempre aberto)
+// Dia 2 do devocional = 03/06/2026 (abre a partir desta data)
+// Dia N do devocional = (01/06/2026 + N), ou seja: unlockDate = 01/06 + dayIndex + 1
+// índice 0 = dia 1: unlock = 02/06 (já aberto desde hoje)
+// índice 1 = dia 2: unlock = 03/06
+// índice N = dia N+1: unlock = 02/06 + N
+
+const START = new Date(2026, 5, 2); // 02/06/2026 — base do devocional
+
+function unlockDate(dayIndex) {
+  // Dia 1 (index 0) abre em 02/06. Dia 2 (index 1) abre em 03/06. Etc.
+  const d = new Date(START);
+  d.setDate(d.getDate() + dayIndex);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function today() {
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  return now;
+}
+
+function isUnlocked(dayIndex) {
+  return today() >= unlockDate(dayIndex);
+}
+
+// Índice do dia corrente do devocional (0-based)
+function currentDayIndex() {
+  const diff = Math.floor((today() - START) / 86400000);
+  if (diff < 0) return 0;            // antes do início, mostra dia 1
+  if (diff >= dias.length) return dias.length - 1; // depois do fim, mostra o último
+  return diff;
+}
+
+function getDate(dayIndex) {
+  const d = new Date(START);
+  d.setDate(d.getDate() + dayIndex);
+  const semana = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const meses  = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  return `${semana[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]}`;
+}
+
+function getUnlockLabel(dayIndex) {
+  const d = unlockDate(dayIndex);
+  const semana = ['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+  return `Disponível a partir de ${semana[d.getDay()]}, ${d.getDate()}/${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+
+// ── BUILD NAV ──
+const nav = document.getElementById('nav-scroll');
+dias.forEach((d, i) => {
+  const btn = document.createElement('button');
+  btn.id = `nav-${i}`;
+  if (isUnlocked(i)) {
+    btn.className = 'nav-btn';
+    btn.textContent = `Dia ${d.n}`;
+    btn.onclick = () => document.getElementById(`day-${i}`).scrollIntoView({behavior:'smooth', block:'start'});
+  } else {
+    btn.className = 'nav-btn locked-nav';
+    btn.textContent = `Dia ${d.n} 🔒`;
+    btn.disabled = true;
+    btn.style.opacity = '0.35';
+    btn.style.cursor = 'default';
+  }
+  nav.appendChild(btn);
+});
+
+// ── BUILD DAYS ──
+const main = document.getElementById('main');
+dias.forEach((d, i) => {
+  const section = document.createElement('div');
+  section.className = 'day';
+  section.id = `day-${i}`;
+
+  if (!isUnlocked(i)) {
+    // Dia bloqueado — exibe apenas o cabeçalho + tela de espera
+    section.innerHTML = `
+      <div class="day-header">
+        <div class="day-num" style="color:var(--border-strong)">${String(d.n).padStart(2,'0')}</div>
+        <div class="day-meta">
+          <div class="day-date">${getDate(i)}</div>
+          <div class="day-name" style="color:var(--text-muted)">${d.nome}</div>
+          <div class="day-period">${d.periodo}</div>
+          <span class="day-era">${d.era}</span>
+        </div>
+      </div>
+      <div class="locked-card">
+        <div class="locked-icon">🔒</div>
+        <div class="locked-title">Devocional ainda não disponível</div>
+        <div class="locked-msg">${getUnlockLabel(i)}</div>
+      </div>`;
+  } else {
+    // Dia desbloqueado — conteúdo completo
+    const aberturaClass = i === 0 ? 'abertura first-day' : 'abertura';
+    const vid = videos[i];
+    const videoHtml = vid ? `
+      <div class="section">
+        <div class="section-label">Assista</div>
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/${vid}" title="Devocional — Dia ${d.n}"
+            loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+        </div>
+      </div>` : '';
+    let html = `
+      <div class="day-header">
+        <div class="day-num">${String(d.n).padStart(2,'0')}</div>
+        <div class="day-meta">
+          <div class="day-date">${getDate(i)}</div>
+          <div class="day-name">${d.nome}</div>
+          <div class="day-period">${d.periodo}</div>
+          <span class="day-era">${d.era}</span>
+        </div>
+      </div>
+      ${videoHtml}
+      <div class="section">
+        <div class="section-label">Abertura</div>
+        <div class="${aberturaClass}">${d.abertura}</div>
+      </div>
+      <div class="section">
+        <div class="section-label">O relato</div>
+        <div class="texto">${d.texto.split('\n').map(p=>p.trim()).filter(p=>p).join('')}</div>
+      </div>
+      <div class="section">
+        <div class="section-label">Oração</div>
+        <div class="oracao">${d.oracao}</div>
+      </div>`;
+    if (d.encerramento) {
+      html += `
+        <div class="encerramento">
+          <h2>Trinta dias. Trinta chamas. Uma mesma promessa.</h2>
+          <p>Chegamos ao fim deste devocional de junho, mas não ao fim do avivamento que pedimos. Estes trinta dias foram apenas o começo de uma postura de coração que esperamos que continue.</p>
+          <p>Você conheceu avivalistas de seis séculos diferentes. Medievais, reformadores, metodistas, pentecostais, evangelistas do século XX. Homens e mulheres, brancos e negros, letrados e iletrados, famosos e esquecidos.</p>
+          <p>O que todos tinham em comum? <strong>Rendição total a um Deus que se move quando Seu povo abre espaço.</strong></p>
+          <p>Que a IEQ Central Londrina carregue em julho, em agosto, em todo o ano que se segue, o fogo que foi aceso neste junho. Que Londrina sinta a diferença de uma igreja avivada. Que cada lar seja um altar. Cada membro, um instrumento.</p>
+          <p>O avivamento que você leu na história pode ser a sua história também. Deus não mudou. E Ele ainda busca corações disponíveis.</p>
+          <p><strong>A chama continua. Não apague.</strong></p>
+        </div>`;
+    }
+    section.innerHTML = html;
+  }
+
+  main.appendChild(section);
+});
+
+// ── SCROLL AUTOMÁTICO para o dia corrente ──
+window.addEventListener('load', () => {
+  const idx = currentDayIndex();
+  const target = document.getElementById(`day-${idx}`);
+  if (target) {
+    // pequeno delay para fontes e layout estabilizarem
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 350);
+  }
+});
+
+// ── INTERSECTION OBSERVER para nav ativo ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const idx = parseInt(e.target.id.replace('day-',''));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`nav-${idx}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+      }
+    }
+  });
+}, { rootMargin: '-10% 0px -80% 0px' });
+
+document.querySelectorAll('.day').forEach(d => observer.observe(d));
+
+// ── SCROLL TOP ──
+const scrollBtn = document.getElementById('scroll-top');
+window.addEventListener('scroll', () => {
+  scrollBtn.classList.toggle('show', window.scrollY > 600);
+});
+</script>
+</body>
+</html>

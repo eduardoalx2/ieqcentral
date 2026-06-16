@@ -25,10 +25,14 @@
   <header class="bg-indigo-700 text-white shadow-lg">
     <div class="max-w-5xl mx-auto px-6 py-5 flex items-center gap-4">
       <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl">🕊️</div>
-      <div>
+      <div class="flex-1 min-w-0">
         <h1 class="text-lg font-bold leading-tight">Congresso Estadual do Diaconato</h1>
         <p class="text-indigo-200 text-sm">IEQ — Região Eclesiástica 655 · Londrina/PR</p>
       </div>
+      <a href="manual.html"
+         class="bg-white/20 hover:bg-white/30 text-white font-semibold text-sm px-4 py-2 rounded-xl transition-colors flex items-center gap-2 flex-shrink-0">
+        📖 <span class="hidden sm:inline">Manual</span>
+      </a>
     </div>
   </header>
 
@@ -54,16 +58,33 @@
     </div>
   </div>
 
+  <!-- Chave PIX -->
+  <div class="max-w-5xl mx-auto px-6 mt-6">
+    <div class="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-2xl p-5 shadow-lg shadow-indigo-200 fade-up">
+      <div class="flex items-center gap-4 flex-wrap">
+        <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-2xl flex-shrink-0">🔑</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-xs font-semibold text-indigo-100 uppercase tracking-wide">Chave PIX para pagamentos</p>
+          <p class="text-white font-bold text-lg leading-tight truncate" id="pix-key">eventos@ieqlondrina.com.br</p>
+        </div>
+        <button onclick="copyPix()" id="pix-copy-btn"
+          class="bg-white text-indigo-600 hover:bg-indigo-50 font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors flex items-center gap-2 flex-shrink-0">
+          <span id="pix-copy-icon">📋</span> <span id="pix-copy-text">Copiar chave</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Cards de navegação -->
   <main class="max-w-5xl mx-auto px-6 py-8">
     <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-5">Módulos</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
-      <a href="inscricoes.html" class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex items-start gap-4 fade-up delay-1">
-        <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-2xl flex-shrink-0">📋</div>
+      <a href="igrejas.html" class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex items-start gap-4 fade-up delay-1">
+        <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-2xl flex-shrink-0">⛪</div>
         <div>
-          <h3 class="font-semibold text-slate-800">Inscrições</h3>
-          <p class="text-sm text-slate-500 mt-1">Cadastrar e gerenciar diáconos inscritos no congresso.</p>
+          <h3 class="font-semibold text-slate-800">Igrejas</h3>
+          <p class="text-sm text-slate-500 mt-1">Gerenciar a lista de igrejas participantes.</p>
         </div>
       </a>
 
@@ -75,7 +96,15 @@
         </div>
       </a>
 
-      <a href="relatorios.html" class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex items-start gap-4 fade-up delay-3">
+      <a href="inscricoes.html" class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex items-start gap-4 fade-up delay-3">
+        <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-2xl flex-shrink-0">📋</div>
+        <div>
+          <h3 class="font-semibold text-slate-800">Inscrições</h3>
+          <p class="text-sm text-slate-500 mt-1">Cadastrar e gerenciar diáconos inscritos no congresso.</p>
+        </div>
+      </a>
+
+      <a href="relatorios.html" class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex items-start gap-4 fade-up delay-4">
         <div class="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center text-2xl flex-shrink-0">📄</div>
         <div>
           <h3 class="font-semibold text-slate-800">Relatórios</h3>
@@ -83,18 +112,20 @@
         </div>
       </a>
 
-      <a href="igrejas.html" class="card-hover bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex items-start gap-4 fade-up delay-4">
-        <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-2xl flex-shrink-0">⛪</div>
-        <div>
-          <h3 class="font-semibold text-slate-800">Igrejas</h3>
-          <p class="text-sm text-slate-500 mt-1">Gerenciar a lista de igrejas participantes.</p>
-        </div>
-      </a>
-
     </div>
 
+    <!-- Link manual -->
+    <a href="manual.html" class="mt-6 p-4 bg-white rounded-xl border border-slate-100 shadow-sm flex items-center gap-3 fade-up hover:border-indigo-300 transition-colors">
+      <span class="text-indigo-400 text-lg">📖</span>
+      <div class="flex-1">
+        <p class="text-sm font-medium text-slate-800">Como usar o sistema</p>
+        <p class="text-xs text-slate-500">Manual passo a passo (bem simples)</p>
+      </div>
+      <span class="text-sm font-semibold text-indigo-600">Abrir →</span>
+    </a>
+
     <!-- Link planilha -->
-    <div class="mt-8 p-4 bg-indigo-50 rounded-xl border border-indigo-100 flex items-center gap-3 fade-up">
+    <div class="mt-4 p-4 bg-indigo-50 rounded-xl border border-indigo-100 flex items-center gap-3 fade-up">
       <span class="text-indigo-400 text-lg">🔗</span>
       <div class="flex-1">
         <p class="text-sm font-medium text-indigo-800">Planilha Google Sheets</p>
@@ -107,12 +138,41 @@
     </div>
   </main>
 
+  <!-- Rodapé -->
+  <footer class="text-center pb-8 pt-2">
+    <p class="text-[11px] text-slate-400">Site desenvolvido por Pr. Eduardo Silva — Secretário Regional</p>
+  </footer>
+
   <script type="module">
     import { apiGet, formatBRL } from './js/config.js';
 
     // Link da planilha — substitua pelo ID real após criar o Sheets
     const SHEET_LINK = 'https://docs.google.com/spreadsheets/d/1KXeEb7vu77TpEwrMJN_0NTK-4UrjTlwjCEY0xZBroMY/edit';
     document.getElementById('link-sheets').href = SHEET_LINK;
+
+    // Copiar chave PIX
+    window.copyPix = function() {
+      const key  = document.getElementById('pix-key').textContent.trim();
+      const icon = document.getElementById('pix-copy-icon');
+      const text = document.getElementById('pix-copy-text');
+      const done = () => {
+        icon.textContent = '✓';
+        text.textContent = 'Copiado!';
+        setTimeout(() => { icon.textContent = '📋'; text.textContent = 'Copiar chave'; }, 2500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(key).then(done).catch(fallback);
+      } else {
+        fallback();
+      }
+      function fallback() {
+        const el = document.createElement('textarea');
+        el.value = key; el.style.position = 'fixed'; el.style.opacity = '0';
+        document.body.appendChild(el); el.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(el); done();
+      }
+    };
 
     async function loadStats() {
       try {

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manual — Congresso do Diaconato</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { font-family:'Inter',sans-serif; }
+    @media print { .no-print { display:none !important; } body { background:#fff !important; } }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-700">
+
+  <!-- Header -->
+  <header class="bg-indigo-700 text-white shadow-lg">
+    <div class="max-w-3xl mx-auto px-6 py-7 flex items-center gap-4">
+      <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center text-2xl">📖</div>
+      <div>
+        <h1 class="text-xl font-bold leading-tight">Manual do Sistema</h1>
+        <p class="text-indigo-200 text-sm">Congresso do Diaconato — passo a passo bem simples</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-5 py-8 space-y-6">
+
+    <!-- Intro -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+      <p class="text-lg">Olá! 🕊️ Este sistema ajuda você a organizar as inscrições do Congresso do Diaconato.</p>
+      <p class="mt-3">Você vai usar <strong>4 telas</strong>, sempre nesta ordem:</p>
+      <div class="mt-4 grid sm:grid-cols-2 gap-3">
+        <div class="flex items-center gap-3 bg-indigo-50 rounded-xl p-3"><span class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">1</span> <span><strong>Igrejas</strong> — quantas vagas cada uma quer</span></div>
+        <div class="flex items-center gap-3 bg-indigo-50 rounded-xl p-3"><span class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">2</span> <span><strong>Pagamentos</strong> — quanto cada igreja pagou</span></div>
+        <div class="flex items-center gap-3 bg-indigo-50 rounded-xl p-3"><span class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">3</span> <span><strong>Inscrições</strong> — o nome de cada diácono</span></div>
+        <div class="flex items-center gap-3 bg-indigo-50 rounded-xl p-3"><span class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">4</span> <span><strong>Relatórios</strong> — listas em PDF</span></div>
+      </div>
+      <p class="mt-4 text-sm bg-amber-50 border border-amber-200 rounded-xl p-3">💡 Cada inscrição custa <strong>R$ 150,00</strong> por pessoa. O sistema faz as contas sozinho.</p>
+    </div>
+
+    <!-- Passo 1 -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+      <h2 class="text-lg font-bold text-indigo-600 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm">1</span> Igrejas — definir as vagas</h2>
+      <p class="mt-3">Aqui você diz <strong>quantas vagas cada igreja reservou</strong>.</p>
+      <ol class="mt-3 space-y-2 list-decimal list-inside">
+        <li>Abra a tela <strong>Igrejas</strong>.</li>
+        <li>As igrejas da região já aparecem na lista. (Se estiver vazia, clique em <strong>"Importar lista"</strong>.)</li>
+        <li>Na igreja desejada, clique em <strong>Editar</strong>.</li>
+        <li>Digite o <strong>número de vagas</strong> (ex.: 5) e clique em <strong>Salvar</strong>.</li>
+      </ol>
+      <p class="mt-3 text-sm bg-indigo-50 rounded-xl p-3">👉 Pense na vaga como uma "cadeira reservada". Se a igreja quer levar 5 diáconos, coloque 5 vagas.</p>
+    </div>
+
+    <!-- Passo 2 -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+      <h2 class="text-lg font-bold text-indigo-600 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm">2</span> Pagamentos — por igreja</h2>
+      <p class="mt-3">O pagamento é controlado <strong>por igreja</strong>, e não por pessoa. Ou seja: a igreja paga o total dela, e você registra aqui.</p>
+      <ol class="mt-3 space-y-2 list-decimal list-inside">
+        <li>Abra a tela <strong>Pagamentos</strong>.</li>
+        <li>Cada igreja mostra quanto <strong>deve</strong> e quanto já <strong>pagou</strong>.</li>
+        <li>Clique em <strong>"+ Pagamento"</strong> na igreja.</li>
+        <li>Digite o <strong>valor</strong>, escolha <strong>Pix</strong> ou <strong>Dinheiro</strong> e clique em <strong>Confirmar</strong>.</li>
+      </ol>
+
+      <div class="mt-4 bg-gradient-to-br from-indigo-600 to-violet-600 text-white rounded-2xl p-4">
+        <p class="text-xs font-semibold text-indigo-100 uppercase tracking-wide">🔑 Chave PIX do congresso</p>
+        <p class="text-lg font-bold mt-1">eventos@ieqlondrina.com.br</p>
+        <p class="text-sm text-indigo-100 mt-1">Na tela inicial tem um botão <strong>"Copiar chave"</strong> — use para enviar a chave às igrejas.</p>
+      </div>
+
+      <div class="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-4">
+        <p class="font-semibold text-amber-800">⏳ Como funciona a verificação do Pix</p>
+        <p class="mt-2 text-sm text-amber-900">Quando você lança um pagamento por <strong>Pix</strong>, ele entra como <strong>"provisório"</strong> (amarelo). Isso quer dizer: <em>"foi anotado, mas ainda precisa ser conferido"</em>.</p>
+        <ul class="mt-2 text-sm text-amber-900 space-y-1 list-disc list-inside">
+          <li>Confira se o dinheiro <strong>realmente caiu na conta</strong>.</li>
+          <li>Aí clique em <strong>"Conferir"</strong> e digite a <strong>senha</strong>.</li>
+          <li>O pagamento vira <strong>"confirmado"</strong> (verde). ✅</li>
+        </ul>
+        <p class="mt-2 text-sm text-amber-900">Pagamentos em <strong>Dinheiro</strong> já entram confirmados na hora.</p>
+        <p class="mt-2 text-xs text-amber-700">🔒 A senha de confirmação é fornecida pelo Secretário Regional. Ela evita que um Pix seja dado como pago sem alguém conferir de verdade.</p>
+      </div>
+    </div>
+
+    <!-- Passo 3 -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+      <h2 class="text-lg font-bold text-indigo-600 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm">3</span> Inscrições — nome por nome</h2>
+      <p class="mt-3">Agora você cadastra <strong>cada diácono</strong> nas vagas que a igreja reservou.</p>
+      <ol class="mt-3 space-y-2 list-decimal list-inside">
+        <li>Abra a tela <strong>Inscrições</strong>.</li>
+        <li>Escolha a <strong>igreja</strong> na listinha de cima.</li>
+        <li>Vão aparecer as vagas (ex.: "Vaga 1", "Vaga 2"...).</li>
+        <li>Clique numa vaga vazia e preencha os dados.</li>
+        <li>Clique em <strong>Salvar</strong>.</li>
+      </ol>
+      <p class="mt-3 text-sm bg-indigo-50 rounded-xl p-3">📝 <strong>Nome</strong> e <strong>WhatsApp</strong> são obrigatórios. <strong>CPF</strong>, <strong>RG</strong> e <strong>Data de Nascimento</strong> são opcionais — mas preencha, porque entram na lista do ônibus.</p>
+      <p class="mt-2 text-sm">Para corrigir alguém, clique em <strong>Editar</strong>. Para remover, clique em <strong>Remover</strong>.</p>
+    </div>
+
+    <!-- Passo 4 -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+      <h2 class="text-lg font-bold text-indigo-600 flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm">4</span> Relatórios — listas em PDF</h2>
+      <p class="mt-3">No final, você gera listas prontas para imprimir ou enviar.</p>
+      <ul class="mt-3 space-y-2 list-disc list-inside">
+        <li><strong>Lista para Ônibus</strong> — nome, CPF, RG e nascimento de todos.</li>
+        <li><strong>Lista Completa</strong> — nome, igreja e WhatsApp.</li>
+        <li><strong>Situação Financeira</strong> — quanto cada igreja pagou e quanto falta.</li>
+      </ul>
+      <p class="mt-3">É só escolher o relatório, clicar em <strong>"Baixar PDF"</strong> (ou <strong>"Imprimir"</strong>). Dá para filtrar por igreja também.</p>
+    </div>
+
+    <!-- Dúvidas -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+      <h2 class="text-lg font-bold text-indigo-600">❓ Dicas finais</h2>
+      <ul class="mt-3 space-y-2 list-disc list-inside text-sm">
+        <li>Comece sempre pela tela <strong>Igrejas</strong> (definir vagas) — sem vagas, não dá para inscrever ninguém.</li>
+        <li>Os dados são salvos automaticamente na nuvem. Pode fechar e voltar depois.</li>
+        <li>Funciona no <strong>computador e no celular</strong>.</li>
+        <li>Em caso de dúvida, fale com o <strong>Pr. Eduardo Silva</strong> (Secretário Regional).</li>
+      </ul>
+    </div>
+
+    <div class="text-center no-print">
+      <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors">🖨 Imprimir este manual</button>
+      <p class="mt-3"><a href="index.html" class="text-indigo-600 font-semibold hover:underline">← Voltar para o sistema</a></p>
+    </div>
+
+    <p class="text-center text-[11px] text-slate-400 pt-2">Site desenvolvido por Pr. Eduardo Silva — Secretário Regional</p>
+
+  </main>
+</body>
+</html>

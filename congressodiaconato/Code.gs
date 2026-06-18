@@ -16,7 +16,7 @@ function inicializarPlanilha() {
     igrejas:    ['id', 'nome', 'qtdVagas'],
     diaconos:   ['id', 'nomeCompleto', 'cpf', 'rg', 'dataNascimento', 'whatsapp', 'igrejaId', 'igrejaNome', 'dataCadastro'],
     inscricoes: ['id', 'diaconoId', 'nomeCompleto', 'cpf', 'rg', 'dataNascimento', 'whatsapp', 'igrejaId', 'igrejaNome', 'dataInscricao'],
-    pagamentos: ['id', 'igrejaId', 'igrejaNome', 'valor', 'formaPagamento', 'dataLancamento', 'observacao']
+    pagamentos: ['id', 'igrejaId', 'igrejaNome', 'valor', 'formaPagamento', 'dataLancamento', 'observacao', 'dataDeposito']
   };
   for (const [name, headers] of Object.entries(config)) {
     const sheet = getSheet(name);
@@ -24,6 +24,15 @@ function inicializarPlanilha() {
       sheet.appendRow(headers);
       sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#4338ca').setFontColor('#ffffff');
       sheet.setFrozenRows(1);
+    } else {
+      // Migração: garante que colunas novas existam no cabeçalho de planilhas já criadas
+      const existentes = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(String);
+      headers.forEach(h => {
+        if (existentes.indexOf(h) === -1) {
+          const col = sheet.getLastColumn() + 1;
+          sheet.getRange(1, col).setValue(h).setFontWeight('bold').setBackground('#4338ca').setFontColor('#ffffff');
+        }
+      });
     }
   }
 }
@@ -162,7 +171,7 @@ function addPagamento(data) {
   const now = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
   getSheet('pagamentos').appendRow([
     id, data.igrejaId, data.igrejaNome,
-    Number(data.valor), data.formaPagamento, now, data.observacao || ''
+    Number(data.valor), data.formaPagamento, now, data.observacao || '', data.dataDeposito || ''
   ]);
   return { ok: true, id };
 }
@@ -171,10 +180,10 @@ function editPagamento(data) {
   const row = findRowById('pagamentos', data.id);
   if (row === -1) return { ok: false, error: 'Pagamento não encontrado' };
   const sheet = getSheet('pagamentos');
-  sheet.getRange(row, 4, 1, 4).setValues([[
+  sheet.getRange(row, 4, 1, 5).setValues([[
     Number(data.valor), data.formaPagamento,
     data.dataLancamento || sheet.getRange(row, 6).getValue(),
-    data.observacao || ''
+    data.observacao || '', data.dataDeposito || ''
   ]]);
   return { ok: true };
 }

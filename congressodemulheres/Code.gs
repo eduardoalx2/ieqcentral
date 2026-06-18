@@ -15,7 +15,7 @@ function inicializarPlanilha() {
   const config = {
     igrejas:    ['id', 'nome', 'qtdVagas'],
     inscritas:  ['id', 'nomeCompleto', 'cpf', 'email', 'dataNascimento', 'whatsapp', 'igrejaId', 'igrejaNome', 'dataInscricao'],
-    pagamentos: ['id', 'igrejaId', 'igrejaNome', 'valor', 'formaPagamento', 'conferido', 'dataLancamento', 'observacao']
+    pagamentos: ['id', 'igrejaId', 'igrejaNome', 'valor', 'formaPagamento', 'conferido', 'dataLancamento', 'observacao', 'dataDeposito']
   };
   for (const [name, headers] of Object.entries(config)) {
     const sheet = getSheet(name);
@@ -23,6 +23,15 @@ function inicializarPlanilha() {
       sheet.appendRow(headers);
       sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#e11d48').setFontColor('#ffffff');
       sheet.setFrozenRows(1);
+    } else {
+      // Migração: garante que colunas novas existam no cabeçalho de planilhas já criadas
+      const existentes = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(String);
+      headers.forEach(h => {
+        if (existentes.indexOf(h) === -1) {
+          const col = sheet.getLastColumn() + 1;
+          sheet.getRange(1, col).setValue(h).setFontWeight('bold').setBackground('#e11d48').setFontColor('#ffffff');
+        }
+      });
     }
   }
 }
@@ -162,7 +171,7 @@ function addPagamento(data) {
   getSheet('pagamentos').appendRow([
     id, data.igrejaId, data.igrejaNome,
     Number(data.valor), data.formaPagamento, data.conferido || 'nao',
-    now, data.observacao || ''
+    now, data.observacao || '', data.dataDeposito || ''
   ]);
   return { ok: true, id };
 }
@@ -171,10 +180,10 @@ function editPagamento(data) {
   const row = findRowById('pagamentos', data.id);
   if (row === -1) return { ok: false, error: 'Pagamento não encontrado' };
   const sheet = getSheet('pagamentos');
-  sheet.getRange(row, 4, 1, 5).setValues([[
+  sheet.getRange(row, 4, 1, 6).setValues([[
     Number(data.valor), data.formaPagamento, data.conferido || 'nao',
     data.dataLancamento || sheet.getRange(row, 7).getValue(),
-    data.observacao || ''
+    data.observacao || '', data.dataDeposito || ''
   ]]);
   return { ok: true };
 }

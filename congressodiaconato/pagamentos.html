@@ -141,6 +141,23 @@
   <script type="module">
     import { apiGet, apiPost, formatBRL, showToast } from './js/config.js';
 
+    // Formata qualquer data (dd/mm/aaaa ou string de Date) para dd/mm/aaaa
+    function fmtData(v) {
+      if (!v) return '';
+      if (/^\d{2}\/\d{2}\/\d{4}/.test(v)) return v.slice(0, 10);
+      const d = new Date(v);
+      if (isNaN(d)) return v;
+      return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+    }
+    // Converte qualquer data para o formato do <input type=date> (aaaa-mm-dd)
+    function toInputDate(v) {
+      if (!v) return '';
+      if (/^\d{2}\/\d{2}\/\d{4}/.test(v)) { const [d,m,y] = v.slice(0,10).split('/'); return `${y}-${m}-${d}`; }
+      const dt = new Date(v);
+      if (isNaN(dt)) return '';
+      return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+    }
+
     const SENHA = 'admin';
 
     let igrejas    = [];
@@ -183,7 +200,7 @@
           <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center gap-3">
             <div class="flex-1 min-w-0">
               <p class="font-semibold text-slate-800 text-sm">${p.igrejaNome}</p>
-              <p class="text-xs text-slate-500 mt-0.5">${formatBRL(p.valor)} · ${p.dataLancamento || ''}${p.dataDeposito ? ' · Depósito: ' + p.dataDeposito : ''}${p.observacao ? ' · ' + p.observacao : ''}</p>
+              <p class="text-xs text-slate-500 mt-0.5">${formatBRL(p.valor)} · ${fmtData(p.dataLancamento)}${p.dataDeposito ? ' · Depósito: ' + fmtData(p.dataDeposito) : ''}${p.observacao ? ' · ' + p.observacao : ''}</p>
             </div>
             <button onclick="window.abrirConfirmacao('${p.id}')"
               class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold px-3 py-2 rounded-xl transition-colors whitespace-nowrap flex-shrink-0">
@@ -237,7 +254,7 @@
             <span class="text-xs px-2 py-0.5 rounded-full font-semibold ${isPix ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-600'}">${p.formaPagamento}</span>
             ${isProvisorio ? '<span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-amber-100 text-amber-700">Provisório</span>' : ''}
             <span class="text-sm font-semibold ${isProvisorio ? 'text-amber-600' : 'text-slate-800'}">${formatBRL(p.valor)}</span>
-            <span class="text-xs text-slate-400 flex-1">${p.dataLancamento || ''}${p.dataDeposito ? ' · Depósito: ' + p.dataDeposito : ''}${p.observacao ? ' · ' + p.observacao : ''}</span>
+            <span class="text-xs text-slate-400 flex-1">${fmtData(p.dataLancamento)}${p.dataDeposito ? ' · Depósito: ' + fmtData(p.dataDeposito) : ''}${p.observacao ? ' · ' + p.observacao : ''}</span>
             ${isProvisorio ? `<button onclick="window.abrirConfirmacao('${p.id}')" class="text-amber-600 hover:text-amber-800 text-xs font-medium">Conferir</button>` : '<span class="text-xs text-emerald-600 font-medium">✓ Confirmado</span>'}
             <button onclick="window.editarPag('${p.id}')" class="text-indigo-500 hover:text-indigo-700 text-xs font-medium ml-1">Editar</button>
             <button onclick="window.excluirPag('${p.id}')" class="text-rose-400 hover:text-rose-600 text-xs font-medium ml-1">Excluir</button>
@@ -314,7 +331,7 @@
       document.getElementById('field-igrejaNome').value  = p.igrejaNome;
       document.getElementById('field-valor').value       = p.valor;
       document.getElementById('field-obs').value         = p.observacao || '';
-      document.getElementById('field-datadeposito').value = p.dataDeposito ? p.dataDeposito.split('/').reverse().join('-') : '';
+      document.getElementById('field-datadeposito').value = toInputDate(p.dataDeposito);
       document.querySelectorAll('input[name="forma"]').forEach(r => { r.checked = r.value === p.formaPagamento; });
       const isPix = p.formaPagamento === 'Pix';
       document.getElementById('aviso-pix').classList.toggle('hidden', !isPix);

@@ -16,7 +16,7 @@ function inicializarPlanilha() {
     igrejas:    ['id', 'nome', 'qtdVagas'],
     diaconos:   ['id', 'nomeCompleto', 'cpf', 'rg', 'dataNascimento', 'whatsapp', 'igrejaId', 'igrejaNome', 'dataCadastro'],
     inscricoes: ['id', 'diaconoId', 'nomeCompleto', 'cpf', 'rg', 'dataNascimento', 'whatsapp', 'igrejaId', 'igrejaNome', 'dataInscricao'],
-    pagamentos: ['id', 'igrejaId', 'igrejaNome', 'valor', 'formaPagamento', 'dataLancamento', 'observacao', 'dataDeposito']
+    pagamentos: ['id', 'igrejaId', 'igrejaNome', 'valor', 'formaPagamento', 'dataLancamento', 'observacao', 'conferido', 'dataDeposito']
   };
   for (const [name, headers] of Object.entries(config)) {
     const sheet = getSheet(name);
@@ -48,7 +48,14 @@ function sheetToArray(sheetName) {
   const headers = data[0];
   return data.slice(1).map(row => {
     const obj = {};
-    headers.forEach((h, i) => { obj[h] = row[i] === '' ? null : String(row[i]); });
+    headers.forEach((h, i) => {
+      let v = row[i];
+      if (v instanceof Date) {
+        const semHora = v.getHours() === 0 && v.getMinutes() === 0 && v.getSeconds() === 0;
+        v = Utilities.formatDate(v, 'America/Sao_Paulo', semHora ? 'dd/MM/yyyy' : 'dd/MM/yyyy HH:mm');
+      }
+      obj[h] = (v === '' || v === null) ? null : String(v);
+    });
     return obj;
   });
 }
@@ -171,7 +178,8 @@ function addPagamento(data) {
   const now = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
   getSheet('pagamentos').appendRow([
     id, data.igrejaId, data.igrejaNome,
-    Number(data.valor), data.formaPagamento, now, data.observacao || '', data.dataDeposito || ''
+    Number(data.valor), data.formaPagamento, now,
+    data.observacao || '', data.conferido || 'nao', data.dataDeposito || ''
   ]);
   return { ok: true, id };
 }
@@ -180,10 +188,10 @@ function editPagamento(data) {
   const row = findRowById('pagamentos', data.id);
   if (row === -1) return { ok: false, error: 'Pagamento não encontrado' };
   const sheet = getSheet('pagamentos');
-  sheet.getRange(row, 4, 1, 5).setValues([[
+  sheet.getRange(row, 4, 1, 6).setValues([[
     Number(data.valor), data.formaPagamento,
     data.dataLancamento || sheet.getRange(row, 6).getValue(),
-    data.observacao || '', data.dataDeposito || ''
+    data.observacao || '', data.conferido || 'nao', data.dataDeposito || ''
   ]]);
   return { ok: true };
 }

@@ -47,7 +47,14 @@ function sheetToArray(sheetName) {
   const headers = data[0];
   return data.slice(1).map(row => {
     const obj = {};
-    headers.forEach((h, i) => { obj[h] = row[i] === '' ? null : String(row[i]); });
+    headers.forEach((h, i) => {
+      let v = row[i];
+      if (v instanceof Date) {
+        const semHora = v.getHours() === 0 && v.getMinutes() === 0 && v.getSeconds() === 0;
+        v = Utilities.formatDate(v, 'America/Sao_Paulo', semHora ? 'dd/MM/yyyy' : 'dd/MM/yyyy HH:mm');
+      }
+      obj[h] = (v === '' || v === null) ? null : String(v);
+    });
     return obj;
   });
 }

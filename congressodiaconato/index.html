@@ -181,14 +181,17 @@
 
     async function loadStats() {
       try {
-        const [inscricoes, pagamentos] = await Promise.all([
+        const [igrejas, inscricoes, pagamentos] = await Promise.all([
+          apiGet('getIgrejas'),
           apiGet('getInscricoes'),
           apiGet('getPagamentos')
         ]);
 
-        const igrejas = [...new Set(inscricoes.map(i => i.igrejaId))];
-        const totalDevido = inscricoes.length * 150;
-        const totalPago   = pagamentos.reduce((s, p) => s + Number(p.valor || 0), 0);
+        const totalVagas   = igrejas.reduce((s, ig) => s + (Number(ig.qtdVagas) || 0), 0);
+        const totalDevido  = totalVagas * 150;
+        const totalPago    = pagamentos
+          .filter(p => p.formaPagamento === 'Dinheiro' || p.conferido === 'sim')
+          .reduce((s, p) => s + Number(p.valor || 0), 0);
 
         document.getElementById('cnt-inscritos').textContent = inscricoes.length;
         document.getElementById('cnt-igrejas').textContent   = igrejas.length;

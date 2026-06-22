@@ -116,24 +116,23 @@
     </div>
   </div>
 
-  <!-- Modal confirmar Pix (senha) -->
+  <!-- Modal de senha (confirmar Pix / editar / excluir) -->
   <div id="modal-senha" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
-      <h2 class="font-bold text-slate-800 text-lg mb-1">Confirmar Pagamento Pix</h2>
+      <h2 class="font-bold text-slate-800 text-lg mb-1">Confirmação necessária</h2>
       <p class="text-sm text-slate-500 mb-5" id="senha-subtitulo"></p>
-      <input type="hidden" id="senha-pagamento-id" />
 
       <div>
-        <label class="text-sm font-medium text-slate-700 block mb-1">Senha de confirmação *</label>
+        <label class="text-sm font-medium text-slate-700 block mb-1">Senha *</label>
         <input id="field-senha" type="password" placeholder="Digite a senha"
           class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-          onkeydown="if(event.key==='Enter') confirmarPix()" />
+          onkeydown="if(event.key==='Enter') confirmarSenha()" />
         <p id="erro-senha" class="text-xs text-rose-500 mt-1 hidden">Senha incorreta.</p>
       </div>
 
       <div class="flex gap-3 mt-6">
         <button onclick="fecharModalSenha()" class="flex-1 border border-slate-200 text-slate-600 font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition-colors text-sm">Cancelar</button>
-        <button onclick="confirmarPix()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm">Confirmar</button>
+        <button onclick="confirmarSenha()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm">Confirmar</button>
       </div>
     </div>
   </div>
@@ -160,8 +159,9 @@
 
     const SENHA = 'admin';
 
-    let igrejas    = [];
-    let pagamentos = [];
+    let igrejas       = [];
+    let pagamentos    = [];
+    let senhaCallback = null;
 
     async function render() {
       [igrejas, pagamentos] = await Promise.all([
@@ -326,19 +326,21 @@
     window.editarPag = function(id) {
       const p = pagamentos.find(x => x.id === id);
       if (!p) return;
-      document.getElementById('field-id').value          = p.id;
-      document.getElementById('field-igrejaId').value    = p.igrejaId;
-      document.getElementById('field-igrejaNome').value  = p.igrejaNome;
-      document.getElementById('field-valor').value       = p.valor;
-      document.getElementById('field-obs').value         = p.observacao || '';
-      document.getElementById('field-datadeposito').value = toInputDate(p.dataDeposito);
-      document.querySelectorAll('input[name="forma"]').forEach(r => { r.checked = r.value === p.formaPagamento; });
-      const isPix = p.formaPagamento === 'Pix';
-      document.getElementById('aviso-pix').classList.toggle('hidden', !isPix);
-      document.getElementById('modal-titulo').textContent    = 'Editar Pagamento';
-      document.getElementById('modal-subtitulo').textContent = p.igrejaNome;
-      document.getElementById('modal').classList.remove('hidden');
-      document.getElementById('modal').classList.add('flex');
+      abrirSenha(`Editar lançamento · ${p.igrejaNome} · ${formatBRL(p.valor)}`, () => {
+        document.getElementById('field-id').value          = p.id;
+        document.getElementById('field-igrejaId').value    = p.igrejaId;
+        document.getElementById('field-igrejaNome').value  = p.igrejaNome;
+        document.getElementById('field-valor').value       = p.valor;
+        document.getElementById('field-obs').value         = p.observacao || '';
+        document.getElementById('field-datadeposito').value = toInputDate(p.dataDeposito);
+        document.querySelectorAll('input[name="forma"]').forEach(r => { r.checked = r.value === p.formaPagamento; });
+        const isPix = p.formaPagamento === 'Pix';
+        document.getElementById('aviso-pix').classList.toggle('hidden', !isPix);
+        document.getElementById('modal-titulo').textContent    = 'Editar Pagamento';
+        document.getElementById('modal-subtitulo').textContent = p.igrejaNome;
+        document.getElementById('modal').classList.remove('hidden');
+        document.getElementById('modal').classList.add('flex');
+      });
     };
 
     window.fecharModal = function() {
@@ -379,21 +381,32 @@
     window.abrirConfirmacao = function(id) {
       const p = pagamentos.find(x => x.id === id);
       if (!p) return;
-      document.getElementById('senha-pagamento-id').value  = id;
-      document.getElementById('senha-subtitulo').textContent = `${p.igrejaNome} · ${formatBRL(p.valor)}`;
+      abrirSenha(`Confirmar Pix · ${p.igrejaNome} · ${formatBRL(p.valor)}`, async () => {
+        try {
+          await apiPost('editPagamento', { data: { ...p, conferido: 'sim' } });
+          showToast('Pagamento Pix confirmado!');
+          await render();
+        } catch(e) { showToast(e.message, 'error'); }
+      });
+    };
+
+    function abrirSenha(subtitulo, onConfirm) {
+      senhaCallback = onConfirm;
+      document.getElementById('senha-subtitulo').textContent = subtitulo;
       document.getElementById('field-senha').value         = '';
       document.getElementById('erro-senha').classList.add('hidden');
       document.getElementById('modal-senha').classList.remove('hidden');
       document.getElementById('modal-senha').classList.add('flex');
       setTimeout(() => document.getElementById('field-senha').focus(), 100);
-    };
+    }
 
     window.fecharModalSenha = function() {
+      senhaCallback = null;
       document.getElementById('modal-senha').classList.add('hidden');
       document.getElementById('modal-senha').classList.remove('flex');
     };
 
-    window.confirmarPix = async function() {
+    window.confirmarSenha = async function() {
       const senha = document.getElementById('field-senha').value;
       if (senha !== SENHA) {
         document.getElementById('erro-senha').classList.remove('hidden');
@@ -401,24 +414,22 @@
         document.getElementById('field-senha').focus();
         return;
       }
-      const id = document.getElementById('senha-pagamento-id').value;
-      const p  = pagamentos.find(x => x.id === id);
-      if (!p) return;
-      try {
-        await apiPost('editPagamento', { data: { ...p, conferido: 'sim' } });
-        showToast('Pagamento Pix confirmado!');
-        fecharModalSenha();
-        await render();
-      } catch(e) { showToast(e.message, 'error'); }
+      const fn = senhaCallback;
+      senhaCallback = null;
+      fecharModalSenha();
+      if (fn) await fn();
     };
 
-    window.excluirPag = async function(id) {
-      if (!confirm('Excluir este lançamento?')) return;
-      try {
-        await apiPost('deletePagamento', { id });
-        showToast('Lançamento removido.', 'info');
-        await render();
-      } catch(e) { showToast(e.message, 'error'); }
+    window.excluirPag = function(id) {
+      const p = pagamentos.find(x => x.id === id);
+      if (!p) return;
+      abrirSenha(`Excluir lançamento · ${p.igrejaNome} · ${formatBRL(p.valor)}`, async () => {
+        try {
+          await apiPost('deletePagamento', { id });
+          showToast('Lançamento removido.', 'info');
+          await render();
+        } catch(e) { showToast(e.message, 'error'); }
+      });
     };
 
     render();

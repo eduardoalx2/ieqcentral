@@ -155,12 +155,20 @@
     document.getElementById('filtro-igreja').addEventListener('change', renderizarRelatorio);
     document.getElementById('filtro-status').addEventListener('change', renderizarRelatorio);
 
-    function getSituacaoIgreja(igrejaId, qtdInscritos) {
-      const devido = qtdInscritos * 150;
-      const pago   = pagamentos.filter(p => p.igrejaId === igrejaId).reduce((s,p) => s + Number(p.valor||0), 0);
-      const pend   = Math.max(0, devido - pago);
-      const status = pend === 0 ? 'quitado' : (pago > 0 ? 'parcial' : 'pendente');
-      return { devido, pago, pendente: pend, status };
+    function getSituacaoIgreja(ig, pagsList) {
+      const vagas      = Number(ig.qtdVagas) || 0;
+      const devido     = vagas * 150;
+      const confirmado = pagsList.filter(p => p.formaPagamento === 'Dinheiro' || p.conferido === 'sim').reduce((s,p) => s + Number(p.valor||0), 0);
+      const provisorio = pagsList.filter(p => p.formaPagamento === 'Pix' && p.conferido !== 'sim').reduce((s,p) => s + Number(p.valor||0), 0);
+      const pendente   = Math.max(0, devido - confirmado);
+      const status     = pendente === 0 ? 'quitado' : (confirmado > 0 || provisorio > 0 ? 'parcial' : 'pendente');
+      return { vagas, devido, confirmado, provisorio, pendente, status };
+    }
+
+    function situacaoPorIgrejaId(igrejaId) {
+      const ig = igrejas.find(i => i.id === igrejaId);
+      if (!ig) return { status: 'pendente' };
+      return getSituacaoIgreja(ig, pagamentos.filter(p => p.igrejaId === igrejaId));
     }
 
     function renderizarRelatorio() {
@@ -213,7 +221,7 @@
             igrejasMap[ins.igrejaId].push(ins);
           });
           lista = Object.values(igrejasMap)
-            .filter(grupo => getSituacaoIgreja(grupo[0].igrejaId, grupo.length).status === statusFiltro)
+            .filter(grupo => situacaoPorIgrejaId(grupo[0].igrejaId).status === statusFiltro)
             .flat();
         }
 
@@ -241,32 +249,26 @@
         `;
 
       } else if (relAtual === 3) {
-        // Situação financeira
-        const mapaIgrejas = {};
-        inscritos.forEach(ins => {
-          if (!mapaIgrejas[ins.igrejaId]) {
-            mapaIgrejas[ins.igrejaId] = { igrejaId: ins.igrejaId, igrejaNome: ins.igrejaNome, qtd: 0 };
-          }
-          mapaIgrejas[ins.igrejaId].qtd++;
-        });
-
-        let lista = Object.values(mapaIgrejas).map(ig => ({
-          ...ig,
-          ...getSituacaoIgreja(ig.igrejaId, ig.qtd),
-          pix:      pagamentos.filter(p => p.igrejaId === ig.igrejaId && p.formaPagamento === 'Pix')     .reduce((s,p) => s+Number(p.valor||0), 0),
-          dinheiro: pagamentos.filter(p => p.igrejaId === ig.igrejaId && p.formaPagamento === 'Dinheiro').reduce((s,p) => s+Number(p.valor||0), 0),
-        }));
+        // Situação financeira — uma linha por igreja com vagas definidas
+        let lista = igrejas
+          .filter(ig => Number(ig.qtdVagas) > 0)
+          .map(ig => ({
+            igrejaId:   ig.id,
+            igrejaNome: ig.nome,
+            qtd:        inscritos.filter(i => i.igrejaId === ig.id).length,
+            ...getSituacaoIgreja(ig, pagamentos.filter(p => p.igrejaId === ig.id))
+          }));
 
         if (statusFiltro) lista = lista.filter(ig => ig.status === statusFiltro);
         if (igrejaFiltro) lista = lista.filter(ig => ig.igrejaId === igrejaFiltro);
 
         lista = lista.sort((a,b) => a.igrejaNome.localeCompare(b.igrejaNome));
 
-        const totDevido   = lista.reduce((s,ig) => s + ig.devido, 0);
-        const totPago     = lista.reduce((s,ig) => s + ig.pago, 0);
-        const totPendente = lista.reduce((s,ig) => s + ig.pendente, 0);
-        const totPix      = lista.reduce((s,ig) => s + ig.pix, 0);
-        const totDinheiro = lista.reduce((s,ig) => s + ig.dinheiro, 0);
+        const totVagas      = lista.reduce((s,ig) => s + ig.vagas, 0);
+        const totDevido     = lista.reduce((s,ig) => s + ig.devido, 0);
+        const totConfirmado = lista.reduce((s,ig) => s + ig.confirmado, 0);
+        const totProvisorio = lista.reduce((s,ig) => s + ig.provisorio, 0);
+        const totPendente   = lista.reduce((s,ig) => s + ig.pendente, 0);
 
         const statusLabel = s => s === 'quitado' ? '<span class="status-q">Quitado</span>' : s === 'parcial' ? '<span class="status-p">Parcial</span>' : '<span class="status-n">Pendente</span>';
 
@@ -275,16 +277,17 @@
           <p style="font-size:10px;color:#64748b;margin-bottom:8px;">${lista.length} igreja(s)</p>
           <table>
             <thead><tr>
-              <th>Igreja</th><th>Inscritos</th><th>Devido</th><th>Pago (Pix)</th><th>Pago (Dinheiro)</th><th>Pendente</th><th>Status</th>
+              <th>Igreja</th><th>Vagas</th><th>Inscritos</th><th>Devido</th><th>Confirmado</th><th>Provisório</th><th>Pendente</th><th>Status</th>
             </tr></thead>
             <tbody>
               ${lista.map(ig => `
                 <tr>
                   <td>${ig.igrejaNome}</td>
+                  <td style="text-align:center">${ig.vagas}</td>
                   <td style="text-align:center">${ig.qtd}</td>
                   <td>${formatBRL(ig.devido)}</td>
-                  <td>${formatBRL(ig.pix)}</td>
-                  <td>${formatBRL(ig.dinheiro)}</td>
+                  <td>${formatBRL(ig.confirmado)}</td>
+                  <td>${formatBRL(ig.provisorio)}</td>
                   <td>${formatBRL(ig.pendente)}</td>
                   <td>${statusLabel(ig.status)}</td>
                 </tr>
@@ -293,9 +296,10 @@
           </table>
           <div class="totais">
             <strong>Totais:</strong>
+            Vagas: ${totVagas} &nbsp;|&nbsp;
             Devido: ${formatBRL(totDevido)} &nbsp;|&nbsp;
-            Pago (Pix): ${formatBRL(totPix)} &nbsp;|&nbsp;
-            Pago (Dinheiro): ${formatBRL(totDinheiro)} &nbsp;|&nbsp;
+            Confirmado (caixa): ${formatBRL(totConfirmado)} &nbsp;|&nbsp;
+            Provisório: ${formatBRL(totProvisorio)} &nbsp;|&nbsp;
             Pendente: ${formatBRL(totPendente)}
           </div>
         `;

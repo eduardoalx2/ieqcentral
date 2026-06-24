@@ -89,8 +89,14 @@
         </div>
         <div>
           <label class="text-sm font-medium text-slate-700 block mb-1">Data de Nascimento <span class="text-slate-400 font-normal">(opcional)</span></label>
-          <input id="field-nascimento" type="date"
-            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+          <div class="grid grid-cols-3 gap-2">
+            <select id="field-nasc-dia" onchange="ajustarDiasNascimento()"
+              class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400"></select>
+            <select id="field-nasc-mes" onchange="ajustarDiasNascimento()"
+              class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400"></select>
+            <select id="field-nasc-ano" onchange="ajustarDiasNascimento()"
+              class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400"></select>
+          </div>
         </div>
       </div>
 
@@ -108,7 +114,66 @@
     let inscritos = [];
     let igrejaSelecionada = null;
 
+    const MESES_NASC = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+    function popularSelectsNascimento() {
+      const selMes = document.getElementById('field-nasc-mes');
+      selMes.innerHTML = '<option value="">Mês</option>' +
+        MESES_NASC.map((m, i) => `<option value="${i + 1}">${m}</option>`).join('');
+      const selAno = document.getElementById('field-nasc-ano');
+      const atual = new Date().getFullYear();
+      let anos = '<option value="">Ano</option>';
+      for (let y = atual; y >= 1925; y--) anos += `<option value="${y}">${y}</option>`;
+      selAno.innerHTML = anos;
+      ajustarDiasNascimento();
+    }
+
+    // Ajusta a quantidade de dias conforme o mês/ano (trata 30/31 e fevereiro bissexto)
+    window.ajustarDiasNascimento = function() {
+      const selDia = document.getElementById('field-nasc-dia');
+      const mes = parseInt(document.getElementById('field-nasc-mes').value, 10);
+      const ano = parseInt(document.getElementById('field-nasc-ano').value, 10);
+      let max = 31;
+      if (mes) {
+        if ([4, 6, 9, 11].includes(mes)) max = 30;
+        else if (mes === 2) max = (ano && ((ano % 4 === 0 && ano % 100 !== 0) || ano % 400 === 0)) ? 29 : (ano ? 28 : 29);
+      }
+      const atual = selDia.value;
+      let dias = '<option value="">Dia</option>';
+      for (let d = 1; d <= max; d++) dias += `<option value="${d}">${d}</option>`;
+      selDia.innerHTML = dias;
+      if (atual && parseInt(atual, 10) <= max) selDia.value = atual;
+    };
+
+    // Recebe "dd/mm/aaaa" (formato do banco) e preenche os três selects
+    function setNascimento(ddmmaaaa) {
+      const selDia = document.getElementById('field-nasc-dia');
+      const selMes = document.getElementById('field-nasc-mes');
+      const selAno = document.getElementById('field-nasc-ano');
+      if (ddmmaaaa && ddmmaaaa.includes('/')) {
+        const [d, m, a] = ddmmaaaa.split('/');
+        selMes.value = String(parseInt(m, 10));
+        selAno.value = String(parseInt(a, 10));
+        ajustarDiasNascimento();
+        selDia.value = String(parseInt(d, 10));
+      } else {
+        selMes.value = ''; selAno.value = '';
+        ajustarDiasNascimento();
+        selDia.value = '';
+      }
+    }
+
+    // Devolve "dd/mm/aaaa" (formato do banco) ou '' se incompleto
+    function getNascimento() {
+      const d = document.getElementById('field-nasc-dia').value;
+      const m = document.getElementById('field-nasc-mes').value;
+      const a = document.getElementById('field-nasc-ano').value;
+      if (!d || !m || !a) return '';
+      return `${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}/${a}`;
+    }
+
     async function init() {
+      popularSelectsNascimento();
       [igrejas, inscritos] = await Promise.all([apiGet('getIgrejas'), apiGet('getInscricoes')]);
       const sel = document.getElementById('sel-igreja');
       sel.innerHTML = '<option value="">— Escolha uma igreja —</option>' +
@@ -195,7 +260,7 @@
       document.getElementById('field-whatsapp').value    = '';
       document.getElementById('field-cpf').value         = '';
       document.getElementById('field-rg').value          = '';
-      document.getElementById('field-nascimento').value  = '';
+      setNascimento('');
       document.getElementById('modal-titulo').textContent    = `Vaga ${idx + 1} — ${igrejaSelecionada.nome}`;
       document.getElementById('modal-subtitulo').textContent = 'Preencha os dados do diácono';
       document.getElementById('modal').classList.remove('hidden');
@@ -211,7 +276,7 @@
       document.getElementById('field-whatsapp').value    = insc.whatsapp || '';
       document.getElementById('field-cpf').value         = insc.cpf || '';
       document.getElementById('field-rg').value          = insc.rg || '';
-      document.getElementById('field-nascimento').value  = insc.dataNascimento ? insc.dataNascimento.split('/').reverse().join('-') : '';
+      setNascimento(insc.dataNascimento || '');
       document.getElementById('modal-titulo').textContent    = `Vaga ${idx + 1} — ${igrejaSelecionada.nome}`;
       document.getElementById('modal-subtitulo').textContent = 'Editando inscrição';
       document.getElementById('modal').classList.remove('hidden');
@@ -229,8 +294,7 @@
       const whatsapp = document.getElementById('field-whatsapp').value.trim();
       const cpf      = document.getElementById('field-cpf').value.trim();
       const rg       = document.getElementById('field-rg').value.trim();
-      const nascRaw  = document.getElementById('field-nascimento').value;
-      const dataNascimento = nascRaw ? nascRaw.split('-').reverse().join('/') : '';
+      const dataNascimento = getNascimento();
 
       if (!nome)     { showToast('Informe o nome completo.', 'error'); return; }
       if (!whatsapp) { showToast('Informe o WhatsApp.', 'error'); return; }

@@ -10,32 +10,47 @@ export const API_URL = 'https://script.google.com/macros/s/AKfycbyitQ6E-O0bbnPBe
 export const VALOR_INSCRICAO = 210;
 
 // ── Chamadas à API ───────────────────────────────────────────
-// GET — usa parâmetro callback para contornar CORS (JSONP)
-export function apiGet(action) {
-  return new Promise((resolve, reject) => {
-    const cbName = '_cb_' + Math.random().toString(36).slice(2);
-    const script = document.createElement('script');
-    const timeout = setTimeout(() => {
-      cleanup();
-      reject(new Error('Timeout na requisição'));
-    }, 15000);
+// GET — usa parâmetro callback para contornar CORS (JSONP).
+// Faz novas tentativas automáticas: o backend (Apps Script) às vezes "dorme"
+// e a 1ª chamada falha/demora. Repetir a LEITURA é seguro (não duplica dados).
+export function apiGet(action, tentativas = 3) {
+  function umaTentativa(timeoutMs) {
+    return new Promise((resolve, reject) => {
+      const cbName = '_cb_' + Math.random().toString(36).slice(2);
+      const script = document.createElement('script');
+      const timeout = setTimeout(() => {
+        cleanup();
+        reject(new Error('Timeout na requisição'));
+      }, timeoutMs);
 
-    window[cbName] = function(data) {
-      cleanup();
-      if (data && data.error) reject(new Error(data.error));
-      else resolve(data);
-    };
+      window[cbName] = function(data) {
+        cleanup();
+        if (data && data.error) reject(new Error(data.error));
+        else resolve(data);
+      };
 
-    function cleanup() {
-      clearTimeout(timeout);
-      delete window[cbName];
-      if (script.parentNode) script.parentNode.removeChild(script);
-    }
+      function cleanup() {
+        clearTimeout(timeout);
+        delete window[cbName];
+        if (script.parentNode) script.parentNode.removeChild(script);
+      }
 
-    script.onerror = () => { cleanup(); reject(new Error('Erro ao conectar com a API')); };
-    script.src = `${API_URL}?action=${action}&callback=${cbName}`;
-    document.head.appendChild(script);
-  });
+      script.onerror = () => { cleanup(); reject(new Error('Erro ao conectar com a API')); };
+      script.src = `${API_URL}?action=${action}&callback=${cbName}`;
+      document.head.appendChild(script);
+    });
+  }
+
+  function tentar(restantes, timeoutMs) {
+    return umaTentativa(timeoutMs).catch(err => {
+      if (restantes <= 1) throw err;
+      // espera um pouco e tenta de novo, dando mais tempo a cada rodada
+      return new Promise(r => setTimeout(r, 800))
+        .then(() => tentar(restantes - 1, Math.min(timeoutMs + 6000, 25000)));
+    });
+  }
+
+  return tentar(tentativas, 12000);
 }
 
 // POST — usa no-cors com dados via URL (GET com action=post)

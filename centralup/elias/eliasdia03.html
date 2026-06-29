@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 3 - 🍞 Deus Cuida do Seu Corpo Também | Elias Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .conteudo-bloqueio { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 260px; margin-bottom: 25px; }
+        #bloqueio h1 { font-size: 42px; margin-bottom: 18px; color: white; }
+        #bloqueio p { font-size: 20px; line-height: 1.8; color: white; }
+        #conteudo { display: none; }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 28px; }
+        .logo-topo img { max-width: 220px; }
+        .dia-badge {
+            display: inline-block; background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            color: white; padding: 9px 22px; border-radius: 25px; font-weight: bold; margin-bottom: 18px; font-size: 14px;
+        }
+        h1 { color: #1a3a5c; font-size: 34px; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { color: #e85d2a; font-size: 17px; margin-bottom: 28px; font-weight: 600; }
+        .progresso { background: #f5f5f5; padding: 18px; border-radius: 12px; margin: 28px 0; text-align: center; }
+        .progresso-titulo { color: #1a3a5c; font-weight: bold; margin-bottom: 12px; font-size: 13px; }
+        .progresso-bar { background: #e0e0e0; height: 26px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            height: 100%; width: 50%; display: flex; align-items: center;
+            justify-content: center; color: white; font-weight: bold; font-size: 13px;
+        }
+        .artefato-box {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border: 4px dashed #e85d2a; padding: 24px; border-radius: 18px;
+            margin: 28px 0; text-align: center; box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+            animation: aparecer 0.8s ease;
+        }
+        .artefato-box .artefato-label { color: #1a3a5c; font-size: 13px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .artefato-box .artefato-emoji { font-size: 52px; display: block; margin: 10px 0; }
+        .artefato-box .artefato-nome { font-size: 26px; font-weight: bold; color: #1a3a5c; margin-bottom: 10px; }
+        .artefato-box .artefato-desc { font-size: 14px; color: #2d3436; line-height: 1.8; }
+        h2 {
+            color: white; background: linear-gradient(135deg, #1a3a5c 0%, #2d5986 100%);
+            padding: 12px 20px; border-radius: 12px; font-size: 18px; margin: 26px 0 16px 0;
+        }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 13px 0; }
+        mark { background: #ffd700; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+        hr { border: none; border-top: 2px dashed #ddd; margin: 26px 0; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 38px; gap: 14px; }
+        .nav-btn {
+            flex: 1; padding: 14px 22px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; text-align: center; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; font-size: 14px;
+        }
+        .nav-btn-prev { background: #e0e0e0; color: #666; }
+        .nav-btn-prev:hover { background: #d0d0d0; transform: translateY(-2px); }
+        .nav-btn-next { background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #1a3a5c66; }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #eee; color: #999; font-size: 12px; }
+        .rodape-destaque { color: #1a3a5c; font-weight: bold; }
+        .quiz-container { background: #f5f8ff; border: 2px solid #1a3a5c33; border-radius: 20px; padding: 28px; margin: 30px 0; }
+        .pergunta { margin-bottom: 10px; }
+        .pergunta-texto { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 14px; line-height: 1.5; }
+        .alternativas { display: flex; flex-direction: column; gap: 10px; }
+        .alt-btn {
+            background: white; border: 2px solid #1a3a5c55; padding: 12px 16px;
+            border-radius: 12px; font-size: 14px; cursor: pointer; text-align: left;
+            transition: all 0.2s ease; color: #333; font-family: inherit; line-height: 1.4;
+        }
+        .alt-btn:hover { background: #eaf0f8; border-color: #1a3a5c; transform: translateX(4px); }
+        .alt-btn.correta { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+        .alt-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+        .alt-btn:disabled { cursor: not-allowed; transform: none; }
+        .feedback { margin-top: 10px; font-size: 14px; font-weight: bold; min-height: 22px; }
+        @keyframes aparecer { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 20px 16px; border-radius: 16px; }
+            .logo-topo img { max-width: 140px; }
+            h1 { font-size: 22px !important; line-height: 1.3; }
+            h2 { font-size: 15px !important; padding: 10px 14px; margin: 20px 0 14px 0 !important; }
+            .subtitle { font-size: 13px !important; margin-bottom: 14px; }
+            .dia-badge { font-size: 12px; padding: 7px 14px; }
+            p { font-size: 14px !important; line-height: 1.7; margin: 10px 0; }
+            .progresso { padding: 12px; margin: 16px 0; }
+            .progresso-fill { font-size: 11px; }
+            .nav-buttons { flex-direction: column; gap: 10px; }
+            .nav-btn { padding: 13px 16px; font-size: 14px; }
+            .rodape { font-size: 12px; margin-top: 20px; }
+            hr { margin: 18px 0; }
+            .quiz-container { padding: 14px; }
+            .pergunta-texto { font-size: 13px; }
+            .alt-btn { font-size: 12px; padding: 10px 12px; }
+            .artefato-box .artefato-emoji { font-size: 40px; }
+            .artefato-box .artefato-nome { font-size: 20px; }
+            #bloqueio .conteudo-bloqueio { padding: 24px 18px; }
+            #bloqueio img { max-width: 160px; margin-bottom: 18px; }
+            #bloqueio h1 { font-size: 28px; }
+            #bloqueio p { font-size: 15px; line-height: 1.6; }
+        }
+        @media (max-width: 400px) {
+            h1 { font-size: 19px !important; }
+        }
+    </style>
+</head>
+<body>
+    <div id="bloqueio">
+        <div class="conteudo-bloqueio">
+            <img src="../logoup.png" alt="Central UP">
+            <h1>Opa, UP! 👋</h1>
+            <p id="msg-bloqueio">Cada devocional tem o seu momento certo.</p>
+            <p style="margin-top:16px; font-size:17px;" id="msg-sub"></p>
+        </div>
+    </div>
+
+    <div id="conteudo">
+        <div class="container">
+            <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+            <div class="dia-badge">📅 DIA 3 DE 6 — ELIAS</div>
+            <h1>🍞 Deus Cuida do Seu Corpo Também</h1>
+            <p class="subtitle">1 Reis 19.5-8 · A refeição que nenhum sermão substituiria</p>
+
+            <div class="progresso">
+                <div class="progresso-titulo">SEU PROGRESSO NO DESAFIO</div>
+                <div class="progresso-bar">
+                    <div class="progresso-fill">DIA 3 — 50%</div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>📖 LEIA A PASSAGEM DE HOJE</h2>
+            <p>Leia o texto bíblico abaixo na versão <strong>NTLH</strong>. Depois continue o devocional! 👇</p>
+
+            <div style="background:#f5f8ff; border:2px solid #1a3a5c33; border-radius:16px; padding:18px; margin:16px 0; max-height:300px; overflow-y:auto; line-height:1.9; font-size:14px; color:#333;">
+                <p style="margin:0 0 10px 0;"><strong style="color:#1a3a5c;">1 REIS 19.5-8 — NTLH</strong></p>
+                <p><strong>5</strong> Então Elias deitou e dormiu debaixo da árvore. De repente, um anjo tocou nele e disse: "Levante-se e coma."</p>
+                <p><strong>6</strong> Elias olhou em volta e viu perto da sua cabeça um pão assado nas pedras quentes e uma jarra de água. Ele comeu e bebeu, e depois voltou a dormir.</p>
+                <p><strong>7</strong> O anjo do Senhor voltou uma segunda vez, tocou nele e disse: "Levante-se e coma, porque o caminho que você tem a fazer é longo demais para as suas forças."</p>
+                <p><strong>8</strong> Elias levantou-se, comeu e bebeu. E com as forças que aquela comida lhe deu, caminhou quarenta dias e quarenta noites até chegar ao Monte Sinai, o monte de Deus.</p>
+            </div>
+
+            <p style="text-align:center; font-size:14px; background:linear-gradient(135deg,#1a3a5c 0%,#e85d2a 100%); color:white; padding:13px; border-radius:12px; margin:10px 0;">
+                <strong>⬇️ Leu? Então continue o devocional abaixo!</strong>
+            </p>
+
+            <hr>
+
+            <h2>💬 E então, UP?</h2>
+
+            <h2>📰 O QUE ACONTECEU</h2>
+            <p>Elias estava debaixo da árvore, esgotado, sem querer mais nada. E a primeira resposta de Deus não foi um discurso, não foi uma correção, não foi uma lista de razões para continuar.</p>
+            <p>Foi um anjo com pão assado e uma jarra de água.</p>
+            <p style="background:#f5f8ff; padding:20px; border-radius:12px; border-left:5px solid #1a3a5c;">
+                <em>"De repente, um anjo tocou nele e disse: Levante-se e coma."</em><br>
+                <strong>— 1 Reis 19.5</strong>
+            </p>
+            <p>Elias comeu, bebeu e dormiu de novo. O anjo voltou uma segunda vez. <mark>Deus não desistiu depois da primeira tentativa.</mark> Voltou, tocou nele de novo, e disse: o caminho ainda é longo, você vai precisar de força.</p>
+
+            <hr>
+
+            <h2>🔍 O QUE DEUS QUER TE MOSTRAR HOJE</h2>
+            <p>Pensa bem nessa cena: Elias estava dormindo no deserto e acordou com um anjo do lado, com comida fresquinha esperando por ele.</p>
+            <p>Deus cuida dos detalhes. Ele não viu um profeta fracassado. Viu alguém que precisava comer e dormir antes de continuar.</p>
+            <p><mark>O que Deus quer te mostrar hoje é que Ele te enxerga por inteiro.</mark> Sabe quando você está cansado, com fome, precisando de um respiro. E cuida disso antes de qualquer outra coisa.</p>
+            <p>Você é importante pra Ele. Não só o que você faz. Você.</p>
+
+            <hr>
+
+            <h2>🪞 ISSO FALA COM VOCÊ</h2>
+            <p>Como Deus tem cuidado de você nos detalhes? Pensa na semana que passou. Uma coisa boa que aconteceu, um momento de descanso, uma pessoa que apareceu pra ajudar.</p>
+            <p>Às vezes esses momentos parecem coincidência. Mas olha com mais atenção.</p>
+            <p><mark>O mesmo Deus que mandou um anjo com comida pro Elias está cuidando de você hoje, nos detalhes do seu dia.</mark></p>
+
+            <hr>
+
+            <h2>🙏 ORAÇÃO DO DIA</h2>
+            <p style="background:linear-gradient(135deg,#1a3a5c15 0%,#e85d2a15 100%); padding:22px; border-radius:12px; border-left:5px solid #1a3a5c; font-style:italic; line-height:2;">
+                "Senhor, obrigado por me ver por inteiro e cuidar de mim nos detalhes. Me ajuda a perceber o Teu cuidado na minha vida hoje. Amém."
+            </p>
+
+            <hr>
+
+            <div class="quiz-container">
+                <h2 style="background:linear-gradient(135deg,#1a3a5c 0%,#e85d2a 100%); color:white; padding:12px 18px; border-radius:12px; font-size:18px; margin:0 0 14px 0;">🧠 QUIZ DO DIA 3</h2>
+                <p style="color:#555; margin-bottom:18px; font-size:14px;">Responda as 3 perguntas para desbloquear o <strong>Artefato do Profeta</strong>! 🔐</p>
+
+                
+                <div class="pergunta" id="q1">
+                    <p class="pergunta-texto">1. O que o anjo trouxe para Elias debaixo da árvore?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(1, this, false)">A) Uma mensagem de Deus e um mapa para o deserto</button>
+                        <button class="alt-btn" onclick="responder(1, this, true)">B) Pão assado nas pedras e uma jarra de água</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">C) Uma carta do rei Acabe pedindo paz</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">D) Remédio e instruções para se curar</button>
+                    </div>
+                    <div class="feedback" id="f1"></div>
+                </div>
+
+                <div class="pergunta" id="q2" style="display:none;">
+                    <p class="pergunta-texto">2. Quantas vezes o anjo voltou para Elias?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(2, this, false)">A) Uma vez só</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">B) Três vezes</button>
+                        <button class="alt-btn" onclick="responder(2, this, true)">C) Duas vezes</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">D) O anjo não voltou, foi outro profeta</button>
+                    </div>
+                    <div class="feedback" id="f2"></div>
+                </div>
+
+                <div class="pergunta" id="q3" style="display:none;">
+                    <p class="pergunta-texto">3. Com a força daquela refeição, o que Elias fez?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(3, this, false)">A) Voltou para enfrentar Jezabel</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">B) Descansou por sete dias no deserto</button>
+                        <button class="alt-btn" onclick="responder(3, this, true)">C) Caminhou quarenta dias e quarenta noites até o Monte Sinai</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">D) Foi ao palácio falar com o rei Acabe</button>
+                    </div>
+                    <div class="feedback" id="f3"></div>
+                </div>
+
+
+                <div id="artefato-revelado" style="display:none;">
+                    <div class="artefato-box">
+                        <div class="artefato-label">Artefato do Profeta — Dia 3 de 6</div>
+                        <span class="artefato-emoji">🥄</span>
+                        <div class="artefato-nome">A Colher</div>
+                        <p class="artefato-desc">O anjo não chegou com uma pregação. Chegou com pão e água. A colher representa esse cuidado de Deus que alimenta quando você não tem força nem para pedir ajuda. O cuidado que não exige nada antes de dar.</p>
+                        <p class="artefato-desc" style="margin-top:12px; background:#e8f4f8; border-left: 3px solid #1a3a5c; padding: 10px 14px; border-radius: 6px;">🎯 <strong>Sua missão:</strong> vai até a gaveta dos talheres e pega uma colher, pode ser qualquer uma. Coloca ela na sua Caixa do Profeta. Esse é o seu terceiro artefato. Faltam 3 para completar!</p>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                let acertos = 0;
+                const totalPerguntas = 3;
+                function responder(num, btn, correta) {
+                    const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+                    const feedback = document.getElementById('f' + num);
+                    buttons.forEach(b => b.disabled = true);
+                    if (correta) {
+                        btn.classList.add('correta');
+                        feedback.style.color = '#1a7a3c';
+                        feedback.textContent = '✅ Correto! Muito bem, UP!';
+                        acertos++;
+                        setTimeout(() => {
+                            if (num < totalPerguntas) {
+                                document.getElementById('q' + num).style.opacity = '0.6';
+                                document.getElementById('q' + (num + 1)).style.display = 'block';
+                                document.getElementById('q' + (num + 1)).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            } else {
+                                document.getElementById('artefato-revelado').style.display = 'block';
+                                document.getElementById('artefato-revelado').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }, 900);
+                    } else {
+                        btn.classList.add('errada');
+                        feedback.style.color = '#d63031';
+                        feedback.textContent = 'Não é essa! Releia a passagem...';
+                        setTimeout(() => {
+                            buttons.forEach(b => { b.disabled = false; b.classList.remove('errada'); });
+                            feedback.textContent = '';
+                        }, 1500);
+                    }
+                }
+            </script>
+
+            <hr>
+
+            <div class="nav-buttons">
+                <a href="eliasdia02.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+                <a href="eliasdia04.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+            </div>
+
+            <div style="text-align:center; margin-top:22px;">
+                <a href="../index.html" style="color:#1a3a5c; font-size:13px; text-decoration:none;">← Voltar para o início</a>
+            </div>
+
+            <div class="rodape">
+                <p><span class="rodape-destaque">Central UP</span> - IEQ Central</p>
+                <p style="margin-top:7px;">Desenvolvido por <span class="rodape-destaque">Pr. Eduardo</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const abertura   = new Date('2026-03-18T00:00:00');
+        const fechamento = new Date('2026-03-19T11:59:59');
+        const liberacaoFinal = new Date('2026-03-22T00:00:00');
+        const agora = new Date();
+        const bloqueio = document.getElementById('bloqueio');
+        const conteudo = document.getElementById('conteudo');
+        const msgBloqueio = document.getElementById('msg-bloqueio');
+        const msgSub = document.getElementById('msg-sub');
+
+        function fmt(d) {
+            return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) +
+                   ' às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        if (agora >= liberacaoFinal || (agora >= abertura && agora <= fechamento)) {
+            bloqueio.style.display = 'none';
+            conteudo.style.display = 'block';
+        } else if (agora < abertura) {
+            msgBloqueio.textContent = 'Ei, você está adiantado! 😄';
+            msgSub.innerHTML = 'Este devocional abre no dia <strong>' + fmt(abertura) + '</strong>.<br>Fique ligado, volte no horário certo!';
+        } else {
+            msgBloqueio.textContent = 'Você perdeu o horário deste dia... 😔';
+            msgSub.innerHTML = 'Este devocional encerrou em <strong>' + fmt(fechamento) + '</strong>.<br>Mas não desanima! Os próximos dias ainda estão por vir.<br>A partir de <strong>22/03</strong> todos os dias ficam abertos!';
+        }
+    </script>
+</body>
+</html>

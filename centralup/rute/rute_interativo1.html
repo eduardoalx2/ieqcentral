@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermão Interativo — Rute | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #8b4513 0%, #c17f3a 60%, #d4a843 100%);
+            min-height: 100vh; padding: 20px;
+        }
+
+        /* BARRA DE PROGRESSO FIXA */
+        .progress-bar-wrap {
+            position: fixed; top: 0; left: 0; right: 0;
+            height: 7px; background: rgba(0,0,0,0.2); z-index: 999;
+        }
+        .progress-bar-fill {
+            height: 100%; background: linear-gradient(90deg, #ffd700, #c17f3a);
+            width: 0%; transition: width 0.5s ease; border-radius: 0 999px 999px 0;
+        }
+        .progress-label {
+            position: fixed; top: 10px; right: 14px;
+            background: rgba(0,0,0,0.5); color: #ffd700;
+            font-size: 11px; font-weight: bold; padding: 3px 10px;
+            border-radius: 20px; z-index: 999; letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 860px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 44px 40px; margin-top: 16px;
+            box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 20px; }
+        .logo-topo img { max-width: 180px; }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b4513, #c17f3a);
+            color: white; font-size: 11px; font-weight: bold;
+            letter-spacing: 1.5px; padding: 5px 16px; border-radius: 20px;
+            margin-bottom: 14px; text-transform: uppercase;
+        }
+        h1 { color: #6b3410; font-size: 32px; margin-bottom: 6px; }
+        .subtitle { color: #c17f3a; font-size: 16px; font-weight: 600; margin-bottom: 24px; }
+        h2 {
+            color: white;
+            background: linear-gradient(135deg, #6b3410, #8b4513);
+            padding: 12px 20px; border-radius: 12px;
+            font-size: 17px; margin: 28px 0 16px 0;
+        }
+        p { line-height: 1.9; color: #333; font-size: 15px; margin: 10px 0; }
+        hr { border: none; border-top: 2px dashed #e0d5c5; margin: 28px 0; }
+        mark { background: #ffd700; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+
+        /* PARTE */
+        .parte { margin-bottom: 14px; }
+
+        /* BOTÕES DE ESCOLHA (parte 1 e 7) */
+        .opcoes { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+        .op-btn {
+            background: white; border: 2px solid #c17f3a55;
+            padding: 14px 18px; border-radius: 14px;
+            font-size: 14px; cursor: pointer; text-align: left;
+            transition: all 0.2s ease; color: #333; font-family: inherit; line-height: 1.5;
+        }
+        .op-btn:hover { background: #fdf0e0; border-color: #c17f3a; transform: translateX(4px); }
+        .op-btn.escolhida { background: #fdf0e0; border-color: #c17f3a; border-width: 2.5px; }
+        .op-resp {
+            display: none; background: linear-gradient(135deg, #fdf8f0, #f5ede0);
+            border-left: 5px solid #c17f3a; padding: 16px 20px;
+            border-radius: 0 14px 14px 0; margin-top: 10px;
+            font-size: 14px; color: #5a3020; line-height: 1.8;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* DECODER DE PERSONAGENS */
+        .decoder-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
+        .decoder-card {
+            border: 2px solid #c17f3a44; border-radius: 16px;
+            overflow: hidden; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .decoder-card:hover { border-color: #c17f3a; transform: translateY(-3px); }
+        .decoder-card.certa { border-color: #43e97b; background: #e8fff0; }
+        .decoder-card.errada { border-color: #d63031; animation: shake 0.4s ease; }
+        .decoder-icon { font-size: 36px; text-align: center; padding: 18px 0 8px; }
+        .decoder-nome { font-size: 13px; font-weight: bold; text-align: center; padding: 0 12px 8px; color: #6b3410; }
+        .decoder-pista { font-size: 12px; color: #555; padding: 0 12px 14px; text-align: center; line-height: 1.5; }
+        .decoder-opts { padding: 0 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+        .decoder-alt {
+            background: white; border: 1.5px solid #c17f3a33;
+            padding: 8px 12px; border-radius: 8px;
+            font-size: 12px; cursor: pointer; transition: all 0.15s;
+            font-family: inherit; text-align: left; color: #333;
+        }
+        .decoder-alt:hover { background: #fdf0e0; border-color: #c17f3a; }
+        .decoder-alt.certa { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+        .decoder-alt.errada { background: #ffe8e8; border-color: #d63031; }
+        .decoder-result { text-align: center; padding: 10px; font-size: 13px; font-weight: bold; min-height: 20px; }
+        .quem-certa { background: #e8fff0 !important; border-color: #43e97b !important; color: #1a7a3c !important; font-weight: bold !important; }
+        .quem-errada { background: #ffe8e8 !important; border-color: #d63031 !important; color: #d63031 !important; }
+
+        /* PUZZLE CRONOLÓGICO */
+        .cenas-grid { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+        .cena-item {
+            background: #fdf8f2; border: 2px solid #c17f3a33;
+            border-radius: 14px; padding: 14px 16px;
+            display: flex; align-items: center; gap: 14px;
+        }
+        .cena-item.correta { border-color: #43e97b; background: #e8fff0; }
+        .cena-item.errada { border-color: #d63031; background: #ffe8e8; }
+        .cena-texto { flex: 1; font-size: 14px; color: #333; }
+        .num-btns { display: flex; gap: 6px; flex-shrink: 0; }
+        .num-btn {
+            width: 32px; height: 32px; border-radius: 50%;
+            border: 2px solid #c17f3a44; background: white;
+            font-size: 13px; font-weight: bold; cursor: pointer;
+            transition: all 0.15s; color: #6b3410; font-family: inherit;
+        }
+        .num-btn:hover { background: #fdf0e0; border-color: #c17f3a; }
+        .num-btn.ativo { background: #8b4513; color: white; border-color: #8b4513; }
+        .btn-verificar {
+            background: linear-gradient(135deg, #8b4513, #c17f3a);
+            color: white; border: none; padding: 13px 28px;
+            border-radius: 12px; font-size: 15px; font-weight: bold;
+            cursor: pointer; margin-top: 10px; font-family: inherit;
+            transition: all 0.2s;
+        }
+        .btn-verificar:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139,69,19,0.3); }
+        .resultado { display: none; padding: 14px 18px; border-radius: 12px; margin-top: 10px; font-size: 14px; font-weight: bold; }
+
+        /* LACUNAS */
+        .texto-lacunas { font-size: 15px; line-height: 2.4; color: #333; margin: 16px 0; }
+        .lacuna {
+            display: inline-block; min-width: 100px; padding: 2px 8px;
+            border-bottom: 3px solid #c17f3a; background: #fdf8f2;
+            border-radius: 4px; cursor: pointer; text-align: center;
+            font-weight: bold; color: #6b3410; font-size: 14px;
+        }
+        .banco-palavras { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+        .palavra-btn {
+            background: #fdf0e0; border: 2px solid #c17f3a;
+            color: #6b3410; padding: 6px 16px; border-radius: 20px;
+            font-size: 13px; font-weight: bold; cursor: pointer;
+            transition: all 0.2s; font-family: inherit;
+        }
+        .palavra-btn:hover { background: #c17f3a; color: white; }
+        .palavra-btn.usada { opacity: 0.35; pointer-events: none; }
+
+        /* V/F */
+        .vf-item { background: #fdf8f2; border: 2px solid #c17f3a22; border-radius: 14px; padding: 16px; margin: 10px 0; }
+        .vf-texto { font-size: 14px; color: #333; margin-bottom: 12px; line-height: 1.6; }
+        .vf-btns { display: flex; gap: 10px; }
+        .vf-btn {
+            flex: 1; padding: 10px; border-radius: 10px; border: 2px solid #c17f3a44;
+            background: white; font-size: 14px; font-weight: bold; cursor: pointer;
+            transition: all 0.2s; font-family: inherit;
+        }
+        .vf-btn:hover { background: #fdf0e0; }
+        .vf-btn.certa { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; }
+        .vf-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+        .vf-fb { font-size: 13px; font-weight: bold; margin-top: 8px; min-height: 18px; }
+
+        /* LUGAR */
+        .lugar-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 16px 0; }
+        .lugar-card {
+            border: 2px solid #c17f3a33; border-radius: 16px; padding: 20px 14px;
+            text-align: center; cursor: pointer; transition: all 0.2s; background: #fdf8f2;
+        }
+        .lugar-card:hover { border-color: #c17f3a; transform: translateY(-3px); }
+        .lugar-card.certa { border-color: #43e97b; background: #e8fff0; }
+        .lugar-card.errada { border-color: #d63031; background: #ffe8e8; animation: shake 0.4s; }
+        .lugar-icon { font-size: 32px; margin-bottom: 8px; }
+        .lugar-nome { font-size: 13px; font-weight: bold; color: #6b3410; }
+        .lugar-fb { font-size: 12px; color: #555; margin-top: 6px; line-height: 1.5; display: none; }
+
+        /* REFLEXÃO FINAL */
+        .ref-opcoes { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+
+        /* MISSÃO SECRETA */
+        .missao-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.85); z-index: 1000;
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        .missao-overlay.ativa { display: flex; animation: fadeIn 0.5s ease; }
+        .missao-card {
+            background: white; border-radius: 24px; padding: 40px;
+            max-width: 520px; width: 100%; text-align: center;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.5);
+            border: 4px solid #ffd700;
+        }
+        .missao-card .estrelas { font-size: 40px; margin-bottom: 12px; animation: pulse 1.2s infinite; }
+        .missao-card h2 { color: #6b3410; font-size: 26px; margin-bottom: 8px; background: none; padding: 0; border-radius: 0; }
+        .missao-card .sub { color: #c17f3a; font-size: 16px; font-weight: 600; margin-bottom: 18px; }
+        .missao-card p { font-size: 15px; color: #444; line-height: 1.8; margin-bottom: 16px; }
+        .missao-card .destaque-box {
+            background: linear-gradient(135deg, #6b3410, #8b4513);
+            color: white; padding: 16px 20px; border-radius: 14px; margin: 16px 0;
+            font-size: 15px; line-height: 1.7;
+        }
+        .missao-card .destaque-box strong { color: #ffd700; }
+        .input-nome {
+            width: 100%; padding: 14px 18px; border: 3px solid #c17f3a44;
+            border-radius: 12px; font-size: 16px; margin: 14px 0; outline: none; text-align: center;
+            font-family: inherit;
+        }
+        .input-nome:focus { border-color: #8b4513; }
+        .btn-whatsapp {
+            display: none; width: 100%;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white; border: none; padding: 16px; border-radius: 14px;
+            font-size: 17px; font-weight: bold; cursor: pointer; margin-top: 10px;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(37,211,102,0.4); }
+        .btn-fechar-missao {
+            background: none; border: 2px solid #ccc; color: #999;
+            padding: 10px 20px; border-radius: 10px; cursor: pointer;
+            font-size: 13px; margin-top: 14px; font-family: inherit;
+        }
+
+        /* QUASE LÁ */
+        .quaselá-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.85); z-index: 1000;
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        .quaselá-overlay.ativa { display: flex; animation: fadeIn 0.5s ease; }
+        .quaselá-card {
+            background: white; border-radius: 24px; padding: 36px;
+            max-width: 480px; width: 100%; text-align: center;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.5);
+        }
+        .quaselá-card h2 { color: #8b4513; font-size: 22px; margin-bottom: 10px; background: none; padding: 0; border-radius: 0; }
+        .quaselá-card p { font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 14px; }
+        .btn-voltar-tentar {
+            background: linear-gradient(135deg, #8b4513, #c17f3a);
+            color: white; border: none; padding: 14px 28px; border-radius: 12px;
+            font-size: 15px; font-weight: bold; cursor: pointer; font-family: inherit;
+        }
+
+        /* RODAPÉ */
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #e0d5c5; color: #999; font-size: 12px; }
+        .rodape span { color: #8b4513; font-weight: bold; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+        @media (max-width: 600px) {
+            .container { padding: 24px 16px; border-radius: 18px; }
+            h1 { font-size: 24px; }
+            .decoder-grid { grid-template-columns: 1fr; }
+            .lugar-grid { grid-template-columns: 1fr; }
+            .missao-card { padding: 28px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DE PROGRESSO -->
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-fill"></div></div>
+    <div class="progress-label" id="prog-label">0 / 13 pts</div>
+
+    <!-- PARABÉNS -->
+    <div class="missao-overlay" id="missao-overlay">
+        <div class="missao-card">
+            <div class="estrelas">🌾✨🎉</div>
+            <h2>Missão Cumprida!</h2>
+            <p class="sub">Você completou o sermão interativo de Rute</p>
+            <p>Assim como Rute foi ao campo sem saber o que ia encontrar, você foi até o fim. E chegou. Isso tem valor!</p>
+            <p style="font-size:14px; color:#c17f3a; font-weight:600; margin-top:4px;">📝 Digite o seu nome para ganhar uma surpresa:</p>
+            <input class="input-nome" id="input-nome" type="text" placeholder="Digite o seu nome aqui..." oninput="checarNome()">
+            <button class="btn-whatsapp" id="btn-wpp" onclick="enviarWhatsApp()">📲 Quero meu chocolate! 🍫</button>
+            <button class="btn-fechar-missao" onclick="document.getElementById('missao-overlay').classList.remove('ativa')">Fechar</button>
+        </div>
+    </div>
+
+    <!-- QUASE LÁ -->
+    <div class="quaselá-overlay" id="quaselá-overlay">
+        <div class="quaselá-card">
+            <div style="font-size:36px; margin-bottom:10px;">🌿👣🌾</div>
+            <h2>Quase lá, UP!</h2>
+            <p>Você chegou até o fim, mas ainda tem respostas erradas pelo caminho.</p>
+            <p>Rute não chegou ao campo de Boaz no primeiro dia. Ela foi, voltou, foi de novo. A fidelidade é feita de tentativas.</p>
+            <p style="color:#8b4513; font-weight:bold;">Há uma missão secreta esperando quem completar com 100%. Volte, corrija os erros e descubra o que está escondido. 🗝️</p>
+            <button class="btn-voltar-tentar" onclick="document.getElementById('quaselá-overlay').classList.remove('ativa')">🔄 Voltar e completar</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+        <div class="badge">🌾 Sermão Interativo — Temporada 4</div>
+        <h1>🌾 Rute</h1>
+        <p class="subtitle">A Estrangeira que Deus Escolheu</p>
+
+        <!-- PARTE 1 — DINÂMICA DE ABERTURA -->
+        <div class="parte" id="parte1">
+            <h2>⚡ PARTE 1 — VOCÊ ESCOLHERIA FICAR?</h2>
+            <p>Imagina: você está em outro país. Sua sogra perde tudo, fica sem marido, sem filhos, sem dinheiro. Ela te manda embora e diz: "Você não tem obrigação nenhuma comigo."</p>
+            <p><strong>O que você faria?</strong></p>
+            <div class="opcoes">
+                <button class="op-btn" onclick="escolherOp(this, 'r1a')">A) Voltava pra casa. Era a decisão mais sensata.</button>
+                <button class="op-btn" onclick="escolherOp(this, 'r1b')">B) Ficava. Não dá pra deixar ela sozinha assim.</button>
+                <button class="op-btn" onclick="escolherOp(this, 'r1c')">C) Pedia tempo pra pensar antes de decidir.</button>
+                <button class="op-btn" onclick="escolherOp(this, 'r1d')">D) Ficava, mas com o coração pesado e com medo.</button>
+            </div>
+            <div class="op-resp" id="r1a">Faz sentido. Orfa fez exatamente isso. Não é covardia, é lógica. Mas Rute escolheu diferente, e essa escolha mudou a história do mundo.</div>
+            <div class="op-resp" id="r1b">É essa a escolha de Rute. Sem garantia, sem futuro claro. Só uma decisão: não vou te abandonar. E foi exatamente isso que Deus usou.</div>
+            <div class="op-resp" id="r1c">Honesto. Mas Rute não hesitou. Quando Noemi insistiu, ela foi direta: "Não me proíba de ir com a senhora." Às vezes a decisão certa não precisa de mais tempo.</div>
+            <div class="op-resp" id="r1d">Provavelmente foi assim que Rute se sentiu. Com medo e com o coração pesado. Mas foi assim mesmo. A coragem não é a ausência do medo. É ir mesmo com ele.</div>
+        </div>
+
+        <hr>
+
+        <!-- PARTE 2 — DECODER DE PERSONAGENS -->
+        <div class="parte" id="parte2">
+            <h2>🔍 PARTE 2 — QUEM É QUEM EM RUTE?</h2>
+            <p>Cada personagem tem uma pista. Identifique quem é quem:</p>
+            <div class="decoder-grid">
+                <div class="decoder-card" id="dec1">
+                    <div class="decoder-icon">👵</div>
+                    <div class="decoder-nome">Personagem 1</div>
+                    <div class="decoder-pista">"Voltou para Belém amarga e pediu para ser chamada de Mara."</div>
+                    <div class="decoder-opts">
+                        <button class="decoder-alt" onclick="respDecoder(this, true, 1)">Noemi</button>
+                        <button class="decoder-alt" onclick="respDecoder(this, false, 1)">Orfa</button>
+                        <button class="decoder-alt" onclick="respDecoder(this, false, 1)">Rute</button>
+                    </div>
+                    <div class="decoder-result" id="dr1"></div>
+                </div>
+                <div class="decoder-card" id="dec2">
+                    <div class="decoder-icon">🌾</div>
+                    <div class="decoder-nome">Personagem 2</div>
+                    <div class="decoder-pista">"Homem rico de Belém que notou a estrangeira no campo e mandou deixar cair mais espigas."</div>
+                    <div class="decoder-opts">
+                        <button class="decoder-alt" onclick="respDecoder(this, false, 2)">Elimeleque</button>
+                        <button class="decoder-alt" onclick="respDecoder(this, true, 2)">Boaz</button>
+                        <button class="decoder-alt" onclick="respDecoder(this, false, 2)">Obede</button>
+                    </div>
+                    <div class="decoder-result" id="dr2"></div>
+                </div>
+                <div class="decoder-card" id="dec3">
+                    <div class="decoder-icon">🤝</div>
+                    <div class="decoder-nome">Personagem 3</div>
+                    <div class="decoder-pista">"Deixou pai, mãe e terra natal para seguir a sogra. Disse: onde você for, eu irei."</div>
+                    <div class="decoder-opts">
+                        <button class="decoder-alt" onclick="respDecoder(this, false, 3)">Orfa</button>
+                        <button class="decoder-alt" onclick="respDecoder(this, false, 3)">Noemi</button>
+                        <button class="decoder-alt" onclick="respDecoder(this, true, 3)">Rute</button>
+                    </div>
+                    <div class="decoder-result" id="dr3"></div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- PARTE 3 — PUZZLE CRONOLÓGICO -->
+        <div class="parte" id="parte3">
+            <h2>🧩 PARTE 3 — COLOCA A HISTÓRIA EM ORDEM</h2>
+            <p>Numere as cenas de 1 a 6 na ordem que aconteceram no livro de Rute:</p>
+            <div class="cenas-grid">
+                <div class="cena-item" id="cena-a" data-ordem-correta="2">
+                    <div class="cena-texto">🌾 Rute vai ao campo catando espigas e cai no campo de Boaz</div>
+                    <div class="num-btns">
+                        <button class="num-btn" onclick="selecionarNumero('cena-a',1)">1</button>
+                        <button class="num-btn" onclick="selecionarNumero('cena-a',2)">2</button>
+                        <button class="num-btn" onclick="selecionarNumero('cena-a',3)">3</button>
+                        <button class="num-btn" onclick="selecionarNumero('cena-a',4)">4</button>
+                    </div>
+                </div>
+                <div class="cena-item" id="cena-b" data-ordem-correta="4">
+                    <div class="cena-texto">👶 Boaz resgata Rute. Nasce Obede, avô do rei Davi</div>
+                    <div class="num-btns">
+                        <button class="num-btn" onclick="selecionarNumero('cena-b',1)">1</button>
+                        <button class="num-btn" onclick="selecionarNumero('cena-b',2)">2</button>
+                        <button class="num-btn" onclick="selecionarNumero('cena-b',3)">3</button>
+                        <button class="num-btn" onclick="selecionarNumero('cena-b',4)">4</button>
+                    </div>
+                </div>
+                <div class="cena-item" id="cena-c" data-ordem-correta="1">
+                    <div class="cena-texto">💔 O marido e os filhos de Noemi morrem. Rute escolhe ficar com ela</div>
+                    <div class="num-btns">
+                        <button class="num-btn" onclick="selecionarNumero('cena-c',1)">1</button>
+                        <button class="num-btn" onclick="selecionarNumero('cena-c',2)">2</button>
+                        <button class="num-btn" onclick="selecionarNumero('cena-c',3)">3</button>
+                        <button class="num-btn" onclick="selecionarNumero('cena-c',4)">4</button>
+                    </div>
+                </div>
+                <div class="cena-item" id="cena-d" data-ordem-correta="3">
+                    <div class="cena-texto">🏆 Boaz cuida de Rute no campo, manda deixar cair mais espigas</div>
+                    <div class="num-btns">
+                        <button class="num-btn" onclick="selecionarNumero('cena-d',1)">1</button>
+                        <button class="num-btn" onclick="selecionarNumero('cena-d',2)">2</button>
+                        <button class="num-btn" onclick="selecionarNumero('cena-d',3)">3</button>
+                        <button class="num-btn" onclick="selecionarNumero('cena-d',4)">4</button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-verificar" onclick="verificarPuzzle()">✅ Verificar ordem</button>
+            <div class="resultado" id="resultado-puzzle"></div>
+        </div>
+
+        <hr>
+
+        <!-- PARTE 4 — COMPLETE AS LACUNAS -->
+        <div class="parte" id="parte4">
+            <h2>✏️ PARTE 4 — COMPLETE AS LACUNAS</h2>
+            <p>Clique na lacuna e depois na palavra certa do banco abaixo:</p>
+            <div class="texto-lacunas">
+                Rute era <span class="lacuna" id="l1" data-resp="moabita">_______</span> e foi com Noemi para <span class="lacuna" id="l2" data-resp="Belém">_______</span>. Lá ela foi ao campo catando <span class="lacuna" id="l3" data-resp="espigas">_______</span>. Por acaso caiu no campo de <span class="lacuna" id="l4" data-resp="Boaz">_______</span>, que era o <span class="lacuna" id="l5" data-resp="go'el">_______</span> da família. Ele resgatou Rute, e deles nasceu <span class="lacuna" id="l6" data-resp="Obede">_______</span>, avô do rei Davi.
+            </div>
+            <div class="banco-palavras">
+                <button class="palavra-btn" onclick="usarPalavra(this, 'Obede')">Obede</button>
+                <button class="palavra-btn" onclick="usarPalavra(this, 'moabita')">moabita</button>
+                <button class="palavra-btn" onclick="usarPalavra(this, 'Moabe')">Moabe</button>
+                <button class="palavra-btn" onclick="usarPalavra(this, 'go\'el')">go'el</button>
+                <button class="palavra-btn" onclick="usarPalavra(this, 'Belém')">Belém</button>
+                <button class="palavra-btn" onclick="usarPalavra(this, 'Noemi')">Noemi</button>
+                <button class="palavra-btn" onclick="usarPalavra(this, 'Boaz')">Boaz</button>
+                <button class="palavra-btn" onclick="usarPalavra(this, 'espigas')">espigas</button>
+            </div>
+            <button class="btn-verificar" onclick="verificarLacunas()">✅ Verificar respostas</button>
+            <div class="resultado" id="resultado-lacunas"></div>
+        </div>
+
+        <hr>
+
+        <!-- PARTE 4B — MEMÓRIA CRISTOLÓGICA -->
+        <div class="parte" id="parte4b">
+            <h2>🃏 PARTE 4B — JOGO DA MEMÓRIA</h2>
+            <p>Encontre os 4 pares que conectam a história de Rute com Jesus. Clique em duas cartas para virar!</p>
+            <div id="memoria-grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0; --cols:4;"></div>
+            <style>
+                @media(max-width:500px){ #memoria-grid { grid-template-columns: repeat(2,1fr) !important; } }
+            </style>
+            <div id="memoria-result" style="display:none; padding:14px 18px; border-radius:12px; margin-top:10px; font-size:14px; font-weight:bold; background:#e8f5e9; border:2px solid #43e97b; color:#1b5e20;">
+                🎉 Todos os pares encontrados!
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- PARTE 4C — QUEM FARIA ISSO? -->
+        <div class="parte" id="parte4c">
+            <h2>🎯 PARTE 4C — QUEM FARIA ISSO?</h2>
+            <p>Leia cada situação e escolha qual personagem de Rute agiria assim:</p>
+
+            <div class="vf-item" style="margin:14px 0;">
+                <div class="vf-texto" style="margin-bottom:10px;">💬 <em>"Seu amigo está passando mal e todo mundo foi embora. Você fica do lado dele."</em></div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="decoder-alt" onclick="respQuem(this, true, 'q1fb', 'Rute ficou com Noemi quando todos foram embora. Assim como Jesus nunca nos abandona.')">Rute</button>
+                    <button class="decoder-alt" onclick="respQuem(this, false, 'q1fb', 'Não é Boaz nessa cena. Pensa em quem ficou quando poderia ter ido embora.')">Boaz</button>
+                    <button class="decoder-alt" onclick="respQuem(this, false, 'q1fb', 'Noemi pediu que fossem embora. Pensa em quem desobedeceu e ficou.')">Noemi</button>
+                    <button class="decoder-alt" onclick="respQuem(this, false, 'q1fb', 'Orfa foi embora. Pensa em quem fez o contrário.')">Orfa</button>
+                </div>
+                <div class="vf-fb" id="q1fb"></div>
+            </div>
+
+            <div class="vf-item" style="margin:14px 0;">
+                <div class="vf-texto" style="margin-bottom:10px;">💬 <em>"Você viu alguém sendo ignorado por todos e foi lá ajudar sem ninguém pedir."</em></div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="decoder-alt" onclick="respQuem(this, false, 'q2fb', 'Rute foi fiel, mas quem agiu por bondade no campo sem ser pedido foi outro.')">Rute</button>
+                    <button class="decoder-alt" onclick="respQuem(this, true, 'q2fb', 'Boaz notou Rute no campo e cuidou dela sem ela pedir. Assim como Jesus nos vê quando somos invisíveis para o mundo.')">Boaz</button>
+                    <button class="decoder-alt" onclick="respQuem(this, false, 'q2fb', 'Noemi não é o personagem dessa cena. Pensa em quem tinha poder e escolheu ajudar.')">Noemi</button>
+                    <button class="decoder-alt" onclick="respQuem(this, false, 'q2fb', 'Orfa voltou para casa. Não foi ela.')">Orfa</button>
+                </div>
+                <div class="vf-fb" id="q2fb"></div>
+            </div>
+
+            <div class="vf-item" style="margin:14px 0;">
+                <div class="vf-texto" style="margin-bottom:10px;">💬 <em>"Você pagou um preço alto por alguém que não tinha como pagar sozinho. Sem obrigação. Por escolha."</em></div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="decoder-alt" onclick="respQuem(this, false, 'q3fb', 'Rute foi fiel, mas quem pagou o preço do resgate foi outro.')">Rute</button>
+                    <button class="decoder-alt" onclick="respQuem(this, true, 'q3fb', 'Boaz pagou o preço do resgate voluntariamente. Assim como Jesus pagou na cruz um preço que nós não conseguiríamos pagar.')">Boaz</button>
+                    <button class="decoder-alt" onclick="respQuem(this, false, 'q3fb', 'Noemi não tinha recursos para resgatar. Pensa em quem tinha e escolheu usar.')">Noemi</button>
+                    <button class="decoder-alt" onclick="respQuem(this, false, 'q3fb', 'Orfa voltou para casa. Não foi ela.')">Orfa</button>
+                </div>
+                <div class="vf-fb" id="q3fb"></div>
+            </div>
+
+            <div class="vf-item" style="margin:14px 0;">
+                <div class="vf-texto" style="margin-bottom:10px;">💬 <em>"Alguém que parecia não ter lugar em nenhum grupo foi incluído na maior história já contada."</em></div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="decoder-alt" onclick="respQuem(this, true, 'q4fb', 'Rute era estrangeira, viúva, sem nada. E entrou na linhagem de Jesus. Assim como Deus nos inclui quando o mundo nos exclui.')">Rute</button>
+                    <button class="decoder-alt" onclick="respQuem(this, false, 'q4fb', 'Boaz era respeitado e rico. Não era ele o excluído nessa história.')">Boaz</button>
+                    <button class="decoder-alt" onclick="respQuem(this, false, 'q4fb', 'Noemi era israelita. A estrangeira era outro personagem.')">Noemi</button>
+                    <button class="decoder-alt" onclick="respQuem(this, false, 'q4fb', 'Orfa voltou pra casa. Não foi ela quem entrou na linhagem.')">Orfa</button>
+                </div>
+                <div class="vf-fb" id="q4fb"></div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- PARTE 5 — VERDADEIRO OU FALSO -->
+        <div class="parte" id="parte5">
+            <h2>⚖️ PARTE 5 — VERDADEIRO OU FALSO?</h2>
+            <div class="vf-item">
+                <div class="vf-texto">1. Orfa ficou com Noemi e voltou com ela para Belém.</div>
+                <div class="vf-btns">
+                    <button class="vf-btn" onclick="respVF(this, false, 'vf1', 'Falso! Orfa voltou para o seu povo. Foi Rute que ficou com Noemi.')">✅ Verdadeiro</button>
+                    <button class="vf-btn" onclick="respVF(this, true, 'vf1', 'Correto! Orfa voltou para Moabe. Rute foi quem ficou e seguiu com Noemi.')">❌ Falso</button>
+                </div>
+                <div class="vf-fb" id="vf1"></div>
+            </div>
+            <div class="vf-item">
+                <div class="vf-texto">2. Boaz é chamado de go'el porque era o parente redentor de Noemi e Rute.</div>
+                <div class="vf-btns">
+                    <button class="vf-btn" onclick="respVF(this, true, 'vf2', 'Correto! Go\'el significa parente redentor. Era o papel de Boaz resgatar a família.')">✅ Verdadeiro</button>
+                    <button class="vf-btn" onclick="respVF(this, false, 'vf2', 'Na verdade é verdadeiro! Boaz era o go\'el, o parente redentor da família.')">❌ Falso</button>
+                </div>
+                <div class="vf-fb" id="vf2"></div>
+            </div>
+            <div class="vf-item">
+                <div class="vf-texto">3. Rute sabia que estava entrando na linhagem de Jesus quando ficou com Noemi.</div>
+                <div class="vf-btns">
+                    <button class="vf-btn" onclick="respVF(this, false, 'vf3', 'Falso! Rute não sabia de nada disso. Ela só sabia que não ia abandonar Noemi. Deus agiu por trás de uma decisão fiel.')">✅ Verdadeiro</button>
+                    <button class="vf-btn" onclick="respVF(this, true, 'vf3', 'Correto! Rute não sabia de nada. Ela só foi fiel. E Deus usou essa fidelidade para algo muito maior.')">❌ Falso</button>
+                </div>
+                <div class="vf-fb" id="vf3"></div>
+            </div>
+            <div class="vf-item">
+                <div class="vf-texto">4. Obede, filho de Rute e Boaz, foi pai de Jessé, que foi pai do rei Davi.</div>
+                <div class="vf-btns">
+                    <button class="vf-btn" onclick="respVF(this, true, 'vf4', 'Correto! Obede → Jessé → Davi → ... → Jesus. Rute está na linhagem do Messias.')">✅ Verdadeiro</button>
+                    <button class="vf-btn" onclick="respVF(this, false, 'vf4', 'Na verdade é verdadeiro! Obede foi pai de Jessé, que foi pai de Davi. Rute é antepassada de Jesus.')">❌ Falso</button>
+                </div>
+                <div class="vf-fb" id="vf4"></div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- PARTE 6 — QUAL LUGAR É ESSE? -->
+        <div class="parte" id="parte6">
+            <h2>📍 PARTE 6 — QUAL LUGAR É ESSE?</h2>
+            <p>Em qual lugar aconteceu cada cena importante?</p>
+            <p><strong>Cena:</strong> Foi aqui que Rute e Noemi viveram por quase dez anos. Foi aqui que o marido e os filhos de Noemi morreram. Uma terra estrangeira para os israelitas.</p>
+            <div class="lugar-grid">
+                <div class="lugar-card" onclick="respLugar(this, false, 'Belém era a cidade de origem de Noemi, não onde elas viveram em exílio.')">
+                    <div class="lugar-icon">🏛️</div>
+                    <div class="lugar-nome">Belém</div>
+                    <div class="lugar-fb" id="lf1"></div>
+                </div>
+                <div class="lugar-card" onclick="respLugar(this, true, 'Correto! Foi em Moabe que a família viveu, onde os filhos casaram e onde Noemi perdeu tudo.')">
+                    <div class="lugar-icon">🏕️</div>
+                    <div class="lugar-nome">Moabe</div>
+                    <div class="lugar-fb" id="lf2"></div>
+                </div>
+                <div class="lugar-card" onclick="respLugar(this, false, 'O Monte Horebe foi onde Elias encontrou Deus. Não é parte da história de Rute.')">
+                    <div class="lugar-icon">⛰️</div>
+                    <div class="lugar-nome">Monte Horebe</div>
+                    <div class="lugar-fb" id="lf3"></div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- PARTE 7 — REFLEXÃO FINAL -->
+        <div class="parte" id="parte7">
+            <h2>💬 PARTE 7 — REFLEXÃO FINAL</h2>
+            <p>Rute não sabia que estava entrando na linhagem de Jesus. Ela só sabia que não ia abandonar Noemi.</p>
+            <p><strong>O que a história de Rute fala mais com você?</strong></p>
+            <div class="ref-opcoes">
+                <button class="op-btn" onclick="escolherRef(this, 'refA')">A) A coragem de ficar quando seria mais fácil ir embora.</button>
+                <button class="op-btn" onclick="escolherRef(this, 'refB')">B) Deus agindo nos detalhes do cotidiano, sem espetáculo.</button>
+                <button class="op-btn" onclick="escolherRef(this, 'refC')">C) Boaz como imagem de Jesus, resgatando quem não tinha como se salvar.</button>
+                <button class="op-btn" onclick="escolherRef(this, 'refD')">D) Que o que parecia o fim da história de Noemi virou o começo de algo enorme.</button>
+            </div>
+            <div class="op-resp" id="refA">A lealdade de Rute não foi emocional. Foi uma decisão. E essa decisão mudou a história. Às vezes a coisa mais poderosa que você pode fazer é simplesmente não abandonar.</div>
+            <div class="op-resp" id="refB">Não houve fogo, nem milagre visível. Só uma moça num campo, um homem bondoso e um Deus que guiou os passos de Rute sem ela perceber. Deus age assim ainda hoje.</div>
+            <div class="op-resp" id="refC">Boaz pagou um preço que não era dele pagar. Por uma estrangeira que não tinha nada. É exatamente isso que Jesus fez por você. A redenção sempre custa algo de quem resgata.</div>
+            <div class="op-resp" id="refD">Noemi voltou pedindo pra ser chamada de Mara, a Amargurada. E terminou segurando um neto no colo. O que parece o pior capítulo pode ser exatamente o começo do que Deus está construindo.</div>
+            <div id="btn-finalizar-wrap" style="display:none; margin-top:20px; text-align:center;">
+                <button class="btn-verificar" onclick="finalizarSermao()">🌾 Finalizar sermão</button>
+            </div>
+        </div>
+
+        <hr>
+
+        <div style="text-align:center; margin-top:20px;">
+            <a href="rute.html" style="color:#8b4513; font-size:13px; text-decoration:none; font-weight:600;">← Voltar para Rute</a>
+        </div>
+
+        <div class="rodape">
+            <p><span>Central UP</span> — IEQ Central Londrina</p>
+            <p style="margin-top:6px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+        </div>
+    </div>
+
+    <script>
+        // === PONTUAÇÃO ===
+        const pontos = { p1:0, decoder:[false,false,false], puzzle:false, lacunas:false, vf:[false,false,false,false], lugar:false, ref:false, memoria:false, quemvf1:false, quemvf2:false, quemvf3:false, quemvf4:false };
+        const TOTAL = 16;
+
+        function atualizarProg() {
+            let p = 0;
+            if (pontos.p1) p++;
+            p += pontos.decoder.filter(Boolean).length;
+            if (pontos.puzzle) p++;
+            if (pontos.lacunas) p++;
+            p += pontos.vf.filter(Boolean).length;
+            if (pontos.lugar) p++;
+            if (pontos.ref) p++;
+            if (pontos.quemvf1) p++;
+            if (pontos.quemvf2) p++;
+            if (pontos.quemvf3) p++;
+            if (pontos.quemvf4) p++;
+            document.getElementById('prog-fill').style.width = (p/TOTAL*100) + '%';
+            document.getElementById('prog-label').textContent = p + ' / ' + TOTAL + ' pts';
+            return p;
+        }
+
+        // === PARTE 1 ===
+        function escolherOp(btn, id) {
+            document.querySelectorAll('#parte1 .op-btn').forEach(b => b.classList.remove('escolhida'));
+            btn.classList.add('escolhida');
+            document.querySelectorAll('#parte1 .op-resp').forEach(r => r.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            if (!pontos.p1) { pontos.p1 = true; atualizarProg(); }
+        }
+
+        // === DECODER ===
+        function respDecoder(btn, certa, num) {
+            const cards = document.querySelectorAll('#dec' + num + ' .decoder-alt');
+            cards.forEach(c => c.style.pointerEvents = 'none');
+            if (certa) {
+                btn.classList.add('certa');
+                document.getElementById('dr' + num).textContent = '✅ Correto!';
+                document.getElementById('dr' + num).style.color = '#1a7a3c';
+                pontos.decoder[num-1] = true;
+                atualizarProg();
+            } else {
+                btn.classList.add('errada');
+                document.getElementById('dr' + num).textContent = '❌ Não é esse! Tenta de novo.';
+                document.getElementById('dr' + num).style.color = '#d63031';
+                setTimeout(() => {
+                    btn.classList.remove('errada');
+                    cards.forEach(c => c.style.pointerEvents = '');
+                    document.getElementById('dr' + num).textContent = '';
+                }, 800);
+            }
+        }
+
+        // === PUZZLE ===
+        const selecoes = {};
+        function selecionarNumero(cenaId, num) {
+            Object.keys(selecoes).forEach(id => {
+                if (selecoes[id] === num && id !== cenaId) {
+                    delete selecoes[id];
+                    document.querySelectorAll('#' + id + ' .num-btn').forEach(b => b.classList.remove('ativo'));
+                }
+            });
+            selecoes[cenaId] = num;
+            document.querySelectorAll('#' + cenaId + ' .num-btn').forEach(b => {
+                b.classList.toggle('ativo', parseInt(b.textContent) === num);
+            });
+        }
+        function verificarPuzzle() {
+            const cenas = ['cena-a','cena-b','cena-c','cena-d'];
+            const div = document.getElementById('resultado-puzzle');
+            if (cenas.some(id => !selecoes[id])) {
+                div.style.display = 'block';
+                div.style.background = '#fff3e0'; div.style.border = '2px solid #ff9800'; div.style.color = '#e65100';
+                div.textContent = '⚠️ Numere todas as 6 cenas antes de verificar!';
+                return;
+            }
+            let acertos = 0;
+            cenas.forEach(id => {
+                const cena = document.getElementById(id);
+                const correto = parseInt(cena.dataset.ordemCorreta) === selecoes[id];
+                cena.classList.remove('correta','errada');
+                cena.classList.add(correto ? 'correta' : 'errada');
+                if (correto) acertos++;
+            });
+            div.style.display = 'block';
+            if (acertos === 4) {
+                div.style.background = '#e8f5e9'; div.style.border = '2px solid #43e97b'; div.style.color = '#1b5e20';
+                div.innerHTML = '🎉 Perfeito! Você colocou as 4 cenas na ordem certa!';
+                document.querySelectorAll('.num-btn').forEach(b => b.disabled = true);
+                pontos.puzzle = true; atualizarProg();
+            } else {
+                div.style.background = '#fff3e0'; div.style.border = '2px solid #ff9800'; div.style.color = '#e65100';
+                div.innerHTML = '🤔 Você acertou ' + acertos + ' de 6. As em vermelho estão fora de ordem. Tente de novo!';
+            }
+        }
+
+        // === LACUNAS ===
+        let lacunaAtiva = null;
+        document.querySelectorAll('.lacuna').forEach(l => {
+            l.addEventListener('click', function() {
+                document.querySelectorAll('.lacuna').forEach(x => x.style.outline = '');
+                this.style.outline = '3px solid #8b4513';
+                lacunaAtiva = this;
+            });
+        });
+        function usarPalavra(btn, palavra) {
+            if (btn.classList.contains('usada')) return;
+            if (!lacunaAtiva) { alert('Primeiro clique na lacuna que quer preencher!'); return; }
+            lacunaAtiva.textContent = palavra;
+            lacunaAtiva.dataset.preenchido = palavra;
+            lacunaAtiva.style.outline = '';
+            lacunaAtiva.style.background = '#fdf0e0';
+            btn.classList.add('usada');
+            lacunaAtiva = null;
+        }
+        function verificarLacunas() {
+            const lacunas = document.querySelectorAll('.lacuna');
+            let acertos = 0;
+            lacunas.forEach(l => {
+                if (l.dataset.preenchido === l.dataset.resp) {
+                    l.style.background = '#e8fff0'; l.style.borderBottom = '3px solid #43e97b';
+                    acertos++;
+                } else {
+                    l.style.background = '#ffe8e8'; l.style.borderBottom = '3px solid #d63031';
+                }
+            });
+            const div = document.getElementById('resultado-lacunas');
+            div.style.display = 'block';
+            if (acertos === 6) {
+                div.style.background = '#e8f5e9'; div.style.border = '2px solid #43e97b'; div.style.color = '#1b5e20';
+                div.textContent = '🎉 Todas as lacunas corretas!';
+                pontos.lacunas = true; atualizarProg();
+            } else {
+                div.style.background = '#fff3e0'; div.style.border = '2px solid #ff9800'; div.style.color = '#e65100';
+                div.textContent = '🤔 Você acertou ' + acertos + ' de 6. As em vermelho estão erradas. Clique nas lacunas erradas para trocar a palavra!';
+                // Devolver ao banco as palavras das lacunas erradas
+                lacunas.forEach(l => {
+                    if (l.dataset.preenchido !== l.dataset.resp && l.dataset.preenchido) {
+                        // Reabilitar a palavra no banco
+                        document.querySelectorAll('.palavra-btn').forEach(btn => {
+                            if (btn.textContent === l.dataset.preenchido || btn.onclick.toString().includes("'" + l.dataset.preenchido + "'")) {
+                                btn.classList.remove('usada');
+                            }
+                        });
+                        // Limpar a lacuna errada
+                        l.textContent = '_______';
+                        l.dataset.preenchido = '';
+                        l.style.background = '#fdf8f2';
+                        l.style.borderBottom = '3px solid #c17f3a';
+                    }
+                });
+            }
+        }
+
+        // === V/F ===
+        function respVF(btn, certa, id, msg) {
+            const parent = btn.closest('.vf-item');
+            const fb = document.getElementById(id);
+            parent.querySelectorAll('.vf-btn').forEach(b => b.disabled = true);
+            if (certa) {
+                btn.classList.add('certa');
+                fb.style.color = '#1a7a3c'; fb.textContent = msg;
+                const idx = ['vf1','vf2','vf3','vf4'].indexOf(id);
+                pontos.vf[idx] = true; atualizarProg();
+            } else {
+                btn.classList.add('errada');
+                fb.style.color = '#d63031';
+                let seg = 5;
+                fb.textContent = '❌ Errou! Tente de novo em ' + seg + 's...';
+                const timer = setInterval(() => {
+                    seg--;
+                    if (seg > 0) {
+                        fb.textContent = '❌ Errou! Tente de novo em ' + seg + 's...';
+                    } else {
+                        clearInterval(timer);
+                        btn.classList.remove('errada');
+                        parent.querySelectorAll('.vf-btn').forEach(b => {
+                            b.disabled = false;
+                            b.classList.remove('errada');
+                        });
+                        fb.textContent = '';
+                    }
+                }, 1000);
+            }
+        }
+
+        // === LUGAR ===
+        function respLugar(card, certa, msg) {
+            document.querySelectorAll('.lugar-card').forEach(c => c.style.pointerEvents = 'none');
+            if (certa) {
+                card.classList.add('certa');
+                card.querySelector('.lugar-fb').style.display = 'block';
+                card.querySelector('.lugar-fb').textContent = msg;
+                pontos.lugar = true; atualizarProg();
+            } else {
+                card.classList.add('errada');
+                card.querySelector('.lugar-fb').style.display = 'block';
+                card.querySelector('.lugar-fb').textContent = msg;
+                setTimeout(() => {
+                    card.classList.remove('errada');
+                    card.querySelector('.lugar-fb').style.display = 'none';
+                    document.querySelectorAll('.lugar-card').forEach(c => c.style.pointerEvents = '');
+                }, 1200);
+            }
+        }
+
+        // === REFLEXÃO FINAL ===
+        function escolherRef(btn, id) {
+            document.querySelectorAll('#parte7 .op-btn').forEach(b => b.classList.remove('escolhida'));
+            btn.classList.add('escolhida');
+            document.querySelectorAll('#parte7 .op-resp').forEach(r => r.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            if (!pontos.ref) { pontos.ref = true; atualizarProg(); }
+            document.getElementById('btn-finalizar-wrap').style.display = 'block';
+        }
+
+        // === FINALIZAR ===
+        function finalizarSermao() {
+            let p = 0;
+            if (pontos.p1) p++;
+            p += pontos.decoder.filter(Boolean).length;
+            if (pontos.puzzle) p++;
+            if (pontos.lacunas) p++;
+            p += pontos.vf.filter(Boolean).length;
+            if (pontos.lugar) p++;
+            if (pontos.ref) p++;
+            if (pontos.quemvf1) p++;
+            if (pontos.quemvf2) p++;
+            if (pontos.quemvf3) p++;
+            if (pontos.quemvf4) p++;
+            if (p === TOTAL) {
+                document.getElementById('missao-overlay').classList.add('ativa');
+            } else {
+                document.getElementById('quaselá-overlay').classList.add('ativa');
+            }
+        }
+
+        // === MEMÓRIA ===
+        const pares = [
+            { id:'p1', a:{ icon:'👁️', txt:'Boaz notou Rute no campo' }, b:{ icon:'👁️', txt:'Jesus te vê quando ninguém está olhando' }, cor:'#c17f3a' },
+            { id:'p2', a:{ icon:'✝️', txt:'Boaz pagou o preço do resgate' }, b:{ icon:'✝️', txt:'Jesus pagou na cruz sem ser obrigado' }, cor:'#8b4513' },
+            { id:'p3', a:{ icon:'🌍', txt:'Rute era estrangeira sem direitos' }, b:{ icon:'🌍', txt:'Nós éramos estranhos ao Reino de Deus' }, cor:'#6b3410' },
+            { id:'p4', a:{ icon:'⭐', txt:'Obede entrou na linhagem de Davi' }, b:{ icon:'⭐', txt:'Jesus veio incluir quem o mundo exclui' }, cor:'#d4a843' },
+        ];
+        let cartas = [];
+        pares.forEach(p => { cartas.push({id:p.id,lado:'a',icon:p.a.icon,txt:p.a.txt,cor:p.cor}); cartas.push({id:p.id,lado:'b',icon:p.b.icon,txt:p.b.txt,cor:p.cor}); });
+        // shuffle
+        for(let i=cartas.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cartas[i],cartas[j]]=[cartas[j],cartas[i]];}
+
+        let viradas=[], acertosMemoria=0, bloqueada=false;
+
+        function renderMemoria() {
+            const grid = document.getElementById('memoria-grid');
+            grid.innerHTML = '';
+            cartas.forEach((carta,i) => {
+                const div = document.createElement('div');
+                div.style.cssText = 'min-height:110px; border-radius:14px; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:10px 6px; transition:all 0.3s; background:#fdf8f2; border:2px solid #c17f3a44; color:#333; user-select:none; gap:6px;';
+                div.innerHTML = '<span style="font-size:36px;">🌾</span><span style="font-size:11px; color:#aaa; font-weight:600; letter-spacing:1px;">CARTA</span>';
+                div.dataset.idx = i;
+                div.onclick = function(){ virarCarta(this); };
+                grid.appendChild(div);
+            });
+        }
+        renderMemoria();
+
+        function virarCarta(el) {
+            if (bloqueada) return;
+            const idx = parseInt(el.dataset.idx);
+            if (el.dataset.virada === '1') return;
+            el.innerHTML = '<span style="font-size:32px;">'+cartas[idx].icon+'</span><span style="font-size:11px; line-height:1.4; padding:0 2px;">'+cartas[idx].txt+'</span>';
+            el.style.background = cartas[idx].cor;
+            el.style.color = 'white';
+            el.style.border = '2px solid ' + cartas[idx].cor;
+            el.dataset.virada = '1';
+            viradas.push({el, idx});
+            if (viradas.length === 2) {
+                bloqueada = true;
+                const [a, b] = viradas;
+                if (cartas[a.idx].id === cartas[b.idx].id && cartas[a.idx].lado !== cartas[b.idx].lado) {
+                    // par correto
+                    a.el.style.opacity = '0.6'; a.el.style.cursor = 'default';
+                    b.el.style.opacity = '0.6'; b.el.style.cursor = 'default';
+                    a.el.dataset.virada = 'done'; b.el.dataset.virada = 'done';
+                    acertosMemoria++;
+                    viradas = []; bloqueada = false;
+                    if (acertosMemoria === 4) {
+                        document.getElementById('memoria-result').style.display = 'block';
+                        pontos.memoria = true; atualizarProg();
+                    }
+                } else {
+                    setTimeout(() => {
+                        a.el.innerHTML = '<span style="font-size:36px;">🌾</span><span style="font-size:11px; color:#aaa; font-weight:600; letter-spacing:1px;">CARTA</span>'; a.el.style.background = '#fdf8f2'; a.el.style.color = '#333'; a.el.style.border = '2px solid #c17f3a44'; a.el.dataset.virada = '0';
+                        b.el.innerHTML = '<span style="font-size:36px;">🌾</span><span style="font-size:11px; color:#aaa; font-weight:600; letter-spacing:1px;">CARTA</span>'; b.el.style.background = '#fdf8f2'; b.el.style.color = '#333'; b.el.style.border = '2px solid #c17f3a44'; b.el.dataset.virada = '0';
+                        viradas = []; bloqueada = false;
+                    }, 1000);
+                }
+            }
+        }
+
+        // === QUEM FARIA ISSO? ===
+        let acertosQuem = 0;
+        function respQuem(btn, certa, fbId, msg) {
+            const parent = btn.closest('.vf-item');
+            if (parent.dataset.resolvido === '1') return;
+            const fb = document.getElementById(fbId);
+            if (certa) {
+                btn.classList.add('quem-certa');
+                parent.querySelectorAll('.decoder-alt').forEach(b => b.disabled = true);
+                fb.style.color = '#1a7a3c'; fb.textContent = '✅ ' + msg;
+                parent.dataset.resolvido = '1';
+                acertosQuem++;
+                const qkeys = {'q1fb':'quemvf1','q2fb':'quemvf2','q3fb':'quemvf3','q4fb':'quemvf4'};
+                const qk = qkeys[fbId];
+                if (qk && !pontos[qk]) { pontos[qk] = true; atualizarProg(); }
+            } else {
+                btn.classList.add('quem-errada');
+                fb.style.color = '#d63031'; fb.textContent = '❌ ' + msg;
+                setTimeout(() => {
+                    btn.classList.remove('quem-errada');
+                    fb.textContent = '';
+                }, 1500);
+            }
+        }
+
+        // === MISSÃO SECRETA ===
+        function checarNome() {
+            const nome = document.getElementById('input-nome').value.trim();
+            document.getElementById('btn-wpp').style.display = nome.length > 1 ? 'block' : 'none';
+        }
+        function enviarWhatsApp() {
+            const nome = document.getElementById('input-nome').value.trim();
+            const msg = encodeURIComponent('🌾 Oi Pra. Audrey! Sou ' + nome + ' e completei o sermão interativo de Rute com 100%! Vim buscar meu chocolate especial! 🍫✨');
+            window.open('https://wa.me/5543998237237?text=' + msg, '_blank');
+        }
+    </script>
+
+</body>
+</html>

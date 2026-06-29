@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 3 - 🤝 Trabalho em Equipe | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .conteudo-bloqueio {
+            text-align: center; color: white; padding: 40px; max-width: 600px;
+        }
+        #bloqueio img { max-width: 300px; margin-bottom: 30px; }
+        #bloqueio h1 { font-size: 48px; margin-bottom: 20px; color: white; }
+        #bloqueio p { font-size: 24px; line-height: 1.8; color: white; }
+        #conteudo { display: none; }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 30px; }
+        .logo-topo img { max-width: 250px; }
+        .dia-badge {
+            display: inline-block; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white; padding: 10px 25px; border-radius: 25px; font-weight: bold; margin-bottom: 20px;
+        }
+        h1 { color: #4facfe; font-size: 38px; margin-bottom: 15px; line-height: 1.2; }
+        .subtitle { color: #00f2fe; font-size: 18px; margin-bottom: 30px; font-weight: 600; }
+        .progresso {
+            background: #f5f5f5; padding: 20px; border-radius: 12px; margin: 30px 0; text-align: center;
+        }
+        .progresso-titulo { color: #4facfe; font-weight: bold; margin-bottom: 15px; font-size: 14px; }
+        .progresso-bar { background: #e0e0e0; height: 28px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            height: 100%; width: 50%; display: flex; align-items: center;
+            justify-content: center; color: white; font-weight: bold; font-size: 14px;
+        }
+        .frase-secreta {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border: 4px dashed #d63031; padding: 25px; border-radius: 15px;
+            margin: 30px 0; text-align: center; box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+        }
+        .frase-secreta h3 { color: #d63031; font-size: 20px; margin-bottom: 15px; }
+        .frase-secreta .fragmento {
+            font-size: 30px; font-weight: bold; color: #2d3436;
+            background: white; padding: 15px 25px; border-radius: 10px;
+            display: inline-block; margin: 15px 0;
+        }
+        .frase-secreta p { color: #2d3436; font-size: 15px; margin-top: 15px; }
+        .frase-completa {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            border: 4px solid #ffd700; padding: 30px; border-radius: 20px;
+            margin: 30px 0; text-align: center; color: white;
+        }
+        .frase-completa h3 { color: white; font-size: 24px; margin-bottom: 20px; }
+        .frase-completa .texto-completo {
+            font-size: 22px; font-weight: bold; line-height: 1.6;
+            background: white; color: #667eea; padding: 20px; border-radius: 10px;
+        }
+        h2 {
+            color: white; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 13px 22px; border-radius: 12px; font-size: 20px; margin: 28px 0 18px 0;
+        }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 14px 0; }
+        mark { background: #ffd700; padding: 3px 6px; border-radius: 3px; font-weight: 600; }
+        hr { border: none; border-top: 2px dashed #ddd; margin: 28px 0; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 40px; gap: 15px; }
+        .nav-btn {
+            flex: 1; padding: 15px 25px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; text-align: center; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; font-size: 15px;
+        }
+        .nav-btn-prev { background: #e0e0e0; color: #666; }
+        .nav-btn-prev:hover { background: #d0d0d0; transform: translateY(-2px); }
+        .nav-btn-next { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #4facfe66; }
+        .rodape {
+            text-align: center; margin-top: 30px; padding-top: 20px;
+            border-top: 2px solid #eee; color: #999; font-size: 13px;
+        }
+        .rodape-destaque { color: #667eea; font-weight: bold; }
+
+        /* ===== MOBILE RESPONSIVO ===== */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 20px 16px; border-radius: 16px; }
+            .logo-topo img { max-width: 140px; }
+            h1 { font-size: 22px !important; line-height: 1.3; }
+            h2 { font-size: 15px !important; padding: 10px 14px; margin: 20px 0 14px 0 !important; }
+            .subtitle { font-size: 13px !important; margin-bottom: 16px; }
+            .dia-badge { font-size: 12px; padding: 7px 14px; }
+            p { font-size: 14px !important; line-height: 1.7; margin: 10px 0; }
+            .progresso { padding: 12px; margin: 16px 0; }
+            .progresso-fill { font-size: 12px; }
+            .frase-secreta { padding: 14px; }
+            .frase-secreta h3 { font-size: 15px; }
+            .frase-secreta .fragmento { font-size: 20px !important; padding: 10px 14px; }
+            .frase-completa { padding: 16px; }
+            .frase-completa h3 { font-size: 17px !important; }
+            .frase-completa .texto-completo { font-size: 15px !important; padding: 12px; }
+            .nav-buttons { flex-direction: column; gap: 10px; }
+            .nav-btn { padding: 13px 16px; font-size: 14px; }
+            .rodape { font-size: 12px; margin-top: 20px; }
+            mark { font-size: 14px; }
+            hr { margin: 18px 0; }
+        }
+        @media (max-width: 400px) {
+            h1 { font-size: 19px !important; }
+            .frase-secreta .fragmento { font-size: 17px !important; }
+        }
+        /* Bloqueio mobile */
+        @media (max-width: 768px) {
+            #bloqueio .conteudo-bloqueio { padding: 24px 18px; }
+            #bloqueio img { max-width: 160px; margin-bottom: 18px; }
+            #bloqueio h1 { font-size: 28px; }
+            #bloqueio p { font-size: 15px; line-height: 1.6; }
+        }
+
+    </style>
+</head>
+<body>
+    <div id="bloqueio">
+        <div class="conteudo-bloqueio">
+            <img src="../logoup.png" alt="Central UP">
+            <h1>Olá, UP! 👋</h1>
+            <p>O devocional é um dia de cada vez!</p>
+            <p style="margin-top: 20px;"><strong>Volte amanhã para o próximo dia! 📅</strong></p>
+            <p style="font-size: 18px; margin-top: 40px; opacity: 0.9;">
+                Este dia estará disponível em: <span id="dataLiberacao" style="font-weight: bold;"></span>
+            </p>
+        </div>
+    </div>
+
+    <div id="conteudo">
+        <div class="container">
+            <div class="logo-topo">
+                <img src="../logoup.png" alt="Central UP">
+            </div>
+
+            <div class="dia-badge">📅 DIA 3 DE 6</div>
+
+            <h1>🤝 Trabalho em Equipe</h1>
+            <p class="subtitle">Neemias Capítulo 3 — Quando cada um faz sua parte, o impossível acontece</p>
+
+            <div class="progresso">
+                <div class="progresso-titulo">SEU PROGRESSO NO DESAFIO</div>
+                <div class="progresso-bar">
+                    <div class="progresso-fill">DIA 3 - 50%</div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>📖 LEIA NEEMIAS 3</h2>
+            <p>Leia o capítulo 3 de Neemias aqui embaixo — versão <strong>NTLH</strong>. Depois continue! 👇</p>
+
+            <div style="background: #f8f8ff; border: 2px solid #4facfe33; border-radius: 16px; padding: 20px; margin: 16px 0; max-height: 300px; overflow-y: auto; line-height: 1.9; font-size: 14px; color: #333;">
+                <p style="margin:0 0 10px 0;"><strong style="color:#4facfe;">NEEMIAS 3 — NTLH (trechos)</strong></p>
+                
+                <p><em>Este capítulo lista todos os grupos e famílias que trabalharam na reconstrução dos muros. Cada um cuidou de uma seção. Veja alguns trechos:</em></p>
+
+                <p><strong>1</strong> O sumo sacerdote Eliasibe e os outros sacerdotes começaram a reconstrução e consagraram a Porta das Ovelhas. <strong>2</strong> Os homens de Jericó reconstruíram a parte ao lado deles.</p>
+
+                <p><strong>5</strong> Os moradores de Tecoa trabalharam na parte seguinte. Porém os líderes de Tecoa não quiseram trabalhar sob as ordens dos seus supervisores.</p>
+
+                <p><strong>12</strong> Salum, filho de Aloesque, governador do distrito de Jerusalém, trabalhou na parte seguinte junto com suas filhas.</p>
+
+                <p><strong>20</strong> Baruque, filho de Zabai, trabalhou com muito entusiasmo na parte seguinte.</p>
+
+                <p><strong>28</strong> Os sacerdotes reconstruíram a parte acima da Porta dos Cavalos.</p>
+
+                <p><strong>32</strong> Entre a Porta dos Cavalos e a Porta das Ovelhas, os ourives e os comerciantes reconstruíram a última parte da muralha.</p>
+
+                <p style="margin-top:16px; padding: 12px; background:#e8f8ff; border-radius:8px; font-size:14px; color:#555;"><em>O capítulo inteiro lista mais de 40 grupos diferentes — sacerdotes, comerciantes, governadores, famílias — cada um contribuindo com uma parte da muralha.</em></p>
+            </div>
+
+            <p style="text-align: center; font-size: 15px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 14px; border-radius: 12px; margin: 10px 0;">
+                <strong>⬇️ Leu? Então continue o devocional abaixo!</strong>
+            </p>
+
+            <hr>
+
+            <h2>💬 E então, UP?</h2>
+
+            <h2>📰 O QUE ACONTECEU</h2>
+            <p>Neemias capítulo 3 é o capítulo dos nomes. Mais de 40 grupos diferentes aparecem aqui — sacerdotes, comerciantes, governadores, filhas de líderes. <mark>Cada um cuidando de uma parte da muralha.</mark></p>
+            <p style="background: #e8f8ff; padding: 20px; border-radius: 12px; border-left: 5px solid #4facfe;">
+                <em>"Baruque, filho de Zabai, trabalhou com muito entusiasmo na parte seguinte."</em><br>
+                <strong>— Neemias 3.20</strong>
+            </p>
+            <p>Um versículo inteiro para elogiar o entusiasmo de uma pessoa. E outro versículo para registrar que os líderes de Tecoa se recusaram a ajudar. O texto não esquece nem os heróis nem os que faltaram.</p>
+
+            <hr>
+
+            <h2>🔍 O QUE DEUS QUER TE MOSTRAR HOJE</h2>
+            <p>Deus não precisava de um super-herói para reconstruir Jerusalém. Ele usou <strong>pessoas comuns, cada uma no seu pedaço.</strong></p>
+            <p>Ninguém construiu a muralha inteira. Mas cada um construiu a sua parte — e no final, a muralha ficou pronta.</p>
+            <p><mark>O que Deus precisa de você não é tudo. É o seu pedaço.</mark> O dom que você tem, o lugar onde você está, o tempo que você pode dar. Isso já é suficiente quando está nas mãos de Deus.</p>
+
+            <hr>
+
+            <h2>🪞 ISSO FALA COM VOCÊ</h2>
+            <p>Você já se sentiu pequeno demais para fazer diferença? Olhou para o problema e pensou: "o que eu posso fazer diante disso?"</p>
+            <p>A resposta de Neemias 3 é clara: <mark>faça a sua parte.</mark> Com entusiasmo, como Baruque. Sem esperar que outra pessoa comece.</p>
+            <p>Na sua família, no seu grupo de amigos, no seu UP — qual é a seção da muralha que está esperando por você?</p>
+
+            <hr>
+
+            <h2>🙏 ORAÇÃO DO DIA</h2>
+            <p style="background: linear-gradient(135deg, #4facfe15 0%, #00f2fe15 100%); padding: 22px; border-radius: 12px; border-left: 5px solid #4facfe; font-style: italic; line-height: 2;">
+                "Senhor, me liberta da comparação e do sentimento de que sou pequeno demais. Ajuda-me a fazer com excelência e entusiasmo a parte que é minha. Que meu nome também seja lembrado como alguém que serviu com o coração. Amém." 
+            </p>
+
+            <hr>
+
+            <!-- QUIZ -->
+            <div class="quiz-container">
+                <h2 style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 13px 20px; border-radius: 12px; font-size: 20px; margin: 0 0 16px 0;">🧠 QUIZ DO DIA 3</h2>
+                <p style="color: #555; margin-bottom: 20px; font-size: 15px;">Responda as 3 perguntas para desbloquear a <strong>Frase Secreta</strong>! 🔐</p>
+                
+                <div class="pergunta" id="q1" >
+                    <p class="pergunta-texto">1. O que o capítulo 3 de Neemias lista principalmente?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(1, this, true)">👷 Os grupos e famílias que trabalharam em cada parte da muralha</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">📜 As leis que Neemias impôs ao povo</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">⚔️ As batalhas travadas contra os inimigos</button>
+                    </div>
+                    <div class="feedback" id="f1"></div>
+                </div>
+
+                <div class="pergunta" id="q2" style="display:none;">
+                    <p class="pergunta-texto">2. O que Baruque, filho de Zabai, é destacado por fazer?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(2, this, true)">🔥 Trabalhar com muito entusiasmo na sua parte</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">💰 Pagar pelo material de construção</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">🏆 Construir a maior seção da muralha</button>
+                    </div>
+                    <div class="feedback" id="f2"></div>
+                </div>
+
+                <div class="pergunta" id="q3" style="display:none;">
+                    <p class="pergunta-texto">3. O que os líderes de Tecoa fizeram de diferente?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(3, this, false)">🏃 Fugiram com medo dos inimigos</button>
+                        <button class="alt-btn" onclick="responder(3, this, true)">😤 Recusaram-se a trabalhar sob as ordens dos supervisores</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">💤 Dormiram enquanto os outros trabalhavam</button>
+                    </div>
+                    <div class="feedback" id="f3"></div>
+                </div>
+
+                
+                <div id="frase-revelada" style="display:none;">
+                    <div class="frase-secreta" style="animation: aparecer 0.8s ease;">
+                        <h3>🎉 PARABÉNS! FRASE DESBLOQUEADA!</h3>
+                        <p style="color: #555; margin-bottom: 10px;">FRASE SECRETA — PARTE 3/6</p>
+                        <div class="fragmento">"trabalho"</div>
+                        <p>✏️ <strong>UP, anote este pedaço!</strong> Ao completar os 6 dias, você terá a frase completa!</p>
+                    </div>
+                </div>
+
+                <div id="tenta-novamente" style="display:none; background:#ffe0e0; border:2px solid #d63031; padding:18px; border-radius:12px; text-align:center; margin-top:20px;">
+                    <p style="color:#d63031; font-weight:bold; font-size:16px;">❌ Ops! Resposta errada!</p>
+                    <p style="color:#555; margin:8px 0; font-size:14px;">Releia o capítulo e tente novamente!</p>
+                    <button onclick="tentarNovamente()" style="background: linear-gradient(135deg,#4facfe,#00f2fe); color:white; border:none; padding:11px 28px; border-radius:10px; font-size:15px; font-weight:bold; cursor:pointer; margin-top:8px;">🔄 Tentar novamente</button>
+                </div>
+            </div>
+
+            
+            <style>
+                .quiz-container { background: #f8f8ff; border: 2px solid #4facfe33; border-radius: 20px; padding: 30px; margin: 30px 0; }
+                .pergunta { margin-bottom: 10px; }
+                .pergunta-texto { font-size: 17px; font-weight: bold; color: #333; margin-bottom: 15px; line-height: 1.5; }
+                .alternativas { display: flex; flex-direction: column; gap: 10px; }
+                .alt-btn {
+                    background: white; border: 2px solid #4facfe55; padding: 13px 16px;
+                    border-radius: 12px; font-size: 15px; cursor: pointer; text-align: left;
+                    transition: all 0.2s ease; color: #333; font-family: inherit;
+                }
+                .alt-btn:hover { background: #4facfe15; border-color: #4facfe; transform: translateX(4px); }
+                .alt-btn.correta { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+                .alt-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+                .alt-btn:disabled { cursor: not-allowed; transform: none; }
+                .feedback { margin-top: 12px; font-size: 14px; font-weight: bold; min-height: 24px; }
+                @keyframes aparecer { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+                @media (max-width: 768px) {
+                    .quiz-container { padding: 14px; }
+                    .pergunta-texto { font-size: 14px; }
+                    .alt-btn { font-size: 13px; padding: 11px 12px; }
+                }
+            </style>
+
+            
+            <script>
+                let acertos = 0;
+                const totalPerguntas = 3;
+                function responder(num, btn, correta) {
+                    const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+                    const feedback = document.getElementById('f' + num);
+                    buttons.forEach(b => b.disabled = true);
+                    if (correta) {
+                        btn.classList.add('correta');
+                        feedback.style.color = '#1a7a3c';
+                        feedback.textContent = '✅ Correto! Muito bem, UP!';
+                        acertos++;
+                        setTimeout(() => {
+                            if (num < totalPerguntas) {
+                                document.getElementById('q' + num).style.opacity = '0.6';
+                                document.getElementById('q' + (num + 1)).style.display = 'block';
+                                document.getElementById('q' + (num + 1)).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            } else {
+                                document.getElementById('frase-revelada').style.display = 'block';
+                                document.getElementById('frase-revelada').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }, 900);
+                    } else {
+                        btn.classList.add('errada');
+                        feedback.style.color = '#d63031';
+                        feedback.textContent = '❌ Não é essa! Pense bem...';
+                        setTimeout(() => {
+                            buttons.forEach(b => { b.disabled = false; b.classList.remove('errada'); });
+                            feedback.textContent = '';
+                        }, 1500);
+                    }
+                }
+                function tentarNovamente() {
+                    acertos = 0;
+                    ['q1','q2','q3'].forEach((id, i) => {
+                        const el = document.getElementById(id);
+                        el.style.display = i === 0 ? 'block' : 'none';
+                        el.style.opacity = '1';
+                        el.querySelectorAll('.alt-btn').forEach(b => { b.disabled = false; b.className = 'alt-btn'; });
+                        document.getElementById('f' + (i+1)).textContent = '';
+                    });
+                }
+            </script>
+
+
+            <hr>
+
+            <div class="nav-buttons">
+                <a href="neemias2.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+                <a href="neemias4.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+            </div>
+
+            
+            <div style="text-align:center; margin-top:18px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+                <a href="neemias.html" style="color:#667eea; font-size:13px; text-decoration:none; font-weight:600;">← Voltar para Neemias</a>
+                <span style="color:#ccc;">|</span>
+                <a href="https://www.ieqlondrina.com.br/centralup" style="color:#764ba2; font-size:13px; text-decoration:none; font-weight:600;">🏠 Portal Central UP</a>
+            </div>
+            <div class="rodape">
+                <p><span class="rodape-destaque">Central UP</span> - IEQ Central</p>
+                <p style="margin-top: 8px;">Desenvolvido por <span class="rodape-destaque">Pr. Eduardo</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dataLiberacao = new Date('2026-03-04T00:00:00');
+        const agora = new Date();
+        const bloqueio = document.getElementById('bloqueio');
+        const conteudo = document.getElementById('conteudo');
+        const spanData = document.getElementById('dataLiberacao');
+        const opcoes = { year: 'numeric', month: 'long', day: 'numeric' };
+        spanData.textContent = dataLiberacao.toLocaleDateString('pt-BR', opcoes);
+        if (agora >= dataLiberacao) {
+            bloqueio.style.display = 'none';
+            conteudo.style.display = 'block';
+        } else {
+            bloqueio.style.display = 'flex';
+            conteudo.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

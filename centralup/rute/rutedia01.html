@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 1 - 🌾 O Dia em que Tudo Foi Embora | Rute Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #8b4513 0%, #c17f3a 60%, #d4a843 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #8b4513 0%, #c17f3a 60%, #d4a843 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .conteudo-bloqueio { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 260px; margin-bottom: 25px; }
+        #bloqueio h1 { font-size: 42px; margin-bottom: 18px; color: white; }
+        #bloqueio p { font-size: 20px; line-height: 1.8; color: white; }
+        #conteudo { display: none; }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 28px; }
+        .logo-topo img { max-width: 220px; }
+        .dia-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b4513 0%, #c17f3a 100%);
+            color: white; padding: 9px 22px; border-radius: 25px; font-weight: bold; margin-bottom: 18px; font-size: 14px;
+        }
+        h1 { color: #6b3410; font-size: 34px; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { color: #c17f3a; font-size: 17px; margin-bottom: 28px; font-weight: 600; }
+        .progresso { background: #f5f0e8; padding: 18px; border-radius: 12px; margin: 28px 0; text-align: center; }
+        .progresso-titulo { color: #6b3410; font-weight: bold; margin-bottom: 12px; font-size: 13px; }
+        .progresso-bar { background: #e0d5c5; height: 26px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill {
+            background: linear-gradient(135deg, #c17f3a 0%, #d4a843 100%);
+            height: 100%; width: 17%; display: flex; align-items: center;
+            justify-content: center; color: white; font-weight: bold; font-size: 13px;
+        }
+        h2 {
+            color: white;
+            background: linear-gradient(135deg, #6b3410 0%, #8b4513 100%);
+            padding: 12px 20px; border-radius: 12px; font-size: 18px; margin: 26px 0 16px 0;
+        }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 13px 0; }
+        mark { background: #ffd700; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+        hr { border: none; border-top: 2px dashed #e0d5c5; margin: 26px 0; }
+        .para-pensar {
+            background: linear-gradient(135deg, #f5f0e8 0%, #ede5d5 100%);
+            border: 2px solid #c17f3a44;
+            border-left: 5px solid #c17f3a;
+            padding: 20px 24px; border-radius: 14px; margin: 20px 0;
+        }
+        .para-pensar p { color: #5a3020; font-style: italic; margin: 0; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 38px; gap: 14px; }
+        .nav-btn {
+            flex: 1; padding: 14px 22px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; text-align: center; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; font-size: 14px;
+        }
+        .nav-btn-prev { background: #e0d5c5; color: #6b3410; }
+        .nav-btn-prev:hover { background: #d0c5b5; transform: translateY(-2px); }
+        .nav-btn-next { background: linear-gradient(135deg, #8b4513 0%, #c17f3a 100%); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #8b451366; }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #e0d5c5; color: #999; font-size: 12px; }
+        .rodape-destaque { color: #8b4513; font-weight: bold; }
+        .quiz-container { background: #fdf8f2; border: 2px solid #c17f3a33; border-radius: 20px; padding: 28px; margin: 30px 0; }
+        .pergunta-texto { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 14px; line-height: 1.5; }
+        .alternativas { display: flex; flex-direction: column; gap: 10px; }
+        .alt-btn {
+            background: white; border: 2px solid #c17f3a55; padding: 12px 16px;
+            border-radius: 12px; font-size: 14px; cursor: pointer; text-align: left;
+            transition: all 0.2s ease; color: #333; font-family: inherit; line-height: 1.4;
+        }
+        .alt-btn:hover { background: #fdf0e0; border-color: #c17f3a; transform: translateX(4px); }
+        .alt-btn.correta { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+        .alt-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+        .alt-btn:disabled { cursor: not-allowed; transform: none; }
+        .feedback { margin-top: 10px; font-size: 14px; font-weight: bold; min-height: 22px; }
+        .caderninho-box {
+            background: linear-gradient(135deg, #fdf8f0 0%, #f5ede0 100%);
+            border: 3px solid #c17f3a;
+            border-radius: 20px; padding: 28px; margin: 28px 0;
+            text-align: center;
+            animation: aparecer 0.8s ease;
+        }
+        .caderninho-box .cad-icon { font-size: 52px; display: block; margin: 10px 0; }
+        .caderninho-box .cad-titulo { font-size: 22px; font-weight: bold; color: #6b3410; margin-bottom: 14px; }
+        .caderninho-box .cad-label { color: #8b4513; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .caderninho-box .cad-pergunta {
+            background: white; border: 2px solid #c17f3a33;
+            border-radius: 12px; padding: 16px; margin: 12px 0;
+            font-size: 15px; color: #444; line-height: 1.7; text-align: left;
+        }
+        .caderninho-box .cad-acao {
+            background: linear-gradient(135deg, #8b4513 0%, #c17f3a 100%);
+            border-radius: 12px; padding: 16px; margin: 12px 0;
+            font-size: 14px; color: white; line-height: 1.7; text-align: left;
+        }
+        .caderninho-box .cad-pensar {
+            background: white; border-left: 4px solid #d4a843;
+            border-radius: 0 12px 12px 0; padding: 14px 16px; margin: 12px 0;
+            font-size: 14px; color: #5a3020; line-height: 1.7; text-align: left; font-style: italic;
+        }
+        @keyframes aparecer { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 20px 16px; border-radius: 16px; }
+            .logo-topo img { max-width: 140px; }
+            h1 { font-size: 22px !important; line-height: 1.3; }
+            h2 { font-size: 15px !important; padding: 10px 14px; margin: 20px 0 14px 0 !important; }
+            .subtitle { font-size: 13px !important; margin-bottom: 14px; }
+            .dia-badge { font-size: 12px; padding: 7px 14px; }
+            p { font-size: 14px !important; line-height: 1.7; margin: 10px 0; }
+            .nav-buttons { flex-direction: column; gap: 10px; }
+            .nav-btn { padding: 13px 16px; font-size: 14px; }
+            hr { margin: 18px 0; }
+            .quiz-container { padding: 14px; }
+            .pergunta-texto { font-size: 13px; }
+            .alt-btn { font-size: 12px; padding: 10px 12px; }
+            #bloqueio .conteudo-bloqueio { padding: 24px 18px; }
+            #bloqueio img { max-width: 160px; margin-bottom: 18px; }
+            #bloqueio h1 { font-size: 28px; }
+            #bloqueio p { font-size: 15px; line-height: 1.6; }
+        }
+    </style>
+</head>
+<body>
+    <div id="bloqueio">
+        <div class="conteudo-bloqueio">
+            <img src="../logoup.png" alt="Central UP">
+            <h1>Opa, UP! 👋</h1>
+            <p id="msg-bloqueio">Cada devocional tem o seu momento certo.</p>
+            <p style="margin-top:16px; font-size:17px;" id="msg-sub"></p>
+        </div>
+    </div>
+
+    <div id="conteudo">
+        <div class="container">
+            <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+            <div class="dia-badge">📅 DIA 1 DE 6 — RUTE</div>
+            <h1>🌾 O Dia em que Tudo Foi Embora</h1>
+            <p class="subtitle">Rute 1.1-7 · Quando a vida bate sem avisar</p>
+
+            <div class="progresso">
+                <div class="progresso-titulo">SEU PROGRESSO NO DESAFIO</div>
+                <div class="progresso-bar">
+                    <div class="progresso-fill">DIA 1 — 17%</div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>📖 LEIA A PASSAGEM DE HOJE</h2>
+            <p>Leia o texto bíblico abaixo na versão <strong>NTLH</strong>. Depois continue o devocional! 👇</p>
+            <div style="background:#fdf8f2; border:2px solid #c17f3a33; border-radius:16px; padding:18px; margin:16px 0; max-height:300px; overflow-y:auto; line-height:1.9; font-size:14px; color:#333;">
+                <p style="margin:0 0 10px 0;"><strong style="color:#6b3410;">RUTE 1.1-7 — NTLH</strong></p>
+                <p><strong>1</strong> No tempo em que Israel era governado por juízes, houve uma grande fome naquele país. Por isso um homem de Belém, cidade da região de Judá, foi com a sua mulher e os seus dois filhos morar por algum tempo num país chamado Moabe.</p>
+                <p><strong>2</strong> O nome desse homem era Elimeleque, e o da sua mulher, Noemi. Os dois filhos se chamavam Malom e Quiliom.</p>
+                <p><strong>3</strong> Algum tempo depois, Elimeleque morreu, e Noemi ficou com os dois filhos,</p>
+                <p><strong>4</strong> que casaram com moças moabitas. O nome de uma delas era Orfa, e o da outra, Rute. Quando já fazia quase dez anos que estavam morando ali,</p>
+                <p><strong>5</strong> Malom e Quiliom também morreram. E Noemi ficou só, sem os filhos e sem o marido.</p>
+                <p><strong>6</strong> Um dia Noemi soube que o Senhor tinha ajudado o seu povo, dando-lhe boas colheitas. Então ela se aprontou para sair de Moabe com as suas noras.</p>
+                <p><strong>7</strong> Elas saíram a fim de voltar para Judá, mas no caminho</p>
+            </div>
+            <p style="text-align:center; font-size:14px; background:linear-gradient(135deg,#8b4513 0%,#c17f3a 100%); color:white; padding:13px; border-radius:12px; margin:10px 0;">
+                <strong>⬇️ Leu? Então continue o devocional abaixo!</strong>
+            </p>
+
+            <hr>
+
+            <h2>💬 E então, UP?</h2>
+
+            <h2>📰 O QUE ACONTECEU</h2>
+            <p>Elimeleque, Noemi e os dois filhos saíram de Belém por causa da fome. Foram pra Moabe, terra estrangeira, tentar sobreviver.</p>
+            <p>Lá os filhos casaram, a vida continuou. E então tudo desmoronou de uma vez. Primeiro o marido. Depois os dois filhos. Noemi ficou só, num país que não era o dela, sem ninguém.</p>
+            <p style="background:#f5f0e8; padding:20px; border-radius:12px; border-left:5px solid #c17f3a;">
+                <em>"E Noemi ficou só, sem os filhos e sem o marido."</em><br>
+                <strong>— Rute 1.5</strong>
+            </p>
+            <p>A fome que os fez sair de Belém tinha acabado. Noemi decidiu voltar. Mas não voltava a mesma pessoa que saiu.</p>
+
+            <hr>
+
+            <h2>🔍 O QUE DEUS QUER TE MOSTRAR HOJE</h2>
+            <p>Noemi perdeu tudo de uma vez. E mesmo assim, tomou uma decisão: vai voltar pra casa.</p>
+            <p>Não teve revelação. Não teve anjo. Só soube que a fome tinha acabado em Belém e deu o primeiro passo.</p>
+            <p><mark>Às vezes Deus não aparece com fogo do céu. Ele aparece como uma notícia pequena que abre um caminho.</mark></p>
+            <p>E mesmo no meio da perda, Noemi não ficou parada. Ela levantou e foi. Deus honra quem levanta mesmo sem entender tudo.</p>
+
+            <hr>
+
+            <h2>🪞 ISSO FALA COM VOCÊ</h2>
+            <p>Você já perdeu algo que não deveria ter perdido? Uma amizade, uma oportunidade, algo que importava muito?</p>
+            <p>Noemi perdeu o marido e os dois filhos. E Deus não a abandonou no meio daquela dor.</p>
+            <p><mark>A história de Noemi não terminou na perda. A sua também não.</mark></p>
+
+            <hr>
+
+            <h2>✝️ PARA PENSAR</h2>
+            <div class="para-pensar">
+                <p>Jesus também foi ao lugar da dor. Ele não ficou de longe olhando enquanto as pessoas sofriam. Ele foi junto.</p>
+            <p>Quando você está no meio de uma perda, Ele não está distante esperando você se recuperar. Ele está lá, no meio.</p>
+            </div>
+
+            <hr>
+
+            <h2>🙏 ORAÇÃO DO DIA</h2>
+            <p style="background:linear-gradient(135deg,#8b451310 0%,#c17f3a10 100%); padding:22px; border-radius:12px; border-left:5px solid #8b4513; font-style:italic; line-height:2;">
+                "Senhor, obrigado por não me abandonar nos dias difíceis. Quando eu perder algo que importa, me ajuda a dar o primeiro passo de volta pra Ti, assim como Noemi deu. Amém."
+            </p>
+
+            <hr>
+
+            <div class="quiz-container">
+                <h2 style="background:linear-gradient(135deg,#6b3410 0%,#c17f3a 100%); color:white; padding:12px 18px; border-radius:12px; font-size:18px; margin:0 0 14px 0;">🧠 QUIZ DO DIA 1</h2>
+                <p style="color:#555; margin-bottom:18px; font-size:14px;">Responda as 3 perguntas para liberar a <strong>Missão do Caderninho</strong>! 📓</p>
+
+                
+                <div class="pergunta" id="q1">
+                    <p class="pergunta-texto">1. Por que a família de Noemi foi morar em Moabe?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(1, this, false)">A) Para encontrar trabalho numa cidade maior</button>
+                        <button class="alt-btn" onclick="responder(1, this, true)">B) Por causa de uma grande fome em Belém</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">C) Porque os filhos queriam se casar com moabitas</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">D) Para escapar de uma guerra em Israel</button>
+                    </div>
+                    <div class="feedback" id="f1"></div>
+                </div>
+
+                <div class="pergunta" id="q2" style="display:none;">
+                    <p class="pergunta-texto">2. O que aconteceu com Noemi em Moabe?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(2, this, false)">A) Ela ficou rica e bem estabelecida na terra</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">B) Ela voltou logo porque tinha saudades de Belém</button>
+                        <button class="alt-btn" onclick="responder(2, this, true)">C) O marido e os dois filhos morreram, e ela ficou sozinha</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">D) Ela se casou novamente com um homem de Moabe</button>
+                    </div>
+                    <div class="feedback" id="f2"></div>
+                </div>
+
+                <div class="pergunta" id="q3" style="display:none;">
+                    <p class="pergunta-texto">3. O que fez Noemi decidir voltar para Belém?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(3, this, false)">A) Um anjo apareceu e mandou ela voltar</button>
+                        <button class="alt-btn" onclick="responder(3, this, true)">B) Ela soube que o Senhor tinha dado boas colheitas ao seu povo</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">C) Suas noras pediram para ir embora de Moabe</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">D) Ela ficou doente e queria voltar para morrer em casa</button>
+                    </div>
+                    <div class="feedback" id="f3"></div>
+                </div>
+
+
+                <div id="caderninho-revelado" style="display:none;">
+                    <div class="caderninho-box">
+                        <div class="cad-label">Missão do Caderninho — Dia 1</div>
+                        <span class="cad-icon">📓</span>
+                        <div class="cad-titulo">Abre o seu Caderninho do Campo!</div>
+                        <div class="cad-pergunta">
+                            ✏️ <strong>Escreve:</strong> Escreve o nome de pessoas que você ama muito.
+                        </div>
+                        <div class="cad-acao">
+                            🎯 <strong>Missão do dia:</strong> Faz algo pequeno por alguém da sua família hoje, sem ser pedido e sem contar pra ninguém.
+                        </div>
+                        <div class="cad-pensar">
+                            💡 <strong>Para pensar:</strong> Jesus também foi ao lugar da dor. Ele não ficou de longe olhando. Foi junto.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                let acertos = 0;
+                const totalPerguntas = 3;
+                function responder(num, btn, correta) {
+                    const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+                    const feedback = document.getElementById('f' + num);
+                    buttons.forEach(b => b.disabled = true);
+                    if (correta) {
+                        btn.classList.add('correta');
+                        feedback.style.color = '#1a7a3c';
+                        feedback.textContent = '✅ Correto! Muito bem, UP!';
+                        acertos++;
+                        setTimeout(() => {
+                            if (num < totalPerguntas) {
+                                document.getElementById('q' + num).style.opacity = '0.6';
+                                document.getElementById('q' + (num + 1)).style.display = 'block';
+                                document.getElementById('q' + (num + 1)).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            } else {
+                                document.getElementById('caderninho-revelado').style.display = 'block';
+                                document.getElementById('caderninho-revelado').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }, 900);
+                    } else {
+                        btn.classList.add('errada');
+                        feedback.style.color = '#d63031';
+                        feedback.textContent = 'Não é essa! Releia a passagem...';
+                        setTimeout(() => {
+                            buttons.forEach(b => { b.disabled = false; b.classList.remove('errada'); });
+                            feedback.textContent = '';
+                        }, 1500);
+                    }
+                }
+            </script>
+
+            <hr>
+
+            <div class="nav-buttons">
+                <div class="nav-btn nav-btn-prev" style="opacity:0.4;cursor:not-allowed;">← Dia Anterior</div>
+                <a href="rutedia02.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+            </div>
+
+            <div style="text-align:center; margin-top:22px;">
+                <a href="rute.html" style="color:#8b4513; font-size:13px; text-decoration:none;">← Voltar para Rute</a>
+            </div>
+
+            <div class="rodape">
+                <p><span class="rodape-destaque">Central UP</span> — IEQ Central Londrina</p>
+                <p style="margin-top:7px;">Desenvolvido por <span class="rodape-destaque">Pr. Eduardo</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const abertura = new Date('2026-03-23T00:00:00');
+        const fechamento = new Date('2026-03-24T11:59:59');
+        const liberacaoFinal = new Date('2026-03-29T00:00:00');
+        const agora = new Date();
+        const bloqueio = document.getElementById('bloqueio');
+        const conteudo = document.getElementById('conteudo');
+        const msgBloqueio = document.getElementById('msg-bloqueio');
+        const msgSub = document.getElementById('msg-sub');
+
+        function fmt(d) {
+            return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) +
+                   ' às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        if (agora >= liberacaoFinal || (agora >= abertura && agora <= fechamento)) {
+            bloqueio.style.display = 'none';
+            conteudo.style.display = 'block';
+        } else if (agora < abertura) {
+            msgBloqueio.textContent = 'Ei, você está adiantado! 😄';
+            msgSub.innerHTML = 'Este devocional abre no dia <strong>' + fmt(abertura) + '</strong>.<br>Fique ligado, volte no horário certo!';
+        } else {
+            msgBloqueio.textContent = 'Você perdeu o horário deste dia... 😔';
+            msgSub.innerHTML = 'Este devocional encerrou em <strong>' + fmt(fechamento) + '</strong>.<br>Mas não desanima! Os próximos dias ainda estão por vir.<br>A partir de <strong>29/03</strong> todos os dias ficam abertos!';
+        }
+    </script>
+
+    <script>
+        // ACESSO ADMIN
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '🔒') return;
+        });
+        function abrirAdmin() {
+            const senha = prompt('🔒 Senha de supervisão:');
+            if (senha === 'admin') {
+                document.getElementById('bloqueio').style.display = 'none';
+                document.getElementById('conteudo').style.display = 'block';
+            } else if (senha !== null) {
+                alert('Senha incorreta.');
+            }
+        }
+    </script>
+
+    <div id="admin-btn" style="position:fixed; bottom:16px; right:16px; z-index:10000;">
+        <button onclick="abrirAdmin()" style="
+            background: rgba(0,0,0,0.35);
+            border: 1.5px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.5);
+            font-size: 18px; width: 38px; height: 38px;
+            border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        " title="Supervisão">🔒</button>
+    </div>
+</body>
+</html>

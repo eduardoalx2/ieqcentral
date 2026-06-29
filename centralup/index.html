@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central UP 🔥</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: #0f0f14; color: #fff; min-height: 100vh; overflow-x: hidden; }
+        body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
+
+        .hero { position: relative; padding: 0 20px 0; text-align: center; overflow: hidden; }
+        .hero-inner { position: relative; z-index: 2; padding: 52px 0 40px; }
+        .hero-logo { display: block; width: min(340px, 80vw); margin: 0 auto 10px; opacity: 0; animation: popIn 0.7s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; filter: drop-shadow(0 0 22px rgba(123,47,255,0.55)) drop-shadow(0 0 48px rgba(255,60,172,0.3)) drop-shadow(0 0 80px rgba(76,201,240,0.2)); }
+        .hero-sup { font-size: 11px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #555; margin-bottom: 10px; opacity: 0; animation: fadeUp 0.5s 0.5s ease forwards; }
+        .hero-tagline { margin-top: 6px; font-size: 16px; font-weight: 700; color: #ccc; opacity: 0; animation: fadeUp 0.5s 0.6s ease forwards; }
+        .hero-tagline em { font-style: normal; color: #a78bfa; }
+
+        .rainbow-bar { height: 5px; background: linear-gradient(90deg, #ff3cac, #ff914d, #ffde59, #3bf0a0, #4cc9f0, #7b2fff); margin: 0; }
+
+        .page { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 40px 20px 60px; }
+
+        .sh { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+        .sh-emoji { font-size: 22px; }
+        .sh-label { font-size: 12px; font-weight: 900; letter-spacing: 2.5px; text-transform: uppercase; color: #888; }
+        .sh-line { flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
+
+        /* FEATURED */
+        .featured { display: block; text-decoration: none; border-radius: 24px; overflow: hidden; margin-bottom: 14px; position: relative; opacity: 0; animation: fadeUp 0.6s 0.3s ease forwards; background: #1a1a24; border: 1.5px solid rgba(255,255,255,0.07); transition: transform 0.25s, box-shadow 0.25s; }
+        .featured:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(232,93,42,0.2); }
+        .feat-topbar { height: 6px; }
+        .feat-body { padding: 28px 28px 24px; }
+        .live-badge { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 13px; border-radius: 30px; margin-bottom: 14px; border: 1.5px solid; }
+        .live-dot { width: 7px; height: 7px; border-radius: 50%; animation: blink 1.2s ease-in-out infinite; }
+        @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.7)} }
+        .feat-season { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+        .feat-title { font-family: 'Archivo Black', sans-serif; font-size: clamp(36px, 8vw, 64px); line-height: 0.9; color: #fff; margin-bottom: 6px; letter-spacing: -1px; }
+        .feat-verse { font-size: 13px; color: #777; font-style: italic; margin-bottom: 14px; }
+        .feat-desc { font-size: 14px; color: #aaa; line-height: 1.7; margin-bottom: 20px; max-width: 540px; }
+
+        .dias { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+        .dc { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1); color: #888; font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 30px; text-decoration: none; transition: all 0.2s; }
+        .dc:hover { background: rgba(232,93,42,0.15); border-color: #e85d2a; color: #e85d2a; }
+        .dc.on { background: rgba(232,93,42,0.15); border-color: #e85d2a; color: #e85d2a; }
+
+        .extras { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+        .xbtn { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.1); color: #ddd; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800; padding: 16px; border-radius: 16px; text-decoration: none; display: flex; align-items: center; gap: 12px; transition: all 0.2s; }
+        .xbtn:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.2); }
+        .xbtn-icon { font-size: 22px; flex-shrink: 0; }
+        .xbtn-label { font-weight: 800; display: block; margin-bottom: 2px; }
+        .xbtn-desc { font-size: 11px; color: #666; font-weight: 600; display: block; }
+
+        /* SEASONS */
+        .seasons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 4px; align-items: start; }
+
+        .scard { display: block; text-decoration: none; border-radius: 20px; overflow: hidden; background: #1a1a24; border: 1.5px solid rgba(255,255,255,0.06); transition: all 0.25s; opacity: 0; }
+        .scard:nth-child(1) { animation: fadeUp 0.5s 0.4s ease forwards; }
+        .scard:nth-child(2) { animation: fadeUp 0.5s 0.55s ease forwards; }
+        .scard:nth-child(3) { animation: fadeUp 0.5s 0.7s ease forwards; }
+        .scard:nth-child(4) { animation: fadeUp 0.5s 0.85s ease forwards; }
+        .scard:nth-child(5) { animation: fadeUp 0.5s 1.0s ease forwards; }
+        .scard:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.15); }
+
+        .scard-bar { height: 5px; }
+        .pascoa-bar  { background: linear-gradient(90deg, #3b0764, #6b21a8, #d4a843); }
+        .rute-bar    { background: linear-gradient(90deg, #8b4513, #c17f3a, #d4a843); }
+        .elias-bar   { background: linear-gradient(90deg, #ff3cac, #ff914d, #ffde59); }
+        .obadias-bar { background: linear-gradient(90deg, #ffb800, #ff6b00, #ffe066); }
+        .neemias-bar { background: linear-gradient(90deg, #4cc9f0, #7b2fff, #a78bfa); }
+
+        .scard-body { padding: 22px 22px 18px; }
+        .scard-season { font-size: 10px; font-weight: 900; letter-spacing: 2.5px; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+        .scard-icon { font-size: 36px; display: block; margin-bottom: 10px; }
+        .scard-name { font-family: 'Archivo Black', sans-serif; font-size: 28px; line-height: 1; margin-bottom: 2px; letter-spacing: -0.5px; }
+        .pascoa-name  { color: #9333ea; }
+        .rute-name    { color: #d4a843; }
+        .elias-name   { color: #ff914d; }
+        .obadias-name { color: #ffb800; }
+        .neemias-name { color: #4cc9f0; }
+
+        .scard-sub  { font-size: 12px; color: #666; font-style: italic; margin-bottom: 12px; }
+        .scard-desc { font-size: 13px; color: #888; line-height: 1.6; margin-bottom: 18px; }
+        .scard-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06); }
+        .done-tag { font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #3bf0a0; display: flex; align-items: center; gap: 5px; }
+        .done-tag::before { content: '✓'; }
+        .go-tag { font-size: 12px; color: #555; font-weight: 700; }
+        .scard:hover .go-tag { color: #aaa; }
+
+        .pg-footer { text-align: center; padding: 24px 20px 40px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .pg-footer p { font-size: 12px; color: #444; line-height: 2; }
+        .pg-footer strong { color: #666; }
+
+        @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes popIn  { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+
+        @media (max-width: 600px) {
+            .feat-body { padding: 22px 18px 20px; }
+            .seasons { grid-template-columns: 1fr 1fr; }
+            .extras  { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <div class="hero-inner">
+            <img src="logoup.png" alt="Central UP" class="hero-logo">
+            <p class="hero-sup">IEQ Central Londrina</p>
+            <p class="hero-tagline">desafios bíblicos pra <em>quem tá dentro</em> 🔥</p>
+        </div>
+    </div>
+    <div class="rainbow-bar"></div>
+
+    <div class="page">
+
+        <!-- SÉRIE ATIVA -->
+        <div class="sh" style="margin-top:8px;">
+            <span class="sh-emoji">⚡</span>
+            <span class="sh-label">rolando agora</span>
+            <div class="sh-line"></div>
+        </div>
+
+        <a href="espirito/espirito.html" class="featured">
+            <div class="feat-topbar" style="background:linear-gradient(90deg,#0d1b2e,#1a3a5c,#e85d2a);"></div>
+            <div class="feat-body">
+                <div class="live-badge" style="background:rgba(212,168,67,0.12);border-color:rgba(212,168,67,0.5);color:#d4a843;">
+                    <div class="live-dot" style="background:#d4a843;"></div> Série Especial · Semana 2 ao vivo
+                </div>
+                <div class="feat-season" style="color:#e85d2a;">🔥 série especial — central up</div>
+                <div class="feat-title">O LIVRO INACABADO</div>
+                <p class="feat-verse">O Espírito Santo e o Livro Inacabado</p>
+                <p class="feat-desc">A história de Levi, um menino de 12 anos carregador de água em Jerusalém. Ele viu demais. E não conseguia mais parar de pensar. 💧🔥</p>
+                <div style="font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:8px;">💧 Semana 1</div>
+                <div class="dias" id="dias-espirito">
+                    <a href="espirito/espirito_dia1.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-06">Dia 1 · 06/04</a>
+                    <a href="espirito/espirito_dia2.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-07">Dia 2 · 07/04</a>
+                    <a href="espirito/espirito_dia3.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-08">Dia 3 · 08/04</a>
+                    <a href="espirito/espirito_dia4.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-09">Dia 4 · 09/04</a>
+                    <a href="espirito/espirito_dia5.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-10">Dia 5 · 10/04</a>
+                    <a href="espirito/espirito_dia6.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-11">Dia 6 · 11/04</a>
+                </div>
+                <div style="font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#8b6410;margin:12px 0 8px;">📖 Semana 2</div>
+                <div class="dias" id="dias-atos">
+                    <a href="atos/atos_dia1.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-18" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 1 · 18/04</a>
+                    <a href="atos/atos_dia2.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-19" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 2 · 19/04</a>
+                    <a href="atos/atos_dia3.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-20" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 3 · 20/04</a>
+                    <a href="atos/atos_dia4.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-21" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 4 · 21/04</a>
+                    <a href="atos/atos_dia5.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-22" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 5 · 22/04</a>
+                    <a href="atos/atos_dia6.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-23" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 6 · 23/04</a>
+                    <a href="atos/atos_dia7.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-24" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 7 · 24/04</a>
+                    <a href="atos/atos_dia8.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-25" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 8 · 25/04</a>
+                    <a href="atos/atos_dia9.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-26" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 9 · 26/04</a>
+            </div>
+        </a>
+
+        <!-- TEMPORADAS ANTERIORES -->
+        <div class="sh" style="margin-top:44px;">
+            <span class="sh-emoji">📼</span>
+            <span class="sh-label">temporadas anteriores</span>
+            <div class="sh-line"></div>
+        </div>
+
+        <div class="seasons">
+
+            <a href="pascoa/pascoa_dia1.html" class="scard pascoa-card">
+                <div class="scard-bar pascoa-bar"></div>
+                <div class="scard-body">
+                    <div class="scard-season">Especial · Páscoa</div>
+                    <span class="scard-icon">✝️</span>
+                    <div class="scard-name pascoa-name">Páscoa 2026</div>
+                    <p class="scard-sub">A Semana Mais Importante</p>
+                    <p class="scard-desc">Sete dias revivendo a crucificação e ressurreição com desafios em família.</p>
+                    <div class="scard-foot">
+                        <span class="done-tag">Concluído</span>
+                        <span class="go-tag">ver tudo →</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="rute/rute.html" class="scard rute-card">
+                <div class="scard-bar rute-bar"></div>
+                <div class="scard-body">
+                    <div class="scard-season">Temporada 04</div>
+                    <span class="scard-icon">🌾</span>
+                    <div class="scard-name rute-name">Rute</div>
+                    <p class="scard-sub">A Estrangeira que Deus Escolheu</p>
+                    <p class="scard-desc">Ela perdeu tudo. E foi exatamente aí que a história começou.</p>
+                    <div class="scard-foot">
+                        <span class="done-tag">Concluído</span>
+                        <span class="go-tag">ver tudo →</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="elias/elias.html" class="scard elias-card">
+                <div class="scard-bar elias-bar"></div>
+                <div class="scard-body">
+                    <div class="scard-season">Temporada 03</div>
+                    <span class="scard-icon">🔥</span>
+                    <div class="scard-name elias-name">Elias</div>
+                    <p class="scard-sub">Debaixo de uma Árvore</p>
+                    <p class="scard-desc">Do Monte Carmelo ao deserto. A jornada do profeta que quase desistiu e encontrou Deus no sussurro.</p>
+                    <div class="scard-foot">
+                        <span class="done-tag">Concluído</span>
+                        <span class="go-tag">ver tudo →</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="obadias/obadias.html" class="scard obadias-card">
+                <div class="scard-bar obadias-bar"></div>
+                <div class="scard-body">
+                    <div class="scard-season">Temporada 02</div>
+                    <span class="scard-icon">🛡️</span>
+                    <div class="scard-name obadias-name">Obadias</div>
+                    <p class="scard-sub">O Guardião Secreto</p>
+                    <p class="scard-desc">Fiel no lugar que ninguém vê. A história do homem que salvou cem vidas dentro do palácio do rei mais perverso de Israel.</p>
+                    <div class="scard-foot">
+                        <span class="done-tag">Concluído</span>
+                        <span class="go-tag">ver tudo →</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="neemias/neemias.html" class="scard neemias-card">
+                <div class="scard-bar neemias-bar"></div>
+                <div class="scard-body">
+                    <div class="scard-season">Temporada 01</div>
+                    <span class="scard-icon">🏗️</span>
+                    <div class="scard-name neemias-name">Neemias</div>
+                    <p class="scard-sub">Builder</p>
+                    <p class="scard-desc">O impossível em 52 dias. Como Deus usou um homem determinado pra reconstruir o que parecia destruído pra sempre.</p>
+                    <div class="scard-foot">
+                        <span class="done-tag">Concluído</span>
+                        <span class="go-tag">ver tudo →</span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="rainbow-bar"></div>
+    <div class="pg-footer">
+        <p><strong>Central UP</strong> — IEQ Central Londrina<br>feito com 🔥 por <strong>Pr. Eduardo</strong></p>
+    </div>
+
+    <script>
+        (function() {
+            var chips = document.querySelectorAll('#dias-espirito .dc, #dias-atos .dc');
+            var now = new Date();
+            var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            var libS1 = new Date(2026, 3, 12); // 12/04
+            var libS2 = new Date(2026, 3, 19); // 19/04
+            var best = null;
+            chips.forEach(function(chip) {
+                var parts = chip.dataset.date.split('-');
+                var d = new Date(+parts[0], +parts[1]-1, +parts[2]);
+                var isS2 = chip.closest('#dias-atos') !== null;
+                var lib = isS2 ? libS2 : libS1;
+                if (today >= lib || d <= today) {
+                    chip.style.opacity = '1';
+                    chip.style.pointerEvents = 'auto';
+                    if (d <= today) best = chip;
+                } else {
+                    chip.style.opacity = '0.35';
+                    chip.style.pointerEvents = 'none';
+                }
+            });
+            if (!best) best = chips[0];
+            if (best) {
+                best.classList.add('on');
+                best.style.opacity = '1';
+                best.style.pointerEvents = 'auto';
+                if (best.closest('#dias-atos')) {
+                    best.style.background = 'rgba(212,168,67,0.2)';
+                    best.style.borderColor = '#d4a843';
+                    best.style.color = '#d4a843';
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

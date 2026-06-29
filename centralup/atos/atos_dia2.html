@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 2 — O Médico, o Carregador e o Fugitivo | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #020617;
+            min-height: 100vh; padding: 20px;
+            background-image:
+                radial-gradient(ellipse at top left, #1e1b4b 0%, transparent 55%),
+                radial-gradient(ellipse at bottom right, #0f172a 0%, transparent 55%),
+                radial-gradient(ellipse at center, #020617 0%, transparent 70%);
+        }
+
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: #020617;
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .cb { text-align: center; color: #94a3b8; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 220px; margin-bottom: 20px; filter: grayscale(1) brightness(1.5); }
+        #bloqueio p { font-size: 16px; line-height: 1.8; color: rgba(148,163,184,0.6); font-family: 'Georgia', serif; }
+        #conteudo { display: none; }
+
+        .container {
+            max-width: 780px; margin: 0 auto;
+            background: linear-gradient(160deg, #0f172a 0%, #020617 35%, #1e293b 65%, #020617 100%);
+            border-radius: 2px;
+            padding: 52px 48px;
+            box-shadow:
+                0 0 0 1px rgba(148,163,184,0.2),
+                0 0 0 4px rgba(30,41,59,0.2),
+                0 0 0 5px rgba(148,163,184,0.05),
+                0 30px 100px rgba(0,0,0,0.9),
+                inset 0 0 120px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(148,163,184,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                repeating-linear-gradient(
+                    0deg, transparent, transparent 31px,
+                    rgba(148,163,184,0.02) 31px, rgba(148,163,184,0.02) 32px
+                );
+            pointer-events: none; z-index: 0;
+        }
+        .margem-esq {
+            position: absolute; top: 0; left: 52px; bottom: 0;
+            width: 1px; background: rgba(148,163,184,0.07);
+            z-index: 0; pointer-events: none;
+        }
+
+        .borda-topo {
+            position: relative; z-index: 1;
+            padding: 10px 0; margin-bottom: 30px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            border-top: 1px solid rgba(148,163,184,0.3);
+            border-bottom: 1px solid rgba(148,163,184,0.1);
+        }
+        .borda-topo::before { content: '❧'; color: rgba(148,163,184,0.3); font-size: 16px; }
+        .borda-topo::after  { content: '❧'; color: rgba(148,163,184,0.3); font-size: 16px; transform: scaleX(-1); display: inline-block; }
+        .borda-topo span { font-size: 9px; color: rgba(148,163,184,0.35); letter-spacing: 4px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; }
+
+        .logo-topo { text-align: center; margin-bottom: 18px; position: relative; z-index: 1; }
+        .logo-topo img { max-width: 150px; filter: grayscale(1) brightness(1.8); }
+
+        .serie-label { font-size: 9px; color: rgba(148,163,184,0.45); font-weight: bold; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 6px; text-align: center; font-family: 'Segoe UI', sans-serif; position: relative; z-index: 1; }
+        .dia-badge { display: block; text-align: center; font-family: 'Georgia', serif; font-size: 12px; color: rgba(148,163,184,0.5); letter-spacing: 2px; margin-bottom: 18px; position: relative; z-index: 1; }
+
+        h1 { color: #f8fafc; font-size: 25px; margin-bottom: 6px; line-height: 1.35; text-align: center; font-family: 'Georgia', serif; font-weight: normal; text-shadow: 0 2px 16px rgba(0,0,0,0.6); position: relative; z-index: 1; }
+        .subtitle { color: rgba(148,163,184,0.45); font-size: 13px; margin-bottom: 26px; text-align: center; font-style: italic; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+
+        .progresso { background: rgba(0,0,0,0.3); padding: 12px 16px; margin: 18px 0; border: 1px solid rgba(148,163,184,0.1); position: relative; z-index: 1; }
+        .progresso-titulo { color: rgba(148,163,184,0.4); font-weight: bold; margin-bottom: 8px; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; text-align: center; }
+        .progresso-bar { background: rgba(0,0,0,0.4); height: 14px; border: 1px solid rgba(148,163,184,0.08); }
+        .progresso-fill { background: linear-gradient(90deg, #1e1b4b, #334155, #64748b); height: 100%; width: 33%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.8); font-weight: bold; font-size: 9px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; }
+
+        .divisor { border: none; margin: 26px 0; position: relative; z-index: 1; text-align: center; }
+        .divisor::before { content: '· · ·'; color: rgba(148,163,184,0.2); font-size: 16px; letter-spacing: 8px; }
+        .divisor.ornamental::before { content: '— ✦ —'; color: rgba(148,163,184,0.15); font-size: 13px; letter-spacing: 4px; }
+
+        h2 { color: rgba(148,163,184,0.6); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin: 26px 0 14px 0; font-family: 'Segoe UI', sans-serif; font-weight: bold; display: flex; align-items: center; gap: 10px; position: relative; z-index: 1; }
+        h2::after { content: ''; flex: 1; height: 1px; background: rgba(148,163,184,0.15); }
+
+        .narrativa { font-size: 16px; line-height: 2.1; color: #cbd5e1; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+        .narrativa p { margin: 14px 0; }
+        .narrativa .destaque { color: #38bdf8; font-weight: bold; }
+        .narrativa .dialogo { background: rgba(0,0,0,0.18); border-left: 2px solid rgba(56,189,248,0.2); padding: 12px 18px; margin: 16px 0; font-style: italic; color: rgba(148,163,184,0.65); line-height: 2.1; }
+        .narrativa .pensamento { background: rgba(0,0,0,0.15); border: 1px dashed rgba(148,163,184,0.18); padding: 12px 16px; margin: 16px 0; font-style: italic; color: rgba(148,163,184,0.5); line-height: 1.8; font-size: 14px; }
+
+        /* INTERATIVO: A DECISÃO */
+        .puzzle-box { background: linear-gradient(135deg, #020617, #0f172a); border: 1px solid rgba(56,189,248,0.2); border-top: 3px solid rgba(56,189,248,0.4); padding: 28px; margin: 28px 0; position: relative; z-index: 1; }
+        .puzzle-titulo { color: #38bdf8; font-size: 14px; font-weight: bold; margin-bottom: 6px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; }
+        .puzzle-desc { color: rgba(148,163,184,0.55); font-size: 13px; margin-bottom: 22px; line-height: 1.7; font-family: 'Segoe UI', sans-serif; }
+        
+        .opcoes-grid { display: grid; gap: 12px; }
+        .opcao-btn { background: rgba(30,41,59,0.4); border: 1px solid rgba(148,163,184,0.2); padding: 16px; color: #cbd5e1; font-family: 'Segoe UI', sans-serif; font-size: 13px; text-align: left; cursor: pointer; transition: all 0.3s; line-height: 1.6; border-radius: 4px; }
+        .opcao-btn:hover { background: rgba(56,189,248,0.1); border-color: rgba(56,189,248,0.4); }
+        .opcao-btn.selecionada { border-color: #38bdf8; background: rgba(56,189,248,0.15); }
+
+        .puzzle-feedback { display: none; padding: 16px; margin-top: 16px; font-size: 14px; line-height: 1.8; font-family: 'Georgia', serif; border-left: 2px solid #38bdf8; background: rgba(56,189,248,0.05); color: #94a3b8; animation: aparecer 0.4s ease; font-style: italic; }
+
+        /* ENSINAMENTO */
+        .ensinamento-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(148,163,184,0.15); border-top: 2px solid rgba(56,189,248,0.3); padding: 24px; margin: 28px 0; position: relative; z-index: 1; }
+        .ens-pre { font-size: 9px; color: rgba(148,163,184,0.4); font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; font-family: 'Segoe UI', sans-serif; }
+        .ens-frase { font-size: 16px; font-style: italic; color: #7dd3fc; line-height: 1.9; margin-bottom: 10px; font-weight: normal; }
+        .versic { border-left: 2px solid rgba(56,189,248,0.2); padding: 8px 14px; margin: 10px 0; font-style: italic; color: rgba(148,163,184,0.45); font-size: 12px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; }
+        .ens-texto { font-size: 14px; color: #94a3b8; line-height: 1.95; font-family: 'Segoe UI', sans-serif; }
+        .ens-texto strong { color: #f1f5f9; }
+
+        .oracao-box { background: rgba(0,0,0,0.15); border: 1px solid rgba(148,163,184,0.1); padding: 20px 24px; margin: 20px 0; font-style: italic; color: rgba(148,163,184,0.55); line-height: 2; font-size: 15px; text-align: center; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+
+        .gancho-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(148,163,184,0.2); padding: 26px; margin: 28px 0; text-align: center; position: relative; z-index: 1; }
+        .gancho-label { font-size: 9px; color: rgba(148,163,184,0.4); font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; font-family: 'Segoe UI', sans-serif; }
+        .gancho-emoji { font-size: 30px; display: block; margin-bottom: 14px; animation: pulsar 2.5s infinite; }
+        .gancho-texto { font-size: 15px; color: #94a3b8; line-height: 2; font-style: italic; font-family: 'Georgia', serif; }
+        .gancho-destaque { color: #38bdf8; font-style: normal; font-weight: bold; display: block; margin-top: 12px; letter-spacing: 1px; }
+
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 32px; gap: 12px; position: relative; z-index: 1; }
+        .nav-btn { flex: 1; padding: 13px 20px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.25s; font-size: 12px; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', sans-serif; letter-spacing: 2px; text-transform: uppercase; }
+        .nav-btn-prev { background: rgba(0,0,0,0.25); color: rgba(148,163,184,0.4); border: 1px solid rgba(148,163,184,0.15); }
+        .nav-btn-prev:hover { color: #cbd5e1; background: rgba(0,0,0,0.4); }
+        .nav-btn-next { background: linear-gradient(135deg, #1e1b4b, #312e81); color: #f8fafc; border: 1px solid rgba(56,189,248,0.2); }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
+
+        .rodape { text-align: center; margin-top: 18px; color: rgba(148,163,184,0.2); font-size: 11px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; position: relative; z-index: 1; }
+        .rodape span { color: #38bdf8; }
+
+        @keyframes aparecer { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulsar   { 0%,100%{transform:scale(1)} 50%{transform:scale(1.07)} }
+
+        @media (max-width: 600px) {
+            .container { padding: 28px 18px; }
+            h1 { font-size: 20px; }
+            .narrativa { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="bloqueio">
+    <div class="cb">
+        <img src="../logoup.png" alt="Central UP">
+        <p>Este capítulo está sendo processado...</p>
+    </div>
+</div>
+
+<div id="conteudo">
+<div class="container">
+    <div class="margem-esq"></div>
+
+    <div class="borda-topo"><span>O Médico e o Fugitivo</span></div>
+
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    <div class="serie-label">📖 Semana 2 — A História Continua</div>
+    <div class="dia-badge">✦ &nbsp; Dia 2 de 6 &nbsp; ✦</div>
+
+    <h1>O Médico, o Carregador e o Fugitivo</h1>
+    <p class="subtitle">Vim para ouvir o passado. Mas o presente estava batendo na porta.</p>
+
+    <div class="progresso">
+        <div class="progresso-titulo">✦ Progresso da semana</div>
+        <div class="progresso-bar"><div class="progresso-fill">33%</div></div>
+    </div>
+
+    <div class="divisor"></div>
+
+    <div class="narrativa">
+        <p>O sol estava baixando, pintando as pedras de Jerusalém com um tom de sangue e ouro. Eu, que vim de longe para apenas ouvir relatos, agora sentia o cabo da minha bolsa de couro bater contra a coxa enquanto tentava manter o passo de Levi. Minhas mãos, acostumadas ao papiro e ao bisturi, tremiam levemente.</p>
+        <p>Levi parou abruptamente na esquina da casa de Maria. Ele se virou para mim, os olhos apertados.</p>
+        
+        <div class="dialogo">
+            <strong style="color:#7dd3fc;">Levi:</strong> "Doutor, você disse que queria ver como a história terminava, certo? Pois bem, ela acabou de ficar complicada. Se os soldados virem um grego com roupas finas parado na porta de um fugitivo, nem suas ervas medicinais vão te salvar da masmorra".<br><br>
+            <strong style="color:#7dd3fc;">Narrador (Eu):</strong> "Eu não sou apenas um espectador, Levi. Se Pedro está mesmo lá dentro e precisa sair da cidade, ele vai precisar de alguém que conheça as estradas, não apenas as vielas".
+        </div>
+
+        <p>João Marcos abriu a porta e nos puxou para dentro antes que eu pudesse terminar a frase.</p>
+    </div>
+
+    <h2>🗣️ O Encontro no Pátio</h2>
+
+    <div class="narrativa">
+        <p>Lá dentro, o caos era silencioso. As pessoas falavam todas ao mesmo tempo, mas em sussurros. No centro do pátio, um homem com a barba desgrenhada e marcas vermelhas de correntes nos pulsos estava terminando de calçar as sandálias. Era <span class="destaque">Pedro</span>.</p>
+        <p>Ele olhou para nós. Para o menino suado e para o médico estrangeiro.</p>
+
+        <div class="dialogo">
+            <strong style="color:#7dd3fc;">Pedro:</strong> "Quem são esses, Marcos? Mais anjos?".<br><br>
+            <strong style="color:#7dd3fc;">João Marcos:</strong> "Esse é o Levi, o melhor informante do mercado. E o outro... bom, o outro diz que é médico".
+        </div>
+
+        <p>Eu me aproximei de Pedro. Como médico, não pude evitar olhar para os pulsos dele. Estavam em carne viva.</p>
+        
+        <div class="dialogo">
+            <strong style="color:#7dd3fc;">Narrador (Eu):</strong> "Deixe-me ver isso, Simão Pedro. Se você vai fugir, não pode ter uma infecção te atrasando. Levi, me ajude a segurar a jarra, preciso de água limpa para lavar essas feridas".
+        </div>
+    </div>
+
+    <img src="../levi/atos201.png" alt="O médico tratando os pulsos de Pedro" style="width:100%; margin:20px 0; display:block; border:1px solid rgba(148,163,184,0.12);" onerror="this.style.display='none'">
+
+    <div class="divisor"></div>
+
+    <!-- PUZZLE / INTERATIVO -->
+    <div class="puzzle-box">
+        <div class="puzzle-titulo">🔍 A Decisão do Médico</div>
+        <div class="puzzle-desc">Os soldados estão batendo nas portas três casas abaixo. Temos pouco tempo. O que eu, o Narrador, devo fazer enquanto cuido de Pedro? Escolha uma opção:</div>
+
+        <div class="opcoes-grid">
+            <button class="opcao-btn" onclick="escolher('A')"><strong>[A]</strong> Fazer um curativo rápido e improvisado com tiras da minha própria túnica para não perder tempo.</button>
+            <button class="opcao-btn" onclick="escolher('B')"><strong>[B]</strong> Pedir para Levi distrair os soldados no portão enquanto termino o tratamento.</button>
+            <button class="opcao-btn" onclick="escolher('C')"><strong>[C]</strong> Entregar minha bolsa de moedas para João Marcos subornar o vigia da rua lateral.</button>
+        </div>
+
+        <div class="puzzle-feedback" id="feedback-decisao"></div>
+    </div>
+
+    <div class="divisor ornamental"></div>
+
+    <div class="narrativa">
+        <p>Eu terminei de enrolar o linho nos pulsos de Pedro. Ele apertou meu ombro com uma força que eu não esperava de um homem que passou dias em uma masmorra.</p>
+        <div class="dialogo">
+            <strong style="color:#7dd3fc;">Pedro:</strong> "Obrigado, médico. Mas guarde o resto dos seus remédios. Para onde eu vou, o Espírito vai na frente".
+        </div>
+        <p>Levi pegou as jarras vazias. Ele olhou para mim e para João Marcos.</p>
+        <div class="dialogo">
+            <strong style="color:#7dd3fc;">Levi:</strong> "O plano é o seguinte: o Doutor vai sair na frente conversando com os guardas. Ninguém desconfia de um grego culto. Enquanto isso, eu e João Marcos passamos com 'o ferido' pelos fundos".
+        </div>
+        <p>Eu senti um nó na garganta. Eu vim para escrever um livro, mas agora eu era parte do parágrafo mais perigoso dele.</p>
+    </div>
+
+    <div class="divisor"></div>
+
+    <!-- ENSINAMENTO -->
+    <div class="ensinamento-box">
+        <div class="ens-pre">✦ Eu não sabia, mas Jesus já tinha falado sobre isso</div>
+        <div class="ens-frase">"Porque o Filho do Homem veio procurar e salvar o que estava perdido."</div>
+        <div class="versic">— Lucas 19.10 · NTLH</div>
+        <div class="ens-texto">
+            Vim pra Jerusalém procurar uma história. Acabei dentro dela.<br><br>
+            É o que acontece com quem se aproxima de Jesus: ninguém chega onde planejava. Levi não planejava parar na rua numa sexta-feira. João Marcos não planejava se tornar mensageiro. Eu não planejava atravessar a cidade de madrugada.<br><br>
+            <strong>Às vezes Deus não te encontra onde você planejou estar. Te encontra no caminho.</strong>
+        </div>
+    </div>
+
+    <div class="oracao-box">
+        "Senhor, que eu não seja apenas um leitor da tua história, mas alguém disposto a sujar as mãos nela. Amém."
+    </div>
+
+    <!-- GANCHO -->
+    <div class="gancho-box">
+        <div class="gancho-label">✦ Amanhã na história</div>
+        <span class="gancho-emoji">🛂</span>
+        <div class="gancho-texto">
+            Os portões da cidade estão à vista.<br><br>
+            Eu terei que usar toda a minha eloquência grega para enganar o centurião de plantão.<br><br>
+            <em>Será que as sandálias de Pedro aguentam o deserto?</em>
+            <span class="gancho-destaque">Amanhã: O Confronto no Portão.</span>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="atos_dia1.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+        <a href="atos_dia3.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+    </div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:5px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+</div>
+</div>
+
+<script>
+    function escolher(opcao) {
+        const feedback = document.getElementById('feedback-decisao');
+        const botoes = document.querySelectorAll('.opcao-btn');
+        
+        botoes.forEach(b => b.classList.remove('selecionada'));
+        feedback.style.display = 'block';
+
+        let texto = "";
+        if (opcao === 'A') {
+            texto = "<strong>Resposta de Levi:</strong> 'Rápido e prático, como um grego. Pedro agradece a agilidade, mas ele vai manchar o chão de sangue por onde passar se não tomarmos cuidado com os rastros.'";
+        } else if (opcao === 'B') {
+            texto = "<strong>Resposta de Levi:</strong> 'Você confia muito na minha lábia, Doutor! Eu posso até tentar falar de água e jarras quebradas, mas soldados em busca de fugitivo não param pra ouvir piadas.'";
+        } else if (opcao === 'C') {
+            texto = "<strong>Resposta de Levi:</strong> 'Ouro? Você acabou de descobrir que em Jerusalém o ouro fala mais alto que qualquer oração para alguns ouvidos. João Marcos já sumiu na esquina.'";
+        }
+
+        feedback.innerHTML = texto;
+        
+        // Marcar botão selecionado
+        event.currentTarget.classList.add('selecionada');
+        
+        setTimeout(() => feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 200);
+    }
+
+    window.onload = function() {
+        document.getElementById('bloqueio').style.display = 'none';
+        document.getElementById('conteudo').style.display = 'block';
+    }
+
+    function abrirAdmin() {
+        const s = prompt('🔒 Senha:');
+        if (s === 'admin') {
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        } else if (s !== null) alert('Senha incorreta.');
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.4);border:1.5px solid rgba(148,163,184,0.2);color:rgba(148,163,184,0.3);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button>
+</div>
+
+</body>
+</html>

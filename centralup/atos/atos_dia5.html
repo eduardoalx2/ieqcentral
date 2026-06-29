@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 5 — O Preço de Estar Dentro | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #020617;
+            min-height: 100vh; padding: 20px;
+            background-image:
+                radial-gradient(ellipse at top left, #1e1b4b 0%, transparent 55%),
+                radial-gradient(ellipse at bottom right, #0f172a 0%, transparent 55%),
+                radial-gradient(ellipse at center, #020617 0%, transparent 70%);
+        }
+
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: #020617;
+            z-index: 9999; display: none; align-items: center; justify-content: center;
+        }
+        #bloqueio .cb { text-align: center; color: #94a3b8; padding: 40px; max-width: 600px; }
+        #conteudo { display: block; }
+
+        .container {
+            max-width: 780px; margin: 0 auto;
+            background: linear-gradient(160deg, #0f172a 0%, #020617 35%, #1e293b 65%, #020617 100%);
+            border-radius: 2px;
+            padding: 52px 48px;
+            box-shadow:
+                0 0 0 1px rgba(148,163,184,0.2),
+                0 0 0 4px rgba(30,41,59,0.2),
+                0 30px 100px rgba(0,0,0,0.9),
+                inset 0 0 120px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                repeating-linear-gradient(
+                    0deg, transparent, transparent 31px,
+                    rgba(148,163,184,0.02) 31px, rgba(148,163,184,0.02) 32px
+                );
+            pointer-events: none; z-index: 0;
+        }
+
+        .margem-esq {
+            position: absolute; top: 0; left: 52px; bottom: 0;
+            width: 1px; background: rgba(148,163,184,0.07);
+            z-index: 0; pointer-events: none;
+        }
+
+        .borda-topo {
+            position: relative; z-index: 1;
+            padding: 10px 0; margin-bottom: 30px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            border-top: 1px solid rgba(148,163,184,0.3);
+            border-bottom: 1px solid rgba(148,163,184,0.1);
+        }
+        .borda-topo::before { content: '❧'; color: rgba(148,163,184,0.3); font-size: 16px; }
+        .borda-topo::after  { content: '❧'; color: rgba(148,163,184,0.3); font-size: 16px; transform: scaleX(-1); display: inline-block; }
+        .borda-topo span { font-size: 9px; color: rgba(148,163,184,0.35); letter-spacing: 4px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; }
+
+        .logo-topo { text-align: center; margin-bottom: 18px; position: relative; z-index: 1; }
+        .logo-topo img { max-width: 150px; filter: grayscale(1) brightness(1.8); }
+
+        .serie-label { font-size: 9px; color: rgba(148,163,184,0.45); font-weight: bold; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 6px; text-align: center; font-family: 'Segoe UI', sans-serif; position: relative; z-index: 1; }
+        .dia-badge { display: block; text-align: center; font-family: 'Georgia', serif; font-size: 12px; color: rgba(148,163,184,0.5); letter-spacing: 2px; margin-bottom: 18px; position: relative; z-index: 1; }
+
+        h1 { color: #f8fafc; font-size: 25px; margin-bottom: 6px; line-height: 1.35; text-align: center; font-family: 'Georgia', serif; font-weight: normal; text-shadow: 0 2px 16px rgba(0,0,0,0.6); position: relative; z-index: 1; }
+        .subtitle { color: rgba(148,163,184,0.45); font-size: 13px; margin-bottom: 26px; text-align: center; font-style: italic; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+
+        .progresso { background: rgba(0,0,0,0.3); padding: 12px 16px; margin: 18px 0; border: 1px solid rgba(148,163,184,0.1); position: relative; z-index: 1; }
+        .progresso-titulo { color: rgba(148,163,184,0.4); font-weight: bold; margin-bottom: 8px; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; text-align: center; }
+        .progresso-bar { background: rgba(0,0,0,0.4); height: 14px; border: 1px solid rgba(148,163,184,0.08); }
+        .progresso-fill { background: linear-gradient(90deg, #1e1b4b, #334155, #64748b); height: 100%; width: 55.55%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.8); font-weight: bold; font-size: 9px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; }
+
+        .divisor { border: none; margin: 26px 0; position: relative; z-index: 1; text-align: center; }
+        .divisor::before { content: '· · ·'; color: rgba(148,163,184,0.2); font-size: 16px; letter-spacing: 8px; }
+
+        /* QUIZ SYSTEM */
+        #quiz-container {
+            position: relative; z-index: 1;
+        }
+        
+        .quiz-box { background: rgba(0,0,0,0.2); border-left: 2px solid rgba(56,189,248,0.3); padding: 28px 24px; margin: 26px 0; position: relative; z-index: 1; }
+        .quiz-titulo { color: #38bdf8; font-size: 14px; font-weight: bold; margin-bottom: 4px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+        .quiz-subtitulo { color: rgba(148,163,184,0.55); font-size: 12px; margin-bottom: 20px; font-family: 'Segoe UI', sans-serif; font-style: italic; }
+        .quiz-pergunta { color: #f8fafc; font-size: 16px; margin-bottom: 18px; line-height: 1.6; }
+        .quiz-opcoes { display: grid; gap: 10px; }
+        .quiz-btn { 
+            background: rgba(30,41,59,0.5); border: 1px solid rgba(148,163,184,0.2); 
+            padding: 14px 16px; color: #cbd5e1; cursor: pointer; text-align: left; 
+            transition: all 0.2s; font-family: 'Segoe UI', sans-serif; border-radius: 4px;
+            font-size: 13px;
+        }
+        .quiz-btn:hover { background: rgba(56,189,248,0.1); border-color: #38bdf8; }
+        .quiz-btn:disabled { opacity: 0.5; cursor: default; }
+        
+        .feedback { margin-top: 16px; font-family: 'Georgia', serif; font-size: 14px; display: none; }
+        .feedback-correto { color: #4ade80; }
+        .feedback-incorreto { color: #f87171; }
+
+        .quiz-info { text-align: center; color: rgba(148,163,184,0.4); font-size: 11px; margin-top: 12px; font-family: 'Segoe UI', sans-serif; }
+
+        /* CONTENT (HIDDEN UNTIL QUIZ DONE) */
+        #conteudo-dia { display: none; position: relative; z-index: 1; }
+
+        .narrativa { font-size: 16px; line-height: 2.1; color: #cbd5e1; position: relative; z-index: 1; }
+        .narrativa p { margin: 14px 0; }
+        .narrativa .destaque { color: #38bdf8; font-weight: bold; }
+        .narrativa .dialogo { background: rgba(0,0,0,0.18); border-left: 2px solid rgba(56,189,248,0.2); padding: 12px 18px; margin: 16px 0; font-style: italic; color: rgba(148,163,184,0.65); line-height: 2.1; }
+
+        .ensinamento-box {
+            background: rgba(0,0,0,0.25);
+            border: 1px solid rgba(148,163,184,0.15);
+            border-top: 2px solid #38bdf8;
+            padding: 28px;
+            margin: 30px 0;
+            position: relative;
+            z-index: 1;
+        }
+        .ens-titulo { font-size: 9px; color: rgba(148,163,184,0.4); font-weight: bold; letter-spacing: 3px; margin-bottom: 12px; text-transform: uppercase; }
+        .ens-frase { font-size: 16px; font-style: italic; color: #7dd3fc; margin-bottom: 14px; line-height: 1.6; }
+        .ens-texto { color: #94a3b8; font-size: 14px; line-height: 1.8; }
+        
+        .oracao-box {
+            background: rgba(56,189,248,0.05);
+            border: 1px solid rgba(56,189,248,0.2);
+            border-left: 3px solid rgba(56,189,248,0.4);
+            padding: 24px;
+            margin: 28px 0;
+            color: #7dd3fc;
+            font-style: italic;
+            font-size: 15px;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* GANCHO */
+        .gancho-box {
+            background: linear-gradient(135deg, rgba(30,41,59,0.3), rgba(30,58,83,0.2));
+            border: 1px solid rgba(56,189,248,0.2);
+            border-left: 3px solid rgba(56,189,248,0.4);
+            padding: 28px;
+            margin: 28px 0;
+            position: relative;
+            z-index: 1;
+        }
+        .gancho-label { color: #38bdf8; font-size: 11px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; margin-bottom: 10px; }
+        .gancho-emoji { font-size: 28px; display: block; margin: 12px 0; }
+        .gancho-texto { color: #94a3b8; font-size: 14px; line-height: 1.8; }
+        .gancho-destaque { color: #38bdf8; font-weight: bold; display: block; margin-top: 8px; }
+
+        /* IMAGEM FINAL */
+        .img-final-container {
+            margin: 32px 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .img-final-container img {
+            max-width: 100%;
+            border-radius: 4px;
+            border: 1px solid rgba(148,163,184,0.15);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.6);
+        }
+
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 32px; gap: 12px; position: relative; z-index: 1; }
+        .nav-btn { flex: 1; padding: 13px; text-decoration: none; font-weight: bold; text-align: center; font-size: 12px; font-family: 'Segoe UI', sans-serif; letter-spacing: 2px; text-transform: uppercase; border-radius: 4px; transition: all 0.2s; border: 1px solid transparent; }
+        .nav-btn-prev { background: rgba(30,41,59,0.4); color: #cbd5e1; border: 1px solid rgba(148,163,184,0.2); }
+        .nav-btn-prev:hover { background: rgba(56,189,248,0.1); border-color: #38bdf8; }
+        .nav-btn-next { background: linear-gradient(135deg, #1e1b4b, #312e81); color: #f8fafc; border: 1px solid rgba(56,189,248,0.2); }
+        .nav-btn-next:hover { background: linear-gradient(135deg, #312e81, #3730a3); }
+        .nav-btn-next:disabled { opacity: 0.3; pointer-events: none; }
+
+        .rodape {
+            text-align: center; margin-top: 32px; padding-top: 20px;
+            border-top: 1px solid rgba(148,163,184,0.1); position: relative; z-index: 1;
+        }
+        .rodape p { color: rgba(148,163,184,0.35); font-size: 11px; font-family: 'Segoe UI', sans-serif; }
+        .rodape span { color: rgba(148,163,184,0.5); font-weight: bold; }
+
+        @keyframes aparecer { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="margem-esq"></div>
+<div id="bloqueio"><div class="cb"></div></div>
+
+<div id="conteudo">
+<div class="container">
+    <div class="borda-topo"><span>A História Continua</span></div>
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    
+    <div id="quiz-container">
+        <div class="quiz-box">
+            <div class="quiz-titulo">✦ Desafio de Recapitulação</div>
+            <p class="quiz-subtitulo">Responda corretamente para liberar o relato de hoje.</p>
+            <div id="quiz-content">
+                <p class="quiz-pergunta" id="pergunta-txt"></p>
+                <div class="quiz-opcoes" id="opcoes-container"></div>
+                <p class="feedback" id="feedback-txt"></p>
+            </div>
+        </div>
+        <p class="quiz-info">Pergunta <span id="current-idx">1</span> de 9</p>
+    </div>
+
+    <div id="conteudo-dia">
+        <div class="dia-badge">✦ DIA 5 DE 9 ✦</div>
+        <h1>O Preço de Estar Dentro</h1>
+        <p class="subtitle">O silêncio em Jerusalém não era mais de oração, era de alerta.</p>
+
+        <div class="narrativa">
+            <p>O ar parecia ter mudado quando voltamos à casa de Maria. Eu, o <span class="destaque">Narrador</span>, senti o peso do papiro escondido na minha túnica. Levi caminhava ao meu lado, as jarras vazias batendo uma na outra, mas sua mão nunca saía de perto da adaga de osso na cintura.</p>
+            
+            <div class="dialogo">
+                "Alguém falou", sussurrou João Marcos, surgindo das sombras. Ele estava suado. "Os guardas do Templo não procuram mais apenas um fugitivo. Procuram quem o ajudou."
+            </div>
+
+            <p>De repente, um estrondo. O portão da frente foi atingido por um machado. Soldados invadiram o pátio gritando nomes que eu conhecia bem.</p>
+            
+            <div class="dialogo">
+                <strong>Levi:</strong> "Doutor, para o telhado! Agora!"
+            </div>
+
+            <p>Corremos. Eu não sou um guerreiro; minhas mãos servem para curar, não para lutar. Mas ao ver um soldado agarrar a túnica de Levi, não pensei. Derrubei uma estante de jarras pesadas no caminho do guarda. O barulho foi ensurdecedor.</p>
+            
+            <p>João Marcos já estava saltando para o telhado vizinho. "Pule, Doutor!". Olhei para o abismo entre as casas e para os soldados abaixo. Naquele salto, entendi: o preço de estar dentro desta história não se paga com moedas, mas com a própria vida.</p>
+
+        <div class="img-final-container">
+            <img src="../levi/atos501.png" alt="Ilustração do Dia 5">
+        </div>
+
+
+            <p>Caímos no barro do telhado seguinte enquanto as tochas iluminavam a casa de Maria atrás de nós. Estávamos vivos, mas agora éramos, oficialmente, parte da rebelião do Espírito.</p>
+        </div>
+
+        <div class="ensinamento-box">
+            <div class="ens-titulo">✦ Jesus já tinha falado sobre isso</div>
+            <p class="ens-frase">"Se o mundo os odeia, saibam que primeiro odiou a mim." — João 15.18</p>
+            <p class="ens-texto">
+                Estar "dentro" do que Deus está fazendo tem um custo. Levi perdeu o sossego do mercado. João Marcos perdeu a segurança do lar. Eu perdi o conforto de ser apenas um observador. <br><br>
+                <strong>Quando você decide seguir o Caminho, o mundo para de te ignorar e começa a te notar. Esse é o sinal de que sua vida se tornou relevante para o Reino.</strong>
+            </p>
+        </div>
+
+        <div class="oracao-box">
+            "Senhor, que a minha vida seja um preço que vale a pena ser pago. Amém."
+        </div>
+
+        <div class="gancho-box">
+            <div class="gancho-label">✦ Amanhã na história</div>
+            <span class="gancho-emoji">📜</span>
+            <div class="gancho-texto">
+                Chegamos em um lugar seguro, mas as notícias correm rápido. Alguém está procurando por nós. E não são os romanos.<br><br>
+                <em>O Médico finalmente vai abrir seu papiro para revelar os segredos do passado.</em>
+                <span class="gancho-destaque">Amanhã: O Rolo de Papiro.</span>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="atos_dia4.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+            <a href="atos_dia6.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+        </div>
+    </div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:5px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+</div>
+</div>
+
+<script>
+    const perguntas = [
+        { q: "Quem é o misterioso narrador que apareceu no Dia 1?", options: ["Um soldado romano", "Um médico grego e viajante", "O apóstolo Pedro"], correct: 1 },
+        { q: "Qual era a mensagem urgente na tabuinha no Dia 1?", options: ["FUJAM TODOS", "PEDRO LIVRE", "JESUS VOLTOU"], correct: 1 },
+        { q: "O que o Médico fez ao encontrar Pedro no Dia 2?", options: ["O entregou aos guardas", "Tratou as feridas nos pulsos", "Pediu um autógrafo"], correct: 1 },
+        { q: "Que rastro nas pedras indicou o caminho seguro no Dia 4?", options: ["Sandálias militares", "O furo de um cajado", "Marcas de sangue"], correct: 1 },
+        { q: "Qual o principal objetivo do Narrador ao procurar Levi?", options: ["Comprar ervas", "Investigar os fatos desde o começo", "Prender o jovem"], correct: 1 },
+        { q: "Por que o Médico se sentiu em perigo na casa de Maria?", options: ["Pelas suas roupas finas e estrangeiras", "Porque não gostava de Pedro", "Porque o telhado ia cair"], correct: 0 },
+        { q: "O que Pedro disse sobre o uso de remédios?", options: ["Que precisava de muito", "Que o Espírito Santo iria à frente", "Que não sentia dor"], correct: 1 },
+        { q: "Qual a habilidade que o Médico usa para ler os rastros?", options: ["Navegação", "Diagnóstico clínico", "Culinária"], correct: 1 },
+        { q: "O que o Médico percebeu ao olhar para Jerusalém no Dia 3?", options: ["Que a cidade ardia", "Que estava sendo enviado para algo maior", "Que esqueceu sua bolsa"], correct: 1 }
+    ];
+
+    let currentQ = 0;
+    let respondendo = false;
+
+    function loadQuiz() {
+        if (currentQ >= perguntas.length) {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('conteudo-dia').style.display = 'block';
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+            return;
+        }
+
+        const data = perguntas[currentQ];
+        document.getElementById('pergunta-txt').innerText = data.q;
+        document.getElementById('current-idx').innerText = currentQ + 1;
+        const container = document.getElementById('opcoes-container');
+        container.innerHTML = '';
+        document.getElementById('feedback-txt').style.display = 'none';
+        respondendo = false;
+
+        data.options.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-btn';
+            btn.innerText = opt;
+            btn.onclick = () => check(i, btn);
+            container.appendChild(btn);
+        });
+    }
+
+    function check(idx, btnClicked) {
+        if (respondendo) return;
+        respondendo = true;
+
+        const feedback = document.getElementById('feedback-txt');
+        const buttons = document.querySelectorAll('.quiz-btn');
+        
+        buttons.forEach(btn => btn.disabled = true);
+
+        if (idx === perguntas[currentQ].correct) {
+            feedback.innerText = "✓ Perfeito! Você acertou!";
+            feedback.classList.remove('feedback-incorreto');
+            feedback.classList.add('feedback-correto');
+            feedback.style.display = 'block';
+            
+            setTimeout(() => {
+                currentQ++;
+                loadQuiz();
+            }, 1500);
+        } else {
+            feedback.innerText = "Hmm, essa não é a resposta certa. Tente de novo!";
+            feedback.classList.remove('feedback-correto');
+            feedback.classList.add('feedback-incorreto');
+            feedback.style.display = 'block';
+            
+            setTimeout(() => {
+                buttons.forEach(btn => btn.disabled = false);
+                respondendo = false;
+            }, 1200);
+        }
+    }
+
+    window.onload = loadQuiz;
+
+    function abrirAdmin() {
+        const s = prompt('🔒 Senha:');
+        if (s === 'admin') {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('conteudo-dia').style.display = 'block';
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        } else if (s !== null) alert('Senha incorreta.');
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.4);border:1.5px solid rgba(148,163,184,0.2);color:rgba(148,163,184,0.3);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Interativo Dia 3 — Preview</title>
+    <style>
+        body { background: #0f0f1a; padding: 20px; font-family: 'Segoe UI', sans-serif; }
+    </style>
+</head>
+<body>
+
+<!-- ============================================================
+     INTERATIVO — RECONSTITUIÇÃO DO TÚMULO
+     Cole este bloco no espirito_dia3.html no lugar certo.
+     Inclua o <style> no <head> e o <script> antes do </body>.
+     ============================================================ -->
+
+<!-- STYLE — colar no <head> -->
+<style>
+.recon-box {
+    background: linear-gradient(135deg, #1a1a2e, #0d1b2e);
+    border: 2px solid #e85d2a;
+    border-radius: 18px; padding: 24px; margin: 24px 0;
+}
+.recon-titulo { color: #ff914d; font-size: 16px; font-weight: bold; margin-bottom: 6px; }
+.recon-desc { color: rgba(255,255,255,0.65); font-size: 13px; margin-bottom: 20px; line-height: 1.6; }
+
+.recon-lista { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+
+.recon-card {
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(232,93,42,0.25);
+    border-radius: 14px; padding: 14px 12px;
+    display: flex; align-items: center; gap: 12px;
+    transition: all 0.3s;
+}
+.recon-card.correto {
+    border-color: #d4a843;
+    background: rgba(212,168,67,0.08);
+    box-shadow: 0 0 16px rgba(212,168,67,0.2);
+}
+.recon-card.errado { animation: shake 0.4s ease; border-color: rgba(255,80,80,0.5); }
+
+.card-numero {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(232,93,42,0.2); color: #e85d2a;
+    font-size: 12px; font-weight: bold;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.card-icone { font-size: 26px; flex-shrink: 0; }
+.card-texto { flex: 1; }
+.card-titulo { font-size: 13px; font-weight: bold; color: rgba(255,255,255,0.9); margin-bottom: 2px; }
+.card-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+
+.card-setas { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+.seta-btn {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5); border-radius: 8px;
+    width: 30px; height: 26px; cursor: pointer; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+}
+.seta-btn:hover { background: rgba(232,93,42,0.2); color: #ff914d; border-color: #e85d2a; }
+.seta-btn:disabled { opacity: 0.2; cursor: default; }
+
+.recon-btn {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, #1a3a5c, #e85d2a);
+    color: white; border: none; border-radius: 12px;
+    font-size: 15px; font-weight: bold; cursor: pointer;
+    font-family: inherit; transition: all 0.3s; letter-spacing: 0.5px;
+}
+.recon-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(232,93,42,0.3); }
+
+.recon-feedback {
+    display: none; border-radius: 12px; padding: 12px 16px;
+    font-size: 13px; margin-top: 12px; line-height: 1.6; text-align: center;
+}
+.recon-feedback.erro {
+    background: rgba(255,80,80,0.08); border: 1px solid rgba(255,80,80,0.3);
+    color: rgba(255,150,150,0.9);
+}
+.recon-feedback.acerto {
+    background: rgba(212,168,67,0.08); border: 1px solid rgba(212,168,67,0.4);
+    color: #d4a843;
+}
+
+.recon-revelacao {
+    display: none;
+    background: rgba(212,168,67,0.06);
+    border: 2px solid rgba(212,168,67,0.35);
+    border-radius: 14px; padding: 20px 18px;
+    margin-top: 16px; font-size: 14px;
+    color: rgba(255,255,255,0.8); line-height: 1.85;
+    animation: aparecer 0.6s ease;
+}
+.recon-revelacao strong { color: #d4a843; }
+
+@keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+}
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<!-- HTML — colar no lugar do interativo no body -->
+<div class="recon-box">
+    <div class="recon-titulo">🔍 Reconstituição: o que aconteceu naquela manhã?</div>
+    <div class="recon-desc">Levi juntou as peças do que ouviu. Mas a ordem importa. Use as setas para colocar os eventos na sequência certa e revelar o que realmente aconteceu.</div>
+
+    <div class="recon-lista" id="recon-lista"></div>
+
+    <button class="recon-btn" onclick="verificarOrdem()">🔎 Verificar ordem</button>
+
+    <div class="recon-feedback" id="recon-feedback"></div>
+    <div class="recon-revelacao" id="recon-revelacao">
+        <strong>"Isso não é um conto. É uma reconstituição real."</strong><br><br>
+        Levi tinha as mesmas quatro pistas. E chegou à mesma conclusão: não tinha resposta fácil. Mas os fatos eram os fatos.<br><br>
+        A pedra foi removida. O pano foi dobrado. O nome foi chamado.<br><br>
+        <em style="color:rgba(255,255,255,0.55);">Alguém que morre com cuidado não rouba o próprio corpo.</em>
+    </div>
+</div>
+
+<!-- SCRIPT — colar antes do </body> (ou dentro do <script> já existente) -->
+<script>
+    const cards = [
+        { id: 'pedra', icone: '🪨', titulo: 'O jardim',             desc: 'Chegam ao jardim e encontram a pedra enorme rolada de lado. O túmulo está aberto' },
+        { id: 'nome',  icone: '👤', titulo: 'Uma voz',              desc: 'Uma voz chama um nome. Ela vira. E reconhece imediatamente quem está ali' },
+        { id: 'lua',   icone: '🌙', titulo: 'Antes do amanhecer',   desc: 'As mulheres saem no escuro, carregando potes de unguento para preparar o corpo de Jesus' },
+        { id: 'pano',  icone: '🪢', titulo: 'Dentro do túmulo',     desc: 'Só as faixas de pano, dobradas com cuidado. Nenhum corpo. Nenhuma explicação' },
+    ];
+    const ordemCorreta = ['lua', 'pedra', 'pano', 'nome'];
+    let ordem = cards.map(c => c.id); // começa embaralhada conforme declaração acima
+
+    function renderCards() {
+        const lista = document.getElementById('recon-lista');
+        lista.innerHTML = '';
+        ordem.forEach((id, i) => {
+            const c = cards.find(x => x.id === id);
+            lista.innerHTML += `
+                <div class="recon-card" id="rc-${id}">
+                    <div class="card-numero">${i + 1}</div>
+                    <div class="card-icone">${c.icone}</div>
+                    <div class="card-texto">
+                        <div class="card-titulo">${c.titulo}</div>
+                        <div class="card-desc">${c.desc}</div>
+                    </div>
+                    <div class="card-setas">
+                        <button class="seta-btn" onclick="mover(${i}, -1)" ${i === 0 ? 'disabled' : ''}>▲</button>
+                        <button class="seta-btn" onclick="mover(${i},  1)" ${i === ordem.length - 1 ? 'disabled' : ''}>▼</button>
+                    </div>
+                </div>`;
+        });
+    }
+
+    function mover(index, dir) {
+        const novo = index + dir;
+        if (novo < 0 || novo >= ordem.length) return;
+        [ordem[index], ordem[novo]] = [ordem[novo], ordem[index]];
+        renderCards();
+        esconderFeedback();
+    }
+
+    function verificarOrdem() {
+        const feedback = document.getElementById('recon-feedback');
+        const revelacao = document.getElementById('recon-revelacao');
+        const correta = JSON.stringify(ordem) === JSON.stringify(ordemCorreta);
+
+        if (correta) {
+            ordemCorreta.forEach(id => {
+                document.getElementById('rc-' + id).classList.remove('errado');
+                document.getElementById('rc-' + id).classList.add('correto');
+            });
+            feedback.className = 'recon-feedback acerto';
+            feedback.textContent = '✅ Isso mesmo! A sequência está certa.';
+            feedback.style.display = 'block';
+            setTimeout(() => {
+                revelacao.style.display = 'block';
+                revelacao.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 400);
+        } else {
+            ordem.forEach((id, i) => {
+                const el = document.getElementById('rc-' + id);
+                el.classList.remove('correto');
+                if (id !== ordemCorreta[i]) {
+                    el.classList.remove('errado');
+                    void el.offsetWidth; // força reflow para reiniciar animação
+                    el.classList.add('errado');
+                } else {
+                    el.classList.remove('errado');
+                }
+            });
+            feedback.className = 'recon-feedback erro';
+            feedback.textContent = 'Quase. Releia as pistas e tente de novo.';
+            feedback.style.display = 'block';
+        }
+    }
+
+    function esconderFeedback() {
+        document.getElementById('recon-feedback').style.display = 'none';
+        ordem.forEach(id => {
+            const el = document.getElementById('rc-' + id);
+            if (el) { el.classList.remove('correto', 'errado'); }
+        });
+    }
+
+    renderCards();
+</script>
+
+</body>
+</html>

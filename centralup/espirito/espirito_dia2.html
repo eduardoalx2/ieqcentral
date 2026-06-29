@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 2 — O Boato que Levi Não Queria Acreditar | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 60%, #e85d2a 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 60%, #e85d2a 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .cb { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 220px; margin-bottom: 20px; }
+        #bloqueio p { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.8); }
+        #conteudo { display: none; }
+
+        .container {
+            max-width: 800px; margin: 0 auto; background: #0f0f1a;
+            border-radius: 25px; padding: 36px 32px;
+            box-shadow: 0 15px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(232,93,42,0.2);
+        }
+        .logo-topo { text-align: center; margin-bottom: 22px; }
+        .logo-topo img { max-width: 180px; }
+        .serie-label { font-size: 11px; color: #e85d2a; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .dia-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #1a3a5c, #e85d2a);
+            color: white; padding: 8px 20px; border-radius: 25px;
+            font-weight: bold; margin-bottom: 16px; font-size: 13px; letter-spacing: 1px;
+        }
+        h1 { color: #ff914d; font-size: 28px; margin-bottom: 8px; line-height: 1.3; }
+        .subtitle { color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 24px; }
+
+        .progresso { background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; margin: 20px 0; text-align: center; }
+        .progresso-titulo { color: #e85d2a; font-weight: bold; margin-bottom: 10px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+        .progresso-bar { background: rgba(255,255,255,0.1); height: 20px; border-radius: 10px; overflow: hidden; }
+        .progresso-fill { background: linear-gradient(90deg, #1a3a5c, #e85d2a); height: 100%; width: 33%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 11px; }
+
+        hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 24px 0; }
+
+        /* NARRATIVA */
+        .narrativa { font-size: 16px; line-height: 2; color: rgba(255,255,255,0.85); }
+        .narrativa p { margin: 14px 0; }
+        .narrativa .destaque { color: #ff914d; font-weight: bold; }
+        .narrativa .italico { font-style: italic; color: rgba(255,255,255,0.65); }
+        .narrativa .humor { background: rgba(232,93,42,0.1); border-left: 3px solid #e85d2a; padding: 10px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; font-style: italic; color: rgba(255,255,255,0.8); }
+        .narrativa .pensamento { background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 14px 18px; margin: 16px 0; font-style: italic; color: rgba(255,255,255,0.7); }
+
+        h2 {
+            color: white; background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+            padding: 11px 18px; border-radius: 12px; font-size: 15px;
+            margin: 24px 0 14px 0; border: 1px solid rgba(232,93,42,0.3);
+        }
+
+        /* MAPA INTERATIVO */
+        .mapa-box {
+            background: linear-gradient(135deg, #1a1a2e, #0d1b2e);
+            border: 2px solid #e85d2a;
+            border-radius: 18px; padding: 24px; margin: 24px 0;
+        }
+        .mapa-titulo { color: #ff914d; font-size: 16px; font-weight: bold; margin-bottom: 6px; }
+        .mapa-desc { color: rgba(255,255,255,0.65); font-size: 13px; margin-bottom: 20px; line-height: 1.6; }
+
+        .mapa-visual {
+            background: rgba(10,20,40,0.8);
+            border: 1px solid rgba(232,93,42,0.3);
+            border-radius: 14px;
+            padding: 20px 16px;
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .mapa-nome { font-size: 11px; color: rgba(232,93,42,0.7); letter-spacing: 2px; text-transform: uppercase; text-align: center; margin-bottom: 14px; }
+
+        .local-btn {
+            width: 100%; background: rgba(255,255,255,0.04); border: 1.5px solid rgba(232,93,42,0.25);
+            border-radius: 14px; padding: 14px 18px; margin-bottom: 10px;
+            cursor: pointer; text-align: left; font-family: inherit;
+            transition: all 0.25s; display: flex; align-items: center; gap: 14px;
+        }
+        .local-btn:last-child { margin-bottom: 0; }
+        .local-btn:hover { background: rgba(232,93,42,0.1); border-color: #e85d2a; transform: translateX(4px); }
+        .local-btn.visitado { border-color: rgba(212,168,67,0.5); background: rgba(212,168,67,0.06); }
+        .local-btn.visitado .local-icon { filter: grayscale(0); }
+        .local-icon { font-size: 28px; flex-shrink: 0; }
+        .local-nome { font-size: 14px; font-weight: bold; color: rgba(255,255,255,0.9); display: block; margin-bottom: 2px; }
+        .local-hint { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+        .local-resultado {
+            display: none; background: rgba(232,93,42,0.07); border-left: 4px solid #e85d2a;
+            border-radius: 0 12px 12px 0; padding: 14px 18px; margin-top: 12px;
+            font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.8;
+            animation: aparecer 0.5s ease;
+        }
+        .local-resultado.dourado { border-left-color: #d4a843; background: rgba(212,168,67,0.07); }
+
+        .mapa-progresso {
+            text-align: center; padding: 10px; color: rgba(255,255,255,0.3);
+            font-size: 12px; letter-spacing: 1px; border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: 14px;
+        }
+        .mapa-progresso span { color: #e85d2a; font-weight: bold; }
+
+        /* ENSINAMENTO */
+        .ensinamento-box {
+            background: linear-gradient(135deg, #1a0a00, #2a1000);
+            border: 2px solid rgba(212,168,67,0.4);
+            border-radius: 18px; padding: 24px; margin: 24px 0;
+        }
+        .ens-pre { font-size: 12px; color: rgba(212,168,67,0.7); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .ens-frase { font-size: 17px; font-style: italic; color: #d4a843; line-height: 1.8; margin-bottom: 12px; font-weight: 600; }
+        .ens-texto { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.85; }
+        .versic { background: rgba(212,168,67,0.08); border-left: 4px solid #d4a843; border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 12px 0; font-style: italic; color: #d4a843; font-size: 14px; }
+
+        /* GANCHO */
+        .gancho-box {
+            background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+            border: 2px solid rgba(232,93,42,0.5);
+            border-radius: 18px; padding: 22px; margin: 24px 0; text-align: center;
+        }
+        .gancho-label { font-size: 11px; color: #e85d2a; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .gancho-texto { font-size: 16px; color: white; line-height: 1.7; font-style: italic; }
+        .gancho-emoji { font-size: 36px; display: block; margin-bottom: 10px; animation: pulsar 2s infinite; }
+
+        /* ORAÇÃO */
+        .oracao-box {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px; padding: 20px; margin: 20px 0;
+            font-style: italic; color: rgba(255,255,255,0.7); line-height: 2; font-size: 15px; text-align: center;
+        }
+
+        /* NAV */
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; gap: 12px; }
+        .nav-btn { flex: 1; padding: 13px 20px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.3s; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .nav-btn-prev { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        .nav-btn-prev:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-btn-next { background: linear-gradient(135deg, #1a3a5c, #e85d2a); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(232,93,42,0.3); }
+
+        .rodape { text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.25); font-size: 12px; }
+        .rodape span { color: #e85d2a; }
+
+        @keyframes aparecer { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+        @keyframes pulsar { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+        @media (max-width: 600px) {
+            .container { padding: 22px 16px; border-radius: 18px; }
+            h1 { font-size: 22px; }
+            .narrativa { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="bloqueio">
+    <div class="cb">
+        <img src="../logoup.png" alt="Central UP">
+        <p id="msg-bl">Este devocional abre amanhã!</p>
+        <p style="margin-top:12px;font-size:14px;" id="msg-sub"></p>
+    </div>
+</div>
+
+<div id="conteudo">
+<div class="container">
+
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    <div class="serie-label">🔥 Levi e o Vento que Mudou Tudo — Semana 1</div>
+    <div class="dia-badge">📅 DIA 2 DE 6</div>
+
+    <h1>O Boato que Levi Não Queria Acreditar</h1>
+    <p class="subtitle">Domingo de manhã. Mercado de Jerusalém. E uma notícia que não fazia sentido nenhum.</p>
+
+    <div class="progresso">
+        <div class="progresso-titulo">⚡ Progresso da semana</div>
+        <div class="progresso-bar">
+            <div class="progresso-fill">33%</div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>📖 O boato do mercado</h2>
+
+    <div class="narrativa">
+
+        <p>Levi não dormiu direito em dois dias.</p>
+
+        <p>Na sexta, ele tinha visto aquilo. No sábado, tinha ficado em casa porque era o dia de descanso e não tinha pra onde ir de qualquer jeito. Ficou virando de lado na esteira de palha, tentando pensar em outras coisas. No trabalho. No dinheiro da jarra quebrada que ia ter que explicar pro pai. No vizinho que roncava do outro lado da parede.</p>
+
+        <p>Mas todo caminho mental levava de volta ao mesmo lugar: aquele olhar.</p>
+
+        <div class="pensamento">
+            "Gente que está morrendo não olha assim. Está fazendo isso errado ou eu não entendo nada."
+        </div>
+
+        <p>Quando o céu começou a clarear, ele desistiu de dormir. Pegou as jarras (a que sobrou, pelo menos) e foi pro mercado mais cedo do que precisava.</p>
+
+        <p>O mercado de Jerusalém de manhã cedo é uma bagunça boa. Cheiro de pão quente, especiarias, peixe recém-chegado do lago. Todo mundo falando ao mesmo tempo, ninguém ouvindo ninguém.</p>
+
+        <p>Levi foi enchendo a jarra na fonte quando ouviu dois homens conversando na tenda ao lado.</p>
+
+        <p class="italico">Baixinho. Aquele tipo de conversa que as pessoas têm quando o assunto é perigoso.</p>
+
+        <div class="humor">
+            "Dizem que ele voltou."<br>
+            "Quem?"<br>
+            "Aquele lá. O que crucificaram na sexta."<br>
+            Silêncio.<br>
+            "Isso é impossível."<br>
+            "Eu sei. Mas dizem."
+        </div>
+
+        <img src="../levi/dia201.png" alt="Levi no mercado" style="width:100%; border-radius:14px; margin:0 0 20px 0; display:block;" onerror="this.style.display='none'">
+
+        <p>Levi parou na hora. Derramou metade da água da jarra. De novo.</p>
+
+        <p><span class="destaque">Jesus.</span> Estavam falando de Jesus.</p>
+
+        <p>Ele virou pra ouvir melhor, fingindo que estava ajeitando a alça da jarra. Os dois homens abaixaram mais a voz ainda e foram embora rápido.</p>
+
+        <p>Levi ficou parado com a jarra meio vazia na mão, com aquela sensação esquisita de que o mercado todo podia ouvir o barulho do próprio coração dele.</p>
+
+        <div class="pensamento">
+            "Isso é uma mentira. Tem que ser uma mentira. Morto não volta."
+        </div>
+
+        <p>Mas a voz lá dentro não estava convicta.</p>
+
+        <p>Ele olhou ao redor. O mercado todo continuava funcionando normalmente, como se nada tivesse acontecido. Como se dois homens não tivessem acabado de dizer a coisa mais absurda do mundo de um jeito completamente sério.</p>
+
+        <p>Levi tomou uma decisão.</p>
+
+        <p>Ia descobrir a verdade. Ia provar que era mentira. Ia encontrar alguém que tivesse visto o corpo, que confirmasse que Jesus estava morto como qualquer pessoa fica depois de uma crucificação, e voltaria pra casa com a cabeça no lugar.</p>
+
+        <p class="italico">Fácil assim.</p>
+
+    </div>
+
+    <hr>
+
+    <!-- MAPA INTERATIVO -->
+    <div class="mapa-box">
+        <div class="mapa-titulo">🗺️ Ajude Levi a investigar</div>
+        <div class="mapa-desc">Levi sai pelo mercado tentando provar que o boato é mentira. Clique em cada local para ver o que ele descobriu. Visite os três!</div>
+
+        <div class="mapa-visual">
+            <div class="mapa-nome">📍 Jerusalém — manhã de domingo</div>
+
+            <button class="local-btn" id="btn-tumulo" onclick="visitarLocal('tumulo')">
+                <span class="local-icon">🪨</span>
+                <div>
+                    <span class="local-nome">O Túmulo do Jardim</span>
+                    <span class="local-hint">O lugar onde disseram que ele foi enterrado</span>
+                </div>
+            </button>
+            <div class="local-resultado" id="res-tumulo">
+                Levi chegou até o jardim onde diziam que estava o túmulo. Tinha gente parada do lado de fora, olhando pro nada com cara de quem acabou de ver uma coisa que não sabe como explicar. A pedra estava de lado. O buraco estava aberto. E estava vazio. Levi olhou por um bom tempo pro fundo escuro do túmulo esperando que surgisse uma explicação razoável. Nenhuma surgiu.
+            </div>
+
+            <button class="local-btn" id="btn-guardas" onclick="visitarLocal('guardas')">
+                <span class="local-icon">⚔️</span>
+                <div>
+                    <span class="local-nome">Os Soldados Romanos</span>
+                    <span class="local-hint">Eles estavam de guarda. Viram algo?</span>
+                </div>
+            </button>
+            <div class="local-resultado" id="res-guardas">
+                Levi achou dois soldados num canto, conversando nervoso. Quando ele chegou perto fingindo buscar água, ouviu pedaços da conversa: "a pedra se moveu sozinha" e "não vou contar isso pra ninguém nunca mais". Um deles olhou pro lado, viu Levi, e os dois ficaram em silêncio imediato. Aquele tipo de silêncio que diz mais do que qualquer explicação.
+            </div>
+
+            <button class="local-btn" id="btn-mulheres" onclick="visitarLocal('mulheres')">
+                <span class="local-icon">👤</span>
+                <div>
+                    <span class="local-nome">Grupo de Mulheres Perto do Portão</span>
+                    <span class="local-hint">Estavam com unguento para o corpo. Mas voltaram sem usar</span>
+                </div>
+            </button>
+            <div class="local-resultado dourado" id="res-mulheres">
+                Esse foi o momento mais estranho de todos. Levi viu um pequeno grupo de mulheres perto do portão leste. Uma delas estava chorando. Mas não do tipo chorando de tristeza normal. Era um choro que misturava lágrima com sorriso, o rosto todo bagunçado de emoção que não cabia numa expressão só. Levi nunca tinha visto isso antes. Nunca tinha visto alguém chorar desse jeito, como se a coisa mais impossível do mundo tivesse acontecido e fosse boa.
+                
+	</div>
+<img src="../levi/dia202.png" alt="A mulher que chorava e sorria" style="width:100%; border-radius:12px; margin:14px 0 0 0; display:block;">
+          
+        </div>
+
+        <div class="mapa-progresso" id="mapa-prog">
+            Locais visitados: <span id="contagem">0</span> de 3
+        </div>
+    </div>
+
+    <div class="narrativa" id="pos-mapa" style="display:none;">
+        <p>Levi voltou pra casa com a jarra cheia, mas a cabeça completamente vazia de explicações.</p>
+
+        <p>Ele queria provar que era mentira. Tinha saído com esse objetivo. Mas cada lugar que visitou deixou não uma resposta, e sim uma pergunta maior do que a anterior.</p>
+
+        <p>O túmulo vazio. Os soldados assustados. E aquela mulher com o rosto todo molhado de um choro que ele não sabia classificar.</p>
+
+        <div class="pensamento">
+            "Como se chora de alegria? Isso faz sentido?"
+        </div>
+
+        <p>A tarde veio. Levi entregou as cargas do dia sem prestar atenção em nenhuma delas. O cliente reclamou que ele devolveu o troco errado. Provavelmente devolveu.</p>
+
+        <p>Na hora de dormir, a pergunta tinha mudado de forma.</p>
+
+        <p>Antes era: <span class="italico">"Por que alguém olha assim quando está morrendo?"</span></p>
+
+        <p>Agora era: <span class="destaque">"E se ele não estivesse?"</span></p>
+    </div>
+
+    <hr>
+
+    <!-- ENSINAMENTO -->
+    <div class="ensinamento-box">
+        <div class="ens-pre">✝️ Levi não sabia, mas Jesus já tinha ensinado sobre isso</div>
+        <div class="ens-frase">"Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo o que nele crê não pereça, mas tenha a vida eterna."</div>
+        <div class="versic">— João 3.16 · NTLH</div>
+        <div class="ens-texto">
+            Levi estava tentando provar que a morte era mais forte. Que o fim era o fim. Que morto fica morto.<br><br>
+            Mas a história de Jesus não é sobre um homem que morreu. É sobre o Filho de Deus que entrou na morte de propósito, por amor, e saiu do outro lado porque a morte não tinha poder sobre ele.<br><br>
+            O túmulo vazio que Levi viu não era o fim de uma história. Era o começo de outra. A maior de todas.<br><br>
+            <strong style="color:#d4a843;">Deus não amou o mundo de longe. Ele veio até o mundo, passou pela morte, e abriu uma porta que nunca mais vai fechar.</strong>
+        </div>
+    </div>
+
+    <!-- ORAÇÃO -->
+    <div class="oracao-box">
+        "Senhor, às vezes eu também quero provar que você não é real. Que é tudo mentira. Mas você não tem medo das minhas dúvidas. Me ajuda a ser honesto com o que encontro no caminho. Amém."
+    </div>
+
+    <hr>
+
+    <!-- GANCHO -->
+    <div class="gancho-box">
+        <div class="gancho-label">🔮 Amanhã na história de Levi</div>
+        <span class="gancho-emoji">😭</span>
+        <div class="gancho-texto">
+            Levi não conseguia parar de pensar naquela mulher.<br><br>
+            <em>Chorando e sorrindo ao mesmo tempo.</em><br><br>
+            Ele precisava entender como alguém faz isso.<br><br>
+            <em style="color:#e85d2a;">E ela tinha uma história pra contar.</em>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="espirito_dia1.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+        <a href="espirito_dia3.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+    </div>
+
+    <div style="text-align:center; margin-top:18px;">
+        <a href="espirito.html" style="color:rgba(255,255,255,0.3); font-size:13px; text-decoration:none;">← Ver todos os dias</a>
+        &nbsp;&nbsp;·&nbsp;&nbsp;
+        <a href="../index.html" style="color:rgba(255,255,255,0.3); font-size:13px; text-decoration:none;">Portal</a>
+    </div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:5px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+
+</div>
+</div>
+
+<script>
+    let visitados = 0;
+    const total = 3;
+
+    function visitarLocal(id) {
+        const btn = document.getElementById('btn-' + id);
+        const res = document.getElementById('res-' + id);
+
+        if (btn.classList.contains('visitado')) return;
+
+        btn.classList.add('visitado');
+        res.style.display = 'block';
+        res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        visitados++;
+        document.getElementById('contagem').textContent = visitados;
+
+        if (visitados >= total) {
+            setTimeout(() => {
+                const posMapa = document.getElementById('pos-mapa');
+                posMapa.style.display = 'block';
+                posMapa.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                document.getElementById('mapa-prog').innerHTML = '✅ Todos os locais visitados! Continue lendo...';
+                document.getElementById('mapa-prog').style.color = '#e85d2a';
+            }, 600);
+        }
+    }
+
+    // BLOQUEIO
+    const abertura = new Date('2026-04-07T00:00:00');
+    const liberacao = new Date('2026-04-12T00:00:00');
+    const agora = new Date();
+
+    if (agora >= liberacao || agora >= abertura) {
+        document.getElementById('bloqueio').style.display = 'none';
+        document.getElementById('conteudo').style.display = 'block';
+    } else {
+        document.getElementById('msg-bl').textContent = 'Este devocional abre na terça-feira, 07/04!';
+        document.getElementById('msg-sub').textContent = 'A história de Levi continua amanhã. 👂';
+    }
+
+    function abrirAdmin() {
+        const s = prompt('🔒 Senha:');
+        if (s === 'admin') {
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        } else if (s !== null) alert('Senha incorreta.');
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.3);border:1.5px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.3);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button>
+</div>
+
+</body>
+</html>

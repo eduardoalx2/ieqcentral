@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 4 — A Porta que Levi Não Entrou | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 60%, #e85d2a 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 60%, #e85d2a 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .cb { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 220px; margin-bottom: 20px; }
+        #bloqueio p { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.8); }
+        #conteudo { display: none; }
+
+        .container {
+            max-width: 800px; margin: 0 auto; background: #0f0f1a;
+            border-radius: 25px; padding: 36px 32px;
+            box-shadow: 0 15px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(232,93,42,0.2);
+        }
+        .logo-topo { text-align: center; margin-bottom: 22px; }
+        .logo-topo img { max-width: 180px; }
+        .serie-label { font-size: 11px; color: #e85d2a; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .dia-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #1a3a5c, #e85d2a);
+            color: white; padding: 8px 20px; border-radius: 25px;
+            font-weight: bold; margin-bottom: 16px; font-size: 13px; letter-spacing: 1px;
+        }
+        h1 { color: #ff914d; font-size: 28px; margin-bottom: 8px; line-height: 1.3; }
+        .subtitle { color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 24px; }
+
+        .progresso { background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; margin: 20px 0; text-align: center; }
+        .progresso-titulo { color: #e85d2a; font-weight: bold; margin-bottom: 10px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+        .progresso-bar { background: rgba(255,255,255,0.1); height: 20px; border-radius: 10px; overflow: hidden; }
+        .progresso-fill { background: linear-gradient(90deg, #1a3a5c, #e85d2a); height: 100%; width: 66%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 11px; }
+
+        hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 24px 0; }
+
+        .narrativa { font-size: 16px; line-height: 2; color: rgba(255,255,255,0.85); }
+        .narrativa p { margin: 14px 0; }
+        .narrativa .destaque { color: #ff914d; font-weight: bold; }
+        .narrativa .italico { font-style: italic; color: rgba(255,255,255,0.65); }
+        .narrativa .humor {
+            background: rgba(232,93,42,0.1); border-left: 3px solid #e85d2a;
+            padding: 10px 16px; border-radius: 0 10px 10px 0;
+            margin: 14px 0; font-style: italic; color: rgba(255,255,255,0.8);
+        }
+        .narrativa .pensamento {
+            background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2);
+            border-radius: 12px; padding: 14px 18px; margin: 16px 0;
+            font-style: italic; color: rgba(255,255,255,0.7);
+        }
+        h2 {
+            color: white; background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+            padding: 11px 18px; border-radius: 12px; font-size: 15px;
+            margin: 24px 0 14px 0; border: 1px solid rgba(232,93,42,0.3);
+        }
+
+        /* INTERATIVO */
+        .interativo-box {
+            background: linear-gradient(135deg, #1a1a2e, #0d1b2e);
+            border: 2px solid #e85d2a;
+            border-radius: 18px; padding: 24px; margin: 24px 0;
+        }
+        .int-titulo { color: #ff914d; font-size: 16px; font-weight: bold; margin-bottom: 6px; }
+        .int-desc { color: rgba(255,255,255,0.65); font-size: 13px; margin-bottom: 20px; line-height: 1.6; }
+
+        .motivo-btn {
+            width: 100%; background: rgba(255,255,255,0.04);
+            border: 2px solid rgba(232,93,42,0.25);
+            border-radius: 16px; padding: 18px 20px; margin-bottom: 12px;
+            cursor: pointer; text-align: left; font-family: inherit;
+            transition: all 0.25s; display: block;
+        }
+        .motivo-btn:hover { background: rgba(232,93,42,0.1); border-color: #e85d2a; transform: translateX(4px); }
+        .motivo-btn.escolhido { background: rgba(232,93,42,0.15); border-color: #ff914d; }
+        .motivo-titulo { font-size: 14px; font-weight: bold; color: #ff914d; display: block; margin-bottom: 5px; }
+        .motivo-frase { font-size: 13px; color: rgba(255,255,255,0.65); font-style: italic; line-height: 1.6; }
+
+        .resposta-motivo {
+            display: none;
+            border-radius: 14px; padding: 18px 20px; margin-top: 4px; margin-bottom: 8px;
+            font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.85;
+            animation: aparecer 0.5s ease;
+        }
+        .resposta-motivo .resp-fechamento {
+            margin-top: 12px; padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-style: italic; color: rgba(255,255,255,0.5); font-size: 13px;
+        }
+
+        .resp-a { background: rgba(26,58,92,0.4); border-left: 4px solid #1a3a5c; }
+        .resp-b { background: rgba(232,93,42,0.08); border-left: 4px solid #e85d2a; }
+        .resp-c { background: rgba(212,168,67,0.08); border-left: 4px solid #d4a843; }
+
+        /* ENSINAMENTO */
+        .ensinamento-box {
+            background: linear-gradient(135deg, #1a0a00, #2a1000);
+            border: 2px solid rgba(212,168,67,0.4);
+            border-radius: 18px; padding: 24px; margin: 24px 0;
+        }
+        .ens-pre { font-size: 12px; color: rgba(212,168,67,0.7); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .ens-frase { font-size: 17px; font-style: italic; color: #d4a843; line-height: 1.8; margin-bottom: 12px; font-weight: 600; }
+        .ens-texto { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.85; }
+        .versic { background: rgba(212,168,67,0.08); border-left: 4px solid #d4a843; border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 12px 0; font-style: italic; color: #d4a843; font-size: 14px; }
+
+        /* GANCHO */
+        .gancho-box {
+            background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+            border: 2px solid rgba(232,93,42,0.5);
+            border-radius: 18px; padding: 22px; margin: 24px 0; text-align: center;
+        }
+        .gancho-label { font-size: 11px; color: #e85d2a; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .gancho-texto { font-size: 16px; color: white; line-height: 1.7; font-style: italic; }
+        .gancho-emoji { font-size: 36px; display: block; margin-bottom: 10px; animation: pulsar 2s infinite; }
+
+        /* ORAÇÃO */
+        .oracao-box {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px; padding: 20px; margin: 20px 0;
+            font-style: italic; color: rgba(255,255,255,0.7); line-height: 2; font-size: 15px; text-align: center;
+        }
+
+        /* NAV */
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; gap: 12px; }
+        .nav-btn { flex: 1; padding: 13px 20px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.3s; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .nav-btn-prev { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        .nav-btn-prev:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-btn-next { background: linear-gradient(135deg, #1a3a5c, #e85d2a); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(232,93,42,0.3); }
+
+        .rodape { text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.25); font-size: 12px; }
+        .rodape span { color: #e85d2a; }
+
+        @keyframes aparecer { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+        @keyframes pulsar { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+        @media (max-width: 600px) {
+            .container { padding: 22px 16px; border-radius: 18px; }
+            h1 { font-size: 22px; }
+            .narrativa { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="bloqueio">
+    <div class="cb">
+        <img src="../logoup.png" alt="Central UP">
+        <p id="msg-bl">Este devocional abre na quinta-feira, 09/04!</p>
+        <p style="margin-top:12px;font-size:14px;" id="msg-sub"></p>
+    </div>
+</div>
+
+<div id="conteudo">
+<div class="container">
+
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    <div class="serie-label">🔥 Levi e o Vento que Mudou Tudo — Semana 1</div>
+    <div class="dia-badge">📅 DIA 4 DE 6</div>
+
+    <h1>A Porta que Levi Não Entrou</h1>
+    <p class="subtitle">Ele foi só olhar. E encontrou alguém que também não conseguia ir embora.</p>
+
+    <div class="progresso">
+        <div class="progresso-titulo">⚡ Progresso da semana</div>
+        <div class="progresso-bar">
+            <div class="progresso-fill">66%</div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>📖 A história de hoje</h2>
+
+    <div class="narrativa">
+
+        <p>Levi foi até o bairro dos curtidores de manhã cedo.</p>
+
+        <p>Disse pra si mesmo que era só pra ver onde ficava a casa. Reconhecimento de terreno. Nada demais.</p>
+
+        <p>O cheiro do bairro era forte, couro e curtume misturados com o ar de Jerusalém. Levi era carregador de água, estava acostumado com cheiros ruins. Mas esse bairro tinha uma qualidade diferente de intenso.</p>
+
+        <div class="humor">Ótimo lugar pra se esconder. Ninguém fica aqui mais do que o necessário.</div>
+
+        <p>Achou a casa sem muito esforço. Era a única de onde saíam vozes num bairro relativamente quieto naquela manhã. Uma casa comum, porta de madeira entreaberta, janela pequena com luz viva lá dentro.</p>
+
+        <p>Levi ficou do outro lado da rua. Observando.</p>
+
+        <p>Foi aí que esbarrou em alguém.</p>
+
+        <p>Literalmente. Virou pra trás e bateu no ombro de um homem que estava saindo de uma viela lateral, cabeça baixa, andando rápido com aquela postura de quem está tentando não ser visto.</p>
+
+        <p>Os dois se olharam.</p>
+
+        <p>O homem tinha uns trinta e poucos anos, barba por fazer, olhos vermelhos de quem não dormiu, ou de quem chorou muito, ou talvez as duas coisas. Carregava um manto fechado sobre os ombros mesmo com o calor.</p>
+
+        <p>"Desculpa," disse Levi.</p>
+
+        <p>O homem olhou pra ele. Depois olhou pra casa. Depois de volta pra Levi.</p>
+
+        <p>"Você também está esperando do lado de fora?"</p>
+
+        <p>Levi não respondeu. O silêncio foi suficiente.</p>
+
+        <p>O homem deu uma risada curta, sem graça. "Eu me chamo <span class="destaque">Tomé</span>."</p>
+
+    </div>
+
+    <hr>
+
+    <div class="narrativa">
+
+        <p>Tomé era um dos doze. Levi não sabia o que isso significava direito, mas entendeu que era importante pela forma como o homem disse, como quem carrega um título que ainda não sabe se merece.</p>
+
+        <p>Tinha estado com Jesus. Anos seguindo, ouvindo, vendo coisas que não conseguia explicar. E tinha visto a sexta-feira de perto. De muito perto.</p>
+
+        <p>Quando começaram a dizer que Jesus tinha ressuscitado, ele não acreditou. Os outros discípulos juravam que tinham visto. Tomé ficou do lado de fora da história, igual Levi ficava do lado de fora daquela porta.</p>
+
+        <p>"Eu disse pra eles," falou Tomé, olhando pra casa, "que a menos que eu veja as marcas dos pregos nas mãos dele, e coloque meu dedo nelas, e minha mão no lado dele, eu não vou acreditar."</p>
+
+        <div class="humor">Levi piscou. "Você pediu pra tocar?"</div>
+
+        <p>"Eu precisava de evidência. Não de história."</p>
+
+        <div class="pensamento">Aquilo Levi entendia perfeitamente.</div>
+
+        <p>Os dois ficaram em silêncio por um momento, olhando pra porta entreaberta do outro lado da rua. Vozes lá dentro. Uma risada. O som de alguém falando animado, palavras que não dava pra pegar da rua.</p>
+
+        <p>"Então por que você está aqui?" perguntou Levi.</p>
+
+        <p>Tomé demorou pra responder.</p>
+
+        <p>"Porque eu também não consigo ir embora."</p>
+
+    </div>
+
+    <img src="../levi/dia401.png" alt="Levi e Tomé do lado de fora da casa" style="width:100%; border-radius:14px; margin:20px 0; display:block;" onerror="this.style.display='none'">
+
+    <div class="narrativa">
+
+        <p>Ficaram ali por um tempo que Levi não soube medir. Pessoas entravam na casa. Pessoas saíam. As que saíam tinham o rosto diferente das que entravam, mas Levi não sabia descrever exatamente como.</p>
+
+        <p class="italico">Mais cheio, talvez. Como se tivessem recebido alguma coisa lá dentro.</p>
+
+        <p>"Eu passei três anos vendo coisas que não têm explicação," disse Tomé, quase pra si mesmo. "Curou gente. Multiplicou pão. Andou em cima da água." Uma pausa. "Eu vi tudo isso e ainda assim, quando disseram que ele tinha ressuscitado, minha primeira reação foi não."</p>
+
+        <p>"Por quê?"</p>
+
+        <p>"Porque ressurreição é diferente. Milagre eu já vi. Mas voltar da morte..." Tomé balançou a cabeça. "Isso muda tudo. Se isso é verdade, nada fica igual. Nenhuma parte da vida fica igual."</p>
+
+        <p>Levi olhou pra porta.</p>
+
+        <p>"E você não quer que nada fique igual?"</p>
+
+        <p>Tomé ficou quieto por um tempo.</p>
+
+        <p>"Eu não sei se estou pronto."</p>
+
+        <div class="pensamento">Levi olhou pra porta. Depois pro homem do lado. Depois pra porta de novo. Era estranho como um desconhecido num bairro que cheirava a couro podia dizer em voz alta exatamente o que ele estava pensando por dentro.</div>
+
+        <p>Mais tarde, Tomé entrou. Levi não.</p>
+
+        <p>Levi ficou parado mais um tempo depois que Tomé desapareceu pela porta. Deu um passo em direção à casa. Parou. Deu mais um. Parou de novo.</p>
+
+        <div class="humor">Do outro lado da rua, um velho que estava consertando sandálias na soleira de casa olhou pra ele com a expressão de quem já viu muita coisa estranha na vida e não tem mais energia pra se surpreender.</div>
+
+        <p>Levi virou e foi entregar água.</p>
+
+        <p>Mas a porta ficou na cabeça o dia inteiro.</p>
+
+    </div>
+
+    <hr>
+
+    <!-- INTERATIVO -->
+    <div class="interativo-box">
+        <div class="int-titulo">🚪 O que te segura do lado de fora?</div>
+        <div class="int-desc">Levi podia entrar. A porta estava aberta. Mas algo o segurou. Qual desses motivos fala mais com você?</div>
+
+        <button class="motivo-btn" onclick="escolherMotivo(this, 'a')">
+            <span class="motivo-titulo">O medo de mudar</span>
+            <span class="motivo-frase">"E se for tudo verdade? Aí nada fica igual. Minha vida, meus planos, o que eu acho que sei sobre o mundo."</span>
+        </button>
+        <div class="resposta-motivo resp-a" id="resp-a">
+            Esse é o motivo mais honesto de todos. Não é falta de fé, é consciência de que fé de verdade tem peso. Levi sabia disso também. Ele não ficou do lado de fora por preguiça. Ficou porque entendeu que entrar naquela porta era entrar numa história que ia cobrar algo dele.<br><br>
+            Tomé disse exatamente isso: "Isso muda tudo. Se isso é verdade, nada fica igual." E ele tinha razão. Só que o que muda não é pra pior.
+            <div class="resp-fechamento">Tomé também ficou do lado de fora. Até o dia em que não ficou mais.</div>
+        </div>
+
+        <button class="motivo-btn" onclick="escolherMotivo(this, 'b')">
+            <span class="motivo-titulo">A dúvida intelectual</span>
+            <span class="motivo-frase">"Eu precisaria de mais provas. Não dá pra entrar numa história dessas só porque duas pessoas disseram que viram."</span>
+        </button>
+        <div class="resposta-motivo resp-b" id="resp-b">
+            Tomé te entende melhor do que qualquer outro discípulo. Ele estava lá três anos, viu milagre atrás de milagre, e ainda assim disse: preciso de evidência. Isso não é fraqueza. É seriedade.<br><br>
+            O interessante é que Jesus não ficou irritado com ele por isso. Chegou perto, disse o nome, mostrou as marcas. Como se a dúvida honesta merecesse uma resposta honesta.
+            <div class="resp-fechamento">Tomé também ficou do lado de fora. Até o dia em que não ficou mais.</div>
+        </div>
+
+        <button class="motivo-btn" onclick="escolherMotivo(this, 'c')">
+            <span class="motivo-titulo">A sensação de não pertencer</span>
+            <span class="motivo-frase">"Essas pessoas viveram coisas que eu não vivi. Têm uma história com ele que eu não tenho. Eu sou só um carregador de água."</span>
+        </button>
+        <div class="resposta-motivo resp-c" id="resp-c">
+            Levi pensou nisso também. Mas lembra do que Jesus fez com Maria? Não chamou os doze. Não chamou o sumo sacerdote. Chamou ela pelo nome, sozinha, num jardim vazio.<br><br>
+            Deus não tem lista de quem pertence e quem não pertence. Tem um hábito de aparecer exatamente pras pessoas que acham que estão de fora.
+            <div class="resp-fechamento">Tomé também ficou do lado de fora. Até o dia em que não ficou mais.</div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="narrativa" id="pos-interativo">
+
+        <p>No fim do dia, voltando pelo mesmo caminho, Levi passou de novo pelo bairro dos curtidores.</p>
+
+        <p>Não admitiu pra si mesmo que estava passando de propósito. Mas estava.</p>
+
+        <p>A casa estava mais quieta agora. Porta fechada. O cheiro de curtume continuava igual, pelo menos isso não tinha mudado.</p>
+
+        <p>E na esquina, encostado na parede com aquela postura de quem acabou de passar por algo enorme e ainda não sabe como ficar de pé direito, estava Tomé.</p>
+
+        <p>Mas era um Tomé diferente.</p>
+
+        <p>O Tomé da manhã tinha olhos vermelhos e cabeça baixa. Esse estava de pé, olhos abertos, olhando pra frente, com uma expressão que Levi estava começando a reconhecer mas ainda não tinha nome.</p>
+
+        <p>Levi chegou perto devagar, como quem se aproxima de algo que pode quebrar se fizer barulho.</p>
+
+        <p>"Você entrou," disse Levi.</p>
+
+        <p>Tomé não respondeu de imediato. Continuou olhando pra frente.</p>
+
+        <p>"Eu vi," ele disse por fim.</p>
+
+        <p>Levi esperou.</p>
+
+        <p>"Eu vi. E toquei. E é..."</p>
+
+        <p>Parou. Olhou pra as próprias mãos. Abriu os dedos. Fechou. De volta pra Levi.</p>
+
+        <p>"Não tem palavra."</p>
+
+        <div class="humor">"Você passou três anos com ele e agora não tem palavra?"</div>
+
+        <p>Tomé não riu. Estava sério demais pra isso. Estava num lugar que o humor não alcançava ainda.</p>
+
+        <p>"Tem uma coisa muito grande começando," ele disse, quase pra si mesmo. "Muito maior do que eu entendo. Muito maior do que qualquer um de nós entende ainda."</p>
+
+        <p>Uma pausa longa.</p>
+
+        <p>"Eu só não sei o que é."</p>
+
+    </div>
+
+    <img src="../levi/dia402.png" alt="Tomé em choque na esquina" style="width:100%; border-radius:14px; margin:20px 0; display:block;" onerror="this.style.display='none'">
+
+    <div class="narrativa">
+
+        <p>Levi ficou olhando pra ele por um tempo.</p>
+
+        <p>Esse era o homem que horas atrás tinha dito que precisava de evidência. Que não aceitava história. Que tinha colocado como condição tocar com os próprios dedos.</p>
+
+        <p>E agora estava parado numa esquina do bairro dos curtidores sem conseguir descrever o que tinha acontecido.</p>
+
+        <div class="pensamento">"Uma coisa muito grande começando."</div>
+
+        <p>Começando. Não terminando. Não explicando direito. Começando.</p>
+
+        <p>Levi foi embora sem dizer mais nada. Tomé continuou encostado na parede, olhando pra as próprias mãos.</p>
+
+        <p>E Levi, pela primeira vez em quatro dias, não foi pra casa pensando em Jesus.</p>
+
+        <p>Foi pra casa pensando no que vem <span class="destaque">depois</span> de Jesus.</p>
+
+    </div>
+
+    <hr>
+
+    <!-- ENSINAMENTO -->
+    <div class="ensinamento-box">
+        <div class="ens-pre">✝️ Levi não sabia, mas isso estava na Bíblia</div>
+        <div class="ens-frase">"Tomé respondeu a Jesus: 'Meu Senhor e meu Deus!'"</div>
+        <div class="versic">— João 20.28 · NTLH</div>
+        <div class="ens-texto">
+            Tomé não é personagem de ficção. Ele aparece pelo nome em quatro evangelhos: Mateus 10.3, Marcos 3.18, Lucas 6.15 e João 11.16, sempre listado entre os doze discípulos escolhidos por Jesus. É João quem conta essa cena com detalhes: Tomé não estava na sala quando Jesus apareceu pela primeira vez depois da ressurreição. Os outros disseram que tinham visto. Ele disse que precisava tocar. Jesus voltou. E Tomé chegou tão perto que não precisou mais.<br><br>
+            O homem que ficou famoso por duvidar disse a frase mais direta da Bíblia inteira sobre quem Jesus é. Sem argumentação, sem pedido de desculpa pela dúvida: <strong style="color:#d4a843;">"Meu Senhor e meu Deus."</strong><br><br>
+            Jesus não brigou com ele pela dúvida. Chegou perto, disse o nome, mostrou as marcas. Como se dissesse: eu sabia que você precisava disso, e vim até aqui por isso.<br><br>
+            Levi ainda não chegou onde Tomé chegou. Mas está mais perto do que estava na sexta-feira, quando uma jarra quebrou no chão e ele nem notou.
+        </div>
+    </div>
+
+    <!-- ORAÇÃO -->
+    <div class="oracao-box">
+        "Senhor, às vezes eu sou igual ao Tomé. Preciso ver. Preciso entender. Preciso que faça sentido antes de acreditar. Obrigado por não desistir dos que precisam de mais tempo. Amém."
+    </div>
+
+    <hr>
+
+    <!-- GANCHO -->
+    <div class="gancho-box">
+        <div class="gancho-label">🔮 Amanhã na história de Levi</div>
+        <span class="gancho-emoji">⚡</span>
+        <div class="gancho-texto">
+            Levi continuou entregando água nos dias seguintes.<br><br>
+            Continuou passando pelo bairro dos curtidores. A casa às vezes estava movimentada, às vezes quieta. Uma vez ele chegou a encostar a mão na porta.<br><br>
+            Só encostar. Não entrou.<br><br>
+            Cinquenta dias depois da Páscoa, numa manhã que começou igual a todas as outras, o céu de Jerusalém fez um barulho que ninguém nunca mais esqueceu.<br><br>
+            <em style="color:#e85d2a;">Levi estava lá. Dessa vez, não ficou do lado de fora.</em>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="espirito_dia3.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+        <a href="espirito_dia5.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+    </div>
+
+    <div style="text-align:center; margin-top:18px;">
+        <a href="espirito.html" style="color:rgba(255,255,255,0.3); font-size:13px; text-decoration:none;">← Ver todos os dias</a>
+        &nbsp;&nbsp;·&nbsp;&nbsp;
+        <a href="../index.html" style="color:rgba(255,255,255,0.3); font-size:13px; text-decoration:none;">Portal</a>
+    </div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:5px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+
+</div>
+</div>
+
+<script>
+    function escolherMotivo(btn, id) {
+        document.querySelectorAll('.motivo-btn').forEach(b => b.classList.remove('escolhido'));
+        document.querySelectorAll('.resposta-motivo').forEach(r => r.style.display = 'none');
+        btn.classList.add('escolhido');
+        const resp = document.getElementById('resp-' + id);
+        resp.style.display = 'block';
+        setTimeout(() => resp.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+    }
+
+    // BLOQUEIO DE DATA
+    const abertura   = new Date('2026-04-09T00:00:00');
+    const fechamento = new Date('2026-04-10T11:59:00');
+    const liberacao  = new Date('2026-04-12T00:00:00');
+    const agora = new Date();
+
+    const dentroJanela = agora >= abertura && agora < fechamento;
+    const aposLiberacao = agora >= liberacao;
+
+    if (dentroJanela || aposLiberacao) {
+        document.getElementById('bloqueio').style.display = 'none';
+        document.getElementById('conteudo').style.display = 'block';
+    } else if (agora < abertura) {
+        document.getElementById('msg-bl').textContent = 'Este devocional abre na quinta-feira, 09/04!';
+        document.getElementById('msg-sub').textContent = 'A história de Levi continua amanhã. 🚪';
+    } else {
+        document.getElementById('msg-bl').textContent = 'Este devocional já encerrou. Volte domingo para rever tudo!';
+        document.getElementById('msg-sub').textContent = 'A série completa abre no domingo. 📖';
+    }
+
+    function abrirAdmin() {
+        const s = prompt('🔒 Senha:');
+        if (s === 'admin') {
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        } else if (s !== null) alert('Senha incorreta.');
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.3);border:1.5px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.3);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 1 — O Menino que Carregava Água e Viu Demais | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 60%, #e85d2a 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 60%, #e85d2a 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .cb { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 220px; margin-bottom: 20px; }
+        #bloqueio p { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.8); }
+        #conteudo { display: none; }
+
+        .container {
+            max-width: 800px; margin: 0 auto; background: #0f0f1a;
+            border-radius: 25px; padding: 36px 32px;
+            box-shadow: 0 15px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(232,93,42,0.2);
+        }
+        .logo-topo { text-align: center; margin-bottom: 22px; }
+        .logo-topo img { max-width: 180px; }
+        .serie-label { font-size: 11px; color: #e85d2a; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .dia-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #1a3a5c, #e85d2a);
+            color: white; padding: 8px 20px; border-radius: 25px;
+            font-weight: bold; margin-bottom: 16px; font-size: 13px; letter-spacing: 1px;
+        }
+        h1 { color: #ff914d; font-size: 28px; margin-bottom: 8px; line-height: 1.3; }
+        .subtitle { color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 24px; }
+
+        .progresso { background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; margin: 20px 0; text-align: center; }
+        .progresso-titulo { color: #e85d2a; font-weight: bold; margin-bottom: 10px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+        .progresso-bar { background: rgba(255,255,255,0.1); height: 20px; border-radius: 10px; overflow: hidden; }
+        .progresso-fill { background: linear-gradient(90deg, #1a3a5c, #e85d2a); height: 100%; width: 16%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 11px; }
+
+        hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 24px 0; }
+
+        /* NARRATIVA */
+        .narrativa { font-size: 16px; line-height: 2; color: rgba(255,255,255,0.85); }
+        .narrativa p { margin: 14px 0; }
+        .narrativa .destaque { color: #ff914d; font-weight: bold; }
+        .narrativa .italico { font-style: italic; color: rgba(255,255,255,0.65); }
+        .narrativa .humor { background: rgba(232,93,42,0.1); border-left: 3px solid #e85d2a; padding: 10px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; font-style: italic; color: rgba(255,255,255,0.8); }
+        .narrativa .pensamento { background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 14px 18px; margin: 16px 0; font-style: italic; color: rgba(255,255,255,0.7); }
+
+        h2 {
+            color: white; background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+            padding: 11px 18px; border-radius: 12px; font-size: 15px;
+            margin: 24px 0 14px 0; border: 1px solid rgba(232,93,42,0.3);
+        }
+
+        /* INTERATIVO */
+        .interativo-box {
+            background: linear-gradient(135deg, #1a1a2e, #0d1b2e);
+            border: 2px solid #e85d2a;
+            border-radius: 18px; padding: 24px; margin: 24px 0;
+        }
+        .int-titulo { color: #ff914d; font-size: 16px; font-weight: bold; margin-bottom: 6px; }
+        .int-desc { color: rgba(255,255,255,0.65); font-size: 13px; margin-bottom: 18px; line-height: 1.6; }
+        .escolha-btn {
+            width: 100%; background: rgba(255,255,255,0.04); border: 2px solid rgba(232,93,42,0.3);
+            padding: 14px 18px; border-radius: 14px; font-size: 15px; cursor: pointer;
+            text-align: left; color: rgba(255,255,255,0.85); font-family: inherit;
+            line-height: 1.5; transition: all 0.2s; margin-bottom: 10px; display: block;
+        }
+        .escolha-btn:hover { background: rgba(232,93,42,0.1); border-color: #e85d2a; transform: translateX(4px); }
+        .escolha-btn.escolhida { background: rgba(232,93,42,0.15); border-color: #ff914d; }
+        .resposta-escolha {
+            display: none; background: rgba(232,93,42,0.08); border-left: 4px solid #e85d2a;
+            border-radius: 0 12px 12px 0; padding: 14px 18px; margin-top: 10px;
+            font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.7;
+            animation: aparecer 0.5s ease;
+        }
+
+        /* ENSINAMENTO */
+        .ensinamento-box {
+            background: linear-gradient(135deg, #1a0a00, #2a1000);
+            border: 2px solid rgba(212,168,67,0.4);
+            border-radius: 18px; padding: 24px; margin: 24px 0;
+        }
+        .ens-pre { font-size: 12px; color: rgba(212,168,67,0.7); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .ens-frase { font-size: 17px; font-style: italic; color: #d4a843; line-height: 1.8; margin-bottom: 12px; font-weight: 600; }
+        .ens-texto { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.85; }
+        .versic { background: rgba(212,168,67,0.08); border-left: 4px solid #d4a843; border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 12px 0; font-style: italic; color: #d4a843; font-size: 14px; }
+
+        /* GANCHO */
+        .gancho-box {
+            background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+            border: 2px solid rgba(232,93,42,0.5);
+            border-radius: 18px; padding: 22px; margin: 24px 0; text-align: center;
+        }
+        .gancho-label { font-size: 11px; color: #e85d2a; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .gancho-texto { font-size: 16px; color: white; line-height: 1.7; font-style: italic; }
+        .gancho-emoji { font-size: 36px; display: block; margin-bottom: 10px; animation: pulsar 2s infinite; }
+
+        /* ORAÇÃO */
+        .oracao-box {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px; padding: 20px; margin: 20px 0;
+            font-style: italic; color: rgba(255,255,255,0.7); line-height: 2; font-size: 15px; text-align: center;
+        }
+
+        /* NAV */
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; gap: 12px; }
+        .nav-btn { flex: 1; padding: 13px 20px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.3s; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .nav-btn-prev { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        .nav-btn-next { background: linear-gradient(135deg, #1a3a5c, #e85d2a); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(232,93,42,0.3); }
+
+        .rodape { text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.25); font-size: 12px; }
+        .rodape span { color: #e85d2a; }
+
+        @keyframes aparecer { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+        @keyframes pulsar { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+        @media (max-width: 600px) {
+            .container { padding: 22px 16px; border-radius: 18px; }
+            h1 { font-size: 22px; }
+            .narrativa { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="bloqueio">
+    <div class="cb">
+        <img src="../logoup.png" alt="Central UP">
+        <p id="msg-bl">Este devocional abre em breve!</p>
+        <p style="margin-top:12px;font-size:14px;" id="msg-sub"></p>
+    </div>
+</div>
+
+<div id="conteudo">
+<div class="container">
+
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    <div class="serie-label">🔥 Levi e o Vento que Mudou Tudo — Semana 1</div>
+    <div class="dia-badge">📅 DIA 1 DE 6</div>
+
+    <img src="../levi/im01.png" alt="Levi — o carregador de água"
+         style="width:100%; border-radius:14px; margin:14px 0 20px 0; display:block;"
+         onerror="this.style.display='none'">
+
+    <h1>💧 O Menino que Carregava Água e Viu Demais</h1>
+    <p class="subtitle">A história começa num dia comum. Mas nenhum dia em Jerusalém era realmente comum.</p>
+
+    <div class="progresso">
+        <div class="progresso-titulo">Sua jornada com Levi — Semana 1</div>
+        <div class="progresso-bar"><div class="progresso-fill">16%</div></div>
+    </div>
+
+    <hr>
+
+    <h2>📖 A HISTÓRIA DE HOJE</h2>
+
+    <div class="narrativa">
+
+
+        <p>Levi acordou às cinco da manhã. Como sempre.</p>
+
+        <p>Não porque gostasse. Porque a água não ia carregar sozinha.</p>
+
+        <p>Ele tinha doze anos, duas jarras de barro, um par de sandálias quase sem sola e uma rota memorizada de cabeça: poço de Siloé, rua do mercado, virar na esquina do oleiro, subir a ladeira do Templo, não esbarrar nos guardas romanos. Dez entregas por manhã. Dezesseis moedas no bolso ao meio-dia. Repete amanhã.</p>
+
+        <div class="humor">Simples assim. Chato assim. Todo dia assim.</div>
+
+        <p>Naquele dia, porém, Jerusalém estava diferente.</p>
+
+        <p>Havia mais gente do que o normal nas ruas. Muito mais. Peregrinos de todo lugar, chegando para a festa da Páscoa. Levi odiava época de festa, todo mundo com pressa, ninguém desviando do caminho, e ele ali com duas jarras cheias tentando não derrubar nada.</p>
+
+        <p>Foi quando ouviu o barulho.</p>
+
+        <p>Um barulho diferente. Não de festa. De tensão.</p>
+
+        <p>Gritos. Choro. Soldados romanos. E uma multidão toda acompanhando algo, ou alguém, pelo caminho.</p>
+
+        <div class="pensamento">
+            Levi pensou: "Não é da minha conta. Tenho entregas pra fazer."
+        </div>
+
+        <p>Mas os pés foram mais rápidos que o bom senso.</p>
+
+        <p>Ele se espremeu entre as pessoas, equilibrando as jarras nos ombros, tentando ver o que estava acontecendo. E então viu.</p>
+
+        <p>Um homem carregando uma cruz de madeira pesada. O rosto machucado. Uma coroa de espinhos. Roupas rasgadas. Mas tinha algo nos olhos daquele homem que Levi não conseguia descrever. Não era desespero. Não era raiva. Era outra coisa.</p>
+
+        <p class="italico">Como se ele soubesse exatamente o que estava fazendo.</p>
+
+
+        <p>Levi ficou parado tanto tempo que uma das jarras escorregou do ombro e quebrou no chão. Água por todo lado. Dezesseis moedas a menos.</p>
+
+        <p>Ele nem notou.</p>
+
+        <img src="../levi/im02.png" alt="Levi nas ruas de Jerusalém"
+             style="width:100%; border-radius:14px; margin:0 0 20px 0; display:block;"
+             onerror="this.style.display='none'">
+
+        <div class="humor">
+            O oleiro da esquina gritou: "Ei, menino! Você vai me pagar essa calçada!"<br>
+            Levi não respondeu. Já tinha virado as costas, tentando seguir a multidão.
+        </div>
+
+        <p>Mais tarde, já no fim da tarde, Levi tentou descobrir quem era aquele homem.</p>
+
+        <p>Perguntou pro vizinho. O vizinho encolheu os ombros. Perguntou pra senhora da tenda de especiarias. Ela disse só "Jesus" e fechou a janela rapidinho, como quem não quer se meter.</p>
+
+        <p>Jesus. Só isso. Nem sobrenome, nem explicação.</p>
+
+        <p>Mas o que Levi não conseguia tirar da cabeça não era o nome.</p>
+
+        <p>Era aquele olhar.</p>
+
+        <div class="pensamento">
+            "Por que alguém olha assim quando está morrendo?"
+        </div>
+
+        <p>Ele voltou pra casa com uma jarra a menos, dezesseis moedas a menos, e uma pergunta que não saía da cabeça.</p>
+
+        <p class="italico">Uma pergunta irritante, daquelas que a gente tenta ignorar mas que ficam voltando toda hora como aquela música que entra na cabeça sem ser convidada.</p>
+
+        <p>Por que alguém olha assim quando está morrendo?</p>
+
+    </div>
+
+    <hr>
+
+    <!-- INTERATIVO -->
+    <div class="interativo-box">
+        <div class="int-titulo">⚡ E você, UP?</div>
+        <div class="int-desc">Levi teve que escolher: continuar trabalhando ou ir ver o que estava acontecendo. Sabendo o que você sabe, o que faria no lugar dele?</div>
+
+        <button class="escolha-btn" onclick="escolher(this,'A')">
+            A) Continuava trabalhando. Entregas não se fazem sozinhas e eu precisava das moedas.
+        </button>
+        <button class="escolha-btn" onclick="escolher(this,'B')">
+            B) Largava tudo e ia ver. Sempre posso ganhar dinheiro amanhã. Um momento desses não volta.
+        </button>
+        <button class="escolha-btn" onclick="escolher(this,'C')">
+            C) Ia ver, mas rápido. Tentava fazer as duas coisas ao mesmo tempo e provavelmente atrapalhava as duas.
+        </button>
+
+        <div class="resposta-escolha" id="respA">Honesto! Mas Levi escolheu parar. E foi exatamente por isso que a história começou. Às vezes Deus interrompe a nossa rotina pra gente ver algo que a rotina escondia.</div>
+        <div class="resposta-escolha" id="respB">Esse é o espírito de Levi! Ele largou a jarra (literalmente), perdeu dinheiro, e foi. Spoiler: valeu a pena. Muito.</div>
+        <div class="resposta-escolha" id="respC">Hahaha. Honestidade máxima. Levi fez algo parecido. Tentou equilibrar as jarras enquanto espremia entre a multidão. A jarra não sobreviveu. A história, sim.</div>
+    </div>
+
+    <hr>
+
+    <!-- ENSINAMENTO -->
+    <div class="ensinamento-box">
+        <div class="ens-pre">✝️ Levi não sabia, mas Jesus já tinha ensinado sobre isso</div>
+        <div class="ens-frase">"Bem-aventurados os que têm fome e sede de justiça, porque eles serão satisfeitos."</div>
+        <div class="versic">— Mateus 5.6 · NTLH</div>
+        <div class="ens-texto">
+            Levi não sabia nada sobre Jesus naquele dia. Só sentiu uma coisa: aquela cena não saía da cabeça. Uma inquietação. Uma fome de entender.<br><br>
+            Jesus tinha um nome pra isso: <strong style="color:#d4a843;">fome e sede de justiça</strong>. Quando algo em você não descansa enquanto não descobre mais sobre Deus, sobre a verdade, sobre o que é certo, isso não é inconveniência. É o começo de algo.<br><br>
+            Deus planta essa fome. E Ele promete saciar quem a tem.
+        </div>
+    </div>
+
+    <!-- ORAÇÃO -->
+    <div class="oracao-box">
+        "Senhor, às vezes você interrompe a minha rotina com algo que não consigo ignorar. Me ajuda a não passar reto. Me dá olhos pra ver o que você quer que eu veja. Amém."
+    </div>
+
+    <hr>
+
+    <!-- GANCHO -->
+    <div class="gancho-box">
+        <div class="gancho-label">🔮 Amanhã na história de Levi</div>
+        <span class="gancho-emoji">👂</span>
+        <div class="gancho-texto">
+            Levi tentou dormir naquela noite.<br>
+            Não conseguiu.<br><br>
+            <em style="color:#e85d2a;">Aquele olhar não saía da cabeça.</em><br><br>
+            Quem era aquele homem?
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <div class="nav-btn nav-btn-prev" style="cursor:not-allowed; opacity:0.3;">← Dia Anterior</div>
+        <a href="espirito_dia2.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+    </div>
+
+    <div style="text-align:center; margin-top:18px;">
+        <a href="../index.html" style="color:rgba(255,255,255,0.3); font-size:13px; text-decoration:none;">← Voltar para o Central UP</a>
+    </div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:5px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+
+</div>
+</div>
+
+<script>
+    function escolher(btn, opcao) {
+        document.querySelectorAll('.escolha-btn').forEach(b => b.classList.remove('escolhida'));
+        btn.classList.add('escolhida');
+        document.querySelectorAll('.resposta-escolha').forEach(r => r.style.display = 'none');
+        document.getElementById('resp' + opcao).style.display = 'block';
+        document.getElementById('resp' + opcao).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // BLOQUEIO
+    const abertura = new Date('2026-04-06T00:00:00');
+    const liberacao = new Date('2026-04-12T00:00:00');
+    const agora = new Date();
+    if (agora >= abertura || agora >= liberacao) {
+        document.getElementById('bloqueio').style.display = 'none';
+        document.getElementById('conteudo').style.display = 'block';
+    } else {
+        document.getElementById('msg-bl').textContent = 'A história de Levi começa na segunda-feira, 06/04!';
+        document.getElementById('msg-sub').textContent = 'Falta pouco. E vai valer a pena. 💧';
+    }
+
+    function abrirAdmin() {
+        const s = prompt('🔒 Senha:');
+        if (s === 'admin') {
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        } else if (s !== null) alert('Senha incorreta.');
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.3);border:1.5px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.3);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 1 — A Casa de Deus | Semana da Páscoa Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3b0764 0%, #6b21a8 60%, #d4a843 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #3b0764 0%, #6b21a8 60%, #d4a843 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .conteudo-bloqueio { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 240px; margin-bottom: 25px; }
+        #bloqueio h1 { font-size: 38px; margin-bottom: 18px; color: white; }
+        #bloqueio p { font-size: 18px; line-height: 1.8; color: rgba(255,255,255,0.85); }
+        #conteudo { display: none; }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.4);
+        }
+        .logo-topo { text-align: center; margin-bottom: 28px; }
+        .logo-topo img { max-width: 200px; }
+        .dia-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #6b21a8, #d4a843);
+            color: white; padding: 9px 22px; border-radius: 25px;
+            font-weight: bold; margin-bottom: 18px; font-size: 13px; letter-spacing: 1px;
+        }
+        .serie-label { font-size: 12px; color: #9333ea; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        h1 { color: #3b0764; font-size: 32px; margin-bottom: 10px; line-height: 1.2; }
+        .subtitle { color: #9333ea; font-size: 16px; margin-bottom: 28px; font-weight: 600; }
+        .progresso { background: #f5f0ff; padding: 18px; border-radius: 12px; margin: 28px 0; text-align: center; }
+        .progresso-titulo { color: #3b0764; font-weight: bold; margin-bottom: 12px; font-size: 13px; }
+        .progresso-bar { background: #e8d5ff; height: 22px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill {
+            background: linear-gradient(135deg, #6b21a8, #d4a843);
+            height: 100%; width: 14%; display: flex; align-items: center;
+            justify-content: center; color: white; font-weight: bold; font-size: 12px;
+        }
+        h2 {
+            color: white;
+            background: linear-gradient(135deg, #3b0764, #6b21a8);
+            padding: 12px 20px; border-radius: 12px; font-size: 17px; margin: 26px 0 16px 0;
+        }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 13px 0; }
+        mark { background: #d4a843; padding: 2px 6px; border-radius: 3px; font-weight: 600; color: #1a0a00; }
+        hr { border: none; border-top: 2px dashed #e8d5ff; margin: 26px 0; }
+        .versic {
+            background: #f5f0ff; border-left: 5px solid #6b21a8;
+            padding: 18px 22px; border-radius: 0 14px 14px 0;
+            margin: 16px 0; font-style: italic; color: #3b0764;
+        }
+        .versic strong { color: #6b21a8; font-style: normal; display: block; margin-top: 8px; font-size: 13px; }
+        .oracao-box {
+            background: linear-gradient(135deg, #f5f0ff, #ede5ff);
+            border-left: 5px solid #6b21a8;
+            padding: 22px; border-radius: 0 14px 14px 0;
+            font-style: italic; color: #3b0764; line-height: 2;
+        }
+        .quiz-container { background: #f5f0ff; border: 2px solid #6b21a822; border-radius: 20px; padding: 28px; margin: 30px 0; }
+        .pergunta-texto { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 14px; line-height: 1.5; }
+        .alternativas { display: flex; flex-direction: column; gap: 10px; }
+        .alt-btn {
+            background: white; border: 2px solid #6b21a844; padding: 12px 16px;
+            border-radius: 12px; font-size: 14px; cursor: pointer; text-align: left;
+            transition: all 0.2s; color: #333; font-family: inherit; line-height: 1.4;
+        }
+        .alt-btn:hover { background: #f0e8ff; border-color: #6b21a8; transform: translateX(4px); }
+        .alt-btn.correta { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+        .alt-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+        .alt-btn:disabled { cursor: not-allowed; transform: none; }
+        .feedback { margin-top: 10px; font-size: 14px; font-weight: bold; min-height: 22px; }
+
+        /* FAMÍLIA */
+        .familia-box {
+            background: linear-gradient(135deg, #3b0764, #6b21a8);
+            border-radius: 20px; padding: 28px; margin: 28px 0; color: white;
+            display: none; animation: aparecer 0.8s ease;
+        }
+        .familia-box .fam-titulo { font-size: 20px; font-weight: bold; color: #d4a843; margin-bottom: 6px; }
+        .familia-box .fam-sub { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 18px; }
+        .fam-pergunta {
+            background: rgba(255,255,255,0.12); border-radius: 14px; padding: 16px 20px;
+            margin: 12px 0; font-size: 15px; line-height: 1.7;
+        }
+        .fam-reflexao {
+            background: rgba(212,168,67,0.15); border: 2px solid #d4a84366;
+            border-radius: 14px; padding: 16px 20px; margin: 12px 0;
+            font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.85);
+        }
+        .fam-reflexao strong { color: #d4a843; display: block; margin-bottom: 6px; }
+
+        @keyframes aparecer { from { opacity:0; transform: scale(0.95); } to { opacity:1; transform: scale(1); } }
+
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 38px; gap: 14px; }
+        .nav-btn {
+            flex: 1; padding: 14px 22px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; text-align: center; transition: all 0.3s; font-size: 14px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .nav-btn-prev { background: #e8d5ff; color: #3b0764; }
+        .nav-btn-prev:hover { background: #d8c5f0; transform: translateY(-2px); }
+        .nav-btn-next { background: linear-gradient(135deg, #6b21a8, #d4a843); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #6b21a866; }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #e8d5ff; color: #999; font-size: 12px; }
+        .rodape span { color: #6b21a8; font-weight: bold; }
+        @media (max-width: 600px) {
+            .container { padding: 22px 16px; border-radius: 18px; }
+            h1 { font-size: 24px; }
+            h2 { font-size: 15px; }
+            p { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="bloqueio">
+    <div class="conteudo-bloqueio">
+        <img src="../logoup.png" alt="Central UP">
+        <h1>✝️</h1>
+        <p id="msg-bloqueio">Este devocional abre no seu dia.</p>
+        <p style="margin-top:14px; font-size:15px;" id="msg-sub"></p>
+    </div>
+</div>
+
+<div id="conteudo">
+<div class="container">
+
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+    <div class="serie-label">✝️ Semana da Páscoa — Central UP</div>
+    <div class="dia-badge">📅 SEGUNDA-FEIRA · 30/03</div>
+    <h1>🕊️ A Casa de Deus</h1>
+    <p class="subtitle">Mateus 21.12-13 · O que ocupa o lugar de Deus na sua vida?</p>
+
+    <div class="progresso">
+        <div class="progresso-titulo">SEMANA DA PÁSCOA — DIA 1 DE 7</div>
+        <div class="progresso-bar"><div class="progresso-fill">14%</div></div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,#3b0764,#6b21a8);border-radius:16px;padding:16px 20px;margin:0 0 22px 0;text-align:center;">
+        <p style="color:#d4a843;font-size:13px;font-weight:bold;letter-spacing:1px;margin:0 0 8px 0;">✝️ Estamos na Semana da Páscoa</p>
+        <p style="color:rgba(255,255,255,0.85);font-size:15px;margin:0;line-height:1.8;">Numa semana como esta, numa <strong style="color:white;">segunda-feira</strong>, faltavam apenas <strong style="color:white;">3 dias</strong> para a crucificação. Jesus entrou no Templo de Jerusalém e encontrou algo que o entristeceu profundamente.</p>
+    </div>
+
+    <hr>
+
+    <h2>📖 LEIA A PASSAGEM DE HOJE</h2>
+    <div style="background:#f5f0ff; border:2px solid #6b21a822; border-radius:16px; padding:18px; margin:16px 0; font-size:14px; color:#333; line-height:1.9;">
+        <p style="margin:0 0 10px 0;"><strong style="color:#3b0764;">MATEUS 21.12-13 — NTLH</strong></p>
+        <p><strong>12</strong> Jesus entrou no Templo e expulsou todos os que estavam vendendo e comprando ali. Virou as mesas dos cambistas e as cadeiras dos que vendiam pombas,</p>
+        <p><strong>13</strong> e disse: "Está escrito: 'A minha Casa será chamada casa de oração.' Mas vocês a transformaram num covil de ladrões!"</p>
+    </div>
+    <p style="text-align:center; font-size:14px; background:linear-gradient(135deg,#6b21a8,#d4a843); color:white; padding:13px; border-radius:12px; margin:10px 0;">
+        <strong>⬇️ Leu? Então continue o devocional!</strong>
+    </p>
+
+    <hr>
+
+    <h2>💬 O QUE ACONTECEU</h2>
+    <p>Era segunda-feira. Jesus tinha acabado de entrar em Jerusalém entre aclamações. Todo mundo falava sobre Ele. E a primeira coisa que Ele fez foi ir ao Templo.</p>
+    <p>O que encontrou lá não era adoração. Era negócio. Cambistas trocando moedas, vendedores gritando preços, animais berrando. O lugar sagrado tinha virado feira.</p>
+    <div class="versic">
+        "A minha Casa será chamada casa de oração. Mas vocês a transformaram num covil de ladrões!"
+        <strong>— Mateus 21.13</strong>
+    </div>
+    <p>Jesus não ficou quieto. Ele virou as mesas. Expulsou todo mundo. Porque Ele se importava com aquele lugar de um jeito que os outros tinham esquecido de se importar.</p>
+
+    <hr>
+
+    <h2>🔍 O QUE ISSO FALA COM VOCÊ</h2>
+    <p>O Templo era o lugar onde Deus habitava. O lugar reservado pra encontrar com Ele.</p>
+    <p>E o problema não era que as pessoas estavam fazendo coisas erradas. Era que estavam fazendo coisas normais no lugar errado. <mark>O sagrado tinha virado comum.</mark></p>
+    <p>A pergunta não é: você está fazendo coisas ruins? A pergunta é: tem algo na sua vida que ocupa um espaço que deveria ser de Deus?</p>
+    <p>Pode ser o celular. Pode ser uma distração. Pode ser algo que por si só não é ruim, mas que foi tomando o espaço certo.</p>
+
+    <hr>
+
+    <h2>✝️ PARA PENSAR</h2>
+    <div style="background:#f5f0ff; border-left:5px solid #6b21a8; border-radius:0 14px 14px 0; padding:20px 24px; margin:16px 0;">
+        <p style="font-style:italic; color:#3b0764; margin:0;">Jesus não expulsou as pessoas do Templo porque as odiava. Expulsou porque amava o que aquele lugar representava. É o mesmo Jesus que, dias depois, deu a própria vida pra que a gente pudesse ter acesso a Deus. Ele se importa com o que é sagrado. E você é sagrado pra Ele.</p>
+    </div>
+
+    <hr>
+
+    <h2>🙏 ORAÇÃO DO DIA</h2>
+    <div class="oracao-box">
+        "Senhor, me mostra quando estou colocando outras coisas no lugar que é Seu. Não deixa o sagrado virar comum na minha vida. Amém."
+    </div>
+
+    <hr>
+
+    <div class="quiz-container">
+        <h2 style="background:linear-gradient(135deg,#3b0764,#6b21a8); color:white; padding:12px 18px; border-radius:12px; font-size:17px; margin:0 0 14px 0;">🧠 QUIZ DO DIA</h2>
+        <p style="color:#555; margin-bottom:18px; font-size:14px;">Responda as 3 perguntas para liberar o <strong>Desafio em Família</strong>! 🏠</p>
+
+        <div class="pergunta" id="q1">
+            <p class="pergunta-texto">1. O que Jesus encontrou no Templo quando chegou?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(1,this,false)">A) Pessoas orando em silêncio</button>
+                <button class="alt-btn" onclick="responder(1,this,true)">B) Pessoas vendendo e comprando, cambistas e vendedores de pombas</button>
+                <button class="alt-btn" onclick="responder(1,this,false)">C) O Templo vazio e abandonado</button>
+                <button class="alt-btn" onclick="responder(1,this,false)">D) Os fariseus ensinando a lei</button>
+            </div>
+            <div class="feedback" id="f1"></div>
+        </div>
+
+        <div class="pergunta" id="q2" style="display:none;">
+            <p class="pergunta-texto">2. O que Jesus disse que a Sua Casa deveria ser?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(2,this,false)">A) Um lugar de festas e celebrações</button>
+                <button class="alt-btn" onclick="responder(2,this,false)">B) Um mercado organizado e honesto</button>
+                <button class="alt-btn" onclick="responder(2,this,true)">C) Casa de oração</button>
+                <button class="alt-btn" onclick="responder(2,this,false)">D) Um lugar só para os sacerdotes</button>
+            </div>
+            <div class="feedback" id="f2"></div>
+        </div>
+
+        <div class="pergunta" id="q3" style="display:none;">
+            <p class="pergunta-texto">3. O que o devocional de hoje pergunta pra você refletir?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(3,this,false)">A) Se você vai ao Templo toda semana</button>
+                <button class="alt-btn" onclick="responder(3,this,false)">B) Se você faz coisas erradas na sua vida</button>
+                <button class="alt-btn" onclick="responder(3,this,true)">C) Se tem algo que ocupa um espaço que deveria ser de Deus</button>
+                <button class="alt-btn" onclick="responder(3,this,false)">D) Se você conhece todas as histórias da Bíblia</button>
+            </div>
+            <div class="feedback" id="f3"></div>
+        </div>
+
+        <div id="familia-revelado" style="display:none;">
+            <div class="familia-box" style="display:block;">
+                <div class="fam-titulo">🏠 Desafio em Família — Dia 1</div>
+                <div class="fam-sub">Chama alguém da sua casa pra esse momento!</div>
+                <div class="fam-pergunta">
+                    🗣️ <strong>Pergunta pra fazer em família:</strong><br><br>
+                    <em>"Pra você, o que é uma distração das coisas de Deus?"</em><br><br>
+                    Deixa cada um responder à sua maneira. Não tem resposta certa. É só uma conversa honesta.
+                </div>
+                <div class="fam-reflexao">
+                    <strong>💭 Depois de conversar, uma reflexão pra cada um:</strong>
+                    Tem algo na minha rotina que ocupa um espaço que deveria ser de Deus? Não precisa compartilhar com ninguém. Só pensar, honestamente.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let acertos = 0;
+        function responder(num, btn, correta) {
+            const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+            const feedback = document.getElementById('f' + num);
+            buttons.forEach(b => b.disabled = true);
+            if (correta) {
+                btn.classList.add('correta');
+                feedback.style.color = '#1a7a3c';
+                feedback.textContent = '✅ Correto! Muito bem, UP!';
+                acertos++;
+                setTimeout(() => {
+                    if (num < 3) {
+                        document.getElementById('q' + num).style.opacity = '0.6';
+                        document.getElementById('q' + (num+1)).style.display = 'block';
+                        document.getElementById('q' + (num+1)).scrollIntoView({ behavior:'smooth', block:'center' });
+                    } else {
+                        document.getElementById('familia-revelado').style.display = 'block';
+                        document.getElementById('familia-revelado').scrollIntoView({ behavior:'smooth', block:'center' });
+                    }
+                }, 900);
+            } else {
+                btn.classList.add('errada');
+                feedback.style.color = '#d63031';
+                feedback.textContent = 'Não é essa! Releia a passagem...';
+                setTimeout(() => {
+                    buttons.forEach(b => { b.disabled = false; b.classList.remove('errada'); });
+                    feedback.textContent = '';
+                }, 1500);
+            }
+        }
+    </script>
+
+    <hr>
+
+    <div class="nav-buttons">
+        <div class="nav-btn nav-btn-prev" style="opacity:0.4;cursor:not-allowed;">← Dia Anterior</div>
+        <a href="pascoa_dia2.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="../index.html" style="color:#6b21a8; font-size:13px; text-decoration:none;">← Voltar para o Central UP</a>
+    </div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:6px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+</div>
+</div>
+
+<script>
+    const abertura = new Date('2026-03-30T00:00:00');
+    const fechamento = new Date('2026-03-31T11:59:59');
+    const liberacaoFinal = new Date('2026-04-05T00:00:00');
+    const agora = new Date();
+
+    function fmt(d) {
+        return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}) + ' às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    }
+
+    if (agora >= liberacaoFinal || (agora >= abertura && agora <= fechamento)) {
+        document.getElementById('bloqueio').style.display = 'none';
+        document.getElementById('conteudo').style.display = 'block';
+    } else if (agora < abertura) {
+        document.getElementById('msg-bloqueio').textContent = 'Este devocional abre na segunda-feira, 30/03! 📅';
+        document.getElementById('msg-sub').textContent = 'Volta no dia certo. A semana mais importante da história está chegando.';
+    } else {
+        document.getElementById('msg-bloqueio').textContent = 'Este dia já passou... 😔';
+        document.getElementById('msg-sub').innerHTML = 'Mas a partir de <strong>05/04 (Páscoa)</strong> todos os dias ficam abertos!';
+    }
+
+    function abrirAdmin() {
+        const senha = prompt('🔒 Senha de supervisão:');
+        if (senha === 'admin') {
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        } else if (senha !== null) { alert('Senha incorreta.'); }
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.3);border:1.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;" title="Supervisão">🔒</button>
+</div>
+
+</body>
+</html>

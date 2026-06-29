@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 3 - 😰 O Medo que Paralisa | Obadias Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1b5e20 0%, #f57f17 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #4a0080 0%, #c9a800 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .conteudo-bloqueio { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 260px; margin-bottom: 25px; }
+        #bloqueio h1 { font-size: 42px; margin-bottom: 18px; color: white; }
+        #bloqueio p { font-size: 20px; line-height: 1.8; color: white; }
+        #conteudo { display: none; }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 28px; }
+        .logo-topo img { max-width: 220px; }
+        .dia-badge {
+            display: inline-block; background: linear-gradient(135deg, #1b5e20 0%, #f57f17 100%);
+            color: white; padding: 9px 22px; border-radius: 25px; font-weight: bold; margin-bottom: 18px; font-size: 14px;
+        }
+        h1 { color: #1b5e20; font-size: 36px; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { color: #f57f17; font-size: 17px; margin-bottom: 28px; font-weight: 600; }
+        .progresso { background: #f5f5f5; padding: 18px; border-radius: 12px; margin: 28px 0; text-align: center; }
+        .progresso-titulo { color: #1b5e20; font-weight: bold; margin-bottom: 12px; font-size: 13px; }
+        .progresso-bar { background: #e0e0e0; height: 26px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            height: 100%; width: 50%; display: flex; align-items: center;
+            justify-content: center; color: white; font-weight: bold; font-size: 13px;
+        }
+        .frase-secreta {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border: 4px dashed #d63031; padding: 22px; border-radius: 15px;
+            margin: 28px 0; text-align: center; box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+        }
+        .frase-secreta h3 { color: #d63031; font-size: 18px; margin-bottom: 12px; }
+        .frase-secreta .fragmento {
+            font-size: 28px; font-weight: bold; color: #2d3436;
+            background: white; padding: 12px 22px; border-radius: 10px; display: inline-block; margin: 12px 0;
+        }
+        .frase-secreta p { color: #2d3436; font-size: 14px; margin-top: 12px; }
+        h2 {
+            color: white; background: linear-gradient(135deg, #1b5e20 0%, #f57f17 100%);
+            padding: 12px 20px; border-radius: 12px; font-size: 18px; margin: 26px 0 16px 0;
+        }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 13px 0; }
+        mark { background: #ffd700; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+        hr { border: none; border-top: 2px dashed #ddd; margin: 26px 0; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 38px; gap: 14px; }
+        .nav-btn {
+            flex: 1; padding: 14px 22px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; text-align: center; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; font-size: 14px;
+        }
+        .nav-btn-prev { background: #e0e0e0; color: #666; }
+        .nav-btn-prev:hover { background: #d0d0d0; transform: translateY(-2px); }
+        .nav-btn-next { background: linear-gradient(135deg, #1b5e20 0%, #f57f17 100%); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #1b5e2066; }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #eee; color: #999; font-size: 12px; }
+        .rodape-destaque { color: #1b5e20; font-weight: bold; }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 20px 16px; border-radius: 16px; }
+            .logo-topo img { max-width: 140px; }
+            h1 { font-size: 22px !important; line-height: 1.3; }
+            h2 { font-size: 15px !important; padding: 10px 14px; margin: 20px 0 14px 0 !important; }
+            .subtitle { font-size: 13px !important; margin-bottom: 14px; }
+            .dia-badge { font-size: 12px; padding: 7px 14px; }
+            p { font-size: 14px !important; line-height: 1.7; margin: 10px 0; }
+            .progresso { padding: 12px; margin: 16px 0; }
+            .progresso-fill { font-size: 12px; }
+            .frase-secreta { padding: 14px; }
+            .frase-secreta h3 { font-size: 15px; }
+            .frase-secreta .fragmento { font-size: 20px !important; padding: 10px 14px; }
+            .nav-buttons { flex-direction: column; gap: 10px; }
+            .nav-btn { padding: 13px 16px; font-size: 14px; }
+            .rodape { font-size: 12px; margin-top: 20px; }
+            hr { margin: 18px 0; }
+        }
+        @media (max-width: 400px) {
+            h1 { font-size: 19px !important; }
+            .frase-secreta .fragmento { font-size: 17px !important; }
+        }
+        @media (max-width: 768px) {
+            #bloqueio .conteudo-bloqueio { padding: 24px 18px; }
+            #bloqueio img { max-width: 160px; margin-bottom: 18px; }
+            #bloqueio h1 { font-size: 28px; }
+            #bloqueio p { font-size: 15px; line-height: 1.6; }
+        }
+
+    </style>
+</head>
+<body>
+    <div id="bloqueio">
+        <div class="conteudo-bloqueio">
+            <img src="../logoup.png" alt="Central UP">
+            <h1>Opa, UP! 👋</h1>
+            <p id="msg-bloqueio">Cada devocional tem o seu momento certo.</p>
+            <p style="margin-top:16px; font-size:17px;" id="msg-sub"></p>
+        </div>
+    </div>
+
+    <div id="conteudo">
+        <div class="container">
+            <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+            <div class="dia-badge">📅 DIA 3 DE 6 — OBADIAS</div>
+            <h1>😰 O Medo que Paralisa</h1>
+            <p class="subtitle">1 Reis 18.7-14, Fé e medo podem coexistir</p>
+
+            <div class="progresso">
+                <div class="progresso-titulo">SEU PROGRESSO NO DESAFIO</div>
+                <div class="progresso-bar">
+                    <div class="progresso-fill">DIA 3 — 50%</div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>📖 LEIA A PASSAGEM DE HOJE</h2>
+            <p>Leia o texto bíblico abaixo na versão <strong>NTLH</strong>. Depois continue o devocional! 👇</p>
+
+            <div style="background:#f8f8ff; border:2px solid #1b5e2033; border-radius:16px; padding:18px; margin:16px 0; max-height:300px; overflow-y:auto; line-height:1.9; font-size:14px; color:#333;">
+                <p style="margin:0 0 10px 0;"><strong style="color:#1b5e20;">1 REIS 18.7-14 — NTLH</strong></p>
+                
+                <p><strong>7</strong> Enquanto Obadias estava pelo caminho, encontrou Elias. Reconheceu-o, curvou-se diante dele e perguntou: "É o senhor mesmo, Elias?"</p>
+                <p><strong>8</strong> Elias respondeu: "Sou eu. Vai dizer ao seu amo que estou aqui." <strong>9</strong> Obadias respondeu: "O que eu fiz de errado para que me mandes para a morte? <strong>10</strong> Juro pelo Senhor, o seu Deus, que o rei Acabe mandou me buscar em todos os países e reinos do mundo. Quando as pessoas diziam que o senhor não estava lá, ele fazia o rei e o reino jurarem que não tinham conseguido encontrá-lo. <strong>11</strong> E agora o senhor me diz para ir comunicar ao meu amo que o senhor está aqui? <strong>12</strong> Se eu for e o Senhor o levar para algum lugar que não sei, quando eu chegar e disser a Acabe onde o senhor está, ele vai me matar. E eu, o seu servo, respeito o Senhor desde que era jovem! <strong>13</strong> Não contaram ao meu senhor o que fiz quando Jezabel matava os profetas do Senhor? Escondi cem deles em duas cavernas, cinquenta em cada uma, e os abasteci de pão e água. <strong>14</strong> E agora o senhor me diz para ir comunicar ao meu amo que o senhor está aqui? Ele vai me matar!"</p>
+            </div>
+
+            <p style="text-align:center; font-size:14px; background:linear-gradient(135deg,#1b5e20 0%,#f57f17 100%); color:white; padding:13px; border-radius:12px; margin:10px 0;">
+                <strong>⬇️ Leu? Então continue o devocional abaixo!</strong>
+            </p>
+
+            <hr>
+
+            <h2>💬 E então, UP?</h2>
+
+            <h2>📰 O QUE ACONTECEU</h2>
+            <p>Obadias encontra Elias no caminho. O profeta tem um pedido simples: "Vai dizer ao rei Acabe que eu estou aqui."</p>
+            <p>E aí Obadias entra em colapso. Ele fala sem parar, justifica, argumenta, implora. Ele está com <strong>muito medo.</strong></p>
+            <p style="background: #e8f5e9; padding: 20px; border-radius: 12px; border-left: 5px solid #1b5e20;">
+                <em>"E agora o senhor me diz para ir comunicar ao meu amo que o senhor está aqui? Ele vai me matar!"</em><br>
+                <strong>— 1 Reis 18.14</strong>
+            </p>
+            <p>O mesmo homem que escondeu 100 profetas com coragem absoluta estava agora tremendo de medo. Mesma pessoa. Mesma fé. Momento diferente.</p>
+
+            <hr>
+
+            <h2>🔍 O QUE DEUS QUER TE MOSTRAR HOJE</h2>
+            <p>Isso é mais honesto do que parece. Obadias não era um super-herói sem emoções. Ele tinha medo real, de uma ameaça real.</p>
+            <p>E aqui está a lição mais importante: <strong>ele teve medo, mas não desistiu.</strong> Ele reclamou, argumentou, mas no final foi fazer o que Elias pediu.</p>
+            <p><mark>Fé não é ausência de medo. É dar o passo mesmo com medo.</mark> Você não precisa se sentir corajoso para agir com coragem. Você só precisa agir, mesmo tremendo.</p>
+            <p>Deus não chamou Obadias porque ele era destemido. Ele o chamou porque, mesmo com medo, ele ainda obedecia.</p>
+
+            <hr>
+
+            <h2>🪞 ISSO FALA COM VOCÊ</h2>
+            <p>Tem alguma coisa que Deus está pedindo para você fazer que te dá medo? Conversar com alguém sobre a fé, pedir desculpas, assumir uma posição, mudar um hábito?</p>
+            <p>Obadias reclamou, teve medo, explicou todos os motivos para não ir. E depois foi mesmo assim.</p>
+            <p><mark>Você pode reclamar com Deus. Pode ser honesto sobre o seu medo. Mas depois, vai.</mark></p>
+
+            <hr>
+
+            <h2>🙏 ORAÇÃO DO DIA</h2>
+            <p style="background:linear-gradient(135deg,#1b5e2015 0%,#f57f1715 100%); padding:22px; border-radius:12px; border-left:5px solid #1b5e20; font-style:italic; line-height:2;">
+                "Senhor, sou honesto: tenho medo. Tenho medo do que as pessoas vão pensar, do que posso perder, do que pode dar errado. Mas quero ser como Obadias, que foi mesmo assim. Dá-me força para dar o passo, mesmo tremendo. Amém."
+            </p>
+
+            <hr>
+
+            <div class="quiz-container">
+                <h2 style="background:linear-gradient(135deg,#1b5e20 0%,#f57f17 100%); color:white; padding:12px 18px; border-radius:12px; font-size:18px; margin:0 0 14px 0;">🧠 QUIZ DO DIA 3</h2>
+                <p style="color:#555; margin-bottom:18px; font-size:14px;">Responda as 3 perguntas para desbloquear a <strong>Frase Secreta</strong>! 🔐</p>
+                
+                <div class="pergunta" id="q1" >
+                    <p class="pergunta-texto">1. Qual foi o pedido de Elias a Obadias?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(1, this, true)">A) Que fosse avisar ao rei Acabe que Elias estava ali</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">B) Que fugisse do palácio de Acabe imediatamente</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">C) Que revelasse onde os profetas estavam escondidos</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">D) Que levasse comida e água para os profetas escondidos</button>
+                    </div>
+                    <div class="feedback" id="f1"></div>
+                </div>
+
+                <div class="pergunta" id="q2" style="display:none;">
+                    <p class="pergunta-texto">2. Por que Obadias ficou com tanto medo do pedido de Elias?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(2, this, true)">A) Porque tinha medo que Elias desaparecesse e o rei Acabe o matasse</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">B) Porque ele não conhecia bem o caminho até o rei</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">C) Porque ele tinha prometido nunca mais falar com o rei</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">D) Porque estava proibido de entrar no palácio naquele dia</button>
+                    </div>
+                    <div class="feedback" id="f2"></div>
+                </div>
+
+                <div class="pergunta" id="q3" style="display:none;">
+                    <p class="pergunta-texto">3. O que a reação de Obadias nos ensina?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(3, this, false)">A) Que o medo é sinal de que Deus escolheu a pessoa errada</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">B) Que quando temos medo devemos sempre recusar o chamado</button>
+                        <button class="alt-btn" onclick="responder(3, this, true)">C) Que fé e medo podem coexistir, e o importante é agir mesmo com medo</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">D) Que pessoas de fé nunca sentem medo</button>
+                    </div>
+                    <div class="feedback" id="f3"></div>
+                </div>
+
+                
+                <div id="frase-revelada" style="display:none;">
+                    <div class="frase-secreta" style="animation: aparecer 0.8s ease;">
+                        <h3>🎉 PARABÉNS! FRASE DESBLOQUEADA!</h3>
+                        <p style="color:#555; margin-bottom:10px;">FRASE SECRETA, PARTE 3/6</p>
+                        <div class="fragmento">"Ele procura pessoas"</div>
+                        <p>✏️ <strong>UP, anote este pedaço!</strong> Ao completar os 6 dias, você terá a frase completa!</p>
+                    </div>
+                </div>
+                <div id="tenta-novamente" style="display:none; background:#ffe0e0; border:2px solid #d63031; padding:16px; border-radius:12px; text-align:center; margin-top:18px;">
+                    <p style="color:#d63031; font-weight:bold; font-size:15px;">❌ Ops! Resposta errada!</p>
+                    <p style="color:#555; margin:8px 0; font-size:13px;">Releia a passagem e tente novamente!</p>
+                </div>
+            </div>
+
+            
+            <style>
+                .quiz-container { background: #f8f8ff; border: 2px solid #1b5e2033; border-radius: 20px; padding: 28px; margin: 30px 0; }
+                .pergunta { margin-bottom: 10px; }
+                .pergunta-texto { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 14px; line-height: 1.5; }
+                .alternativas { display: flex; flex-direction: column; gap: 10px; }
+                .alt-btn {
+                    background: white; border: 2px solid #1b5e2055; padding: 12px 16px;
+                    border-radius: 12px; font-size: 14px; cursor: pointer; text-align: left;
+                    transition: all 0.2s ease; color: #333; font-family: inherit; line-height: 1.4;
+                }
+                .alt-btn:hover { background: #1b5e2015; border-color: #1b5e20; transform: translateX(4px); }
+                .alt-btn.correta { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+                .alt-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+                .alt-btn:disabled { cursor: not-allowed; transform: none; }
+                .feedback { margin-top: 10px; font-size: 14px; font-weight: bold; min-height: 22px; }
+                @keyframes aparecer { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+                @media (max-width: 768px) {
+                    .quiz-container { padding: 14px; }
+                    .pergunta-texto { font-size: 13px; }
+                    .alt-btn { font-size: 12px; padding: 10px 12px; }
+                }
+            </style>
+
+            
+            <script>
+                let acertos = 0;
+                const totalPerguntas = 3;
+                function responder(num, btn, correta) {
+                    const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+                    const feedback = document.getElementById('f' + num);
+                    buttons.forEach(b => b.disabled = true);
+                    if (correta) {
+                        btn.classList.add('correta');
+                        feedback.style.color = '#1a7a3c';
+                        feedback.textContent = '✅ Correto! Muito bem, UP!';
+                        acertos++;
+                        setTimeout(() => {
+                            if (num < totalPerguntas) {
+                                document.getElementById('q' + num).style.opacity = '0.6';
+                                document.getElementById('q' + (num + 1)).style.display = 'block';
+                                document.getElementById('q' + (num + 1)).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            } else {
+                                document.getElementById('frase-revelada').style.display = 'block';
+                                document.getElementById('frase-revelada').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }, 900);
+                    } else {
+                        btn.classList.add('errada');
+                        feedback.style.color = '#d63031';
+                        feedback.textContent = '❌ Não é essa! Pense bem...';
+                        setTimeout(() => {
+                            buttons.forEach(b => { b.disabled = false; b.classList.remove('errada'); });
+                            feedback.textContent = '';
+                        }, 1500);
+                    }
+                }
+            </script>
+
+
+            <hr>
+
+            <div class="nav-buttons">
+                <a href="obadiasdia2.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+                <a href="obadiasdia4.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+            </div>
+
+            <div style="text-align:center; margin-top:22px;">
+                <a href="../index.html" style="color:#1b5e20; font-size:13px; text-decoration:none;">← Voltar para o início</a>
+            </div>
+
+            <div class="rodape">
+                <p><span class="rodape-destaque">Central UP</span> - IEQ Central</p>
+                <p style="margin-top:7px;">Desenvolvido por <span class="rodape-destaque">Pr. Eduardo</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const abertura  = new Date('2026-03-11T00:00:00');
+        const fechamento = new Date('2026-03-12T11:59:59');
+        const liberacaoFinal = new Date('2026-03-16T00:00:00');
+        const agora = new Date();
+        const bloqueio = document.getElementById('bloqueio');
+        const conteudo = document.getElementById('conteudo');
+        const msgBloqueio = document.getElementById('msg-bloqueio');
+        const msgSub = document.getElementById('msg-sub');
+
+        function fmt(d) {
+            return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) +
+                   ' às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        if (agora >= liberacaoFinal || (agora >= abertura && agora <= fechamento)) {
+            bloqueio.style.display = 'none';
+            conteudo.style.display = 'block';
+        } else if (agora < abertura) {
+            msgBloqueio.textContent = 'Ei, você está adiantado! 😄';
+            msgSub.innerHTML = 'Este devocional abre no dia <strong>' + fmt(abertura) + '</strong>.<br>Fique ligado, volte no horário certo!';
+        } else {
+            msgBloqueio.textContent = 'Você perdeu o horário deste dia... 😔';
+            msgSub.innerHTML = 'Este devocional encerrou em <strong>' + fmt(fechamento) + '</strong>.<br>Mas não desanima! Os próximos dias ainda estão por vir.<br>A partir de <strong>16/03</strong> todos os dias ficam abertos!';
+        }
+    </script>
+</body>
+</html>

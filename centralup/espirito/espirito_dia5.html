@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 5 — O Dia em que o Céu Não Avisou | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 60%, #e85d2a 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 60%, #e85d2a 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .cb { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 220px; margin-bottom: 20px; }
+        #bloqueio p { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.8); }
+        #conteudo { display: none; }
+
+        .container {
+            max-width: 800px; margin: 0 auto; background: #0f0f1a;
+            border-radius: 25px; padding: 36px 32px;
+            box-shadow: 0 15px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(232,93,42,0.2);
+        }
+        .logo-topo { text-align: center; margin-bottom: 22px; }
+        .logo-topo img { max-width: 180px; }
+        .serie-label { font-size: 11px; color: #e85d2a; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .dia-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #1a3a5c, #e85d2a);
+            color: white; padding: 8px 20px; border-radius: 25px;
+            font-weight: bold; margin-bottom: 16px; font-size: 13px; letter-spacing: 1px;
+        }
+        h1 { color: #ff914d; font-size: 28px; margin-bottom: 8px; line-height: 1.3; }
+        .subtitle { color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 24px; }
+
+        .progresso { background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; margin: 20px 0; text-align: center; }
+        .progresso-titulo { color: #e85d2a; font-weight: bold; margin-bottom: 10px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+        .progresso-bar { background: rgba(255,255,255,0.1); height: 20px; border-radius: 10px; overflow: hidden; }
+        .progresso-fill { background: linear-gradient(90deg, #1a3a5c, #e85d2a); height: 100%; width: 83%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 11px; }
+
+        hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 24px 0; }
+
+        .narrativa { font-size: 16px; line-height: 2; color: rgba(255,255,255,0.85); }
+        .narrativa p { margin: 14px 0; }
+        .narrativa .destaque { color: #ff914d; font-weight: bold; }
+        .narrativa .italico { font-style: italic; color: rgba(255,255,255,0.65); }
+        .narrativa .humor {
+            background: rgba(232,93,42,0.1); border-left: 3px solid #e85d2a;
+            padding: 10px 16px; border-radius: 0 10px 10px 0;
+            margin: 14px 0; font-style: italic; color: rgba(255,255,255,0.8);
+        }
+        .narrativa .pensamento {
+            background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2);
+            border-radius: 12px; padding: 14px 18px; margin: 16px 0;
+            font-style: italic; color: rgba(255,255,255,0.7);
+        }
+        .narrativa .pedro {
+            background: rgba(212,168,67,0.07); border-left: 4px solid #d4a843;
+            border-radius: 0 12px 12px 0; padding: 14px 18px; margin: 16px 0;
+            font-style: italic; color: rgba(255,255,255,0.85); line-height: 1.9;
+        }
+        h2 {
+            color: white; background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+            padding: 11px 18px; border-radius: 12px; font-size: 15px;
+            margin: 24px 0 14px 0; border: 1px solid rgba(232,93,42,0.3);
+        }
+
+        /* TERMÔMETRO */
+        .interativo-box {
+            background: linear-gradient(135deg, #1a1a2e, #0d1b2e);
+            border: 2px solid #e85d2a;
+            border-radius: 18px; padding: 24px; margin: 24px 0;
+        }
+        .int-titulo { color: #ff914d; font-size: 16px; font-weight: bold; margin-bottom: 6px; }
+        .int-desc { color: rgba(255,255,255,0.65); font-size: 13px; margin-bottom: 22px; line-height: 1.6; }
+
+        .termometro-container { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; }
+
+        .termo-coluna { flex: 1; min-width: 200px; }
+        .termo-label { font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; text-align: center; margin-bottom: 12px; }
+        .termo-label span { color: #e85d2a; }
+
+        .termo-barra {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(232,93,42,0.2);
+            border-radius: 16px; padding: 8px; display: flex; flex-direction: column; gap: 6px;
+        }
+        .termo-nivel {
+            border-radius: 10px; padding: 12px 14px; cursor: pointer;
+            transition: all 0.2s; border: 2px solid transparent;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .termo-nivel:hover { transform: translateX(3px); }
+        .termo-nivel.ativo { border-color: #e85d2a; }
+
+        .nivel-5 { background: rgba(232,93,42,0.25); }
+        .nivel-5.ativo { background: rgba(232,93,42,0.4); box-shadow: 0 0 12px rgba(232,93,42,0.3); }
+        .nivel-4 { background: rgba(232,93,42,0.18); }
+        .nivel-4.ativo { background: rgba(232,93,42,0.32); box-shadow: 0 0 12px rgba(232,93,42,0.2); }
+        .nivel-3 { background: rgba(232,93,42,0.11); }
+        .nivel-3.ativo { background: rgba(232,93,42,0.22); }
+        .nivel-2 { background: rgba(232,93,42,0.06); }
+        .nivel-2.ativo { background: rgba(232,93,42,0.15); }
+        .nivel-1 { background: rgba(255,255,255,0.03); }
+        .nivel-1.ativo { background: rgba(255,255,255,0.08); }
+
+        .nivel-emoji { font-size: 18px; flex-shrink: 0; }
+        .nivel-texto { font-size: 12px; color: rgba(255,255,255,0.75); line-height: 1.4; }
+
+        .termo-resultado {
+            display: none; margin-top: 20px;
+            background: rgba(232,93,42,0.08); border-left: 4px solid #e85d2a;
+            border-radius: 0 14px 14px 0; padding: 16px 18px;
+            font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.85;
+            animation: aparecer 0.5s ease;
+        }
+
+        /* ENSINAMENTO */
+        .ensinamento-box {
+            background: linear-gradient(135deg, #1a0a00, #2a1000);
+            border: 2px solid rgba(212,168,67,0.4);
+            border-radius: 18px; padding: 24px; margin: 24px 0;
+        }
+        .ens-pre { font-size: 12px; color: rgba(212,168,67,0.7); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .ens-frase { font-size: 17px; font-style: italic; color: #d4a843; line-height: 1.8; margin-bottom: 12px; font-weight: 600; }
+        .ens-texto { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.85; }
+        .versic { background: rgba(212,168,67,0.08); border-left: 4px solid #d4a843; border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 12px 0; font-style: italic; color: #d4a843; font-size: 14px; }
+
+        /* GANCHO */
+        .gancho-box {
+            background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+            border: 2px solid rgba(232,93,42,0.5);
+            border-radius: 18px; padding: 22px; margin: 24px 0; text-align: center;
+        }
+        .gancho-label { font-size: 11px; color: #e85d2a; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .gancho-texto { font-size: 16px; color: white; line-height: 1.7; font-style: italic; }
+        .gancho-emoji { font-size: 36px; display: block; margin-bottom: 10px; animation: pulsar 2s infinite; }
+
+        /* ORAÇÃO */
+        .oracao-box {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px; padding: 20px; margin: 20px 0;
+            font-style: italic; color: rgba(255,255,255,0.7); line-height: 2; font-size: 15px; text-align: center;
+        }
+
+        /* NAV */
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; gap: 12px; }
+        .nav-btn { flex: 1; padding: 13px 20px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.3s; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .nav-btn-prev { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        .nav-btn-prev:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-btn-next { background: linear-gradient(135deg, #1a3a5c, #e85d2a); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(232,93,42,0.3); }
+
+        .rodape { text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.25); font-size: 12px; }
+        .rodape span { color: #e85d2a; }
+
+        @keyframes aparecer { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+        @keyframes pulsar { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+        @media (max-width: 600px) {
+            .container { padding: 22px 16px; border-radius: 18px; }
+            h1 { font-size: 22px; }
+            .narrativa { font-size: 15px; }
+            .termometro-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="bloqueio">
+    <div class="cb">
+        <img src="../logoup.png" alt="Central UP">
+        <p id="msg-bl">Este devocional abre na sexta-feira, 10/04!</p>
+        <p style="margin-top:12px;font-size:14px;" id="msg-sub"></p>
+    </div>
+</div>
+
+<div id="conteudo">
+<div class="container">
+
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    <div class="serie-label">🔥 Levi e o Vento que Mudou Tudo — Semana 1</div>
+    <div class="dia-badge">📅 DIA 5 DE 6</div>
+
+    <h1>O Dia em que o Céu Não Avisou</h1>
+    <p class="subtitle">Levi não estava esperando nada. E foi exatamente por isso que pegou ele de surpresa.</p>
+
+    <div class="progresso">
+        <div class="progresso-titulo">⚡ Progresso da semana</div>
+        <div class="progresso-bar">
+            <div class="progresso-fill">83%</div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>📖 A história de hoje</h2>
+
+    <div class="narrativa">
+
+        <p>Cinquenta dias depois da Páscoa.</p>
+
+        <p>Levi acordou cedo, pegou as jarras e foi trabalhar. Igual todo dia. O sol de Jerusalém naquela manhã era o mesmo sol de sempre, o mercado fazia o mesmo barulho de sempre, o cheiro do bairro dos curtidores quando ele passou por lá era o mesmo cheiro de sempre.</p>
+
+        <p>Ele encostou a mão na porta da casa. Hábito que tinha virado rotina sem ele perceber.</p>
+
+        <div class="humor">A madeira estava morna. Vozes lá dentro. Igual toda manhã nos últimos cinquenta dias.</div>
+
+        <p>Levi tirou a mão, ajeitou as jarras nos ombros e continuou.</p>
+
+        <p>Foi encher as jarras no poço de Siloé. Foi fazer a primeira entrega do dia, um comerciante de tecidos perto do portão sul que sempre reclamava que a água estava morna demais. A água não estava morna. O comerciante só gostava de reclamar.</p>
+
+        <p>Foi na segunda entrega que aconteceu.</p>
+
+        <p>Levi estava no meio de uma rua larga quando o vento veio.</p>
+
+        <p>Não era uma brisa. Não era o tipo de vento que dobra galhos e levanta poeira e passa. Era um barulho que ele não sabia que existia, um rugido vindo de dentro dos muros da cidade, como se o próprio ar tivesse mudado de ideia sobre o que queria ser.</p>
+
+        <div class="pensamento">"O quê..."</div>
+
+        <p>Ele parou. Todas as pessoas na rua pararam. Um burro amarrado num poste ficou completamente quieto, e burros não ficam completamente quietos.</p>
+
+        <p>O barulho durou alguns segundos. E depois parou.</p>
+
+        <p>E aí começaram as vozes.</p>
+
+    </div>
+
+    <img src="../levi/dia501.png" alt="Levi parado na rua com o vento" style="width:100%; border-radius:14px; margin:20px 0; display:block;" onerror="this.style.display='none'">
+
+    <div class="narrativa">
+
+        <p>Levi largou as jarras.</p>
+
+        <p>Não foi uma decisão. Foi o corpo indo antes da cabeça. As jarras bateram no chão, água por todo lado, e ele já estava correndo na direção do barulho sem ter parado pra pensar se era boa ideia.</p>
+
+        <div class="humor">Terceira jarra quebrada em cinquenta dias. Ia ter que ter uma conversa séria com o pai sobre isso.</div>
+
+        <p>A multidão estava se acumulando numa praça aberta. Levi chegou sem fôlego, espremeu entre as pessoas, chegou na frente o suficiente pra ver.</p>
+
+        <p>Os discípulos estavam lá. Todos eles. De pé, no meio da praça, falando em voz alta com aquela energia que Levi nunca tinha visto em ninguém. Falando em línguas que as pessoas ao redor reconheciam como as próprias línguas delas, vindas de gente que não devia saber essas línguas.</p>
+
+        <p>Alguém ao lado de Levi sussurrou: "Estão bêbados."</p>
+
+        <p>Levi olhou pro rosto deles. Não estavam bêbados. Bêbado ele já tinha visto. Aquilo era outra coisa. Era parecido com o rosto de Tomé na esquina, mas multiplicado por doze, amplificado, transbordando.</p>
+
+        <p>E então Pedro subiu num lugar alto e começou a falar.</p>
+
+        <p>A voz de Pedro não era a voz de um homem com medo. Dois meses atrás, esse mesmo homem tinha negado conhecer Jesus três vezes numa noite. Agora estava de pé no meio de Jerusalém, falando pra centenas de pessoas, sem gaguejar uma vez.</p>
+
+        <div class="pedro">
+            "Jesus de Nazaré foi um homem aprovado por Deus diante de vocês por meio de milagres, maravilhas e sinais... vocês o mataram, pregando-o numa cruz por meio de homens perversos. Mas Deus o ressuscitou, acabando com as dores da morte..."
+        </div>
+
+        <p>Levi ouviu o nome.</p>
+
+        <p><span class="destaque">Jesus.</span></p>
+
+        <p>Quarta vez em cinquenta dias. Mas dessa vez não era cochichado com medo num mercado. Não era investigado numa viela. Não era contado em voz baixa num pátio. Era proclamado em voz alta no meio da cidade, sem desculpa, sem hesitação, diante de centenas de pessoas que poderiam reagir muito mal a esse nome.</p>
+
+        <div class="pensamento">"Por que ele não está com medo?"</div>
+
+        <p>Pedro continuou. Falou de Davi. Falou de profecias. Falou da ressurreição com a certeza de quem viu com os próprios olhos, porque tinha visto com os próprios olhos.</p>
+
+        <p>E no final disse uma coisa que parou Levi no lugar:</p>
+
+        <div class="pedro">
+            "Saiba, pois, com certeza toda a casa de Israel que Deus constituiu Senhor e Cristo a esse Jesus, a quem vocês crucificaram."
+        </div>
+
+        <p>A multidão ficou em silêncio.</p>
+
+        <p>Levi ficou em silêncio.</p>
+
+        <p>Alguém na multidão perguntou, com uma voz que soava como a voz de todo mundo ao mesmo tempo:</p>
+
+        <p>"O que devemos fazer?"</p>
+
+        <p>E Pedro respondeu:</p>
+
+        <div class="pedro">
+            "Arrependam-se e cada um de vocês seja batizado em nome de Jesus Cristo para perdão dos seus pecados, e receberão o dom do Espírito Santo."
+        </div>
+
+        <p>Levi não entendeu tudo. Não sabia o que era batismo direito. Não entendia ainda o que era o Espírito Santo.</p>
+
+        <p>Mas entendeu uma coisa.</p>
+
+        <p>Aquela coisa enorme que Tomé tinha dito que estava começando, sem conseguir explicar o que era?</p>
+
+        <p>Era isso.</p>
+
+        <p>Estava começando agora. Na sua frente. E ele não estava do lado de fora.</p>
+
+    </div>
+
+    <img src="../levi/dia502.png" alt="Levi na multidão ouvindo Pedro" style="width:100%; border-radius:14px; margin:20px 0; display:block;" onerror="this.style.display='none'">
+
+    <hr>
+
+    <!-- INTERATIVO: TERMÔMETRO DE FÉ -->
+    <div class="interativo-box">
+        <div class="int-titulo">🌡️ Termômetro de fé</div>
+        <div class="int-desc">Levi chegou até aqui num caminho longo. Marque onde você acha que ele está agora. E depois marque onde você está.</div>
+
+        <div class="termometro-container">
+            <div class="termo-coluna">
+                <div class="termo-label">Onde está <span>Levi</span>?</div>
+                <div class="termo-barra" id="termo-levi">
+                    <div class="termo-nivel nivel-5" onclick="marcar('levi', 5)">
+                        <span class="nivel-emoji">🔥</span>
+                        <span class="nivel-texto">Pronto pra entrar de vez. Não tem mais dúvida.</span>
+                    </div>
+                    <div class="termo-nivel nivel-4" onclick="marcar('levi', 4)">
+                        <span class="nivel-emoji">💛</span>
+                        <span class="nivel-texto">Quase. Acredita, mas ainda tem perguntas.</span>
+                    </div>
+                    <div class="termo-nivel nivel-3" onclick="marcar('levi', 3)">
+                        <span class="nivel-emoji">🌊</span>
+                        <span class="nivel-texto">No meio do caminho. Não consegue negar, mas não entregou tudo.</span>
+                    </div>
+                    <div class="termo-nivel nivel-2" onclick="marcar('levi', 2)">
+                        <span class="nivel-emoji">❄️</span>
+                        <span class="nivel-texto">Ainda cético. Viu muita coisa, mas não é suficiente.</span>
+                    </div>
+                    <div class="termo-nivel nivel-1" onclick="marcar('levi', 1)">
+                        <span class="nivel-emoji">🌑</span>
+                        <span class="nivel-texto">Não acredita. Tudo tem explicação racional.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="termo-coluna">
+                <div class="termo-label">Onde está <span>você</span>?</div>
+                <div class="termo-barra" id="termo-eu">
+                    <div class="termo-nivel nivel-5" onclick="marcar('eu', 5)">
+                        <span class="nivel-emoji">🔥</span>
+                        <span class="nivel-texto">Tô dentro. Jesus é real pra mim de verdade.</span>
+                    </div>
+                    <div class="termo-nivel nivel-4" onclick="marcar('eu', 4)">
+                        <span class="nivel-emoji">💛</span>
+                        <span class="nivel-texto">Acredito, mas tenho dúvidas que não consigo responder.</span>
+                    </div>
+                    <div class="termo-nivel nivel-3" onclick="marcar('eu', 3)">
+                        <span class="nivel-emoji">🌊</span>
+                        <span class="nivel-texto">Estou investigando. Não sei ainda onde vou chegar.</span>
+                    </div>
+                    <div class="termo-nivel nivel-2" onclick="marcar('eu', 2)">
+                        <span class="nivel-emoji">❄️</span>
+                        <span class="nivel-texto">Tenho muita dúvida. Preciso de mais.</span>
+                    </div>
+                    <div class="termo-nivel nivel-1" onclick="marcar('eu', 1)">
+                        <span class="nivel-emoji">🌑</span>
+                        <span class="nivel-texto">Não sei se acredito em nada disso ainda.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="termo-resultado" id="termo-resultado"></div>
+    </div>
+
+    <hr>
+
+    <!-- ENSINAMENTO -->
+    <div class="ensinamento-box">
+        <div class="ens-pre">✝️ Levi não sabia, mas Jesus tinha prometido isso</div>
+        <div class="ens-frase">"Mas vocês receberão poder quando o Espírito Santo descer sobre vocês, e serão minhas testemunhas em Jerusalém, em toda a Judeia e Samaria, e até os fins da terra."</div>
+        <div class="versic">— Atos 1.8 · NTLH</div>
+        <div class="ens-texto">
+            Jesus disse isso antes de partir. Os discípulos estavam esperando sem saber exatamente o que estava vindo. Levi não estava esperando nada, e foi pego no meio do caminho.<br><br>
+            É assim que o Espírito Santo funciona às vezes. Não aparece quando você está preparado numa sala esperando. Aparece quando você está na rua com duas jarras e uma segunda entrega pra fazer.<br><br>
+            Pedro, que tinha negado Jesus com medo, agora estava de pé falando sem medo para centenas de pessoas. Isso não foi força de vontade. Isso foi o Espírito Santo.<br><br>
+            <strong style="color:#d4a843;">O mesmo Espírito que transformou Pedro está disponível pra qualquer pessoa que pedir. Inclusive carregadores de água de doze anos. Inclusive você.</strong>
+        </div>
+    </div>
+
+    <!-- ORAÇÃO -->
+    <div class="oracao-box">
+        "Senhor, eu não sei se estou pronto. Mas Levi também não estava. Espírito Santo, vem. Do jeito que você aparecer, eu quero reconhecer. Amém."
+    </div>
+
+    <hr>
+
+    <!-- GANCHO -->
+    <div class="gancho-box">
+        <div class="gancho-label">🔮 Amanhã na história de Levi</div>
+        <span class="gancho-emoji">🌬️</span>
+        <div class="gancho-texto">
+            Três mil pessoas responderam ao chamado de Pedro naquele dia.<br><br>
+            Levi ficou parado na praça por muito tempo depois que a multidão foi se dispersando.<br><br>
+            <em>A jarra quebrada no chão. A água espalhada pela rua. O sol no mesmo lugar do céu.</em><br><br>
+            Tudo igual. Mas ele não era mais o mesmo.<br><br>
+            <em style="color:#e85d2a;">Amanhã é o último dia. E Levi vai entender o que começou na sexta-feira quando a jarra caiu.</em>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="espirito_dia4.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+        <a href="espirito_dia6.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+    </div>
+
+    <div style="text-align:center; margin-top:18px;">
+        <a href="espirito.html" style="color:rgba(255,255,255,0.3); font-size:13px; text-decoration:none;">← Ver todos os dias</a>
+        &nbsp;&nbsp;·&nbsp;&nbsp;
+        <a href="../index.html" style="color:rgba(255,255,255,0.3); font-size:13px; text-decoration:none;">Portal</a>
+    </div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:5px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+
+</div>
+</div>
+
+<script>
+    const escolhas = { levi: null, eu: null };
+
+    function marcar(coluna, nivel) {
+        const barra = document.getElementById('termo-' + coluna);
+        barra.querySelectorAll('.termo-nivel').forEach(n => n.classList.remove('ativo'));
+        const niveis = barra.querySelectorAll('.termo-nivel');
+        niveis[5 - nivel].classList.add('ativo');
+        escolhas[coluna] = nivel;
+        verificarTermometro();
+    }
+
+    function verificarTermometro() {
+        if (escolhas.levi === null || escolhas.eu === null) return;
+
+        const resultado = document.getElementById('termo-resultado');
+        const l = escolhas.levi;
+        const e = escolhas.eu;
+
+        let texto = '';
+
+        if (l >= 4) {
+            texto += 'Você vê Levi quase no fim do caminho. Faz sentido: ele viu o túmulo vazio, ouviu Maria, ficou na porta com Tomé, e agora estava na praça quando o vento veio. Cada dia foi um passo. ';
+        } else if (l === 3) {
+            texto += 'Levi no meio do caminho. Também faz sentido. Ele ainda não entregou tudo, mas já não consegue mais fingir que não viu o que viu. ';
+        } else {
+            texto += 'Interessante você ver Levi ainda cético depois de tudo isso. Talvez você entenda bem o que é precisar de muito mais pra acreditar. ';
+        }
+
+        if (e >= 4) {
+            texto += 'E você está num lugar parecido com ele. Isso é bom. Amanhã os dois chegam ao mesmo lugar juntos.';
+        } else if (e === 3) {
+            texto += 'E você ainda está investigando, igual ele estava. Não tem problema nenhum nisso. Deus não tem pressa com quem está sendo honesto.';
+        } else {
+            texto += 'E você ainda tem muita dúvida. Tudo bem. Tomé também tinha. O importante é que você chegou até aqui.';
+        }
+
+        resultado.textContent = texto;
+        resultado.style.display = 'block';
+        resultado.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // BLOQUEIO DE DATA
+    const abertura   = new Date('2026-04-10T00:00:00');
+    const fechamento = new Date('2026-04-11T11:59:00');
+    const liberacao  = new Date('2026-04-12T00:00:00');
+    const agora = new Date();
+
+    const dentroJanela = agora >= abertura && agora < fechamento;
+    const aposLiberacao = agora >= liberacao;
+
+    if (dentroJanela || aposLiberacao) {
+        document.getElementById('bloqueio').style.display = 'none';
+        document.getElementById('conteudo').style.display = 'block';
+    } else if (agora < abertura) {
+        document.getElementById('msg-bl').textContent = 'Este devocional abre na sexta-feira, 10/04!';
+        document.getElementById('msg-sub').textContent = 'Falta pouco. O céu vai fazer barulho. ⚡';
+    } else {
+        document.getElementById('msg-bl').textContent = 'Este devocional já encerrou. Volte domingo para rever tudo!';
+        document.getElementById('msg-sub').textContent = 'A série completa abre no domingo. 📖';
+    }
+
+    function abrirAdmin() {
+        const s = prompt('🔒 Senha:');
+        if (s === 'admin') {
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        } else if (s !== null) alert('Senha incorreta.');
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.3);border:1.5px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.3);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button>
+</div>
+
+</body>
+</html>

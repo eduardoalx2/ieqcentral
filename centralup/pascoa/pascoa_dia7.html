@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ele Ressuscitou! | Domingo de Páscoa Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* LUZ QUE EXPLODE */
+        .luz-fundo {
+            position: fixed; inset: 0; z-index: 0;
+            background: radial-gradient(ellipse at center, #d4a843 0%, #6b21a8 40%, #0a0a0a 70%);
+            animation: pulsarLuz 3s ease-in-out infinite;
+        }
+        @keyframes pulsarLuz { 0%,100%{opacity:0.4} 50%{opacity:0.7} }
+
+        /* PARTÍCULAS */
+        .particulas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+
+        .container {
+            position: relative; z-index: 10;
+            max-width: 800px; margin: 0 auto;
+            padding: 40px 20px 60px;
+        }
+
+        .logo-topo { text-align: center; margin-bottom: 20px; }
+        .logo-topo img { max-width: 180px; filter: drop-shadow(0 0 20px #d4a843); }
+
+        /* HERO */
+        .hero { text-align: center; padding: 30px 0 20px; }
+        .hero .emoji-ressurreicao {
+            font-size: 80px; display: block; margin-bottom: 10px;
+            animation: saltarEmoji 1.5s ease-in-out infinite;
+        }
+        @keyframes saltarEmoji { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+        .hero .data { font-size: 13px; color: #d4a843; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; }
+        .hero h1 {
+            font-size: 48px; font-weight: 900; color: white;
+            text-shadow: 0 0 40px #d4a843, 0 0 80px #6b21a8;
+            line-height: 1.1; margin-bottom: 10px;
+        }
+        .hero .subtitulo { font-size: 18px; color: #d4a843; font-weight: 600; margin-bottom: 6px; }
+        .hero .passagem { font-size: 13px; color: rgba(255,255,255,0.5); letter-spacing: 2px; }
+
+        /* CARD DE CONTEÚDO */
+        .card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(212,168,67,0.3);
+            border-radius: 20px; padding: 28px; margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        .card h2 {
+            color: #d4a843; font-size: 16px; font-weight: bold;
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px;
+        }
+        .card p { color: rgba(255,255,255,0.85); line-height: 1.9; font-size: 15px; margin: 10px 0; }
+        .card mark { background: #d4a843; color: #0a0a0a; padding: 2px 6px; border-radius: 3px; font-weight: 700; }
+
+        /* VERSÍCULO */
+        .versic-box {
+            background: linear-gradient(135deg, rgba(107,33,168,0.4), rgba(212,168,67,0.2));
+            border: 2px solid #d4a843;
+            border-radius: 16px; padding: 22px; margin: 16px 0;
+            text-align: center;
+        }
+        .versic-box p { font-size: 18px; font-style: italic; color: white; font-weight: 600; line-height: 1.7; margin: 0 0 10px; }
+        .versic-box span { font-size: 13px; color: #d4a843; }
+
+        /* TEXTO TRIUNFAL */
+        .texto-triunfal {
+            background: linear-gradient(135deg, rgba(107,33,168,0.3), rgba(212,168,67,0.1));
+            border-radius: 20px; padding: 28px; margin: 20px 0;
+            border-left: 5px solid #d4a843;
+        }
+        .texto-triunfal p { color: rgba(255,255,255,0.9); line-height: 2.2; font-size: 16px; margin: 0; }
+        .texto-triunfal em { color: #d4a843; font-style: normal; font-weight: bold; }
+
+        /* AÇÃO DOS PAPEIS */
+        .papel-box {
+            background: linear-gradient(135deg, #6b21a8, #d4a843);
+            border-radius: 20px; padding: 30px; margin: 20px 0;
+            text-align: center;
+        }
+        .papel-box h2 { color: white; font-size: 22px; margin-bottom: 16px; letter-spacing: 0; text-transform: none; }
+        .papel-steps { display: flex; flex-direction: column; gap: 14px; margin: 16px 0; text-align: left; }
+        .step {
+            background: rgba(255,255,255,0.15); border-radius: 14px;
+            padding: 14px 18px; display: flex; gap: 14px; align-items: flex-start;
+        }
+        .step-num { font-size: 22px; flex-shrink: 0; }
+        .step-txt { color: white; font-size: 15px; line-height: 1.7; }
+        .step-txt strong { color: #ffd700; display: block; margin-bottom: 4px; }
+        .papel-frase {
+            font-size: 18px; color: white; font-weight: bold;
+            font-style: italic; margin-top: 18px; line-height: 1.6;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        /* ORAÇÃO */
+        .oracao-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,168,67,0.4);
+            border-radius: 16px; padding: 24px; margin: 20px 0;
+            text-align: center;
+        }
+        .oracao-box p { color: rgba(255,255,255,0.85); font-style: italic; line-height: 2; font-size: 16px; margin: 0; }
+
+        /* PROCLAMAÇÃO FINAL */
+        .proclamacao {
+            text-align: center; padding: 30px 0;
+            animation: aparecer 1s ease;
+        }
+        .proclamacao h2 {
+            font-size: 42px; font-weight: 900; color: white;
+            text-shadow: 0 0 30px #d4a843;
+            animation: pulsarTexto 2s ease-in-out infinite;
+            margin-bottom: 10px;
+        }
+        @keyframes pulsarTexto { 0%,100%{text-shadow:0 0 30px #d4a843} 50%{text-shadow:0 0 60px #d4a843, 0 0 100px #6b21a8} }
+        .proclamacao p { color: #d4a843; font-size: 16px; font-weight: 600; }
+
+        .link-voltar { display: block; text-align: center; margin-top: 30px; color: rgba(255,255,255,0.4); font-size: 13px; text-decoration: none; }
+        .link-voltar:hover { color: rgba(255,255,255,0.7); }
+
+        @keyframes aparecer { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+        @keyframes cair { 0%{transform:translateY(-10px) rotate(0);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+
+        @media (max-width: 500px) {
+            .hero h1 { font-size: 34px; }
+            .proclamacao h2 { font-size: 28px; }
+            .papel-box h2 { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="luz-fundo"></div>
+<div class="particulas" id="particulas"></div>
+
+<div class="container">
+
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+    <div style="background:rgba(212,168,67,0.15);border:2px solid rgba(212,168,67,0.5);border-radius:18px;padding:20px 22px;margin-bottom:24px;position:relative;z-index:10;">
+        <p style="color:#d4a843;font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;margin:0 0 6px 0;">🎵 Música da Ressurreição</p>
+        <p style="color:rgba(255,255,255,0.85);font-size:13px;margin:0 0 14px 0;line-height:1.6;"><strong style="color:#d4a843;">Antes de começar:</strong> Chama toda a família! Coloca essa música pra tocar e leia o devocional juntos. Que esse domingo seja diferente! 🌅</p>
+        <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;">
+            <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:12px;" src="https://www.youtube.com/embed/YynzyzlAi7Y?autoplay=0&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- CHAMADA DA FAMÍLIA -->
+    <div style="background:linear-gradient(135deg,#6b21a8,#d4a843);border-radius:20px;padding:28px 26px;margin-bottom:24px;position:relative;z-index:10;text-align:center;">
+        <div style="font-size:44px;margin-bottom:12px;animation:saltarEmoji 1.5s ease-in-out infinite;">👨‍👩‍👧‍👦</div>
+        <p style="color:white;font-size:20px;font-weight:bold;margin:0 0 10px 0;">Antes de começar — chama todo mundo!</p>
+        <p style="color:rgba(255,255,255,0.85);font-size:14px;line-height:1.8;margin:0 0 18px 0;">Este é um devocional de família. Pai, mãe, irmãos, avós, quem estiver em casa. Reúne todo mundo agora!</p>
+        <p style="color:#ffd700;font-size:14px;font-weight:bold;margin:0 0 18px 0;">Cada pessoa vai ler um trecho da história da Páscoa em voz alta. 👇</p>
+
+        <div style="background:rgba(255,255,255,0.15);border-radius:14px;padding:18px;text-align:left;">
+            <p style="color:#ffd700;font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;margin:0 0 12px 0;">📖 LEITURA EM FAMÍLIA — Lucas 24.1-9 (NTLH)</p>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+                <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;">
+                    <p style="color:#ffd700;font-size:11px;font-weight:bold;margin:0 0 4px 0;">PESSOA 1 lê:</p>
+                    <p style="color:white;font-size:14px;line-height:1.7;margin:0;font-style:italic;">"No primeiro dia da semana, muito cedo, as mulheres foram ao sepulcro, levando os perfumes que tinham preparado. Encontraram a pedra removida do sepulcro."</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;">
+                    <p style="color:#ffd700;font-size:11px;font-weight:bold;margin:0 0 4px 0;">PESSOA 2 lê:</p>
+                    <p style="color:white;font-size:14px;line-height:1.7;margin:0;font-style:italic;">"Entraram, mas não encontraram o corpo do Senhor Jesus. Enquanto estavam confusas com isso, de repente apareceram ao lado delas dois homens com roupas brilhantes."</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;">
+                    <p style="color:#ffd700;font-size:11px;font-weight:bold;margin:0 0 4px 0;">PESSOA 3 lê:</p>
+                    <p style="color:white;font-size:14px;line-height:1.7;margin:0;font-style:italic;">"Tomadas de medo, as mulheres se inclinaram com o rosto em terra. Os homens lhes perguntaram: Por que vocês procuram entre os mortos aquele que está vivo?"</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;">
+                    <p style="color:#ffd700;font-size:11px;font-weight:bold;margin:0 0 4px 0;">TODOS JUNTOS leem:</p>
+                    <p style="color:white;font-size:16px;line-height:1.7;margin:0;font-weight:bold;">"Ele não está aqui. Ele ressuscitou!"</p>
+                </div>
+            </div>
+        </div>
+        <p style="color:rgba(255,255,255,0.7);font-size:12px;margin:14px 0 0 0;font-style:italic;">Se tiver mais pessoas, divida os trechos. Se for só você, leia tudo em voz alta mesmo!</p>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <span class="emoji-ressurreicao">🌅</span>
+        <div class="data">☀️ Domingo · 05 de Abril de 2026</div>
+        <h1>Ele Ressuscitou!</h1>
+        <p class="subtitulo">A maior notícia da história</p>
+        <p class="passagem">Lucas 24.1-9 · NTLH</p>
+    </div>
+
+    <!-- PASSAGEM -->
+    <div class="versic-box">
+        <p>"Ele não está aqui. Ele ressuscitou!"</p>
+        <span>— Lucas 24.6</span>
+    </div>
+
+    <!-- O QUE ACONTECEU -->
+    <div class="card">
+        <h2>📖 O que aconteceu</h2>
+        <p>Era domingo de manhã cedo. Maria Madalena e as outras mulheres foram ao sepulcro levar especiarias. Esperavam encontrar um corpo.</p>
+        <p>A pedra estava removida. O sepulcro, vazio. Dois anjos apareceram e disseram as palavras mais importantes já ditas:</p>
+        <p style="font-size:18px; font-weight:bold; color:#d4a843; text-align:center; margin:16px 0;">"Ele não está aqui. Ele ressuscitou!"</p>
+        <p>Tudo que parecia acabado, não estava. Tudo que parecia silêncio, era espera. Tudo que parecia derrota, era o plano.</p>
+    </div>
+
+    <!-- TEXTO TRIUNFAL -->
+    <div class="texto-triunfal">
+        <p>
+            Ontem era sábado. A pedra estava no lugar.<br>
+            <em>Hoje a pedra não está mais lá.</em><br><br>
+            Pedro voltou pra casa correndo quando ouviu a notícia.<br>
+            <em>O pescador que havia negado voltou correndo.</em><br><br>
+            Maria Madalena, que chorava num sepulcro vazio,<br>
+            foi a primeira a ver Jesus ressuscitado.<br>
+            <em>A primeira testemunha da maior notícia da história.</em><br><br>
+            E você, UP?<br>
+            <em>A ressurreição de Jesus muda a sua história também.</em>
+        </p>
+    </div>
+
+    <!-- CARD PARA PENSAR -->
+    <div class="card">
+        <h2>✝️ O que isso muda</h2>
+        <p>Se Jesus não ressuscitou, a morte é o fim. O medo faz sentido. A vida não tem resposta.</p>
+        <p><mark>Mas Ele ressuscitou.</mark></p>
+        <p>E isso muda tudo. Inclusive a sua história. Inclusive o que você escreveu naquele papel na sexta-feira.</p>
+        <p>O que foi entregue na cruz, ficou na cruz. Porque Ele ressuscitou. E você pode viver diferente por causa disso.</p>
+    </div>
+
+    <!-- AÇÃO DOS PAPEIS -->
+    <div class="papel-box">
+        <h2>📄 A Hora dos Papeis</h2>
+        <div class="papel-steps">
+            <div class="step">
+                <div class="step-num">📝</div>
+                <div class="step-txt"><strong>Pega o papel da sexta-feira</strong>Aquele onde você escreveu algo que queria deixar na cruz.</div>
+            </div>
+            <div class="step">
+                <div class="step-num">👨‍👩‍👧</div>
+                <div class="step-txt"><strong>Chama a família</strong>Reúne quem está com você. Pode ser um abraço rápido antes de ir pra igreja, ou depois do culto.</div>
+            </div>
+            <div class="step">
+                <div class="step-num">🗣️</div>
+                <div class="step-txt"><strong>Quem quiser, conta</strong>O que você escreveu no papel? Não é obrigação. Mas se quiser compartilhar, compartilha.</div>
+            </div>
+            <div class="step">
+                <div class="step-num">✂️</div>
+                <div class="step-txt"><strong>Rasga o papel juntos</strong>Todo mundo ao mesmo tempo. O que foi entregue na cruz, ficou na cruz. Ele ressuscitou, e você também pode recomeçar.</div>
+            </div>
+        </div>
+        <p class="papel-frase">"O que foi deixado na cruz, ficou na cruz.<br>Porque Ele ressuscitou."</p>
+    </div>
+
+    <!-- ORAÇÃO -->
+    <div class="oracao-box">
+        <p>"Jesus, obrigado por ter ressuscitado. Obrigado por não ter ficado no sepulcro. O que eu te entreguei na sexta, eu deixo na cruz de vez. Hoje eu começo de novo. Amém."</p>
+    </div>
+
+    <!-- PROCLAMAÇÃO -->
+    <div class="proclamacao">
+        <h2>🌅 Ele Ressuscitou!</h2>
+        <p>E essa notícia muda tudo — inclusive você.</p>
+    </div>
+
+    <div style="background:linear-gradient(135deg,rgba(107,33,168,0.2),rgba(212,168,67,0.1));border:1px solid rgba(212,168,67,0.4);border-radius:14px;padding:16px 20px;margin:20px 0;text-align:center;position:relative;z-index:10;">
+        <p style="font-size:13px;color:rgba(255,255,255,0.7);margin:0 0 10px 0;">Agora que reviveu a semana toda, faça o Sermão Interativo! 🎮</p>
+        <a href="pascoa_interativo.html" style="display:inline-block;background:linear-gradient(135deg,#6b21a8,#d4a843);color:white;padding:11px 24px;border-radius:12px;font-size:14px;font-weight:bold;text-decoration:none;">🎮 Sermão Interativo da Páscoa</a>
+    </div>
+    <a href="../index.html" class="link-voltar">← Voltar para o Central UP</a>
+
+</div>
+
+<script>
+    // CONFETE GLORIOSO
+    function lancarConfete() {
+        const cores = ['#d4a843','#6b21a8','#ffffff','#f0e8ff','#ffd700','#a855f7'];
+        for (let i = 0; i < 80; i++) {
+            setTimeout(() => {
+                const e = document.createElement('div');
+                e.style.cssText = `position:fixed;top:-10px;left:${Math.random()*100}%;width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;background:${cores[Math.floor(Math.random()*cores.length)]};border-radius:${Math.random()>.5?'50%':'2px'};z-index:9999;pointer-events:none;animation:cair ${1+Math.random()*1.5}s ease forwards;`;
+                document.body.appendChild(e);
+                setTimeout(() => e.remove(), 3000);
+            }, i * 40);
+        }
+    }
+    lancarConfete();
+    setTimeout(lancarConfete, 3000);
+    setTimeout(lancarConfete, 6000);
+</script>
+
+<!-- BLOQUEIO -->
+
+
+    <div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+        <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.3);border:1.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.4);font-size:16px;width:36px;height:36px;border-radius:50%;cursor:pointer;">🔒</button>
+    </div>
+
+    <script>
+        function abrirAdmin() {
+            const s = prompt('🔒 Senha de supervisão:');
+            if (s !== 'admin' && s !== null) {
+                alert('Senha incorreta.');
+            }
+        }
+    </script>
+
+</body>
+</html>

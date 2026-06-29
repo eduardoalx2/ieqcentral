@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagem Bíblica - Elias | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 45px; box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 28px; }
+        .logo-topo img { max-width: 200px; }
+        .badge {
+            display: inline-block; background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            color: white; padding: 9px 22px; border-radius: 25px; font-weight: bold; margin-bottom: 18px; font-size: 14px;
+        }
+        h1 { color: #1a3a5c; font-size: 36px; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { color: #e85d2a; font-size: 18px; margin-bottom: 30px; font-weight: 600; }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 13px 0; }
+        h2 {
+            color: white; background: linear-gradient(135deg, #1a3a5c 0%, #2d5986 100%);
+            padding: 12px 20px; border-radius: 12px; font-size: 19px; margin: 28px 0 16px 0;
+        }
+        h2.laranja { background: linear-gradient(135deg, #c04a00 0%, #e85d2a 100%); }
+        h2.vermelho { background: linear-gradient(135deg, #8b1a1a 0%, #c0392b 100%); }
+        h2.verde  { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%); }
+        h2.dourado { background: linear-gradient(135deg, #8b6900 0%, #c4a000 100%); }
+        mark { background: #ffd700; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+        .destaque {
+            background: linear-gradient(135deg, #1a3a5c 0%, #2d5986 100%);
+            color: white; padding: 22px 26px; border-radius: 16px; margin: 22px 0; line-height: 1.9;
+        }
+        .destaque p { color: white; font-size: 17px; }
+        .destaque strong { color: #ffd700; }
+        .versiculo {
+            background: #f5f8ff; border-left: 5px solid #1a3a5c;
+            padding: 18px 22px; border-radius: 12px; margin: 18px 0;
+            font-style: italic; font-size: 15px; color: #333; line-height: 1.8;
+        }
+        .versiculo .ref { color: #1a3a5c; font-weight: bold; font-style: normal; margin-top: 10px; display: block; }
+        .caixa-amarela {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            padding: 22px; border-radius: 16px; margin: 22px 0;
+            border-left: 6px solid #1a3a5c;
+        }
+        .caixa-amarela h3 { color: #1a3a5c; margin-bottom: 12px; font-size: 17px; }
+        .caixa-amarela p { color: #2d3436; font-size: 15px; }
+        .personagens {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 16px; margin: 22px 0;
+        }
+        .personagem {
+            background: #f5f5f5; border-radius: 16px; padding: 20px; text-align: center;
+            border-top: 5px solid #1a3a5c;
+        }
+        .personagem .emoji { font-size: 42px; margin-bottom: 10px; display: block; }
+        .personagem h3 { color: #1a3a5c; margin-bottom: 8px; font-size: 16px; }
+        .personagem p { font-size: 13px; color: #555; line-height: 1.6; margin: 0; }
+        hr { border: none; border-top: 2px dashed #ddd; margin: 28px 0; }
+        .aplicacao { background: #e8f5e9; border: 2px solid #43e97b; border-radius: 16px; padding: 24px; margin: 22px 0; }
+        .aplicacao h3 { color: #1b5e20; margin-bottom: 14px; font-size: 17px; }
+        .aplicacao p { color: #2d3436; font-size: 15px; line-height: 1.8; }
+        .frase-final {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            padding: 28px; border-radius: 20px; margin: 30px 0; text-align: center;
+            box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+        }
+        .frase-final h3 { color: #1a3a5c; font-size: 20px; margin-bottom: 14px; }
+        .frase-final .frase { font-size: 21px; font-weight: bold; color: #2d3436; line-height: 1.5; }
+        .rodape { text-align: center; margin-top: 35px; padding-top: 20px; border-top: 2px solid #eee; color: #999; font-size: 12px; }
+        .btn-voltar {
+            display: inline-block; background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            color: white; padding: 14px 30px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; margin-top: 28px; font-size: 15px; transition: all 0.3s ease;
+        }
+        .btn-voltar:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(26,58,92,0.4); }
+
+        @media (max-width: 768px) {
+            .container { padding: 22px 16px; border-radius: 16px; }
+            h1 { font-size: 24px; }
+            h2 { font-size: 16px; padding: 10px 14px; }
+            p { font-size: 14px; }
+            .destaque p { font-size: 14px; }
+            .frase-final .frase { font-size: 16px; }
+            .personagens { grid-template-columns: 1fr 1fr; }
+            .logo-topo img { max-width: 150px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+        <div class="badge">🔥 MENSAGEM BÍBLICA — ELIAS</div>
+        <h1>🌿 Deus e o Profeta Debaixo de uma Árvore</h1>
+        <p class="subtitle">A história de Elias em 1 Reis 18 e 19</p>
+
+        <p>Imagina o seguinte: você acaba de ter o melhor dia da sua vida. Fez algo impossível. Todo mundo viu. Deu tudo de si. Funcionou.</p>
+        <p>E no dia seguinte, você acorda querendo desistir de tudo.</p>
+        <p><mark>Isso aconteceu com o maior profeta de toda a Bíblia.</mark> E a história que vem depois disso é uma das mais surpreendentes do Antigo Testamento.</p>
+
+        <hr>
+
+        <h2>👥 QUEM É QUEM NESSA HISTÓRIA</h2>
+
+        <div class="personagens">
+            <div class="personagem" style="border-top-color: #e85d2a;">
+                <span class="emoji">🔥</span>
+                <h3>ELIAS</h3>
+                <p>O profeta de Deus. Acabou de vencer 850 profetas de Baal sozinho. E entrou em colapso no dia seguinte.</p>
+            </div>
+            <div class="personagem" style="border-top-color: #8b1a1a;">
+                <span class="emoji">👑</span>
+                <h3>ACABE</h3>
+                <p>O pior rei da história de Israel. Assistiu ao fogo cair do céu no Carmelo e não mudou nada.</p>
+            </div>
+            <div class="personagem" style="border-top-color: #7b0000;">
+                <span class="emoji">🐍</span>
+                <h3>JEZABEL</h3>
+                <p>A rainha que mandava em tudo. Não se abalou com o Carmelo. Mandou uma ameaça de morte para Elias no dia seguinte.</p>
+            </div>
+            <div class="personagem" style="border-top-color: #1b5e20;">
+                <span class="emoji">🌱</span>
+                <h3>ELISEU</h3>
+                <p>Aparece só no final. Estava arando um campo quando sua vida mudou completamente, sem aviso nenhum.</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>🛡️ A PONTE: OBADIAS E ELIAS</h2>
+
+        <p>Se você acompanhou o desafio anterior, você conhece Obadias. O homem do palácio que escondeu 100 profetas nas cavernas, que arriscou a vida todos os dias sem que ninguém soubesse, e que um dia encontrou Elias no caminho.</p>
+
+        <p>Elias tinha um recado para o rei Acabe. E pediu a Obadias que fosse entregá-lo. Obadias quase entrou em colapso de medo só de pensar nisso. Mas foi.</p>
+
+        <div class="versiculo">
+            "Obadias foi encontrar Acabe e lhe deu o recado. Então Acabe foi ao encontro de Elias."
+            <span class="ref">— 1 Reis 18.16 · NTLH</span>
+        </div>
+
+        <p>Aquele encontro histórico entre o rei e o profeta só aconteceu porque um homem sem holofote teve coragem de entregar um recado. <mark>Obadias abriu a porta. Elias entrou.</mark></p>
+
+        <p>E o que aconteceu depois desse encontro é o que vamos ver agora.</p>
+
+        <hr>
+
+        <h2 class="laranja">⚡ O DIA QUE NINGUÉM ESQUECEU</h2>
+
+        <p>Antes de chegar na árvore, precisamos entender o que veio antes. Porque o colapso de Elias não faz sentido sem o Carmelo.</p>
+
+        <p>Israel estava em crise. Três anos sem chuva. Fome em todo lugar. Jezabel tinha transformado o país num reino de ídolos, e os profetas de Deus eram caçados e mortos. O povo seguia Baal porque era o que o rei mandava.</p>
+
+        <p>Elias apareceu do nada, desafiou o rei e propôs um confronto público no Monte Carmelo. De um lado, 450 profetas de Baal. Do outro, ele sozinho. O desafio era simples: quem conseguir fogo do céu ganha.</p>
+
+        <div class="destaque">
+            <p>Os profetas de Baal gritaram desde a manhã até o meio da tarde. Dançaram. Se cortaram. <strong>Nada aconteceu.</strong></p>
+            <p>Elias orou uma vez. <strong>Fogo caiu do céu e queimou o sacrifício, a lenha, as pedras e até a água.</strong> O povo caiu de joelhos: "O Senhor é Deus!"</p>
+            <p>A chuva voltou pela primeira vez em três anos e meio.</p>
+        </div>
+
+        <p>Foi o maior dia espiritual de toda uma geração. Parecia que tudo ia mudar a partir dali.</p>
+
+        <hr>
+
+        <h2 class="vermelho">😰 O DIA SEGUINTE</h2>
+
+        <p>Acabe chegou em casa e contou tudo para Jezabel. Ela não se arrependeu. Não ficou com medo. Mandou um recado direto para Elias:</p>
+
+        <div class="versiculo">
+            "Que os deuses me matem se até amanhã a esta hora eu não fizer com você o mesmo que você fez com os meus profetas!"
+            <span class="ref">— 1 Reis 19.2 · NTLH</span>
+        </div>
+
+        <p>E aqui acontece algo que ninguém esperava. <mark>Elias ficou com medo e saiu correndo.</mark></p>
+
+        <p>O mesmo homem que não piscou diante de 850 profetas. Que desafiou o rei na cara dura. Que viu o fogo cair do céu. Ficou com medo de uma mensagem e fugiu para o deserto.</p>
+
+        <p>Isso não é contradição. É a humanidade de Elias aparecendo. O corpo e a mente têm limite. Depois de um esforço daquele tamanho, qualquer um chega no fundo. Mesmo os maiores servos de Deus.</p>
+
+        <hr>
+
+        <h2>🌿 DEBAIXO DA ÁRVORE</h2>
+
+        <p>Elias andou um dia inteiro pelo deserto, sozinho. Em algum momento parou, sentou debaixo de uma árvore e simplesmente não quis mais continuar. Queria abandonar tudo. Largar a missão. Sumir.</p>
+
+        <p>A Bíblia registra o que ele disse a Deus naquele momento, com uma honestidade que impressiona:</p>
+
+        <div class="versiculo">
+            "Já chega, Senhor! Tira a minha vida, porque eu não sou melhor do que os meus antepassados."
+            <span class="ref">— 1 Reis 19.4 · NTLH</span>
+        </div>
+
+        <p>O maior profeta de Israel, logo depois do dia mais poderoso de sua geração, estava debaixo de uma árvore no deserto sem forças para dar mais um passo. Completamente esgotado. Sem perspectiva. Com vontade de desistir de tudo.</p>
+
+        <p>A Bíblia não esconde isso, não condena Elias por sentir assim. Só registra com honestidade o que o esgotamento faz com a gente. E então ele dormiu. Exausto. Só.</p>
+
+        <hr>
+
+        <h2 class="laranja">🍞 A RESPOSTA DE DEUS</h2>
+
+        <p>Elias pediu para morrer. E Deus não respondeu com correção, sermão ou uma lista de razões para continuar.</p>
+
+        <div class="versiculo">
+            "De repente, um anjo tocou nele e disse: Levante-se e coma."
+            <span class="ref">— 1 Reis 19.5 · NTLH</span>
+        </div>
+
+        <p>Pão assado e uma jarra de água. Era isso. Elias comeu, bebeu e dormiu de novo. O anjo voltou uma segunda vez: <em>"Levante e coma, porque o caminho ainda é longo."</em></p>
+
+        <p><mark>Deus não desistiu depois da primeira tentativa. Ele voltou.</mark> E não trouxe discurso. Trouxe comida.</p>
+
+        <p>Com a força daquela refeição, Elias caminhou 40 dias e 40 noites até o Monte Horebe, o mesmo lugar onde Moisés havia encontrado Deus séculos antes.</p>
+
+        <hr>
+
+        <h2 class="vermelho">🕳️ A CAVERNA E A PERGUNTA</h2>
+
+        <p>Elias chegou ao Horebe, entrou numa caverna e ficou ali. E Deus fez uma pergunta que parece simples, mas não é:</p>
+
+        <div class="versiculo">
+            "O que você está fazendo aqui, Elias?"
+            <span class="ref">— 1 Reis 19.9 · NTLH</span>
+        </div>
+
+        <p>Não como acusação. Como convite. <em>Sai da caverna. Me conta o que está acontecendo com você.</em></p>
+
+        <p>Então Deus mandou Elias ficar na entrada da caverna. Veio um vento que partia pedras. Um terremoto. Um fogo. <mark>Deus não estava em nenhum deles.</mark></p>
+
+        <p>Depois de tudo isso, silêncio. E dentro do silêncio, um sussurro.</p>
+
+        <p>Elias saiu da caverna. Deus não precisou de espetáculo para falar com ele. Falou exatamente no que quase não dava pra ouvir.</p>
+
+        <hr>
+
+        <h2 class="dourado">🌾 OS 7.000 E O RECOMEÇO</h2>
+
+        <p>Elias estava convicto de que estava sozinho. O único fiel que sobrou em Israel. Disse isso para Deus duas vezes.</p>
+
+        <p>E Deus respondeu com um número:</p>
+
+        <div class="versiculo">
+            "Ainda tenho 7.000 pessoas em Israel que nunca se curvaram diante de Baal."
+            <span class="ref">— 1 Reis 19.18 · NTLH</span>
+        </div>
+
+        <p>Sete mil. Que Elias não sabia que existiam. Ele achava que estava completamente sozinho, e havia 7.000 pessoas do mesmo lado que ele, invisíveis para ele naquele momento de desânimo.</p>
+
+        <p><mark>O isolamento distorce tudo.</mark> Quando a gente está mal, parece que é o único. Quase nunca é.</p>
+
+        <p>Deus deu a Elias uma missão nova e um sucessor. Elias encontrou Eliseu arando no campo, jogou sua capa sobre ele, e Eliseu largou os bois, se despediu da família e foi embora. A história de Elias não terminou debaixo de uma árvore. Ela continuou, passando para outras mãos.</p>
+
+        <hr>
+
+        <h2 class="verde">💡 O QUE FICA DESSA HISTÓRIA</h2>
+
+        <div class="caixa-amarela">
+            <h3>1. Vitória grande pode vir antes de uma queda grande</h3>
+            <p>Não é falta de fé. Elias deu tudo no Carmelo e desmoronou logo depois. Quando você der o máximo e ainda assim cair, saiba que está em boa companhia.</p>
+        </div>
+
+        <div class="caixa-amarela" style="border-left-color: #c04a00; background: linear-gradient(135deg, #fff3e0 0%, #fff3e0 100%);">
+            <h3 style="color: #c04a00;">2. Deus cuida do corpo também</h3>
+            <p>A primeira resposta de Deus ao desânimo de Elias foi pão, água e descanso. Às vezes a coisa mais espiritual que você pode fazer é dormir, comer direito e parar de se maltratar.</p>
+        </div>
+
+        <div class="caixa-amarela" style="border-left-color: #8b1a1a; background: linear-gradient(135deg, #ffebee 0%, #ffebee 100%);">
+            <h3 style="color: #8b1a1a;">3. Deus não grita quando você está na caverna</h3>
+            <p>Ele faz uma pergunta, com cuidado. Não acusa, não cobra. E não estava no vento, no terremoto nem no fogo. Estava no sussurro, no silêncio que você quase não percebe.</p>
+        </div>
+
+        <div class="caixa-amarela" style="border-left-color: #1b5e20; background: linear-gradient(135deg, #e8f5e9 0%, #e8f5e9 100%);">
+            <h3 style="color: #1b5e20;">4. Você nunca está tão sozinho quanto parece</h3>
+            <p>Eram 7.000. O isolamento mente. Quando você está no fundo, Deus conhece os nomes das pessoas que você não enxerga do lugar onde está.</p>
+        </div>
+
+        <hr>
+
+        <div class="aplicacao">
+            <h3>🪞 E VOCÊ COM ISSO?</h3>
+            <p>Você já teve o seu Carmelo? Um momento em que deu tudo, e depois sentiu que não sobrou mais nada?</p>
+            <p style="margin-top: 12px;">Elias não ficou debaixo da árvore para sempre. Deus foi até lá, cuidou dele, fez uma pergunta, e a missão continuou.</p>
+            <p style="margin-top: 12px;"><mark>A questão não é se você vai cair. É saber que quando você cair, Deus vai até a árvore.</mark></p>
+        </div>
+
+        <div class="frase-final">
+            <h3>🔑 FRASE DA SEMANA</h3>
+            <div class="frase">"Deus não desiste de você mesmo quando você já desistiu de tudo."</div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="../index.html" class="btn-voltar">← Voltar para o início</a>
+        </div>
+
+        <div class="rodape">
+            <p><strong style="color: #1a3a5c;">Central UP</strong> - IEQ Central</p>
+            <p style="margin-top: 7px;">Desenvolvido por <strong style="color: #1a3a5c;">Pr. Eduardo</strong></p>
+            <p style="margin-top: 14px; font-size: 11px;">📚 Desafio Elias | Baseado em 1 Reis 18 e 19</p>
+        </div>
+    </div>
+</body>
+</html>

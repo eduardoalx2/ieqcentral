@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Dia 9 — O Livro Inacabado | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: #000;
+            color: #e8e8e8;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* SCROLL REVEAL */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(180deg, #000 0%, #0a0a0a 50%, #000 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(56,189,248,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(56,189,248,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .logo-hero {
+            max-width: 120px;
+            margin-bottom: 30px;
+            filter: grayscale(1) brightness(1.5);
+            opacity: 0;
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        .dia-numero {
+            color: rgba(56,189,248,0.6);
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Segoe UI', sans-serif;
+            margin-bottom: 16px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease 0.3s forwards;
+        }
+
+        .hero-titulo {
+            font-size: clamp(28px, 8vw, 42px);
+            font-weight: normal;
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            animation: fadeIn 1.5s ease 0.6s forwards;
+        }
+
+        .hero-subtitulo {
+            color: rgba(148,163,184,0.7);
+            font-size: 14px;
+            text-align: center;
+            font-style: italic;
+            max-width: 320px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeIn 1.5s ease 0.9s forwards;
+        }
+
+        .scroll-indicator {
+            color: rgba(56,189,248,0.5);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Segoe UI', sans-serif;
+            opacity: 0;
+            animation: fadeIn 1.5s ease 1.2s forwards, float 2s ease-in-out infinite;
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 20px;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* CONTENT SECTIONS */
+        .content-wrapper {
+            background: #000;
+        }
+
+        .section {
+            padding: 60px 20px;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .section-titulo {
+            font-size: clamp(20px, 5vw, 26px);
+            color: #38bdf8;
+            margin-bottom: 24px;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+
+        .paragrafo {
+            font-size: 16px;
+            line-height: 1.9;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        .destaque {
+            color: #38bdf8;
+            font-weight: bold;
+        }
+
+        .citacao {
+            background: rgba(56,189,248,0.08);
+            border-left: 3px solid rgba(56,189,248,0.4);
+            padding: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            color: rgba(148,163,184,0.8);
+            line-height: 1.8;
+        }
+
+        /* CARDS DE PERSONAGENS */
+        .personagens-grid {
+            display: grid;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .card-personagem {
+            background: linear-gradient(135deg, rgba(15,23,42,0.8) 0%, rgba(30,41,59,0.6) 100%);
+            border: 1px solid rgba(56,189,248,0.2);
+            border-radius: 8px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-personagem::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #38bdf8, transparent);
+        }
+
+        .card-nome {
+            font-size: 20px;
+            color: #38bdf8;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: rgba(148,163,184,0.6);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .card-texto {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #cbd5e1;
+        }
+
+        /* LEVI ESPECIAL */
+        .levi-especial {
+            background: linear-gradient(135deg, rgba(56,189,248,0.15) 0%, rgba(30,41,59,0.8) 100%);
+            border: 2px solid rgba(56,189,248,0.4);
+            box-shadow: 0 0 40px rgba(56,189,248,0.2);
+        }
+
+        .levi-especial .card-nome {
+            font-size: 24px;
+            background: linear-gradient(135deg, #38bdf8 0%, #7dd3fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ENSINAMENTO FINAL */
+        .box-ensinamento {
+            background: rgba(0,0,0,0.6);
+            border-top: 3px solid #38bdf8;
+            border-bottom: 3px solid #38bdf8;
+            padding: 36px 24px;
+            margin: 50px 0;
+            text-align: center;
+        }
+
+        .box-ensinamento-titulo {
+            color: rgba(56,189,248,0.8);
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .versiculo {
+            font-size: 17px;
+            font-style: italic;
+            color: #7dd3fc;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .box-ensinamento-texto {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #94a3b8;
+        }
+
+        /* PERGUNTA FINAL */
+        .pergunta-final {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            background: linear-gradient(180deg, #000 0%, #0a0505 50%, #000 100%);
+            text-align: center;
+        }
+
+        .pergunta-final h2 {
+            font-size: clamp(24px, 6vw, 36px);
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .pergunta-final p {
+            font-size: 16px;
+            color: #94a3b8;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            max-width: 500px;
+        }
+
+        .pergunta-principal {
+            font-size: clamp(26px, 7vw, 40px);
+            color: #38bdf8;
+            font-weight: bold;
+            margin: 40px 0;
+            line-height: 1.2;
+        }
+
+        /* BOTÃO FINAL */
+        .btn-final {
+            background: linear-gradient(135deg, #1e1b4b, #312e81);
+            border: 2px solid rgba(56,189,248,0.4);
+            color: #fff;
+            padding: 18px 40px;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
+            font-family: 'Segoe UI', sans-serif;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-final:active {
+            transform: scale(0.98);
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: #000;
+            border-top: 1px solid rgba(56,189,248,0.1);
+        }
+
+        .footer p {
+            color: rgba(148,163,184,0.4);
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        .footer span {
+            color: rgba(148,163,184,0.6);
+            font-weight: bold;
+        }
+
+        /* DIVIDER */
+        .divider {
+            text-align: center;
+            margin: 50px 0;
+            color: rgba(56,189,248,0.3);
+            font-size: 20px;
+            letter-spacing: 12px;
+        }
+
+        /* RESPONSIVE AJUSTES */
+        @media (max-width: 380px) {
+            .hero { padding: 16px; }
+            .section { padding: 40px 16px; }
+            .card-personagem { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <img src="../logoup.png" alt="Central UP" class="logo-hero">
+    <div class="dia-numero">✦ Dia 9 de 9 — Episódio Final ✦</div>
+    <h1 class="hero-titulo">O Livro Inacabado</h1>
+    <p class="hero-subtitulo">O Espírito Santo ainda está escrevendo através de você.</p>
+    <div class="scroll-indicator">Role para baixo</div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-wrapper">
+
+    <!-- INTRODUÇÃO -->
+    <section class="section reveal">
+        <p class="paragrafo">Anos se passaram desde aquela noite em Jerusalém. Lucas agora está velho, cabelos grisalhos, em Antioquia. Seu papiro sobre a libertação de Pedro se tornou parte de algo muito maior: o <span class="destaque">Evangelho de Lucas</span>.</p>
+        
+        <p class="paragrafo">Mas uma carta chegou de Teófilo:</p>
+        
+        <div class="citacao">
+            "Lucas, seu relato sobre Jesus foi extraordinário. Li cada palavra com lágrimas nos olhos. Mas agora me resta uma pergunta: e DEPOIS? O que aconteceu com aqueles discípulos? Pedro, Paulo, a igreja... a história não pode parar em Jesus subindo aos céus. Conte-me o RESTO."
+        </div>
+
+        <p class="paragrafo">Lucas olhou para o papiro em branco à sua frente. Deus não o chamou para escrever <strong>um</strong> livro. Chamou para escrever <strong>dois</strong>.</p>
+
+        <p class="paragrafo">• <strong>O primeiro</strong> (Evangelho de Lucas) = O que Jesus <span class="destaque">FEZ</span><br>
+        • <strong>O segundo</strong> (Atos) = O que o Espírito Santo <span class="destaque">CONTINUA fazendo</span></p>
+    </section>
+
+    <div class="divider">· · ·</div>
+
+    <!-- O QUE ACONTECEU COM ELES -->
+    <section class="section reveal">
+        <h2 class="section-titulo">O Que Aconteceu Com Eles?</h2>
+        
+        <div class="personagens-grid">
+            
+            <!-- PEDRO -->
+            <div class="card-personagem">
+                <div class="card-nome">Pedro</div>
+                <div class="card-desc">O Apóstolo Liberto</div>
+                <div class="card-texto">
+                    Lucas escreveu sobre ele até Atos 12. Mas a história não parou ali. Pedro continuou pregando, foi para Roma, liderou a igreja perseguida. E segundo a tradição, <strong>foi crucificado de cabeça para baixo</strong> — porque disse não ser digno de morrer como Jesus morreu.<br><br>
+                    O homem que negou Jesus três vezes morreu declarando Seu nome.
+                </div>
+            </div>
+
+            <!-- JOÃO MARCOS -->
+            <div class="card-personagem">
+                <div class="card-nome">João Marcos</div>
+                <div class="card-desc">O Garoto dos Telhados</div>
+                <div class="card-texto">
+                    Aquele adolescente de 14 anos, cabelo bagunçado, que pulava de telhado em telhado com o coração acelerado? Lucas sorriu ao lembrar.<br><br>
+                    Marcos cresceu. Viajou com Paulo. Depois com Pedro. E sabe o que ele fez?<br><br>
+                    <strong>Escreveu o Evangelho de Marcos.</strong><br><br>
+                    O garoto que correu pelos becos de Jerusalém se tornou o autor do Evangelho mais antigo que temos. A tradição conta que Marcos levou o Evangelho até <strong>Alexandria, no Egito</strong>, onde fundou a igreja e foi <strong>martirizado</strong> por pregar sobre Jesus.<br><br>
+                    João Marcos aprendeu algo naquela noite: <em>coragem não é ausência de medo. É correr mesmo quando as pernas tremem.</em>
+                </div>
+            </div>
+
+            <!-- LEVI - ESPECIAL -->
+            <div class="card-personagem levi-especial">
+                <div class="card-nome">Levi</div>
+                <div class="card-desc">O Jovem do Mercado</div>
+                <div class="card-texto">
+                    Lucas pausou. A pena tremeu na mão.<br><br>
+                    Porque <strong>Levi nunca existiu.</strong><br><br>
+                    Não da forma que Pedro e Marcos existiram.<br><br>
+                    <span class="destaque">Levi era... VOCÊ.</span><br><br>
+                    Levi era todo jovem de 16 anos que ouviu o chamado e pensou: <em>"Eu? Mas eu sou só um cara comum. Vendo coisas no mercado. Ninguém importante."</em><br><br>
+                    Levi era todo UP que segurou a adaga de osso (ou o violão, ou a câmera, ou a caneta, ou o microfone) e disse: <em>"Eu não sei se sou forte o suficiente, mas vou proteger essa história com minha vida."</em><br><br>
+                    <strong>Levi é o nome de todos que escolheram estar DENTRO da missão, mesmo sendo "só" mais um.</strong><br><br>
+                    E sabe o que aconteceu com Levi?<br><br>
+                    Ele <strong>continuou</strong>.<br><br>
+                    Continuou carregando água.<br>
+                    Continuou vigiando portas.<br>
+                    Continuou <strong>sendo testemunha</strong>, do jeito que Deus o fez.<br><br>
+                    <span style="font-size: 18px; color: #38bdf8; font-weight: bold;">Levi é você, escolhendo ser capítulo 29.</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="divider">· · ·</div>
+
+    <!-- O LIVRO QUE NUNCA TERMINA -->
+    <section class="section reveal">
+        <h2 class="section-titulo">O Livro Que Nunca Termina</h2>
+        
+        <p class="paragrafo">Lucas colocou a pena no papiro e começou a escrever as últimas linhas de Atos:</p>
+
+        <div class="citacao">
+            "Paulo ficou ali dois anos inteiros... pregando o Reino de Deus e ensinando a respeito do Senhor Jesus Cristo, abertamente e sem impedimento." — Atos 28.30-31
+        </div>
+
+        <p class="paragrafo">E então parou.</p>
+
+        <p class="paragrafo">Não escreveu "fim".</p>
+
+        <p class="paragrafo">Não escreveu "e viveram felizes para sempre".</p>
+
+        <p class="paragrafo"><strong>Porque a história NÃO terminou.</strong></p>
+
+        <p class="paragrafo">Lucas entendeu: <span class="destaque">Atos dos Apóstolos não é um livro fechado. É um livro VIVO.</span></p>
+
+        <p class="paragrafo">• Capítulos 1-28 = O que Pedro, Paulo, Estêvão, Filipe e os primeiros discípulos fizeram.<br>
+        • <span class="destaque">Capítulo 29 em diante</span> = O que VOCÊ vai fazer.</p>
+
+        <p class="paragrafo">Enquanto houver alguém que não conhece Jesus, <strong>Atos continua sendo escrito.</strong></p>
+    </section>
+
+    <div class="divider">· · ·</div>
+
+    <!-- IMAGEM DOS TRÊS -->
+    <section class="section reveal">
+        <div style="margin: 40px 0; border-radius: 8px; overflow: hidden; box-shadow: 0 12px 40px rgba(56,189,248,0.3);">
+            <img src="../levi/atos901.png" alt="João Marcos, Lucas e Levi" style="width: 100%; height: auto; display: block;">
+        </div>
+    </section>
+
+    <div class="divider">· · ·</div>
+
+    <!-- A ÚLTIMA CENA -->
+    <section class="section reveal">
+        <h2 class="section-titulo">A Última Cena</h2>
+        
+        <p class="paragrafo">Lucas, já velho e cansado, selou o rolo de papiro.</p>
+
+        <p class="paragrafo">Ele sabia que um dia também seria martirizado. A tradição conta que Lucas foi <strong>enforcado em uma oliveira na Grécia</strong> por pregar o Evangelho.</p>
+
+        <p class="paragrafo">Mas antes de morrer, ele garantiu que <strong>a história não morreria com ele.</strong></p>
+
+        <p class="paragrafo">Porque ele registrou.<br>
+        Ele escreveu.<br>
+        Ele foi o <span class="destaque">arquivista do Espírito Santo</span>.</p>
+
+        <p class="paragrafo">E agora, 2000 anos depois, <strong>VOCÊ</strong> está lendo o que ele escreveu.</p>
+
+        <p class="paragrafo">A pena de Lucas te alcançou através do tempo.</p>
+
+        <p class="paragrafo" style="font-size: 18px; color: #38bdf8; font-weight: bold;">Agora é a SUA vez de pegar a pena.</p>
+    </section>
+
+    <!-- ENSINAMENTO FINAL -->
+    <section class="section reveal">
+        <div class="box-ensinamento">
+            <div class="box-ensinamento-titulo">✦ Jesus já tinha falado sobre isso</div>
+            <p class="versiculo">"Mas receberão poder quando o Espírito Santo descer sobre vocês, e serão minhas testemunhas em Jerusalém, em toda a Judeia e Samaria, e até os confins da terra." — Atos 1.8</p>
+            <div class="box-ensinamento-texto">
+                Jesus não disse: "Vocês serão minhas testemunhas até o ano 100 d.C."<br><br>
+                Ele disse: <strong>"Até os CONFINS da terra."</strong><br><br>
+                A terra acabou? Não.<br><br>
+                Então <strong>a missão não acabou.</strong><br><br>
+                Pedro testemunhou em Jerusalém. Morreu em Roma.<br>
+                João Marcos testemunhou em Alexandria. Morreu mártir.<br>
+                Lucas testemunhou com a ESCRITA. Morreu enforcado.<br><br>
+                <span style="color: #38bdf8; font-weight: bold; font-size: 17px;">E Levi?</span><br><br>
+                Levi está vivo.<br><br>
+                <span style="color: #38bdf8; font-weight: bold; font-size: 17px;">Levi é VOCÊ.</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider">· · ·</div>
+
+    <!-- ENSINAMENTO PARA OS UPS -->
+    <section class="section reveal">
+        <h2 class="section-titulo">Para Você, UP</h2>
+        
+        <p class="paragrafo">Você passou 9 dias nessa história.</p>
+
+        <p class="paragrafo">Viu Pedro sendo liberto.<br>
+        Conheceu Levi, o mercador.<br>
+        Descobriu que o Narrador era Lucas.<br>
+        Viu João Marcos pular telhados.<br>
+        Leu sobre o papiro manchado de suor e barro.</p>
+
+        <p class="paragrafo"><strong>Mas agora acabou, né?</strong></p>
+
+        <p class="paragrafo" style="font-size: 20px; color: #38bdf8; font-weight: bold;">NÃO.</p>
+
+        <p class="paragrafo">A história <strong>nunca</strong> acaba.</p>
+
+        <p class="paragrafo">Porque <span class="destaque">Atos 29 é VOCÊ</span>.</p>
+
+        <p class="paragrafo">• Pedro usou a voz.<br>
+        • João Marcos usou a coragem.<br>
+        • Lucas usou a caneta.</p>
+
+        <p class="paragrafo" style="font-size: 18px; color: #fff; font-weight: bold;">O que VOCÊ vai usar?</p>
+
+        <p class="paragrafo">Seu Instagram? Sua música? Seu trabalho? Sua amizade?</p>
+
+        <p class="paragrafo"><strong>Cada vez que você testemunha, você escreve uma linha de Atos 29.</strong></p>
+
+        <p class="paragrafo">E um dia, alguém vai olhar pra sua vida e dizer:</p>
+
+        <div class="citacao">
+            "Aquela pessoa fez parte da história de Deus."
+        </div>
+    </section>
+
+</div>
+
+<!-- PERGUNTA FINAL -->
+<div class="pergunta-final reveal">
+    <p>Lucas escreveu 28 capítulos.</p>
+    <p>Pedro morreu crucificado.</p>
+    <p>João Marcos morreu apedrejado.</p>
+    <p>Levi... <strong>ainda está decidindo.</strong></p>
+    
+    <h2 class="pergunta-principal">E você?</h2>
+    
+    <p style="font-size: 18px; margin-top: 30px;">Você vai ler Atos...</p>
+    <p style="font-size: 20px; color: #38bdf8; font-weight: bold;">ou ESCREVER Atos?</p>
+
+    <a href="#culto" class="btn-final">Ir para o Culto →</a>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <p><span>Central UP</span> — IEQ Central Londrina</p>
+    <p style="margin-top: 8px;">Uma jornada de 9 dias através de Atos 12</p>
+    <p style="margin-top: 8px;">Desenvolvido por <span>Pr. Eduardo Silva</span></p>
+    <p style="margin-top: 20px; font-size: 10px; color: rgba(148,163,184,0.3);">
+        "Mas não é o fim. É o começo do SEU capítulo."
+    </p>
+</div>
+
+<script>
+    // SCROLL REVEAL
+    const reveals = document.querySelectorAll('.reveal');
+    
+    function checkReveal() {
+        reveals.forEach(element => {
+            const windowHeight = window.innerHeight;
+            const elementTop = element.getBoundingClientRect().top;
+            const revealPoint = 100;
+            
+            if (elementTop < windowHeight - revealPoint) {
+                element.classList.add('active');
+            }
+        });
+    }
+    
+    window.addEventListener('scroll', checkReveal);
+    checkReveal(); // Check on load
+</script>
+
+</body>
+</html>

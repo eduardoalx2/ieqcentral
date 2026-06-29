@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 2 — A Viúva e os Religiosos | Semana da Páscoa Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3b0764 0%, #6b21a8 60%, #d4a843 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #3b0764 0%, #6b21a8 60%, #d4a843 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .conteudo-bloqueio { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 240px; margin-bottom: 25px; }
+        #bloqueio h1 { font-size: 38px; margin-bottom: 18px; color: white; }
+        #bloqueio p { font-size: 18px; line-height: 1.8; color: rgba(255,255,255,0.85); }
+        #conteudo { display: none; }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.4);
+        }
+        .logo-topo { text-align: center; margin-bottom: 28px; }
+        .logo-topo img { max-width: 200px; }
+        .dia-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #6b21a8, #d4a843);
+            color: white; padding: 9px 22px; border-radius: 25px;
+            font-weight: bold; margin-bottom: 18px; font-size: 13px; letter-spacing: 1px;
+        }
+        .serie-label { font-size: 12px; color: #9333ea; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        h1 { color: #3b0764; font-size: 32px; margin-bottom: 10px; line-height: 1.2; }
+        .subtitle { color: #9333ea; font-size: 16px; margin-bottom: 28px; font-weight: 600; }
+        .progresso { background: #f5f0ff; padding: 18px; border-radius: 12px; margin: 28px 0; text-align: center; }
+        .progresso-titulo { color: #3b0764; font-weight: bold; margin-bottom: 12px; font-size: 13px; }
+        .progresso-bar { background: #e8d5ff; height: 22px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill {
+            background: linear-gradient(135deg, #6b21a8, #d4a843);
+            height: 100%; width: 28%; display: flex; align-items: center;
+            justify-content: center; color: white; font-weight: bold; font-size: 12px;
+        }
+        h2 {
+            color: white;
+            background: linear-gradient(135deg, #3b0764, #6b21a8);
+            padding: 12px 20px; border-radius: 12px; font-size: 17px; margin: 26px 0 16px 0;
+        }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 13px 0; }
+        mark { background: #d4a843; padding: 2px 6px; border-radius: 3px; font-weight: 600; color: #1a0a00; }
+        hr { border: none; border-top: 2px dashed #e8d5ff; margin: 26px 0; }
+        .versic {
+            background: #f5f0ff; border-left: 5px solid #6b21a8;
+            padding: 18px 22px; border-radius: 0 14px 14px 0;
+            margin: 16px 0; font-style: italic; color: #3b0764;
+        }
+        .versic strong { color: #6b21a8; font-style: normal; display: block; margin-top: 8px; font-size: 13px; }
+        .oracao-box {
+            background: linear-gradient(135deg, #f5f0ff, #ede5ff);
+            border-left: 5px solid #6b21a8;
+            padding: 22px; border-radius: 0 14px 14px 0;
+            font-style: italic; color: #3b0764; line-height: 2;
+        }
+        .quiz-container { background: #f5f0ff; border: 2px solid #6b21a822; border-radius: 20px; padding: 28px; margin: 30px 0; }
+        .pergunta-texto { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 14px; line-height: 1.5; }
+        .alternativas { display: flex; flex-direction: column; gap: 10px; }
+        .alt-btn {
+            background: white; border: 2px solid #6b21a844; padding: 12px 16px;
+            border-radius: 12px; font-size: 14px; cursor: pointer; text-align: left;
+            transition: all 0.2s; color: #333; font-family: inherit; line-height: 1.4;
+        }
+        .alt-btn:hover { background: #f0e8ff; border-color: #6b21a8; transform: translateX(4px); }
+        .alt-btn.correta { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+        .alt-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+        .alt-btn:disabled { cursor: not-allowed; transform: none; }
+        .feedback { margin-top: 10px; font-size: 14px; font-weight: bold; min-height: 22px; }
+        .familia-box {
+            background: linear-gradient(135deg, #3b0764, #6b21a8);
+            border-radius: 20px; padding: 28px; margin: 28px 0; color: white;
+            animation: aparecer 0.8s ease;
+        }
+        .familia-box .fam-titulo { font-size: 20px; font-weight: bold; color: #d4a843; margin-bottom: 6px; }
+        .familia-box .fam-sub { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 18px; }
+        .fam-pergunta {
+            background: rgba(255,255,255,0.12); border-radius: 14px; padding: 16px 20px;
+            margin: 12px 0; font-size: 15px; line-height: 1.7;
+        }
+        .fam-acao {
+            background: linear-gradient(135deg, #d4a843, #c17f3a);
+            border-radius: 14px; padding: 16px 20px; margin: 12px 0;
+            font-size: 14px; line-height: 1.7; color: white;
+        }
+        .fam-acao strong { display: block; margin-bottom: 6px; font-size: 15px; }
+        @keyframes aparecer { from { opacity:0; transform: scale(0.95); } to { opacity:1; transform: scale(1); } }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 38px; gap: 14px; }
+        .nav-btn {
+            flex: 1; padding: 14px 22px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; text-align: center; transition: all 0.3s; font-size: 14px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .nav-btn-prev { background: #e8d5ff; color: #3b0764; }
+        .nav-btn-prev:hover { background: #d8c5f0; transform: translateY(-2px); }
+        .nav-btn-next { background: linear-gradient(135deg, #6b21a8, #d4a843); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #6b21a866; }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #e8d5ff; color: #999; font-size: 12px; }
+        .rodape span { color: #6b21a8; font-weight: bold; }
+        @media (max-width: 600px) {
+            .container { padding: 22px 16px; border-radius: 18px; }
+            h1 { font-size: 24px; }
+            h2 { font-size: 15px; }
+            p { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="bloqueio">
+    <div class="conteudo-bloqueio">
+        <img src="../logoup.png" alt="Central UP">
+        <h1>✝️</h1>
+        <p id="msg-bloqueio">Este devocional abre na terça-feira!</p>
+        <p style="margin-top:14px; font-size:15px;" id="msg-sub"></p>
+    </div>
+</div>
+
+<div id="conteudo">
+<div class="container">
+
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+    <div class="serie-label">✝️ Semana da Páscoa — Central UP</div>
+    <div class="dia-badge">📅 TERÇA-FEIRA · 31/03</div>
+    <h1>👁️ A Viúva e os Religiosos</h1>
+    <p class="subtitle">Marcos 12.38-44 · A fé verdadeira se prova no detalhe, não no palco</p>
+
+    <div class="progresso">
+        <div class="progresso-titulo">SEMANA DA PÁSCOA — DIA 2 DE 7</div>
+        <div class="progresso-bar"><div class="progresso-fill">28%</div></div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,#3b0764,#6b21a8);border-radius:16px;padding:16px 20px;margin:0 0 22px 0;text-align:center;">
+        <p style="color:#d4a843;font-size:13px;font-weight:bold;letter-spacing:1px;margin:0 0 8px 0;">✝️ Estamos na Semana da Páscoa</p>
+        <p style="color:rgba(255,255,255,0.85);font-size:15px;margin:0;line-height:1.8;">Numa semana como esta, numa <strong style="color:white;">terça-feira</strong>, faltavam apenas <strong style="color:white;">2 dias</strong> para a crucificação. Jesus passou o dia inteiro ensinando no Templo — debates, respostas e um momento que ninguém esperava.</p>
+    </div>
+
+    <hr>
+
+    <h2>📖 LEIA A PASSAGEM DE HOJE</h2>
+    <div style="background:#f5f0ff; border:2px solid #6b21a822; border-radius:16px; padding:18px; margin:16px 0; font-size:14px; color:#333; line-height:1.9;">
+        <p style="margin:0 0 10px 0;"><strong style="color:#3b0764;">MARCOS 12.38-44 — NTLH</strong></p>
+        <p><strong>38</strong> Enquanto ensinava, Jesus dizia: "Cuidado com os mestres da Lei! Eles gostam de andar com roupas compridas, de ser cumprimentados nas praças,</p>
+        <p><strong>39</strong> de sentar nos lugares de honra nas sinagogas e de ocupar os lugares de destaque nos banquetes.</p>
+        <p><strong>41</strong> Depois Jesus foi sentar perto do lugar onde as pessoas colocavam dinheiro, e ficou observando a multidão colocar as ofertas.</p>
+        <p><strong>42</strong> Uma viúva pobre veio e colocou duas moedas de cobre, que valiam um centavo.</p>
+        <p><strong>43</strong> Jesus chamou seus discípulos e disse: "Eu afirmo que esta viúva pobre deu mais do que todos os outros.</p>
+        <p><strong>44</strong> Todos os outros deram do que lhes sobrava, mas ela, mesmo sendo muito pobre, deu tudo o que tinha para viver."</p>
+    </div>
+    <p style="text-align:center; font-size:14px; background:linear-gradient(135deg,#6b21a8,#d4a843); color:white; padding:13px; border-radius:12px; margin:10px 0;">
+        <strong>⬇️ Leu? Então continue o devocional!</strong>
+    </p>
+
+    <hr>
+
+    <h2>💬 O QUE ACONTECEU</h2>
+    <p>Era terça-feira. O dia mais longo que Jesus passou em Jerusalém antes da crucificação. Ele ensinou, debateu com fariseus, respondeu armadilhas. E no final do dia, fez uma coisa simples: sentou e observou as pessoas.</p>
+    <p>Os ricos chegavam com ofertas grandes e faziam questão de ser vistos. Depois veio uma viúva. Duas moedinhas. O menor valor possível.</p>
+    <div class="versic">
+        "Eu afirmo que esta viúva pobre deu mais do que todos os outros. Todos os outros deram do que lhes sobrava, mas ela, mesmo sendo muito pobre, deu tudo o que tinha para viver."
+        <strong>— Marcos 12.43-44</strong>
+    </div>
+    <p>Jesus não estava olhando pro tamanho da oferta. Estava olhando pro tamanho do coração.</p>
+
+    <hr>
+
+    <h2>🔍 O QUE ISSO FALA COM VOCÊ</h2>
+    <p>Os fariseus faziam tudo certo. Roupas bonitas, lugares de destaque, ofertas generosas. <mark>Mas faziam pra ser vistos.</mark></p>
+    <p>A viúva não tinha nada pra mostrar. Só o que dava. E foi exatamente ela que Jesus apontou pros discípulos.</p>
+    <p>A fé verdadeira não precisa de palco. Ela acontece nos detalhes pequenos, nas escolhas que ninguém está vendo, nas coisas que você faz sem esperar reconhecimento.</p>
+    <p>E Jesus vê. Assim como viu a viúva, Ele te vê. Não o que você aparenta. O que você realmente é.</p>
+
+    <hr>
+
+    <h2>✝️ PARA PENSAR</h2>
+    <div style="background:#f5f0ff; border-left:5px solid #6b21a8; border-radius:0 14px 14px 0; padding:20px 24px; margin:16px 0;">
+        <p style="font-style:italic; color:#3b0764; margin:0;">Jesus estava sentado, observando. Não estava julgando. Estava vendo. O mesmo Jesus que dias depois iria morrer por essa viúva, por esses fariseus, por você. Ele vê o que há de mais verdadeiro em você. E te ama do mesmo jeito.</p>
+    </div>
+
+    <hr>
+
+    <h2>🙏 ORAÇÃO DO DIA</h2>
+    <div class="oracao-box">
+        "Senhor, me ajuda a ser verdadeiro mesmo quando ninguém está olhando. Que o que eu faço venha do coração, não da necessidade de ser visto. Amém."
+    </div>
+
+    <hr>
+
+    <div class="quiz-container">
+        <h2 style="background:linear-gradient(135deg,#3b0764,#6b21a8); color:white; padding:12px 18px; border-radius:12px; font-size:17px; margin:0 0 14px 0;">🧠 QUIZ DO DIA</h2>
+        <p style="color:#555; margin-bottom:18px; font-size:14px;">Responda as 3 perguntas para liberar o <strong>Desafio em Família</strong>! 🏠</p>
+
+        <div class="pergunta" id="q1">
+            <p class="pergunta-texto">1. O que Jesus criticou nos mestres da Lei?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(1,this,false)">A) Que eles ensinavam coisas erradas sobre a Bíblia</button>
+                <button class="alt-btn" onclick="responder(1,this,true)">B) Que gostavam de atenção, destaque e reconhecimento público</button>
+                <button class="alt-btn" onclick="responder(1,this,false)">C) Que eles não davam ofertas ao Templo</button>
+                <button class="alt-btn" onclick="responder(1,this,false)">D) Que eles não oravam com frequência</button>
+            </div>
+            <div class="feedback" id="f1"></div>
+        </div>
+
+        <div class="pergunta" id="q2" style="display:none;">
+            <p class="pergunta-texto">2. O que a viúva colocou na oferta?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(2,this,false)">A) Uma grande quantidade de ouro</button>
+                <button class="alt-btn" onclick="responder(2,this,false)">B) Nada, ela estava sem dinheiro</button>
+                <button class="alt-btn" onclick="responder(2,this,true)">C) Duas moedas de cobre, que valiam um centavo</button>
+                <button class="alt-btn" onclick="responder(2,this,false)">D) A mesma quantidade que os ricos</button>
+            </div>
+            <div class="feedback" id="f2"></div>
+        </div>
+
+        <div class="pergunta" id="q3" style="display:none;">
+            <p class="pergunta-texto">3. Por que Jesus disse que a viúva deu mais que todos?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(3,this,false)">A) Porque o valor das moedas era maior do que parecia</button>
+                <button class="alt-btn" onclick="responder(3,this,true)">B) Porque ela deu tudo o que tinha, enquanto os outros deram só o que sobrava</button>
+                <button class="alt-btn" onclick="responder(3,this,false)">C) Porque ela era a mais religiosa do Templo</button>
+                <button class="alt-btn" onclick="responder(3,this,false)">D) Porque Deus dobra o valor das ofertas dos pobres</button>
+            </div>
+            <div class="feedback" id="f3"></div>
+        </div>
+
+        <div id="familia-revelado" style="display:none;">
+            <div class="familia-box">
+                <div class="fam-titulo">🏠 Desafio em Família — Dia 2</div>
+                <div class="fam-sub">Chama alguém da sua casa pra esse momento!</div>
+                <div class="fam-pergunta">
+                    🗣️ <strong>Pergunta pra conversar em família:</strong><br><br>
+                    <em>"Qual foi a coisa mais pequena que alguém fez por você que significou muito?"</em><br><br>
+                    Deixa cada um contar. Às vezes o que parece pequenininho pra quem fez, é gigante pra quem recebeu.
+                </div>
+                <div class="fam-acao">
+                    <strong>🎯 Ação de hoje:</strong>
+                    Cada um escolhe alguém da família e faz algo pequeno por essa pessoa hoje, em segredo, sem contar. Pode ser arrumar o quarto do outro, deixar um bilhetinho, preparar algo que a pessoa gosta. O que importa é fazer sem esperar reconhecimento.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let acertos = 0;
+        function responder(num, btn, correta) {
+            const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+            const feedback = document.getElementById('f' + num);
+            buttons.forEach(b => b.disabled = true);
+            if (correta) {
+                btn.classList.add('correta');
+                feedback.style.color = '#1a7a3c';
+                feedback.textContent = '✅ Correto! Muito bem, UP!';
+                acertos++;
+                setTimeout(() => {
+                    if (num < 3) {
+                        document.getElementById('q' + num).style.opacity = '0.6';
+                        document.getElementById('q' + (num+1)).style.display = 'block';
+                        document.getElementById('q' + (num+1)).scrollIntoView({ behavior:'smooth', block:'center' });
+                    } else {
+                        document.getElementById('familia-revelado').style.display = 'block';
+                        document.getElementById('familia-revelado').scrollIntoView({ behavior:'smooth', block:'center' });
+                    }
+                }, 900);
+            } else {
+                btn.classList.add('errada');
+                feedback.style.color = '#d63031';
+                feedback.textContent = 'Não é essa! Releia a passagem...';
+                setTimeout(() => {
+                    buttons.forEach(b => { b.disabled = false; b.classList.remove('errada'); });
+                    feedback.textContent = '';
+                }, 1500);
+            }
+        }
+    </script>
+
+    <hr>
+
+    <div class="nav-buttons">
+        <a href="pascoa_dia1.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+        <a href="pascoa_dia3.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="../index.html" style="color:#6b21a8; font-size:13px; text-decoration:none;">← Voltar para o Central UP</a>
+    </div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:6px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+</div>
+</div>
+
+<script>
+    const abertura = new Date('2026-03-31T00:00:00');
+    const fechamento = new Date('2026-04-01T11:59:59');
+    const liberacaoFinal = new Date('2026-04-05T00:00:00');
+    const agora = new Date();
+
+    function fmt(d) {
+        return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}) + ' às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    }
+
+    if (agora >= liberacaoFinal || (agora >= abertura && agora <= fechamento)) {
+        document.getElementById('bloqueio').style.display = 'none';
+        document.getElementById('conteudo').style.display = 'block';
+    } else if (agora < abertura) {
+        document.getElementById('msg-bloqueio').textContent = 'Este devocional abre na terça-feira, 31/03! 📅';
+        document.getElementById('msg-sub').textContent = 'Volta amanhã. A semana mais importante da história continua.';
+    } else {
+        document.getElementById('msg-bloqueio').textContent = 'Este dia já passou... 😔';
+        document.getElementById('msg-sub').innerHTML = 'Mas a partir de <strong>05/04 (Páscoa)</strong> todos os dias ficam abertos!';
+    }
+
+    function abrirAdmin() {
+        const senha = prompt('🔒 Senha de supervisão:');
+        if (senha === 'admin') {
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        } else if (senha !== null) { alert('Senha incorreta.'); }
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.3);border:1.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;" title="Supervisão">🔒</button>
+</div>
+
+</body>
+</html>

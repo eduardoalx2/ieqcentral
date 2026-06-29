@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 4 — A Mesa e o Jardim | Semana da Páscoa Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #3b0764 0%, #6b21a8 60%, #d4a843 100%); min-height: 100vh; padding: 20px; }
+        #bloqueio { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: linear-gradient(135deg, #3b0764 0%, #6b21a8 60%, #d4a843 100%); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        #bloqueio .conteudo-bloqueio { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 240px; margin-bottom: 25px; }
+        #bloqueio h1 { font-size: 38px; margin-bottom: 18px; }
+        #bloqueio p { font-size: 18px; line-height: 1.8; color: rgba(255,255,255,0.85); }
+        #conteudo { display: none; }
+        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.4); }
+        .logo-topo { text-align: center; margin-bottom: 28px; }
+        .logo-topo img { max-width: 200px; }
+        .dia-badge { display: inline-block; background: linear-gradient(135deg, #6b21a8, #d4a843); color: white; padding: 9px 22px; border-radius: 25px; font-weight: bold; margin-bottom: 18px; font-size: 13px; letter-spacing: 1px; }
+        .serie-label { font-size: 12px; color: #9333ea; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        h1 { color: #3b0764; font-size: 32px; margin-bottom: 10px; line-height: 1.2; }
+        .subtitle { color: #9333ea; font-size: 16px; margin-bottom: 28px; font-weight: 600; }
+        .progresso { background: #f5f0ff; padding: 18px; border-radius: 12px; margin: 28px 0; text-align: center; }
+        .progresso-titulo { color: #3b0764; font-weight: bold; margin-bottom: 12px; font-size: 13px; }
+        .progresso-bar { background: #e8d5ff; height: 22px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill { background: linear-gradient(135deg, #6b21a8, #d4a843); height: 100%; width: 57%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px; }
+        h2 { color: white; background: linear-gradient(135deg, #3b0764, #6b21a8); padding: 12px 20px; border-radius: 12px; font-size: 17px; margin: 26px 0 16px 0; }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 13px 0; }
+        mark { background: #d4a843; padding: 2px 6px; border-radius: 3px; font-weight: 600; color: #1a0a00; }
+        hr { border: none; border-top: 2px dashed #e8d5ff; margin: 26px 0; }
+        .versic { background: #f5f0ff; border-left: 5px solid #6b21a8; padding: 18px 22px; border-radius: 0 14px 14px 0; margin: 16px 0; font-style: italic; color: #3b0764; }
+        .versic strong { color: #6b21a8; font-style: normal; display: block; margin-top: 8px; font-size: 13px; }
+        .oracao-box { background: linear-gradient(135deg, #f5f0ff, #ede5ff); border-left: 5px solid #6b21a8; padding: 22px; border-radius: 0 14px 14px 0; font-style: italic; color: #3b0764; line-height: 2; }
+        .aviso-amanha { background: linear-gradient(135deg, #d4a843, #b45309); border-radius: 16px; padding: 18px 22px; margin: 20px 0; color: white; }
+        .aviso-amanha strong { font-size: 15px; display: block; margin-bottom: 8px; }
+        .aviso-amanha p { color: rgba(255,255,255,0.9); margin: 0; font-size: 14px; line-height: 1.7; }
+        .quiz-container { background: #f5f0ff; border: 2px solid #6b21a822; border-radius: 20px; padding: 28px; margin: 30px 0; }
+        .pergunta-texto { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 14px; line-height: 1.5; }
+        .alternativas { display: flex; flex-direction: column; gap: 10px; }
+        .alt-btn { background: white; border: 2px solid #6b21a844; padding: 12px 16px; border-radius: 12px; font-size: 14px; cursor: pointer; text-align: left; transition: all 0.2s; color: #333; font-family: inherit; line-height: 1.4; }
+        .alt-btn:hover { background: #f0e8ff; border-color: #6b21a8; transform: translateX(4px); }
+        .alt-btn.correta { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+        .alt-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+        .alt-btn:disabled { cursor: not-allowed; transform: none; }
+        .feedback { margin-top: 10px; font-size: 14px; font-weight: bold; min-height: 22px; }
+        .familia-box { background: linear-gradient(135deg, #3b0764, #6b21a8); border-radius: 20px; padding: 28px; margin: 28px 0; color: white; animation: aparecer 0.8s ease; }
+        .fam-titulo { font-size: 20px; font-weight: bold; color: #d4a843; margin-bottom: 6px; }
+        .fam-sub { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 18px; }
+        .fam-acao { background: linear-gradient(135deg, #d4a843, #c17f3a); border-radius: 14px; padding: 16px 20px; margin: 12px 0; font-size: 14px; line-height: 1.7; color: white; }
+        .fam-acao strong { display: block; margin-bottom: 6px; font-size: 15px; }
+
+        /* JOGO DE ELOGIOS */
+        .elogio-box { background: rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; margin: 14px 0; text-align: center; }
+        .elogio-texto { font-size: 18px; font-weight: bold; color: white; min-height: 60px; display: flex; align-items: center; justify-content: center; line-height: 1.5; padding: 10px; }
+        #btn-elogio { background: white; color: #6b21a8; border: none; padding: 12px 28px; border-radius: 12px; font-size: 15px; font-weight: bold; cursor: pointer; font-family: inherit; margin-top: 10px; transition: all 0.2s; }
+        #btn-elogio:hover { transform: scale(1.05); }
+        .instrucao-elogio { font-size: 13px; color: rgba(255,255,255,0.75); margin-top: 10px; line-height: 1.6; }
+
+        @keyframes aparecer { from { opacity:0; transform: scale(0.95); } to { opacity:1; transform: scale(1); } }
+        @keyframes fadeElogio { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 38px; gap: 14px; }
+        .nav-btn { flex: 1; padding: 14px 22px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.3s; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .nav-btn-prev { background: #e8d5ff; color: #3b0764; }
+        .nav-btn-prev:hover { background: #d8c5f0; transform: translateY(-2px); }
+        .nav-btn-next { background: linear-gradient(135deg, #6b21a8, #d4a843); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #6b21a866; }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #e8d5ff; color: #999; font-size: 12px; }
+        .rodape span { color: #6b21a8; font-weight: bold; }
+        @media (max-width: 600px) { .container { padding: 22px 16px; border-radius: 18px; } h1 { font-size: 24px; } h2 { font-size: 15px; } p { font-size: 14px; } }
+    </style>
+</head>
+<body>
+<div id="bloqueio">
+    <div class="conteudo-bloqueio">
+        <img src="../logoup.png" alt="Central UP">
+        <h1>✝️</h1>
+        <p id="msg-bloqueio">Este devocional abre na quinta-feira!</p>
+        <p style="margin-top:14px;font-size:15px;" id="msg-sub"></p>
+    </div>
+</div>
+<div id="conteudo">
+<div class="container">
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+
+    <div class="serie-label">✝️ Semana da Páscoa — Central UP</div>
+    <div class="dia-badge">📅 QUINTA-FEIRA · 02/04</div>
+    <h1>🍞 A Mesa e o Jardim</h1>
+    <p class="subtitle">Lucas 22.14-20 + Marcos 14.32-36 · O amor que serve antes de partir</p>
+    <div class="progresso">
+        <div class="progresso-titulo">SEMANA DA PÁSCOA — DIA 4 DE 7</div>
+        <div class="progresso-bar"><div class="progresso-fill">57%</div></div>
+    </div>
+    <div style="background:linear-gradient(135deg,#3b0764,#6b21a8);border-radius:16px;padding:16px 20px;margin:0 0 22px 0;text-align:center;">
+        <p style="color:#d4a843;font-size:13px;font-weight:bold;letter-spacing:1px;margin:0 0 8px 0;">✝️ Estamos na Semana da Páscoa</p>
+        <p style="color:rgba(255,255,255,0.85);font-size:15px;margin:0;line-height:1.8;">Numa semana como esta, numa <strong style="color:white;">quinta-feira à noite</strong>, Jesus celebrou a última Páscoa com os discípulos, lavou seus pés, e foi ao jardim orar. A crucificação estava a poucas horas de distância.</p>
+    </div>
+
+    <hr>
+    <h2>📖 LEIA A PASSAGEM DE HOJE</h2>
+    <div style="background:#f5f0ff;border:2px solid #6b21a822;border-radius:16px;padding:18px;margin:16px 0;font-size:14px;color:#333;line-height:1.9;">
+        <p style="margin:0 0 10px 0;"><strong style="color:#3b0764;">LUCAS 22.14-20 + MARCOS 14.32-36 — NTLH</strong></p>
+        <p><strong>14</strong> Quando chegou a hora, Jesus se sentou à mesa com os apóstolos.</p>
+        <p><strong>15</strong> E disse a eles: "Eu desejava muito comer esta Páscoa com vocês antes de sofrer."</p>
+        <p><strong>19</strong> Depois Jesus pegou um pão, deu graças, partiu e deu aos discípulos, dizendo: "Isto é o meu corpo, dado por vocês. Façam isso em memória de mim."</p>
+        <p><strong>20</strong> Da mesma forma, depois da ceia, Jesus tomou o cálice e disse: "Este cálice é a nova aliança selada com o meu sangue, que é derramado por vocês."</p>
+        <p style="margin-top:12px;"><em>Depois foram ao jardim do Getsêmani.</em></p>
+        <p><strong>Mc 14.36</strong> Jesus orou: "Meu Pai, para ti tudo é possível. Afasta de mim este cálice! Mas não seja o que eu quero, e sim o que tu queres."</p>
+    </div>
+    <p style="text-align:center;font-size:14px;background:linear-gradient(135deg,#6b21a8,#d4a843);color:white;padding:13px;border-radius:12px;margin:10px 0;"><strong>⬇️ Leu? Então continue o devocional!</strong></p>
+    <hr>
+    <h2>💬 O QUE ACONTECEU</h2>
+    <p>Jesus sabia que essa seria a última refeição com os discípulos. E em vez de estar pensando em si mesmo, estava pensando neles.</p>
+    <p>Ele partiu o pão. Passou o cálice. Explicou o significado. Criou um momento que seria repetido por milhões de pessoas por séculos.</p>
+    <p>Depois foram ao Getsêmani. E lá, longe dos olhares, Jesus orou com o coração partido.</p>
+    <div class="versic">"Meu Pai, para ti tudo é possível. Afasta de mim este cálice! Mas não seja o que eu quero, e sim o que tu queres."<strong>— Marcos 14.36</strong></div>
+    <p>Ele sabia o que vinha. E foi assim mesmo. Porque te amava.</p>
+    <hr>
+    <h2>🔍 O QUE ISSO FALA COM VOCÊ</h2>
+    <p>A Última Ceia não foi só uma refeição. Foi um ato de amor num momento de despedida.</p>
+    <p><mark>Jesus serviu antes de partir.</mark> Lavou os pés. Partiu o pão. Abençoou. Cuidou.</p>
+    <p>E a oração no Getsêmani revela algo profundo: Jesus não queria sofrer. Mas amava mais do que queria se poupar.</p>
+    <p>Esse é o amor que muda tudo. Não o amor que aparece quando é fácil. O amor que vai mesmo quando dói.</p>
+    <hr>
+    <h2>✝️ PARA PENSAR</h2>
+    <div style="background:#f5f0ff;border-left:5px solid #6b21a8;border-radius:0 14px 14px 0;padding:20px 24px;margin:16px 0;">
+        <p style="font-style:italic;color:#3b0764;margin:0;">Jesus sabia que Judas ia trair. Que Pedro ia negar. Que todos iam fugir. E mesmo assim, partiu o pão pra cada um. O amor de Jesus não depende do seu desempenho.</p>
+    </div>
+    <hr>
+    <h2>🙏 ORAÇÃO DO DIA</h2>
+    <div class="oracao-box">"Senhor, obrigado por ter ido mesmo quando doeu. Me ajuda a amar assim, sem calcular o custo. Amém."</div>
+    <hr>
+
+    <div class="quiz-container">
+        <h2 style="background:linear-gradient(135deg,#3b0764,#6b21a8);color:white;padding:12px 18px;border-radius:12px;font-size:17px;margin:0 0 14px 0;">🧠 QUIZ DO DIA</h2>
+        <p style="color:#555;margin-bottom:18px;font-size:14px;">Responda as 3 perguntas para liberar o <strong>Jogo dos Elogios em Família</strong>! 🏠</p>
+        <div class="pergunta" id="q1">
+            <p class="pergunta-texto">1. O que Jesus disse ao partir o pão na Última Ceia?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(1,this,false)">A) "Comam isso para ter saúde e força"</button>
+                <button class="alt-btn" onclick="responder(1,this,true)">B) "Isto é o meu corpo, dado por vocês. Façam isso em memória de mim."</button>
+                <button class="alt-btn" onclick="responder(1,this,false)">C) "Comam juntos e sejam felizes"</button>
+                <button class="alt-btn" onclick="responder(1,this,false)">D) "Este pão representa a lei de Deus"</button>
+            </div>
+            <div class="feedback" id="f1"></div>
+        </div>
+        <div class="pergunta" id="q2" style="display:none;">
+            <p class="pergunta-texto">2. O que Jesus pediu na oração do Getsêmani?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(2,this,false)">A) Que os discípulos ficassem acordados</button>
+                <button class="alt-btn" onclick="responder(2,this,false)">B) Que os soldados não chegassem</button>
+                <button class="alt-btn" onclick="responder(2,this,true)">C) Que o Pai afastasse aquele cálice, mas que fosse a vontade do Pai</button>
+                <button class="alt-btn" onclick="responder(2,this,false)">D) Força para fugir de Jerusalém</button>
+            </div>
+            <div class="feedback" id="f2"></div>
+        </div>
+        <div class="pergunta" id="q3" style="display:none;">
+            <p class="pergunta-texto">3. O que a oração de Jesus no Getsêmani revela sobre Ele?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(3,this,false)">A) Que Ele não sabia o que estava por vir</button>
+                <button class="alt-btn" onclick="responder(3,this,false)">B) Que Ele estava com raiva de Deus</button>
+                <button class="alt-btn" onclick="responder(3,this,true)">C) Que Ele não queria sofrer, mas amou mais do que quis se poupar</button>
+                <button class="alt-btn" onclick="responder(3,this,false)">D) Que Ele precisava de ajuda dos discípulos para ter coragem</button>
+            </div>
+            <div class="feedback" id="f3"></div>
+        </div>
+
+        <div id="familia-revelado" style="display:none;">
+            <div class="familia-box">
+                <div class="fam-titulo">🏠 Jogo dos Elogios — Dia 4</div>
+                <div class="fam-sub">Para fazer durante a refeição em família hoje à noite!</div>
+                <div class="fam-acao">
+                    <strong>🎯 Como funciona:</strong>
+                    Clica no botão para revelar uma frase. A família vota: <em>quem dessa casa combina mais com esse elogio?</em> A pessoa com mais votos ganha o elogio! Depois clica de novo para a próxima frase.
+                </div>
+                <div class="elogio-box">
+                    <div class="elogio-texto" id="elogio-texto" style="font-size:14px;color:rgba(255,255,255,0.5);font-style:italic;">Clica no botão para revelar a primeira carta! 💌</div>
+                    <button id="btn-elogio" onclick="proximoElogio()">💌 Revelar a carta</button>
+                    <p class="instrucao-elogio">Cada um vota em quem mais combina com a mensagem. Sem discutir, com carinho!</p>
+                    <div style="margin-top:14px;">
+                        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:6px;" id="prog-label">0 de 12 cartas reveladas</div>
+                        <div style="background:rgba(255,255,255,0.15);height:8px;border-radius:10px;overflow:hidden;">
+                            <div id="prog-bar" style="background:linear-gradient(90deg,#d4a843,#f0c040);height:100%;width:0%;transition:width 0.5s ease;border-radius:10px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="parabens-familia" style="display:none;background:rgba(212,168,67,0.2);border:2px solid #d4a843;border-radius:16px;padding:22px;margin-top:16px;text-align:center;animation:aparecer 0.8s ease;">
+                    <div style="font-size:42px;margin-bottom:10px;">🎉</div>
+                    <p style="color:#d4a843;font-size:18px;font-weight:bold;margin:0 0 10px 0;">Parabéns, família!</p>
+                    <p style="color:rgba(255,255,255,0.85);font-size:14px;line-height:1.8;margin:0;">Vocês revelaram todas as cartas juntos. E o que esse jogo quis dizer é simples: cada pessoa aqui dentro tem um valor que vai além do que as palavras conseguem descrever.<br><br>Assim como Jesus, na noite da Última Ceia, olhou pra cada discípulo ao redor da mesa e decidiu amar mesmo assim, vocês são amados. Exatamente como são.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const elogios = [
+            "Essa pessoa ilumina qualquer ambiente que entra.",
+            "Quando eu preciso de um abraço, penso nessa pessoa.",
+            "Essa pessoa tem um coração que não cabe no peito.",
+            "Quando a situação fica difícil, essa pessoa aparece.",
+            "Essa pessoa nunca desiste de quem ama.",
+            "Do jeito dela, essa pessoa cuida de todo mundo.",
+            "Essa pessoa faz a casa ser um lugar melhor só de estar aqui.",
+            "Quando essa pessoa ri, todo mundo ri junto.",
+            "Essa pessoa ainda vai surpreender muita gente com tudo que tem dentro.",
+            "Essa pessoa é pequena em tamanho mas enorme em amor.",
+            "Essa pessoa faz as coisas mais simples parecerem especiais.",
+            "A nossa família não seria a mesma sem essa pessoa."
+        ];
+        let elogioIdx = 0;
+        const ordem = [...elogios].sort(() => Math.random()-0.5);
+        const TOTAL_ELOGIOS = elogios.length;
+
+        function proximoElogio() {
+            const btn = document.getElementById('btn-elogio');
+            const el = document.getElementById('elogio-texto');
+            // SUSPENSE
+            btn.disabled = true;
+            btn.textContent = '⏳ Carregando...';
+            el.style.opacity = '0.3';
+            setTimeout(() => {
+                el.style.animation = 'none';
+                setTimeout(() => {
+                    el.textContent = '"' + ordem[elogioIdx % TOTAL_ELOGIOS] + '"';
+                    el.style.animation = 'fadeElogio 0.6s ease';
+                    el.style.opacity = '1';
+                    el.style.fontSize = '17px';
+                    elogioIdx++;
+                    // Barra de progresso
+                    const pct = Math.min((elogioIdx / TOTAL_ELOGIOS) * 100, 100);
+                    document.getElementById('prog-bar').style.width = pct + '%';
+                    document.getElementById('prog-label').textContent = elogioIdx + ' de ' + TOTAL_ELOGIOS + ' cartas reveladas';
+                    if (elogioIdx >= TOTAL_ELOGIOS) {
+                        btn.textContent = '🔄 Jogar de novo';
+                        btn.disabled = false;
+                        btn.onclick = () => {
+                            elogioIdx = 0;
+                            document.getElementById('prog-bar').style.width='0%';
+                            document.getElementById('prog-label').textContent='0 de '+TOTAL_ELOGIOS+' cartas reveladas';
+                            document.getElementById('parabens-familia').style.display='none';
+                            proximoElogio();
+                        };
+                        // Mostrar parabéns
+                        document.getElementById('parabens-familia').style.display = 'block';
+                        document.getElementById('parabens-familia').scrollIntoView({behavior:'smooth',block:'center'});
+                    } else {
+                        btn.textContent = '💌 Próxima carta';
+                        btn.disabled = false;
+                    }
+                }, 50);
+            }, 1200);
+        }
+
+        function responder(num, btn, correta) {
+            const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+            const feedback = document.getElementById('f' + num);
+            buttons.forEach(b => b.disabled = true);
+            if (correta) {
+                btn.classList.add('correta');
+                feedback.style.color = '#1a7a3c';
+                feedback.textContent = '✅ Correto!';
+                setTimeout(() => {
+                    if (num < 3) { document.getElementById('q'+num).style.opacity='0.6'; document.getElementById('q'+(num+1)).style.display='block'; document.getElementById('q'+(num+1)).scrollIntoView({behavior:'smooth',block:'center'}); }
+                    else { document.getElementById('familia-revelado').style.display='block'; document.getElementById('familia-revelado').scrollIntoView({behavior:'smooth',block:'center'}); }
+                }, 900);
+            } else {
+                btn.classList.add('errada');
+                feedback.style.color = '#d63031';
+                feedback.textContent = 'Não é essa! Tente de novo...';
+                setTimeout(() => { buttons.forEach(b=>{b.disabled=false;b.classList.remove('errada');}); feedback.textContent=''; }, 1500);
+            }
+        }
+    </script>
+
+    <hr>
+    <div class="nav-buttons">
+        <a href="pascoa_dia3.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+        <a href="pascoa_dia5.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+    </div>
+    <div style="text-align:center;margin-top:20px;"><a href="../index.html" style="color:#6b21a8;font-size:13px;text-decoration:none;">← Voltar para o Central UP</a></div>
+    <div class="rodape"><p><span>Central UP</span> — IEQ Central Londrina</p><p style="margin-top:6px;">Desenvolvido por <span>Pr. Eduardo</span></p></div>
+</div>
+</div>
+<script>
+    const abertura=new Date('2026-04-02T00:00:00'),fechamento=new Date('2026-04-03T11:59:59'),liberacaoFinal=new Date('2026-04-05T00:00:00'),agora=new Date();
+    if(agora>=liberacaoFinal||(agora>=abertura&&agora<=fechamento)){document.getElementById('bloqueio').style.display='none';document.getElementById('conteudo').style.display='block';}
+    else if(agora<abertura){document.getElementById('msg-bloqueio').textContent='Este devocional abre na quinta-feira, 02/04! 📅';document.getElementById('msg-sub').textContent='Prepare a família para a refeição de amanhã à noite!';}
+    else{document.getElementById('msg-bloqueio').textContent='Este dia já passou...';document.getElementById('msg-sub').innerHTML='A partir de <strong>05/04 (Páscoa)</strong> todos ficam abertos!';}
+    function abrirAdmin(){const s=prompt('🔒 Senha:');if(s==='admin'){document.getElementById('bloqueio').style.display='none';document.getElementById('conteudo').style.display='block';}else if(s!==null)alert('Senha incorreta.');}
+</script>
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;"><button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.3);border:1.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button></div>
+</body>
+</html>

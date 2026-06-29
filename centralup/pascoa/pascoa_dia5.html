@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 5 — O Dia Mais Escuro | Semana da Páscoa Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #1a0a2e 0%, #3b0764 60%, #6b21a8 100%); min-height: 100vh; padding: 20px; }
+        #bloqueio { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: linear-gradient(135deg, #1a0a2e 0%, #3b0764 60%, #6b21a8 100%); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        #bloqueio .conteudo-bloqueio { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 240px; margin-bottom: 25px; }
+        #bloqueio h1 { font-size: 38px; margin-bottom: 18px; }
+        #bloqueio p { font-size: 18px; line-height: 1.8; color: rgba(255,255,255,0.85); }
+        #conteudo { display: none; }
+        .container { max-width: 800px; margin: 0 auto; background: #0f0a1a; border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.6); color: white; }
+        .logo-topo { text-align: center; margin-bottom: 28px; }
+        .logo-topo img { max-width: 200px; filter: brightness(0.9); }
+        .dia-badge { display: inline-block; background: linear-gradient(135deg, #3b0764, #6b21a8); color: white; padding: 9px 22px; border-radius: 25px; font-weight: bold; margin-bottom: 18px; font-size: 13px; letter-spacing: 1px; }
+        .serie-label { font-size: 12px; color: #9333ea; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        h1 { color: #e8d5ff; font-size: 32px; margin-bottom: 10px; line-height: 1.2; }
+        .subtitle { color: #9333ea; font-size: 16px; margin-bottom: 28px; font-weight: 600; }
+        .progresso { background: #1a1030; padding: 18px; border-radius: 12px; margin: 28px 0; text-align: center; }
+        .progresso-titulo { color: #e8d5ff; font-weight: bold; margin-bottom: 12px; font-size: 13px; }
+        .progresso-bar { background: #2a1a40; height: 22px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill { background: linear-gradient(135deg, #6b21a8, #d4a843); height: 100%; width: 71%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px; }
+        h2 { color: white; background: linear-gradient(135deg, #1a0a2e, #3b0764); padding: 12px 20px; border-radius: 12px; font-size: 17px; margin: 26px 0 16px 0; border: 1px solid #6b21a844; }
+        p { line-height: 1.9; color: #d4c5f0; font-size: 16px; margin: 13px 0; }
+        mark { background: #6b21a8; padding: 2px 6px; border-radius: 3px; font-weight: 600; color: white; }
+        hr { border: none; border-top: 2px dashed #3b0764; margin: 26px 0; }
+        .versic { background: #1a0a2e; border-left: 5px solid #6b21a8; padding: 18px 22px; border-radius: 0 14px 14px 0; margin: 16px 0; font-style: italic; color: #e8d5ff; }
+        .versic strong { color: #9333ea; font-style: normal; display: block; margin-top: 8px; font-size: 13px; }
+        .oracao-box { background: #1a0a2e; border-left: 5px solid #6b21a8; padding: 22px; border-radius: 0 14px 14px 0; font-style: italic; color: #e8d5ff; line-height: 2; }
+        .quiz-container { background: #1a0a2e; border: 2px solid #6b21a844; border-radius: 20px; padding: 28px; margin: 30px 0; }
+        .pergunta-texto { font-size: 16px; font-weight: bold; color: #e8d5ff; margin-bottom: 14px; line-height: 1.5; }
+        .alternativas { display: flex; flex-direction: column; gap: 10px; }
+        .alt-btn { background: #0f0a1a; border: 2px solid #6b21a844; padding: 12px 16px; border-radius: 12px; font-size: 14px; cursor: pointer; text-align: left; transition: all 0.2s; color: #d4c5f0; font-family: inherit; line-height: 1.4; }
+        .alt-btn:hover { background: #2a1a40; border-color: #6b21a8; transform: translateX(4px); }
+        .alt-btn.correta { background: #0d2e1a; border-color: #43e97b; color: #43e97b; font-weight: bold; }
+        .alt-btn.errada { background: #2e0d0d; border-color: #d63031; color: #d63031; }
+        .alt-btn:disabled { cursor: not-allowed; transform: none; }
+        .feedback { margin-top: 10px; font-size: 14px; font-weight: bold; min-height: 22px; }
+        .familia-box { background: linear-gradient(135deg, #1a0a2e, #3b0764); border: 2px solid #6b21a8; border-radius: 20px; padding: 28px; margin: 28px 0; color: white; animation: aparecer 0.8s ease; }
+        .fam-titulo { font-size: 20px; font-weight: bold; color: #d4a843; margin-bottom: 6px; }
+        .fam-sub { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 18px; }
+        .fam-pergunta { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 18px 20px; margin: 12px 0; font-size: 16px; line-height: 1.8; font-style: italic; color: #e8d5ff; }
+        .fam-acao { background: linear-gradient(135deg, #d4a843, #b45309); border-radius: 14px; padding: 16px 20px; margin: 12px 0; font-size: 14px; line-height: 1.7; color: white; }
+        .fam-acao strong { display: block; margin-bottom: 6px; font-size: 15px; }
+        @keyframes aparecer { from { opacity:0; transform: scale(0.95); } to { opacity:1; transform: scale(1); } }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 38px; gap: 14px; }
+        .nav-btn { flex: 1; padding: 14px 22px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.3s; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .nav-btn-prev { background: #1a0a2e; color: #e8d5ff; border: 2px solid #6b21a8; }
+        .nav-btn-prev:hover { background: #2a1a40; transform: translateY(-2px); }
+        .nav-btn-next { background: linear-gradient(135deg, #6b21a8, #d4a843); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #6b21a866; }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #3b0764; color: #666; font-size: 12px; }
+        .rodape span { color: #9333ea; font-weight: bold; }
+        @media (max-width: 600px) { .container { padding: 22px 16px; border-radius: 18px; } h1 { font-size: 24px; } h2 { font-size: 15px; } p { font-size: 14px; } }
+    </style>
+</head>
+<body>
+<div id="bloqueio">
+    <div class="conteudo-bloqueio">
+        <img src="../logoup.png" alt="Central UP">
+        <h1>✝️</h1>
+        <p id="msg-bloqueio">Este devocional abre na sexta-feira!</p>
+        <p style="margin-top:14px;font-size:15px;" id="msg-sub"></p>
+    </div>
+</div>
+<div id="conteudo">
+<div class="container">
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+
+    <div class="serie-label">✝️ Semana da Páscoa — Central UP</div>
+    <div class="dia-badge">📅 SEXTA-FEIRA · 03/04</div>
+    <h1>🩸 O Dia Mais Escuro</h1>
+    <p class="subtitle">João 19.16-30 · O preço do amor</p>
+    <div class="progresso">
+        <div class="progresso-titulo">SEMANA DA PÁSCOA — DIA 5 DE 7</div>
+        <div class="progresso-bar"><div class="progresso-fill">71%</div></div>
+    </div>
+    <div style="background:linear-gradient(135deg,#1a0a2e,#3b0764);border:1px solid #6b21a844;border-radius:16px;padding:16px 20px;margin:0 0 22px 0;text-align:center;">
+        <p style="color:#d4a843;font-size:13px;font-weight:bold;letter-spacing:1px;margin:0 0 8px 0;">✝️ Estamos na Semana da Páscoa</p>
+        <p style="color:rgba(255,255,255,0.85);font-size:15px;margin:0;line-height:1.8;">Numa semana como esta, numa <strong style="color:white;">sexta-feira</strong>, este foi o dia. Jesus foi julgado, flagelado e crucificado. Às 9 horas da manhã estava na cruz. Às 3 da tarde, entregou o espírito.</p>
+    </div>
+
+    <hr>
+    <h2>📖 LEIA A PASSAGEM DE HOJE</h2>
+    <div style="background:#1a0a2e;border:2px solid #6b21a844;border-radius:16px;padding:18px;margin:16px 0;font-size:14px;color:#d4c5f0;line-height:1.9;">
+        <p style="margin:0 0 10px 0;"><strong style="color:#9333ea;">JOÃO 19.16-18 + 28-30 — NTLH</strong></p>
+        <p><strong>16</strong> Então Pilatos entregou Jesus para ser crucificado. Os soldados tomaram Jesus</p>
+        <p><strong>17</strong> e ele saiu carregando a própria cruz, indo para um lugar chamado "O Lugar da Caveira", que em hebraico se chama Gólgota.</p>
+        <p><strong>18</strong> Ali eles o crucificaram, e com ele mais dois homens, um de cada lado, e Jesus no meio.</p>
+        <p><strong>28</strong> Depois disso, Jesus, sabendo que tudo estava cumprido, disse para que as Escrituras se cumprissem: "Estou com sede."</p>
+        <p><strong>30</strong> Quando Jesus tomou o vinagre, disse: "Está cumprido!" Baixou a cabeça e entregou o espírito.</p>
+    </div>
+    <p style="text-align:center;font-size:14px;background:linear-gradient(135deg,#3b0764,#6b21a8);color:white;padding:13px;border-radius:12px;margin:10px 0;"><strong>⬇️ Leu? Então continue o devocional!</strong></p>
+    <hr>
+    <h2>💬 O QUE ACONTECEU</h2>
+    <p>Era sexta-feira de manhã cedo. Jesus tinha sido traído, preso, julgado, humilhado, açoitado. E agora carregava a própria cruz pelas ruas de Jerusalém.</p>
+    <p>Às 9 horas da manhã, foi crucificado. Às 3 da tarde, entregou o espírito.</p>
+    <p>A terra tremeu. O véu do Templo se rasgou ao meio, de cima a baixo. O céu escureceu.</p>
+    <div class="versic">"Está cumprido!" Baixou a cabeça e entregou o espírito.<strong>— João 19.30</strong></div>
+    <p>Não foi acidente. Não foi derrota. Foi escolha. Do começo ao fim.</p>
+    <hr>
+    <h2>🔍 O QUE ISSO FALA COM VOCÊ</h2>
+    <p>Jesus morreu sabendo de tudo. Sabia quem ia trair, quem ia negar, quem ia fugir. Sabia de você também.</p>
+    <p><mark>E foi assim mesmo.</mark></p>
+    <p>Não porque era obrigado. Não porque não tinha escolha. Mas porque te amava mais do que queria evitar a dor.</p>
+    <p>Esse é o dia mais escuro da história. E também o dia em que o amor mais profundo que existe foi demonstrado.</p>
+    <hr>
+    <h2>✝️ PARA PENSAR</h2>
+    <div style="background:#1a0a2e;border-left:5px solid #6b21a8;border-radius:0 14px 14px 0;padding:20px 24px;margin:16px 0;">
+        <p style="font-style:italic;color:#e8d5ff;margin:0;">Ele não morreu por pessoas perfeitas. Morreu por pessoas reais. Com defeitos, com dúvidas, com medos. Por você exatamente como você é agora.</p>
+    </div>
+    <hr>
+    <h2>🙏 ORAÇÃO DO DIA</h2>
+    <div class="oracao-box">"Jesus, obrigado por ter ido até o fim por mim. Eu não consigo entender completamente o que você fez. Mas eu recebo. Amém."</div>
+    <hr>
+    <div class="quiz-container">
+        <h2 style="background:linear-gradient(135deg,#1a0a2e,#3b0764);color:white;padding:12px 18px;border-radius:12px;font-size:17px;margin:0 0 14px 0;border:none;">🧠 QUIZ DO DIA</h2>
+        <p style="color:#9333ea;margin-bottom:18px;font-size:14px;">Responda as 3 perguntas para liberar o <strong>Desafio em Família</strong>! 🏠</p>
+        <div class="pergunta" id="q1">
+            <p class="pergunta-texto">1. Como se chamava o lugar onde Jesus foi crucificado?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(1,this,false)">A) Monte das Oliveiras</button>
+                <button class="alt-btn" onclick="responder(1,this,false)">B) Getsêmani</button>
+                <button class="alt-btn" onclick="responder(1,this,true)">C) Gólgota — o Lugar da Caveira</button>
+                <button class="alt-btn" onclick="responder(1,this,false)">D) Monte Sião</button>
+            </div>
+            <div class="feedback" id="f1"></div>
+        </div>
+        <div class="pergunta" id="q2" style="display:none;">
+            <p class="pergunta-texto">2. O que Jesus disse antes de entregar o espírito?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(2,this,false)">A) "Pai, por que me abandonaste?"</button>
+                <button class="alt-btn" onclick="responder(2,this,false)">B) "Perdoe-os, pois não sabem o que fazem"</button>
+                <button class="alt-btn" onclick="responder(2,this,true)">C) "Está cumprido!"</button>
+                <button class="alt-btn" onclick="responder(2,this,false)">D) "Ressuscitarei no terceiro dia"</button>
+            </div>
+            <div class="feedback" id="f2"></div>
+        </div>
+        <div class="pergunta" id="q3" style="display:none;">
+            <p class="pergunta-texto">3. O que o devocional diz sobre a morte de Jesus?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(3,this,false)">A) Que foi um acidente da história</button>
+                <button class="alt-btn" onclick="responder(3,this,false)">B) Que Jesus foi obrigado a morrer sem escolha</button>
+                <button class="alt-btn" onclick="responder(3,this,true)">C) Que foi uma escolha de amor, do começo ao fim</button>
+                <button class="alt-btn" onclick="responder(3,this,false)">D) Que foi uma derrota temporária de Deus</button>
+            </div>
+            <div class="feedback" id="f3"></div>
+        </div>
+        <div id="familia-revelado" style="display:none;">
+            <div class="familia-box">
+                <div class="fam-titulo">🏠 Desafio em Família — Dia 5</div>
+                <div class="fam-sub">Um momento de profundidade com quem você ama.</div>
+                <div class="fam-pergunta">
+                    ✝️ <strong style="color:#d4a843;font-style:normal;">Reflexão pra fazer em família:</strong><br><br>
+                    Jesus morreu por você sabendo de tudo. Sabendo de cada erro, cada dúvida, cada momento em que você ia se afastar Dele.<br><br>
+                    <em>O que você diria a Ele nos minutos antes da crucificação?</em><br><br>
+                    Deixa cada um responder em silêncio primeiro. Depois, quem quiser, compartilha.
+                </div>
+                <div class="fam-acao">
+                    <strong>📝 Ação de hoje — Guarda este papel:</strong>
+                    Cada um pega um papel e escreve UMA coisa que quer deixar na cruz. Pode ser um peso, um medo, um erro, algo que carrega há tempo. Dobra o papel. Guarda até domingo. No domingo da Páscoa, vocês vão rasgá-los juntos.
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function responder(num, btn, correta) {
+            const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+            const feedback = document.getElementById('f' + num);
+            buttons.forEach(b => b.disabled = true);
+            if (correta) {
+                btn.classList.add('correta'); feedback.style.color = '#43e97b'; feedback.textContent = '✅ Correto!';
+                setTimeout(() => {
+                    if (num < 3) { document.getElementById('q'+num).style.opacity='0.6'; document.getElementById('q'+(num+1)).style.display='block'; document.getElementById('q'+(num+1)).scrollIntoView({behavior:'smooth',block:'center'}); }
+                    else { document.getElementById('familia-revelado').style.display='block'; document.getElementById('familia-revelado').scrollIntoView({behavior:'smooth',block:'center'}); }
+                }, 900);
+            } else {
+                btn.classList.add('errada'); feedback.style.color = '#d63031'; feedback.textContent = 'Não é essa! Tente de novo...';
+                setTimeout(() => { buttons.forEach(b=>{b.disabled=false;b.classList.remove('errada');}); feedback.textContent=''; }, 1500);
+            }
+        }
+    </script>
+    <hr>
+    <div class="nav-buttons">
+        <a href="pascoa_dia4.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+        <a href="pascoa_dia6.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+    </div>
+    <div style="text-align:center;margin-top:20px;"><a href="../index.html" style="color:#9333ea;font-size:13px;text-decoration:none;">← Voltar para o Central UP</a></div>
+    <div class="rodape"><p><span>Central UP</span> — IEQ Central Londrina</p><p style="margin-top:6px;">Desenvolvido por <span>Pr. Eduardo</span></p></div>
+</div>
+</div>
+<script>
+    const abertura=new Date('2026-04-03T00:00:00'),fechamento=new Date('2026-04-04T11:59:59'),liberacaoFinal=new Date('2026-04-05T00:00:00'),agora=new Date();
+    if(agora>=liberacaoFinal||(agora>=abertura&&agora<=fechamento)){document.getElementById('bloqueio').style.display='none';document.getElementById('conteudo').style.display='block';}
+    else if(agora<abertura){document.getElementById('msg-bloqueio').textContent='Este devocional abre na sexta-feira, 03/04! 📅';document.getElementById('msg-sub').textContent='A semana mais importante está chegando no seu momento mais profundo.';}
+    else{document.getElementById('msg-bloqueio').textContent='Este dia já passou...';document.getElementById('msg-sub').innerHTML='A partir de <strong>05/04 (Páscoa)</strong> todos ficam abertos!';}
+    function abrirAdmin(){const s=prompt('🔒 Senha:');if(s==='admin'){document.getElementById('bloqueio').style.display='none';document.getElementById('conteudo').style.display='block';}else if(s!==null)alert('Senha incorreta.');}
+</script>
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;"><button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.3);border:1.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button></div>
+</body>
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermão Interativo — Semana da Páscoa | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1a0a2e 0%, #3b0764 100%); min-height: 100vh; color: white; }
+
+        /* PROGRESSO */
+        .prog-wrap { position: fixed; top: 0; left: 0; right: 0; height: 6px; background: rgba(0,0,0,0.3); z-index: 999; }
+        .prog-fill { height: 100%; background: linear-gradient(90deg, #6b21a8, #d4a843); width: 0%; transition: width 0.5s ease; }
+        .prog-label { position: fixed; top: 10px; right: 14px; background: rgba(0,0,0,0.5); color: #d4a843; font-size: 11px; font-weight: bold; padding: 3px 10px; border-radius: 20px; z-index: 999; }
+
+        /* CONTAINER */
+        .container { max-width: 860px; margin: 0 auto; padding: 70px 20px 40px; }
+
+        /* LOGO */
+        .logo-topo { text-align: center; margin-bottom: 20px; }
+        .logo-topo img { max-width: 180px; }
+
+        /* BADGE */
+        .badge { display: inline-block; background: linear-gradient(135deg, #6b21a8, #d4a843); color: white; font-size: 11px; font-weight: bold; letter-spacing: 1.5px; padding: 5px 16px; border-radius: 20px; margin-bottom: 14px; text-transform: uppercase; }
+
+        h1 { font-size: 30px; color: white; margin-bottom: 6px; text-shadow: 0 0 30px #6b21a8; }
+        .subtitle { color: #9333ea; font-size: 15px; font-weight: 600; margin-bottom: 24px; }
+
+        /* CARDS DE SEÇÃO */
+        .card { background: rgba(255,255,255,0.06); border: 1px solid rgba(107,33,168,0.4); border-radius: 20px; padding: 24px; margin-bottom: 16px; }
+        .card-titulo { font-size: 17px; font-weight: bold; color: #d4a843; margin-bottom: 14px; }
+        .card-desc { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 16px; line-height: 1.6; }
+
+        /* H2 */
+        h2 { color: white; background: linear-gradient(135deg, #3b0764, #6b21a8); padding: 11px 18px; border-radius: 12px; font-size: 16px; margin: 24px 0 14px 0; }
+
+        /* ALTERNATIVAS */
+        .opcoes { display: flex; flex-direction: column; gap: 10px; }
+        .op-btn { background: rgba(255,255,255,0.05); border: 2px solid rgba(107,33,168,0.4); padding: 13px 16px; border-radius: 12px; font-size: 14px; cursor: pointer; text-align: left; color: rgba(255,255,255,0.85); font-family: inherit; line-height: 1.5; transition: all 0.2s; }
+        .op-btn:hover { background: rgba(107,33,168,0.2); border-color: #6b21a8; transform: translateX(4px); }
+        .op-btn.escolhida { background: rgba(107,33,168,0.25); border-color: #9333ea; }
+        .op-resp { display: none; background: rgba(212,168,67,0.1); border-left: 4px solid #d4a843; border-radius: 0 12px 12px 0; padding: 14px 16px; margin-top: 10px; font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.7; }
+        .alt-btn { background: rgba(255,255,255,0.05); border: 2px solid rgba(107,33,168,0.4); padding: 12px 16px; border-radius: 12px; font-size: 14px; cursor: pointer; text-align: left; color: rgba(255,255,255,0.85); font-family: inherit; line-height: 1.4; transition: all 0.2s; width: 100%; margin-bottom: 8px; }
+        .alt-btn:hover { background: rgba(107,33,168,0.2); border-color: #6b21a8; transform: translateX(4px); }
+        .alt-btn.correta { background: rgba(67,233,123,0.15); border-color: #43e97b; color: #43e97b; font-weight: bold; }
+        .alt-btn.errada { background: rgba(214,48,49,0.15); border-color: #d63031; color: #ef4444; }
+        .alt-btn:disabled { cursor: not-allowed; transform: none; }
+        .feedback-vf { font-size: 13px; font-weight: bold; min-height: 20px; margin-top: 6px; }
+
+        /* VF */
+        .vf-item { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(107,33,168,0.3); border-radius: 14px; padding: 16px; margin-bottom: 12px; }
+        .vf-txt { font-size: 14px; color: rgba(255,255,255,0.85); margin-bottom: 12px; line-height: 1.6; }
+        .vf-btns { display: flex; gap: 10px; }
+        .vf-btn { flex: 1; padding: 10px; border-radius: 10px; border: 2px solid rgba(107,33,168,0.4); background: rgba(255,255,255,0.04); font-size: 14px; font-weight: bold; cursor: pointer; font-family: inherit; color: white; transition: all 0.2s; }
+        .vf-btn:hover { background: rgba(107,33,168,0.2); }
+        .vf-btn.certa { background: rgba(67,233,123,0.2); border-color: #43e97b; color: #43e97b; }
+        .vf-btn.errada { background: rgba(214,48,49,0.15); border-color: #d63031; color: #ef4444; }
+
+        /* DECODER */
+        .decoder-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0; }
+        .dec-card { background: rgba(255,255,255,0.05); border: 2px solid rgba(107,33,168,0.4); border-radius: 16px; padding: 16px 12px; text-align: center; }
+        .dec-card.certa { border-color: #43e97b; background: rgba(67,233,123,0.1); }
+        .dec-icon { font-size: 30px; margin-bottom: 8px; }
+        .dec-pista { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 10px; line-height: 1.5; }
+        .dec-alts { display: flex; flex-direction: column; gap: 6px; }
+        .dec-alt { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(107,33,168,0.3); padding: 7px 10px; border-radius: 8px; font-size: 12px; cursor: pointer; color: rgba(255,255,255,0.85); font-family: inherit; transition: all 0.15s; }
+        .dec-alt:hover { background: rgba(107,33,168,0.2); }
+        .dec-alt.certa { background: rgba(67,233,123,0.15); border-color: #43e97b; color: #43e97b; font-weight: bold; }
+        .dec-alt.errada { background: rgba(214,48,49,0.1); border-color: #d63031; }
+        .dec-result { font-size: 12px; font-weight: bold; margin-top: 8px; min-height: 18px; }
+
+        /* PUZZLE CRONOLÓGICO */
+        .cena-item { background: rgba(255,255,255,0.04); border: 2px solid rgba(107,33,168,0.3); border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .cena-item.correta { border-color: #43e97b; background: rgba(67,233,123,0.08); }
+        .cena-item.errada { border-color: #d63031; background: rgba(214,48,49,0.08); animation: shake 0.4s ease; }
+        .cena-txt { flex: 1; font-size: 14px; color: rgba(255,255,255,0.85); }
+        .num-btns { display: flex; gap: 5px; flex-shrink: 0; }
+        .num-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid rgba(107,33,168,0.4); background: rgba(255,255,255,0.04); font-size: 12px; font-weight: bold; cursor: pointer; color: white; font-family: inherit; transition: all 0.15s; }
+        .num-btn:hover { background: rgba(107,33,168,0.3); }
+        .num-btn.ativo { background: #6b21a8; border-color: #9333ea; }
+
+        /* LUGAR */
+        .lugar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0; }
+        .lugar-card { background: rgba(255,255,255,0.05); border: 2px solid rgba(107,33,168,0.3); border-radius: 16px; padding: 20px 12px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .lugar-card:hover { border-color: #6b21a8; transform: translateY(-3px); }
+        .lugar-card.certa { border-color: #43e97b; background: rgba(67,233,123,0.1); }
+        .lugar-card.errada { border-color: #d63031; animation: shake 0.4s; }
+        .lugar-icon { font-size: 30px; margin-bottom: 8px; }
+        .lugar-nome { font-size: 13px; font-weight: bold; color: rgba(255,255,255,0.85); }
+        .lugar-fb { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; line-height: 1.5; display: none; }
+
+        /* MEMÓRIA */
+        #memoria-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0; }
+        .mem-carta { min-height: 100px; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 8px 6px; transition: all 0.3s; background: rgba(255,255,255,0.06); border: 2px solid rgba(107,33,168,0.4); gap: 6px; user-select: none; }
+        .mem-carta:hover { border-color: #6b21a8; }
+
+        /* FRASES COMPLETAR */
+        .lacuna { display: inline-block; min-width: 90px; padding: 2px 8px; border-bottom: 3px solid #6b21a8; background: rgba(107,33,168,0.1); border-radius: 4px; cursor: pointer; text-align: center; font-weight: bold; color: #d4a843; font-size: 14px; }
+        .banco-palavras { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+        .palavra-btn { background: rgba(107,33,168,0.2); border: 2px solid #6b21a8; color: #d4a843; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+        .palavra-btn:hover { background: #6b21a8; color: white; }
+        .palavra-btn.usada { opacity: 0.3; pointer-events: none; }
+
+        /* REFLEXÃO */
+        .ref-box { background: rgba(107,33,168,0.15); border: 2px solid rgba(107,33,168,0.4); border-radius: 16px; padding: 20px; margin: 14px 0; }
+
+        /* BOTÕES DE AÇÃO */
+        .btn-verificar { background: linear-gradient(135deg, #6b21a8, #d4a843); color: white; border: none; padding: 12px 26px; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 10px; font-family: inherit; transition: all 0.2s; }
+        .btn-verificar:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(107,33,168,0.4); }
+        .resultado { display: none; padding: 12px 16px; border-radius: 12px; margin-top: 10px; font-size: 14px; font-weight: bold; }
+
+        /* MISSÃO SECRETA */
+        .missao-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        .missao-overlay.ativa { display: flex; animation: fadeIn 0.5s ease; }
+        .missao-card { background: #1a0a2e; border-radius: 24px; padding: 36px 32px; max-width: 500px; width: 100%; text-align: center; border: 3px solid #d4a843; box-shadow: 0 20px 80px rgba(107,33,168,0.5); }
+        .missao-card .estrelas { font-size: 44px; margin-bottom: 12px; animation: pulsar 1.2s infinite; }
+        .missao-card h2 { color: #d4a843; font-size: 24px; margin-bottom: 8px; }
+        .missao-card p { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.8; margin-bottom: 14px; }
+        .input-nome { width: 100%; padding: 13px 16px; border: 2px solid rgba(107,33,168,0.5); border-radius: 12px; font-size: 15px; text-align: center; background: rgba(255,255,255,0.06); color: white; font-family: inherit; outline: none; margin: 10px 0; }
+        .input-nome:focus { border-color: #6b21a8; }
+        .btn-whatsapp { display: none; width: 100%; background: linear-gradient(135deg, #25d366, #128c7e); color: white; border: none; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; font-family: inherit; margin-top: 8px; }
+        .btn-fechar { background: none; border: 2px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); padding: 9px 20px; border-radius: 10px; cursor: pointer; font-size: 13px; margin-top: 12px; font-family: inherit; }
+
+        /* QUASE LÁ */
+        .quasela-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        .quasela-overlay.ativa { display: flex; }
+        .quasela-card { background: #1a0a2e; border-radius: 20px; padding: 32px; max-width: 460px; width: 100%; text-align: center; border: 2px solid #6b21a8; }
+        .quasela-card h2 { color: #9333ea; font-size: 20px; margin-bottom: 10px; }
+        .quasela-card p { color: rgba(255,255,255,0.75); font-size: 13px; line-height: 1.8; margin-bottom: 14px; }
+        .btn-voltar { background: linear-gradient(135deg, #6b21a8, #d4a843); color: white; border: none; padding: 12px 26px; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; font-family: inherit; }
+
+        /* LINK */
+        .link-voltar { color: rgba(255,255,255,0.4); font-size: 13px; text-decoration: none; display: inline-block; margin-top: 16px; }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(107,33,168,0.3); color: rgba(255,255,255,0.3); font-size: 12px; }
+        .rodape span { color: #9333ea; font-weight: bold; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulsar { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+        @keyframes cair { 0%{transform:translateY(0) rotate(0);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+
+        @media(max-width:600px) {
+            .decoder-grid { grid-template-columns: 1fr; }
+            .lugar-grid { grid-template-columns: 1fr; }
+            #memoria-grid { grid-template-columns: repeat(2,1fr); }
+            .vf-btns { flex-direction: column; }
+            h1 { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- PROGRESSO -->
+<div class="prog-wrap"><div class="prog-fill" id="prog-fill"></div></div>
+<div class="prog-label" id="prog-label">0 / 18 pts</div>
+
+<!-- MISSÃO SECRETA -->
+<div class="missao-overlay" id="missao-overlay">
+    <div class="missao-card">
+        <div class="estrelas">✝️🌅🎉</div>
+        <h2>Missão Cumprida!</h2>
+        <p>Você reviveu a semana mais importante da história. Do Templo ao sepulcro vazio. Isso tem valor.</p>
+        <div style="background:rgba(107,33,168,0.2);border:1px solid #6b21a8;border-radius:12px;padding:14px;margin:12px 0;font-size:13px;color:rgba(255,255,255,0.8);line-height:1.7;">
+            Há um presente especial esperando por você no culto! Envie a mensagem abaixo para a <strong style="color:#d4a843;">Pra. Audrey</strong> para reservar. 🎁
+        </div>
+        <input class="input-nome" id="input-nome" type="text" placeholder="Digite o seu nome aqui..." oninput="checarNome()">
+        <button class="btn-whatsapp" id="btn-wpp" onclick="enviarWhatsApp()">📲 Enviar mensagem</button>
+        <button class="btn-fechar" onclick="document.getElementById('missao-overlay').classList.remove('ativa')">Fechar</button>
+    </div>
+</div>
+
+<!-- QUASE LÁ -->
+<div class="quasela-overlay" id="quasela-overlay">
+    <div class="quasela-card">
+        <div style="font-size:36px;margin-bottom:10px;">✝️</div>
+        <h2>Quase lá!</h2>
+        <p>Você chegou até o fim, mas ainda tem respostas erradas pelo caminho. Assim como os discípulos, às vezes a gente precisa voltar e olhar de novo.</p>
+        <p style="color:#d4a843;font-weight:bold;">Complete tudo com 100% para desbloquear a missão secreta! 🗝️</p>
+        <button class="btn-voltar" onclick="document.getElementById('quasela-overlay').classList.remove('ativa')">🔄 Voltar e completar</button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    <div class="badge">✝️ Sermão Interativo — Semana da Páscoa</div>
+    <h1>✝️ A Semana Mais Importante</h1>
+    <p class="subtitle">Da entrada em Jerusalém ao sepulcro vazio</p>
+
+    <!-- PARTE 1 — VOCÊ ESTAVA LÁ? -->
+    <div class="card" id="parte1">
+        <div class="card-titulo">⚡ PARTE 1 — VOCÊ ESTAVA LÁ?</div>
+        <div class="card-desc">Imagina que você é um discípulo de Jesus naquela semana. Qual momento te assustaria mais?</div>
+        <div class="opcoes">
+            <button class="op-btn" onclick="escolherOp(this,'r1a')">A) A hora que Jesus virou as mesas no Templo</button>
+            <button class="op-btn" onclick="escolherOp(this,'r1b')">B) A hora que Jesus disse que ia morrer</button>
+            <button class="op-btn" onclick="escolherOp(this,'r1c')">C) A hora da prisão no Getsêmani</button>
+            <button class="op-btn" onclick="escolherOp(this,'r1d')">D) A hora em que o sepulcro estava vazio</button>
+        </div>
+        <div class="op-resp" id="r1a">Dá pra entender. Mas Jesus não virou as mesas por raiva. Virou porque se importava com o que era sagrado. O mesmo Jesus que fez isso morreu por você dias depois.</div>
+        <div class="op-resp" id="r1b">Jesus falou sobre sua morte várias vezes. E os discípulos nunca entenderam de verdade até que aconteceu. Às vezes a gente também só entende depois.</div>
+        <div class="op-resp" id="r1c">Foi o momento em que tudo saiu do controle. Judas com os soldados, Pedro cortando a orelha, todo mundo fugindo. E Jesus indo mesmo assim.</div>
+        <div class="op-resp" id="r1d">Imagina chegar num sepulcro esperando encontrar um corpo e ver só a roupa dobrada. Maria Madalena chorou de joelhos. Até que ouviu o nome dela ser chamado.</div>
+    </div>
+
+    <!-- PARTE 2 — DECODER DE PERSONAGENS -->
+    <div class="card" id="parte2">
+        <div class="card-titulo">🔍 PARTE 2 — QUEM É QUEM NA SEMANA DA PÁSCOA?</div>
+        <div class="card-desc">Cada personagem tem uma pista. Identifique quem é:</div>
+        <div class="decoder-grid">
+            <div class="dec-card" id="dec1">
+                <div class="dec-icon">🪙</div>
+                <div class="dec-pista">"Recebeu 30 moedas de prata para entregar Jesus aos soldados."</div>
+                <div class="dec-alts">
+                    <button class="dec-alt" onclick="respDecoder(this,false,1)">Pedro</button>
+                    <button class="dec-alt" onclick="respDecoder(this,true,1)">Judas</button>
+                    <button class="dec-alt" onclick="respDecoder(this,false,1)">Pilatos</button>
+                </div>
+                <div class="dec-result" id="dr1"></div>
+            </div>
+            <div class="dec-card" id="dec2">
+                <div class="dec-icon">🐓</div>
+                <div class="dec-pista">"Prometeu que nunca negaria Jesus. Mas negou três vezes antes do galo cantar."</div>
+                <div class="dec-alts">
+                    <button class="dec-alt" onclick="respDecoder(this,false,2)">João</button>
+                    <button class="dec-alt" onclick="respDecoder(this,false,2)">Tomé</button>
+                    <button class="dec-alt" onclick="respDecoder(this,true,2)">Pedro</button>
+                </div>
+                <div class="dec-result" id="dr2"></div>
+            </div>
+            <div class="dec-card" id="dec3">
+                <div class="dec-icon">🌺</div>
+                <div class="dec-pista">"Foi ao sepulcro cedo e foi a primeira pessoa a ver Jesus ressuscitado."</div>
+                <div class="dec-alts">
+                    <button class="dec-alt" onclick="respDecoder(this,true,3)">Maria Madalena</button>
+                    <button class="dec-alt" onclick="respDecoder(this,false,3)">Maria, mãe de Jesus</button>
+                    <button class="dec-alt" onclick="respDecoder(this,false,3)">Marta</button>
+                </div>
+                <div class="dec-result" id="dr3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PARTE 3 — PUZZLE CRONOLÓGICO -->
+    <div class="card" id="parte3">
+        <div class="card-titulo">🧩 PARTE 3 — COLOCA EM ORDEM</div>
+        <div class="card-desc">Numere os eventos da Semana da Páscoa na ordem certa:</div>
+        <div id="cenas-grid">
+            <div class="cena-item" id="cena-a" data-correto="3"><div class="cena-txt">🍞 A Última Ceia — Jesus parte o pão e institui a Ceia do Senhor</div><div class="num-btns"><button class="num-btn" onclick="selecionarNum('cena-a',1)">1</button><button class="num-btn" onclick="selecionarNum('cena-a',2)">2</button><button class="num-btn" onclick="selecionarNum('cena-a',3)">3</button><button class="num-btn" onclick="selecionarNum('cena-a',4)">4</button></div></div>
+            <div class="cena-item" id="cena-b" data-correto="1"><div class="cena-txt">🕊️ Jesus expulsa os vendedores do Templo em Jerusalém</div><div class="num-btns"><button class="num-btn" onclick="selecionarNum('cena-b',1)">1</button><button class="num-btn" onclick="selecionarNum('cena-b',2)">2</button><button class="num-btn" onclick="selecionarNum('cena-b',3)">3</button><button class="num-btn" onclick="selecionarNum('cena-b',4)">4</button></div></div>
+            <div class="cena-item" id="cena-c" data-correto="4"><div class="cena-txt">🌅 O sepulcro vazio — os anjos anunciam a ressurreição</div><div class="num-btns"><button class="num-btn" onclick="selecionarNum('cena-c',1)">1</button><button class="num-btn" onclick="selecionarNum('cena-c',2)">2</button><button class="num-btn" onclick="selecionarNum('cena-c',3)">3</button><button class="num-btn" onclick="selecionarNum('cena-c',4)">4</button></div></div>
+            <div class="cena-item" id="cena-d" data-correto="2"><div class="cena-txt">🪙 A viúva coloca suas duas moedas — Jesus observa e elogia</div><div class="num-btns"><button class="num-btn" onclick="selecionarNum('cena-d',1)">1</button><button class="num-btn" onclick="selecionarNum('cena-d',2)">2</button><button class="num-btn" onclick="selecionarNum('cena-d',3)">3</button><button class="num-btn" onclick="selecionarNum('cena-d',4)">4</button></div></div>
+        </div>
+        <button class="btn-verificar" onclick="verificarPuzzle()">✅ Verificar ordem</button>
+        <div class="resultado" id="res-puzzle"></div>
+    </div>
+
+    <!-- PARTE 4 — COMPLETE AS LACUNAS -->
+    <div class="card" id="parte4">
+        <div class="card-titulo">✏️ PARTE 4 — COMPLETE AS LACUNAS</div>
+        <div class="card-desc">Clique na lacuna e depois na palavra certa:</div>
+        <div style="font-size:15px;line-height:2.6;color:rgba(255,255,255,0.85);">
+            Na <span class="lacuna" id="l1" data-resp="quinta-feira">_______</span> santa, Jesus celebrou a <span class="lacuna" id="l2" data-resp="Última Ceia">_______</span> com os discípulos. Depois foi ao <span class="lacuna" id="l3" data-resp="Getsêmani">_______</span> orar. Na <span class="lacuna" id="l4" data-resp="sexta-feira">_______</span> foi crucificado. E no <span class="lacuna" id="l5" data-resp="domingo">_______</span>, o sepulcro estava vazio.
+        </div>
+        <div class="banco-palavras">
+            <button class="palavra-btn" onclick="usarPalavra(this,'Última Ceia')">Última Ceia</button>
+            <button class="palavra-btn" onclick="usarPalavra(this,'domingo')">domingo</button>
+            <button class="palavra-btn" onclick="usarPalavra(this,'sábado')">sábado</button>
+            <button class="palavra-btn" onclick="usarPalavra(this,'Getsêmani')">Getsêmani</button>
+            <button class="palavra-btn" onclick="usarPalavra(this,'quinta-feira')">quinta-feira</button>
+            <button class="palavra-btn" onclick="usarPalavra(this,'sexta-feira')">sexta-feira</button>
+            <button class="palavra-btn" onclick="usarPalavra(this,'Templo')">Templo</button>
+        </div>
+        <button class="btn-verificar" onclick="verificarLacunas()">✅ Verificar</button>
+        <div class="resultado" id="res-lacunas"></div>
+    </div>
+
+    <!-- PARTE 5 — VERDADEIRO OU FALSO -->
+    <div class="card" id="parte5">
+        <div class="card-titulo">⚖️ PARTE 5 — VERDADEIRO OU FALSO?</div>
+        <div class="vf-item">
+            <div class="vf-txt">1. Jesus pediu no Getsêmani que a vontade do Pai fosse feita, mesmo não querendo sofrer.</div>
+            <div class="vf-btns"><button class="vf-btn" onclick="respVF(this,true,'vf1','Correto! Jesus disse: Não seja o que eu quero, e sim o que Tu queres. Ele escolheu obedecer mesmo com o coração partido.')">✅ Verdadeiro</button><button class="vf-btn" onclick="respVF(this,false,'vf1','Na verdade é verdadeiro! Jesus orou exatamente assim no Getsêmani.')">❌ Falso</button></div>
+            <div class="feedback-vf" id="vf1"></div>
+        </div>
+        <div class="vf-item">
+            <div class="vf-txt">2. Judas arrependeu-se e devolveu as 30 moedas de prata depois de trair Jesus.</div>
+            <div class="vf-btns"><button class="vf-btn" onclick="respVF(this,true,'vf2','Correto! Judas tentou devolver o dinheiro, mas os sacerdotes não aceitaram. O arrependimento chegou tarde demais para ele se reconciliar.')">✅ Verdadeiro</button><button class="vf-btn" onclick="respVF(this,false,'vf2','Na verdade é verdadeiro! Mateus 27.3 diz que Judas, arrependido, devolveu as moedas aos sacerdotes.')">❌ Falso</button></div>
+            <div class="feedback-vf" id="vf2"></div>
+        </div>
+        <div class="vf-item">
+            <div class="vf-txt">3. O véu do Templo se rasgou quando Jesus morreu na cruz.</div>
+            <div class="vf-btns"><button class="vf-btn" onclick="respVF(this,true,'vf3','Correto! O véu que separava o Santo dos Santos se rasgou de cima a baixo, simbolizando o acesso direto a Deus que a morte de Jesus abriu para todos.')">✅ Verdadeiro</button><button class="vf-btn" onclick="respVF(this,false,'vf3','Na verdade é verdadeiro! O véu do Templo se rasgou. Isso representa que Jesus abriu o caminho direto para Deus.')">❌ Falso</button></div>
+            <div class="feedback-vf" id="vf3"></div>
+        </div>
+        <div class="vf-item">
+            <div class="vf-txt">4. Maria Madalena reconheceu Jesus ressuscitado imediatamente quando o viu no jardim.</div>
+            <div class="vf-btns"><button class="vf-btn" onclick="respVF(this,false,'vf4','Falso! Ela pensou que era o jardineiro. Só reconheceu quando Jesus chamou o nome dela: Maria. Às vezes a gente está tão no choro que não vê o milagre na sua frente.')">✅ Verdadeiro</button><button class="vf-btn" onclick="respVF(this,true,'vf4','Correto! Ela pensou que era o jardineiro. Reconheceu só quando Jesus chamou o nome dela.')">❌ Falso</button></div>
+            <div class="feedback-vf" id="vf4"></div>
+        </div>
+    </div>
+
+    <!-- PARTE 6 — QUAL LUGAR É ESSE? -->
+    <div class="card" id="parte6">
+        <div class="card-titulo">📍 PARTE 6 — QUAL LUGAR É ESSE?</div>
+        <p style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:14px;">Foi aqui que Jesus orou com angústia antes de ser preso. Onde ele disse: "Pai, afasta de mim este cálice."</p>
+        <div class="lugar-grid">
+            <div class="lugar-card" onclick="respLugar(this,false,'Não. Gólgota foi onde Jesus foi crucificado.')"><div class="lugar-icon">⛰️</div><div class="lugar-nome">Gólgota</div><div class="lugar-fb" id="lf1"></div></div>
+            <div class="lugar-card" onclick="respLugar(this,true,'Correto! Getsêmani era um jardim de oliveiras onde Jesus orou antes de ser preso.')"><div class="lugar-icon">🌿</div><div class="lugar-nome">Getsêmani</div><div class="lugar-fb" id="lf2"></div></div>
+            <div class="lugar-card" onclick="respLugar(this,false,'Não. O Templo foi onde Jesus expulsou os vendedores no início da semana.')"><div class="lugar-icon">🏛️</div><div class="lugar-nome">O Templo</div><div class="lugar-fb" id="lf3"></div></div>
+        </div>
+    </div>
+
+    <!-- PARTE 7 — MEMÓRIA CRISTOLÓGICA -->
+    <div class="card" id="parte7">
+        <div class="card-titulo">🃏 PARTE 7 — JOGO DA MEMÓRIA</div>
+        <div class="card-desc">Encontre os 4 pares que conectam os eventos da Páscoa ao seu significado:</div>
+        <div id="memoria-grid"></div>
+        <div id="mem-resultado" style="display:none;padding:12px 16px;border-radius:12px;background:rgba(67,233,123,0.1);border:2px solid #43e97b;color:#43e97b;font-weight:bold;font-size:14px;text-align:center;">🎉 Todos os pares encontrados!</div>
+    </div>
+
+    <!-- PARTE 8 — QUEM DISSE ISSO? -->
+    <div class="card" id="parte8">
+        <div class="card-titulo">💬 PARTE 8 — QUEM DISSE ISSO?</div>
+        <div class="card-desc">Identifique quem disse cada frase durante a Semana da Páscoa:</div>
+
+        <div style="margin-bottom:14px;">
+            <p style="font-size:15px;font-style:italic;color:rgba(255,255,255,0.9);margin-bottom:10px;">"A minha Casa será chamada casa de oração. Mas vocês a transformaram num covil de ladrões!"</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;" id="q1-btns">
+                <button class="dec-alt" onclick="respQuem(this,true,'fb1','Correto! Jesus disse isso ao expulsar os vendedores do Templo na segunda-feira.')">Jesus</button>
+                <button class="dec-alt" onclick="respQuem(this,false,'fb1','Não foi Pedro. Foi Jesus ao entrar no Templo.')">Pedro</button>
+                <button class="dec-alt" onclick="respQuem(this,false,'fb1','Não foi Pilatos. Foi Jesus.')">Pilatos</button>
+            </div>
+            <div class="feedback-vf" id="fb1"></div>
+        </div>
+
+        <div style="margin-bottom:14px;">
+            <p style="font-size:15px;font-style:italic;color:rgba(255,255,255,0.9);margin-bottom:10px;">"Não seja o que eu quero, e sim o que Tu queres."</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;" id="q2-btns">
+                <button class="dec-alt" onclick="respQuem(this,false,'fb2','Não foi João. Foi Jesus orando no Getsêmani.')">João</button>
+                <button class="dec-alt" onclick="respQuem(this,true,'fb2','Correto! Jesus disse isso na oração do Getsêmani, na madrugada de quinta para sexta.')">Jesus</button>
+                <button class="dec-alt" onclick="respQuem(this,false,'fb2','Não foi o anjo. Foi Jesus.')">O anjo</button>
+            </div>
+            <div class="feedback-vf" id="fb2"></div>
+        </div>
+
+        <div style="margin-bottom:14px;">
+            <p style="font-size:15px;font-style:italic;color:rgba(255,255,255,0.9);margin-bottom:10px;">"Está cumprido!"</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;" id="q3-btns">
+                <button class="dec-alt" onclick="respQuem(this,false,'fb3','Não foi o soldado. Foi Jesus.')">O soldado romano</button>
+                <button class="dec-alt" onclick="respQuem(this,false,'fb3','Não foi Pilatos.')">Pilatos</button>
+                <button class="dec-alt" onclick="respQuem(this,true,'fb3','Correto! Foram as últimas palavras de Jesus na cruz antes de entregar o espírito. João 19.30.')">Jesus na cruz</button>
+            </div>
+            <div class="feedback-vf" id="fb3"></div>
+        </div>
+
+        <div>
+            <p style="font-size:15px;font-style:italic;color:rgba(255,255,255,0.9);margin-bottom:10px;">"Ele não está aqui. Ele ressuscitou!"</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;" id="q4-btns">
+                <button class="dec-alt" onclick="respQuem(this,true,'fb4','Correto! Os dois anjos disseram isso às mulheres que foram ao sepulcro no domingo cedo. Lucas 24.6.')">Os anjos</button>
+                <button class="dec-alt" onclick="respQuem(this,false,'fb4','Não foi Pedro. Foram os anjos.')">Pedro</button>
+                <button class="dec-alt" onclick="respQuem(this,false,'fb4','Não foi Maria Madalena. Foram os anjos.')">Maria Madalena</button>
+            </div>
+            <div class="feedback-vf" id="fb4"></div>
+        </div>
+    </div>
+
+    <!-- PARTE 9 — REFLEXÃO FINAL -->
+    <div class="card" id="parte9">
+        <div class="card-titulo">💭 PARTE 9 — REFLEXÃO FINAL</div>
+        <p style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:16px;">Depois de reviver toda essa semana, qual frase resume melhor o que você leva?</p>
+        <div class="opcoes">
+            <button class="op-btn" onclick="escolherRef(this,'refA')">A) Jesus foi até o fim. E o fim não era o fim.</button>
+            <button class="op-btn" onclick="escolherRef(this,'refB')">B) Deus estava nos lugares escuros dessa semana tanto quanto nos milagres.</button>
+            <button class="op-btn" onclick="escolherRef(this,'refC')">C) O amor que Jesus mostrou nessa semana não dependia do comportamento de ninguém.</button>
+            <button class="op-btn" onclick="escolherRef(this,'refD')">D) A ressurreição muda a forma como você enfrenta qualquer coisa que parece um fim.</button>
+        </div>
+        <div class="op-resp" id="refA">Exatamente. A crucificação parecia o fim. O sepulcro parecia o fim. E Deus transformou o que parecia o pior capítulo na maior virada da história.</div>
+        <div class="op-resp" id="refB">Sim. No Getsêmani, no julgamento, no silêncio do sábado. Deus não estava ausente. Estava trabalhando nos bastidores de algo que ninguém ainda conseguia ver.</div>
+        <div class="op-resp" id="refC">Judas traiu. Pedro negou. Todos fugiram. E Jesus foi mesmo assim. O amor que você vê nessa semana não é condicionado. É graça.</div>
+        <div class="op-resp" id="refD">É isso. A ressurreição não é só um evento histórico. É uma declaração: o que Deus começa, Ele termina. E o fim da história sempre está nas mãos Dele.</div>
+        <div id="btn-finalizar-wrap" style="display:none;margin-top:18px;text-align:center;">
+            <button class="btn-verificar" onclick="finalizar()">✝️ Concluir sermão</button>
+        </div>
+    </div>
+
+    <div style="text-align:center;margin-top:20px;">
+        <a href="../index.html" class="link-voltar">← Voltar para o Central UP</a>
+    </div>
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:6px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+</div>
+
+<script>
+// === PONTUAÇÃO ===
+const pontos = { p1:false, decoder:[false,false,false], puzzle:false, lacunas:false, vf:[false,false,false,false], lugar:false, mem:false, quem:[false,false,false,false], ref:false };
+const TOTAL = 18;
+
+function calcPts() {
+    let p = 0;
+    if(pontos.p1) p++;
+    p += pontos.decoder.filter(Boolean).length;
+    if(pontos.puzzle) p++;
+    if(pontos.lacunas) p++;
+    p += pontos.vf.filter(Boolean).length;
+    if(pontos.lugar) p++;
+    if(pontos.mem) p++;
+    p += pontos.quem.filter(Boolean).length;
+    if(pontos.ref) p++;
+    return p;
+}
+function atualizarProg() {
+    const p = calcPts();
+    document.getElementById('prog-fill').style.width = (p/TOTAL*100)+'%';
+    document.getElementById('prog-label').textContent = p+' / '+TOTAL+' pts';
+    return p;
+}
+
+// === PARTE 1 ===
+function escolherOp(btn, id) {
+    document.querySelectorAll('#parte1 .op-btn').forEach(b => b.classList.remove('escolhida'));
+    btn.classList.add('escolhida');
+    document.querySelectorAll('#parte1 .op-resp').forEach(r => r.style.display='none');
+    document.getElementById(id).style.display='block';
+    if(!pontos.p1){ pontos.p1=true; atualizarProg(); }
+}
+
+// === DECODER ===
+function respDecoder(btn, certa, num) {
+    const cards = document.querySelectorAll('#dec'+num+' .dec-alt');
+    cards.forEach(c => c.style.pointerEvents='none');
+    if(certa) {
+        btn.classList.add('certa');
+        document.getElementById('dr'+num).textContent='✅ Correto!';
+        document.getElementById('dr'+num).style.color='#43e97b';
+        document.getElementById('dec'+num).classList.add('certa');
+        pontos.decoder[num-1]=true; atualizarProg();
+    } else {
+        btn.classList.add('errada');
+        document.getElementById('dr'+num).textContent='❌ Não é esse!';
+        document.getElementById('dr'+num).style.color='#ef4444';
+        setTimeout(()=>{ btn.classList.remove('errada'); cards.forEach(c=>c.style.pointerEvents=''); document.getElementById('dr'+num).textContent=''; },1000);
+    }
+}
+
+// === PUZZLE ===
+const selecoes = {};
+function selecionarNum(id, n) {
+    Object.keys(selecoes).forEach(k => { if(selecoes[k]===n && k!==id){ delete selecoes[k]; document.querySelectorAll('#'+k+' .num-btn').forEach(b=>b.classList.remove('ativo')); } });
+    selecoes[id]=n;
+    document.querySelectorAll('#'+id+' .num-btn').forEach(b=>b.classList.toggle('ativo',parseInt(b.textContent)===n));
+}
+function verificarPuzzle() {
+    const cenas=['cena-a','cena-b','cena-c','cena-d'];
+    const div=document.getElementById('res-puzzle');
+    if(cenas.some(id=>!selecoes[id])){ div.style.display='block'; div.style.background='rgba(255,165,0,0.1)'; div.style.border='2px solid orange'; div.style.color='orange'; div.textContent='⚠️ Numere todas as cenas primeiro!'; return; }
+    let ok=0;
+    cenas.forEach(id=>{ const c=document.getElementById(id); const correto=parseInt(c.dataset.correto)===selecoes[id]; c.classList.remove('correta','errada'); c.classList.add(correto?'correta':'errada'); if(correto)ok++; });
+    div.style.display='block';
+    if(ok===4){ div.style.background='rgba(67,233,123,0.1)'; div.style.border='2px solid #43e97b'; div.style.color='#43e97b'; div.textContent='🎉 Ordem perfeita!'; document.querySelectorAll('.num-btn').forEach(b=>b.disabled=true); pontos.puzzle=true; atualizarProg(); }
+    else{ div.style.background='rgba(255,165,0,0.1)'; div.style.border='2px solid orange'; div.style.color='orange'; div.textContent='🤔 Você acertou '+ok+' de 4. As em vermelho estão erradas.'; }
+}
+
+// === LACUNAS ===
+let lacunaAtiva=null;
+document.querySelectorAll('.lacuna').forEach(l=>{ l.addEventListener('click',function(){ document.querySelectorAll('.lacuna').forEach(x=>x.style.outline=''); this.style.outline='3px solid #6b21a8'; lacunaAtiva=this; }); });
+function usarPalavra(btn, palavra) {
+    if(btn.classList.contains('usada')) return;
+    if(!lacunaAtiva){ alert('Clique primeiro na lacuna que quer preencher!'); return; }
+    lacunaAtiva.textContent=palavra; lacunaAtiva.dataset.preenchido=palavra;
+    lacunaAtiva.style.outline=''; lacunaAtiva.style.background='rgba(107,33,168,0.2)';
+    btn.classList.add('usada'); lacunaAtiva=null;
+}
+function verificarLacunas() {
+    const ls=document.querySelectorAll('.lacuna'); let ok=0;
+    ls.forEach(l=>{ if(l.dataset.preenchido===l.dataset.resp){ l.style.background='rgba(67,233,123,0.15)'; l.style.borderBottom='3px solid #43e97b'; ok++; } else{ l.style.background='rgba(214,48,49,0.15)'; l.style.borderBottom='3px solid #d63031'; } });
+    const div=document.getElementById('res-lacunas'); div.style.display='block';
+    if(ok===5){ div.style.background='rgba(67,233,123,0.1)'; div.style.border='2px solid #43e97b'; div.style.color='#43e97b'; div.textContent='🎉 Todas corretas!'; pontos.lacunas=true; atualizarProg(); }
+    else{
+        div.style.background='rgba(255,165,0,0.1)'; div.style.border='2px solid orange'; div.style.color='orange'; div.textContent='🤔 Acertou '+ok+' de 5. As em vermelho estão erradas. Troque as palavras!';
+        // Liberar palavras erradas para nova tentativa
+        ls.forEach(l=>{
+            if(l.dataset.preenchido!==l.dataset.resp && l.dataset.preenchido){
+                // Reativar o botão da palavra usada errada
+                const palavraErrada = l.dataset.preenchido;
+                document.querySelectorAll('.palavra-btn').forEach(btn=>{
+                    if(btn.textContent===palavraErrada && btn.classList.contains('usada')){
+                        btn.classList.remove('usada');
+                    }
+                });
+                l.textContent='_______'; l.dataset.preenchido='';
+                l.style.background='rgba(107,33,168,0.1)'; l.style.borderBottom='3px solid #6b21a8';
+            }
+        });
+    }
+}
+
+// === VF ===
+function respVF(btn, certa, id, msg) {
+    const parent=btn.closest('.vf-item'); const fb=document.getElementById(id);
+    parent.querySelectorAll('.vf-btn').forEach(b=>b.disabled=true);
+    if(certa){ btn.classList.add('certa'); fb.style.color='#43e97b'; fb.textContent='✅ '+msg; const idx=['vf1','vf2','vf3','vf4'].indexOf(id); pontos.vf[idx]=true; atualizarProg(); }
+    else{ btn.classList.add('errada'); fb.style.color='#ef4444'; let s=5; fb.textContent='❌ Errou! Tente em '+s+'s...'; const t=setInterval(()=>{ s--; if(s>0){fb.textContent='❌ Errou! Tente em '+s+'s...';}else{clearInterval(t);btn.classList.remove('errada');parent.querySelectorAll('.vf-btn').forEach(b=>{b.disabled=false;b.classList.remove('errada')});fb.textContent='';} },1000); }
+}
+
+// === LUGAR ===
+function respLugar(card, certa, msg) {
+    document.querySelectorAll('.lugar-card').forEach(c=>c.style.pointerEvents='none');
+    if(certa){ card.classList.add('certa'); card.querySelector('.lugar-fb').style.display='block'; card.querySelector('.lugar-fb').textContent=msg; pontos.lugar=true; atualizarProg(); }
+    else{ card.classList.add('errada'); card.querySelector('.lugar-fb').style.display='block'; card.querySelector('.lugar-fb').textContent=msg; setTimeout(()=>{ card.classList.remove('errada'); card.querySelector('.lugar-fb').style.display='none'; document.querySelectorAll('.lugar-card').forEach(c=>c.style.pointerEvents=''); },1200); }
+}
+
+// === MEMÓRIA ===
+const pares = [
+    {id:'m1', a:{icon:'🕊️',txt:'Jesus expulsa vendedores do Templo'}, b:{icon:'🕊️',txt:'O sagrado não pode virar rotina'}, cor:'#6b21a8'},
+    {id:'m2', a:{icon:'🍞',txt:'Jesus parte o pão na Última Ceia'}, b:{icon:'🍞',txt:'Seu corpo entregue por você'}, cor:'#3b0764'},
+    {id:'m3', a:{icon:'🩸',txt:'A crucificação na sexta-feira'}, b:{icon:'🩸',txt:'Amor que vai mesmo quando dói'}, cor:'#7c3aed'},
+    {id:'m4', a:{icon:'🌅',txt:'O sepulcro vazio no domingo'}, b:{icon:'🌅',txt:'O que parece fim é o começo'}, cor:'#d4a843'},
+];
+let cartas=[]; pares.forEach(p=>{ cartas.push({id:p.id,lado:'a',icon:p.a.icon,txt:p.a.txt,cor:p.cor}); cartas.push({id:p.id,lado:'b',icon:p.b.icon,txt:p.b.txt,cor:p.cor}); });
+for(let i=cartas.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cartas[i],cartas[j]]=[cartas[j],cartas[i]];}
+let viradas=[],acertosMem=0,bloqMem=false;
+function renderMem() {
+    const g=document.getElementById('memoria-grid'); g.innerHTML='';
+    cartas.forEach((carta,i)=>{ const d=document.createElement('div'); d.className='mem-carta'; d.innerHTML='<span style="font-size:30px;">✝️</span><span style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px;">CARTA</span>'; d.dataset.idx=i; d.onclick=()=>virarMem(d); g.appendChild(d); });
+}
+renderMem();
+function virarMem(el) {
+    if(bloqMem||el.dataset.virada==='done') return;
+    const idx=parseInt(el.dataset.idx); if(el.dataset.virada==='1') return;
+    el.innerHTML='<span style="font-size:26px;">'+cartas[idx].icon+'</span><span style="font-size:11px;line-height:1.4;padding:0 2px;">'+cartas[idx].txt+'</span>';
+    el.style.background=cartas[idx].cor; el.style.border='2px solid '+cartas[idx].cor; el.dataset.virada='1'; viradas.push({el,idx});
+    if(viradas.length===2) {
+        bloqMem=true; const [a,b]=viradas;
+        if(cartas[a.idx].id===cartas[b.idx].id&&cartas[a.idx].lado!==cartas[b.idx].lado) {
+            a.el.style.opacity='0.6'; b.el.style.opacity='0.6'; a.el.dataset.virada='done'; b.el.dataset.virada='done'; acertosMem++; viradas=[]; bloqMem=false;
+            if(acertosMem===4){ document.getElementById('mem-resultado').style.display='block'; pontos.mem=true; atualizarProg(); }
+        } else { setTimeout(()=>{ [a,b].forEach(x=>{ x.el.innerHTML='<span style="font-size:30px;">✝️</span><span style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px;">CARTA</span>'; x.el.style.background=''; x.el.style.border='2px solid rgba(107,33,168,0.4)'; x.el.dataset.virada='0'; }); viradas=[]; bloqMem=false; },900); }
+    }
+}
+
+// === QUEM DISSE? ===
+function respQuem(btn, certa, fbId, msg) {
+    const parent=btn.closest('div[id$="-btns"]')||btn.parentElement;
+    parent.querySelectorAll('.dec-alt').forEach(b=>b.style.pointerEvents='none');
+    const fb=document.getElementById(fbId);
+    if(certa){ btn.classList.add('certa'); fb.style.color='#43e97b'; fb.textContent='✅ '+msg; const idx=['fb1','fb2','fb3','fb4'].indexOf(fbId); if(idx>=0){pontos.quem[idx]=true; atualizarProg();} }
+    else{ btn.classList.add('errada'); fb.style.color='#ef4444'; fb.textContent='❌ '+msg; setTimeout(()=>{ btn.classList.remove('errada'); parent.querySelectorAll('.dec-alt').forEach(b=>b.style.pointerEvents=''); fb.textContent=''; },1200); }
+}
+
+// === REFLEXÃO FINAL ===
+function escolherRef(btn, id) {
+    document.querySelectorAll('#parte9 .op-btn').forEach(b=>b.classList.remove('escolhida'));
+    btn.classList.add('escolhida');
+    document.querySelectorAll('#parte9 .op-resp').forEach(r=>r.style.display='none');
+    document.getElementById(id).style.display='block';
+    if(!pontos.ref){pontos.ref=true; atualizarProg();}
+    document.getElementById('btn-finalizar-wrap').style.display='block';
+}
+
+// === FINALIZAR ===
+function finalizar() {
+    const p=calcPts();
+    if(p===TOTAL){ document.getElementById('missao-overlay').classList.add('ativa'); confete(); }
+    else{ document.getElementById('quasela-overlay').classList.add('ativa'); }
+}
+
+// === MISSÃO ===
+function checarNome(){ const n=document.getElementById('input-nome').value.trim(); document.getElementById('btn-wpp').style.display=n.length>1?'block':'none'; }
+function enviarWhatsApp(){ const n=document.getElementById('input-nome').value.trim(); const m=encodeURIComponent('✝️ Oi Pra. Audrey! Sou '+n+' e completei o sermão interativo da Semana da Páscoa com 100%! Vim buscar meu presente! 🌅'); window.open('https://wa.me/5543998237237?text='+m,'_blank'); }
+
+// === CONFETE ===
+function confete(){ const cores=['#6b21a8','#d4a843','#ffffff','#f0e8ff','#9333ea']; for(let i=0;i<50;i++){ const e=document.createElement('div'); e.style.cssText=`position:fixed;top:-10px;left:${Math.random()*100}%;width:8px;height:8px;background:${cores[i%cores.length]};border-radius:${Math.random()>.5?'50%':'2px'};z-index:9998;pointer-events:none;animation:cair ${.7+Math.random()*.9}s ease forwards;`; document.body.appendChild(e); setTimeout(()=>e.remove(),2000); } }
+</script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 7 — O Encontro Inesperado | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #020617;
+            min-height: 100vh; padding: 20px;
+            background-image:
+                radial-gradient(ellipse at top left, #1e1b4b 0%, transparent 55%),
+                radial-gradient(ellipse at bottom right, #0f172a 0%, transparent 55%),
+                radial-gradient(ellipse at center, #020617 0%, transparent 70%);
+        }
+
+        #bloqueio { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #020617; z-index: 9999; display: none; align-items: center; justify-content: center; }
+        #bloqueio .cb { text-align: center; color: #94a3b8; padding: 40px; max-width: 600px; }
+        #conteudo { display: block; }
+
+        .container {
+            max-width: 780px; margin: 0 auto;
+            background: linear-gradient(160deg, #0f172a 0%, #020617 35%, #1e293b 65%, #020617 100%);
+            border-radius: 2px; padding: 52px 48px;
+            box-shadow: 0 0 0 1px rgba(148,163,184,0.2), 0 0 0 4px rgba(30,41,59,0.2), 0 30px 100px rgba(0,0,0,0.9), inset 0 0 120px rgba(0,0,0,0.3);
+            position: relative; overflow: hidden;
+        }
+
+        .container::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(148,163,184,0.02) 31px, rgba(148,163,184,0.02) 32px);
+            pointer-events: none; z-index: 0;
+        }
+
+        .margem-esq { position: absolute; top: 0; left: 52px; bottom: 0; width: 1px; background: rgba(148,163,184,0.07); z-index: 0; pointer-events: none; }
+
+        .borda-topo {
+            position: relative; z-index: 1; padding: 10px 0; margin-bottom: 30px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            border-top: 1px solid rgba(148,163,184,0.3); border-bottom: 1px solid rgba(148,163,184,0.1);
+        }
+        .borda-topo::before { content: '❧'; color: rgba(148,163,184,0.3); font-size: 16px; }
+        .borda-topo::after  { content: '❧'; color: rgba(148,163,184,0.3); font-size: 16px; transform: scaleX(-1); display: inline-block; }
+        .borda-topo span { font-size: 9px; color: rgba(148,163,184,0.35); letter-spacing: 4px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; }
+
+        .logo-topo { text-align: center; margin-bottom: 18px; position: relative; z-index: 1; }
+        .logo-topo img { max-width: 150px; filter: grayscale(1) brightness(1.8); }
+
+        .dia-badge { display: block; text-align: center; font-family: 'Georgia', serif; font-size: 12px; color: rgba(148,163,184,0.5); letter-spacing: 2px; margin-bottom: 18px; position: relative; z-index: 1; }
+
+        h1 { color: #f8fafc; font-size: 25px; margin-bottom: 6px; line-height: 1.35; text-align: center; font-family: 'Georgia', serif; font-weight: normal; text-shadow: 0 2px 16px rgba(0,0,0,0.6); position: relative; z-index: 1; }
+        .subtitle { color: rgba(148,163,184,0.45); font-size: 13px; margin-bottom: 26px; text-align: center; font-style: italic; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+
+        .progresso { background: rgba(0,0,0,0.3); padding: 12px 16px; margin: 18px 0; border: 1px solid rgba(148,163,184,0.1); position: relative; z-index: 1; }
+        .progresso-titulo { color: rgba(148,163,184,0.4); font-weight: bold; margin-bottom: 8px; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; text-align: center; }
+        .progresso-bar { background: rgba(0,0,0,0.4); height: 14px; border: 1px solid rgba(148,163,184,0.08); }
+        .progresso-fill { background: linear-gradient(90deg, #1e1b4b, #334155, #64748b); height: 100%; width: 77.77%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.8); font-weight: bold; font-size: 9px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; }
+
+        /* INTERATIVO - A ESCOLHA */
+        #interativo-container { position: relative; z-index: 1; }
+        
+        .escolha-box {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(56,189,248,0.3);
+            border-left: 3px solid rgba(56,189,248,0.5);
+            padding: 32px 28px;
+            margin: 26px 0;
+            position: relative;
+            z-index: 1;
+        }
+        .escolha-titulo { color: #38bdf8; font-size: 14px; font-weight: bold; margin-bottom: 4px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+        .escolha-subtitulo { color: rgba(148,163,184,0.55); font-size: 12px; margin-bottom: 24px; font-family: 'Segoe UI', sans-serif; font-style: italic; }
+        
+        .escolha-contexto {
+            background: rgba(0,0,0,0.25);
+            border-left: 2px solid rgba(148,163,184,0.2);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .opcoes-grid { display: grid; gap: 14px; margin-top: 20px; }
+        
+        .opcao-btn {
+            background: rgba(30,41,59,0.6);
+            border: 2px solid rgba(148,163,184,0.2);
+            padding: 20px 22px;
+            color: #cbd5e1;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s;
+            border-radius: 4px;
+            position: relative;
+        }
+        .opcao-btn:hover { background: rgba(56,189,248,0.15); border-color: #38bdf8; transform: translateX(4px); }
+        .opcao-titulo { color: #38bdf8; font-size: 15px; font-weight: bold; margin-bottom: 8px; font-family: 'Segoe UI', sans-serif; }
+        .opcao-desc { color: rgba(148,163,184,0.7); font-size: 13px; line-height: 1.6; }
+        
+        /* RESULTADO */
+        .resultado-box {
+            display: none;
+            background: rgba(0,0,0,0.4);
+            border: 2px solid;
+            padding: 32px;
+            margin: 24px 0;
+            border-radius: 4px;
+            text-align: center;
+            animation: surgir 0.5s ease;
+        }
+        .resultado-ruim { border-color: #ef4444; }
+        .resultado-bom { border-color: #4ade80; }
+        
+        .resultado-emoji { font-size: 48px; margin-bottom: 16px; }
+        .resultado-titulo { font-size: 20px; font-weight: bold; margin-bottom: 12px; font-family: 'Segoe UI', sans-serif; }
+        .resultado-texto { color: #cbd5e1; font-size: 15px; line-height: 1.8; margin-bottom: 20px; }
+        .resultado-ruim .resultado-titulo { color: #ef4444; }
+        .resultado-bom .resultado-titulo { color: #4ade80; }
+        
+        .btn-voltar {
+            background: rgba(30,41,59,0.6);
+            border: 1px solid rgba(148,163,184,0.3);
+            color: #cbd5e1;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+        .btn-voltar:hover { background: rgba(56,189,248,0.15); border-color: #38bdf8; }
+        
+        .btn-continuar {
+            background: linear-gradient(135deg, #1e1b4b, #312e81);
+            border: 1px solid rgba(56,189,248,0.3);
+            color: #f8fafc;
+            padding: 14px 32px;
+            cursor: pointer;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .btn-continuar:hover { background: linear-gradient(135deg, #312e81, #3730a3); }
+
+        /* CONTENT (HIDDEN UNTIL INTERACTIVE DONE) */
+        #conteudo-dia { display: none; position: relative; z-index: 1; }
+
+        .imagem-narrativa { margin: 28px 0; border: 1px solid rgba(148,163,184,0.15); border-radius: 2px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+        .imagem-narrativa img { width: 100%; height: auto; display: block; filter: contrast(1.1); }
+
+        .narrativa { font-size: 16px; line-height: 2.1; color: #cbd5e1; position: relative; z-index: 1; }
+        .narrativa p { margin: 14px 0; }
+        .narrativa .destaque { color: #38bdf8; font-weight: bold; }
+        .narrativa .dialogo { background: rgba(0,0,0,0.18); border-left: 2px solid rgba(56,189,248,0.2); padding: 12px 18px; margin: 16px 0; font-style: italic; color: rgba(148,163,184,0.65); line-height: 2.1; }
+
+        .ensinamento-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(148,163,184,0.15); border-top: 2px solid #38bdf8; padding: 28px; margin: 30px 0; position: relative; z-index: 1; }
+        .ens-titulo { font-size: 9px; color: rgba(148,163,184,0.4); font-weight: bold; letter-spacing: 3px; margin-bottom: 12px; text-transform: uppercase; }
+        .ens-frase { font-size: 16px; font-style: italic; color: #7dd3fc; margin-bottom: 14px; line-height: 1.6; }
+        .ens-texto { color: #94a3b8; font-size: 14px; line-height: 1.8; }
+        
+        .oracao-box { background: rgba(56,189,248,0.05); border: 1px solid rgba(56,189,248,0.2); border-left: 3px solid rgba(56,189,248,0.4); padding: 24px; margin: 28px 0; color: #7dd3fc; font-style: italic; font-size: 15px; line-height: 1.8; position: relative; z-index: 1; }
+
+        .gancho-box { background: linear-gradient(135deg, rgba(30,41,59,0.3), rgba(30,58,83,0.2)); border: 1px solid rgba(56,189,248,0.2); border-left: 3px solid rgba(56,189,248,0.4); padding: 28px; margin: 28px 0; position: relative; z-index: 1; }
+        .gancho-label { color: #38bdf8; font-size: 11px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; margin-bottom: 10px; }
+        .gancho-emoji { font-size: 28px; display: block; margin: 12px 0; }
+        .gancho-texto { color: #94a3b8; font-size: 14px; line-height: 1.8; }
+        .gancho-destaque { color: #38bdf8; font-weight: bold; display: block; margin-top: 8px; }
+
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 32px; gap: 12px; position: relative; z-index: 1; }
+        .nav-btn { flex: 1; padding: 13px; text-decoration: none; font-weight: bold; text-align: center; font-size: 12px; font-family: 'Segoe UI', sans-serif; letter-spacing: 2px; text-transform: uppercase; border-radius: 4px; transition: all 0.2s; border: 1px solid transparent; }
+        .nav-btn-prev { background: rgba(30,41,59,0.4); color: #cbd5e1; border: 1px solid rgba(148,163,184,0.2); }
+        .nav-btn-prev:hover { background: rgba(56,189,248,0.1); border-color: #38bdf8; }
+        .nav-btn-next { background: linear-gradient(135deg, #1e1b4b, #312e81); color: #f8fafc; border: 1px solid rgba(56,189,248,0.2); }
+        .nav-btn-next:hover { background: linear-gradient(135deg, #312e81, #3730a3); }
+
+        .rodape { text-align: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid rgba(148,163,184,0.1); position: relative; z-index: 1; }
+        .rodape p { color: rgba(148,163,184,0.35); font-size: 11px; font-family: 'Segoe UI', sans-serif; }
+        .rodape span { color: rgba(148,163,184,0.5); font-weight: bold; }
+
+        @keyframes surgir { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+<div class="margem-esq"></div>
+<div id="bloqueio"><div class="cb"></div></div>
+
+<div id="conteudo">
+<div class="container">
+    <div class="borda-topo"><span>A História Continua</span></div>
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    
+    <div id="interativo-container">
+        <div class="dia-badge">✦ DIA 7 DE 9 ✦</div>
+        <h1>O Encontro Inesperado</h1>
+        <p class="subtitle">Quando o passado te alcança no meio da missão.</p>
+
+        <div class="escolha-box">
+            <div class="escolha-titulo">✦ A Escolha de Lucas</div>
+            <p class="escolha-subtitulo">Você está no lugar de Lucas. O que você faz?</p>
+            
+            <div class="escolha-contexto">
+                O porão está em silêncio. Teófilo, seu antigo patrono da Grécia, acabou de revelar seu nome verdadeiro: <strong>Lucas</strong>. Ele oferece uma bolsa de moedas de ouro e segurança na Grécia. Mas para isso, você precisa abandonar o papiro, os discípulos, e tudo que descobriu sobre Jesus.<br><br>
+                Levi está com a mão na adaga. João Marcos olha para você, esperando sua decisão.<br><br>
+                <strong>O que você escolhe?</strong>
+            </div>
+
+            <div class="opcoes-grid">
+                <button class="opcao-btn" onclick="escolher('A')">
+                    <div class="opcao-titulo">A) Aceito voltar para a Grécia</div>
+                    <div class="opcao-desc">Segurança, dinheiro, carreira médica garantida. Mas o papiro fica para trás.</div>
+                </button>
+
+                <button class="opcao-btn" onclick="escolher('B')">
+                    <div class="opcao-titulo">B) Fico, mas escondo minha fé</div>
+                    <div class="opcao-desc">Continuo em Jerusalém, finjo ser apenas médico. Sem riscos, mas sem testemunho.</div>
+                </button>
+
+                <button class="opcao-btn" onclick="escolher('C')">
+                    <div class="opcao-titulo">C) Fico e assumo o risco</div>
+                    <div class="opcao-desc">Perco a segurança, posso morrer, mas a verdade será contada ao mundo.</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- RESULTADO A -->
+        <div id="resultado-A" class="resultado-box resultado-ruim">
+            <div class="resultado-emoji">💔</div>
+            <div class="resultado-titulo">Você voltou para Atenas...</div>
+            <div class="resultado-texto">
+                O papiro foi queimado pelos guardas. Ninguém nunca soube que Pedro foi liberto por um anjo. O Evangelho de Lucas nunca foi escrito. Atos dos Apóstolos nunca existiu.<br><br>
+                A história morreu no porão.<br><br>
+                <strong>Essa não foi a escolha de Lucas.</strong>
+            </div>
+            <button class="btn-voltar" onclick="resetar()">↻ Voltar e Escolher de Novo</button>
+        </div>
+
+        <!-- RESULTADO B -->
+        <div id="resultado-B" class="resultado-box resultado-ruim">
+            <div class="resultado-emoji">😶</div>
+            <div class="resultado-titulo">Você ficou, mas com medo...</div>
+            <div class="resultado-texto">
+                O papiro ficou incompleto. Você morreu velho e confortável em Jerusalém, mas sua vida não mudou nada. Ninguém se lembrou de você.<br><br>
+                Testemunhas silenciosas não deixam legado.<br><br>
+                <strong>Essa não foi a escolha de Lucas.</strong>
+            </div>
+            <button class="btn-voltar" onclick="resetar()">↻ Voltar e Escolher de Novo</button>
+        </div>
+
+        <!-- RESULTADO C -->
+        <div id="resultado-C" class="resultado-box resultado-bom">
+            <div class="resultado-emoji">✨</div>
+            <div class="resultado-titulo">Você escolheu o que Lucas escolheu!</div>
+            <div class="resultado-texto">
+                E por causa dessa escolha, 2000 anos depois, VOCÊ está lendo essa história.<br><br>
+                Lucas abriu mão da segurança para ser testemunha. E o Espírito Santo usou sua coragem para escrever dois dos livros mais importantes da Bíblia.<br><br>
+                <strong>Parabéns! Você entendeu o preço de ser testemunha.</strong>
+            </div>
+            <button class="btn-continuar" onclick="liberarConteudo()">Continuar para a História →</button>
+        </div>
+    </div>
+
+    <div id="conteudo-dia">
+        <div class="dia-badge">✦ DIA 7 DE 9 ✦</div>
+        <h1>O Encontro Inesperado</h1>
+        <p class="subtitle">Quando o passado te alcança no meio da missão.</p>
+
+        <!-- IMAGEM AQUI: atos701.png -->
+        <div class="imagem-narrativa">
+            <img src="../levi/atos701.png" alt="O Encontro com Teófilo">
+        </div>
+
+        <div class="narrativa">
+            <p>O porão estava em silêncio quando ouvimos a senha no portão: três batidas, pausa, duas batidas. Levi destrancou com cautela. A porta rangeu, e a luz da manhã revelou uma figura que fez meu coração parar.</p>
+            
+            <p><span class="destaque">Teófilo.</span></p>
+
+            <p>Meu antigo patrono da Grécia. O homem que financiou meus estudos médicos em Atenas. Ele estava ali, em Jerusalém, vestido com roupas de viagem cobertas de poeira.</p>
+
+            <div class="dialogo">
+                <strong>Teófilo:</strong> "Lucas. Finalmente te encontrei."
+            </div>
+
+            <p>Levi e João Marcos trocaram olhares tensos. Ninguém ali sabia meu nome verdadeiro até aquele momento.</p>
+
+            <div class="dialogo">
+                <strong>Teófilo:</strong> "Recebi sua última carta há seis meses. Você disse que estava apenas 'investigando' os seguidores de Jesus. Mas os rumores chegaram até Antioquia: você está VIVENDO com eles. Ajudando fugitivos. Escrevendo... o quê, exatamente?"
+            </div>
+
+            <p>Ele apontou para minha bolsa, onde o papiro estava escondido.</p>
+
+            <div class="dialogo">
+                <strong>Eu (Lucas):</strong> "Teófilo, eu vim registrar fatos médicos. Mas encontrei algo maior que a medicina. Encontrei testemunhas de uma ressurreição. E agora... agora EU sou testemunha de milagres."
+            </div>
+
+            <div class="dialogo">
+                <strong>Teófilo:</strong> "Você é médico, Lucas! Não um fanático religioso. Volte comigo para a Grécia. Você tem futuro lá. Aqui, só tem perseguição e morte."
+            </div>
+
+            <p>Levi colocou a mão na adaga. João Marcos ficou em pé, pronto para defender.</p>
+
+            <p>Mas eu levantei a mão, pedindo calma.</p>
+
+            <div class="dialogo">
+                <strong>Eu (Lucas):</strong> "Teófilo, você me ensinou a buscar a verdade acima de tudo. E a verdade que encontrei aqui não cabe em Atenas. Ela precisa ser contada ao mundo inteiro. E EU vou contá-la."
+            </div>
+
+            <p>Teófilo olhou para mim por um longo momento. Depois, suspirou.</p>
+
+            <div class="dialogo">
+                <strong>Teófilo:</strong> "Então escreva tudo. Mas escreva BEM. Porque se você vai jogar sua vida fora por essa história, que pelo menos ela seja memorável."
+            </div>
+
+            <p>Ele deixou uma bolsa de moedas no chão e saiu, sem olhar para trás.</p>
+
+            <p>Levi quebrou o silêncio:</p>
+
+            <div class="dialogo">
+                <strong>Levi:</strong> "Lucas, então? Esse é seu nome?"
+            </div>
+
+            <p><span class="destaque">Eu (Lucas):</span> "Sim. E agora vocês sabem quem está escrevendo essa história."</p>
+        </div>
+
+        <div class="ensinamento-box">
+            <div class="ens-titulo">✦ Jesus já tinha falado sobre isso</div>
+            <p class="ens-frase">"Quem ama seu pai ou sua mãe mais do que a mim não é digno de mim... e quem não toma a sua cruz e me segue não é digno de mim." — Mateus 10.37-38</p>
+            <p class="ens-texto">
+                Lucas teve que escolher entre o conforto do passado e a missão do presente. Teófilo ofereceu segurança, dinheiro, futuro. Mas Lucas escolheu o papiro, a verdade e o risco.<br><br>
+                <strong>Ensinamento para os UPs: Às vezes, pessoas que você ama vão tentar te "resgatar" da sua fé. Elas não entendem que você não precisa ser resgatado — você foi CHAMADO.</strong>
+            </p>
+        </div>
+
+        <div class="oracao-box">
+            "Senhor, que eu escolha a verdade mesmo quando o conforto me chamar de volta. Amém."
+        </div>
+
+        <div class="gancho-box">
+            <div class="gancho-label">✦ Amanhã na história</div>
+            <span class="gancho-emoji">📜</span>
+            <div class="gancho-texto">
+                Lucas decide que precisa concluir seu papiro antes que seja tarde demais. Mas para isso, ele precisa de UMA última testemunha: o próprio Pedro.<br><br>
+                E encontrá-lo agora pode ser fatal.<br><br>
+                <em>Amanhã, VOCÊ vai ajudar Lucas a escrever as últimas palavras do papiro.</em>
+                <span class="gancho-destaque">Amanhã: O Último Registro.</span>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="atos_dia6.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+            <a href="atos_dia8.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+        </div>
+    </div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:5px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+</div>
+</div>
+
+<script>
+    function escolher(opcao) {
+        // Esconde as opções
+        document.querySelector('.escolha-box').style.display = 'none';
+        
+        // Mostra o resultado correspondente
+        document.getElementById('resultado-' + opcao).style.display = 'block';
+    }
+
+    function resetar() {
+        // Esconde todos os resultados
+        document.querySelectorAll('.resultado-box').forEach(r => r.style.display = 'none');
+        
+        // Mostra as opções novamente
+        document.querySelector('.escolha-box').style.display = 'block';
+    }
+
+    function liberarConteudo() {
+        document.getElementById('interativo-container').style.display = 'none';
+        document.getElementById('conteudo-dia').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function abrirAdmin() {
+        const s = prompt('🔒 Senha:');
+        if (s === 'admin') {
+            liberarConteudo();
+        } else if (s !== null) alert('Senha incorreta.');
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.4);border:1.5px solid rgba(148,163,184,0.2);color:rgba(148,163,184,0.3);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button>
+</div>
+
+</body>
+</html>

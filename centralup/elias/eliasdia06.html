@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 6 - 🧥 Você Não Está Sozinho | Elias Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .conteudo-bloqueio { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 260px; margin-bottom: 25px; }
+        #bloqueio h1 { font-size: 42px; margin-bottom: 18px; color: white; }
+        #bloqueio p { font-size: 20px; line-height: 1.8; color: white; }
+        #conteudo { display: none; }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 28px; }
+        .logo-topo img { max-width: 220px; }
+        .dia-badge {
+            display: inline-block; background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            color: white; padding: 9px 22px; border-radius: 25px; font-weight: bold; margin-bottom: 18px; font-size: 14px;
+        }
+        h1 { color: #1a3a5c; font-size: 34px; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { color: #e85d2a; font-size: 17px; margin-bottom: 28px; font-weight: 600; }
+        .progresso { background: #f5f5f5; padding: 18px; border-radius: 12px; margin: 28px 0; text-align: center; }
+        .progresso-titulo { color: #1a3a5c; font-weight: bold; margin-bottom: 12px; font-size: 13px; }
+        .progresso-bar { background: #e0e0e0; height: 26px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            height: 100%; width: 100%; display: flex; align-items: center;
+            justify-content: center; color: white; font-weight: bold; font-size: 13px;
+        }
+        .artefato-box {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border: 4px dashed #e85d2a; padding: 24px; border-radius: 18px;
+            margin: 28px 0; text-align: center; box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+            animation: aparecer 0.8s ease;
+        }
+        .artefato-box .artefato-label { color: #1a3a5c; font-size: 13px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .artefato-box .artefato-emoji { font-size: 52px; display: block; margin: 10px 0; }
+        .artefato-box .artefato-nome { font-size: 26px; font-weight: bold; color: #1a3a5c; margin-bottom: 10px; }
+        .artefato-box .artefato-desc { font-size: 14px; color: #2d3436; line-height: 1.8; }
+        h2 {
+            color: white; background: linear-gradient(135deg, #1a3a5c 0%, #2d5986 100%);
+            padding: 12px 20px; border-radius: 12px; font-size: 18px; margin: 26px 0 16px 0;
+        }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 13px 0; }
+        mark { background: #ffd700; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+        hr { border: none; border-top: 2px dashed #ddd; margin: 26px 0; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 38px; gap: 14px; }
+        .nav-btn {
+            flex: 1; padding: 14px 22px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; text-align: center; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; font-size: 14px;
+        }
+        .nav-btn-prev { background: #e0e0e0; color: #666; }
+        .nav-btn-prev:hover { background: #d0d0d0; transform: translateY(-2px); }
+        .nav-btn-next { background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #1a3a5c66; }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #eee; color: #999; font-size: 12px; }
+        .rodape-destaque { color: #1a3a5c; font-weight: bold; }
+        .quiz-container { background: #f5f8ff; border: 2px solid #1a3a5c33; border-radius: 20px; padding: 28px; margin: 30px 0; }
+        .pergunta { margin-bottom: 10px; }
+        .pergunta-texto { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 14px; line-height: 1.5; }
+        .alternativas { display: flex; flex-direction: column; gap: 10px; }
+        .alt-btn {
+            background: white; border: 2px solid #1a3a5c55; padding: 12px 16px;
+            border-radius: 12px; font-size: 14px; cursor: pointer; text-align: left;
+            transition: all 0.2s ease; color: #333; font-family: inherit; line-height: 1.4;
+        }
+        .alt-btn:hover { background: #eaf0f8; border-color: #1a3a5c; transform: translateX(4px); }
+        .alt-btn.correta { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+        .alt-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+        .alt-btn:disabled { cursor: not-allowed; transform: none; }
+        .feedback { margin-top: 10px; font-size: 14px; font-weight: bold; min-height: 22px; }
+        @keyframes aparecer { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 20px 16px; border-radius: 16px; }
+            .logo-topo img { max-width: 140px; }
+            h1 { font-size: 22px !important; line-height: 1.3; }
+            h2 { font-size: 15px !important; padding: 10px 14px; margin: 20px 0 14px 0 !important; }
+            .subtitle { font-size: 13px !important; margin-bottom: 14px; }
+            .dia-badge { font-size: 12px; padding: 7px 14px; }
+            p { font-size: 14px !important; line-height: 1.7; margin: 10px 0; }
+            .progresso { padding: 12px; margin: 16px 0; }
+            .progresso-fill { font-size: 11px; }
+            .nav-buttons { flex-direction: column; gap: 10px; }
+            .nav-btn { padding: 13px 16px; font-size: 14px; }
+            .rodape { font-size: 12px; margin-top: 20px; }
+            hr { margin: 18px 0; }
+            .quiz-container { padding: 14px; }
+            .pergunta-texto { font-size: 13px; }
+            .alt-btn { font-size: 12px; padding: 10px 12px; }
+            .artefato-box .artefato-emoji { font-size: 40px; }
+            .artefato-box .artefato-nome { font-size: 20px; }
+            #bloqueio .conteudo-bloqueio { padding: 24px 18px; }
+            #bloqueio img { max-width: 160px; margin-bottom: 18px; }
+            #bloqueio h1 { font-size: 28px; }
+            #bloqueio p { font-size: 15px; line-height: 1.6; }
+        }
+        @media (max-width: 400px) {
+            h1 { font-size: 19px !important; }
+        }
+    </style>
+</head>
+
+
+<body>
+    <div id="bloqueio">
+        <div class="conteudo-bloqueio">
+            <img src="../logoup.png" alt="Central UP">
+            <h1>Opa, UP! 👋</h1>
+            <p id="msg-bloqueio">Cada devocional tem o seu momento certo.</p>
+            <p style="margin-top:16px; font-size:17px;" id="msg-sub"></p>
+        </div>
+    </div>
+
+    <div id="conteudo">
+        <div class="container">
+            <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+            <div class="dia-badge">📅 DIA 6 DE 6 — ELIAS</div>
+            <h1>🧥 Você Não Está Sozinho</h1>
+            <p class="subtitle">1 Reis 19.19-21 · A missão que continua em outras mãos</p>
+
+            <div class="progresso">
+                <div class="progresso-titulo">SEU PROGRESSO NO DESAFIO</div>
+                <div class="progresso-bar">
+                    <div class="progresso-fill">DIA 6 — 100% 🎉</div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>📖 LEIA A PASSAGEM DE HOJE</h2>
+            <p>Leia o texto bíblico abaixo na versão <strong>NTLH</strong>. Depois continue o devocional! 👇</p>
+
+            <div style="background:#f5f8ff; border:2px solid #1a3a5c33; border-radius:16px; padding:18px; margin:16px 0; max-height:300px; overflow-y:auto; line-height:1.9; font-size:14px; color:#333;">
+                <p style="margin:0 0 10px 0;"><strong style="color:#1a3a5c;">1 REIS 19.19-21 — NTLH</strong></p>
+                <p><strong>19</strong> Elias saiu dali e encontrou Eliseu, filho de Safate, que estava arando um campo com doze juntas de bois. Elias foi até ele e jogou o manto sobre os ombros de Eliseu.</p>
+                <p><strong>20</strong> Eliseu largou os bois, foi correndo atrás de Elias e disse: "Deixe-me primeiro ir me despedir do meu pai e da minha mãe, e depois eu o seguirei." Elias respondeu: "Pode ir. Mas não se esqueça do que você vai fazer."</p>
+                <p><strong>21</strong> Eliseu foi, pegou as duas juntas de bois e as matou. Usando os instrumentos de lavrar a terra como lenha, assou a carne dos bois e a deu ao povo para comer. Depois disso, ele saiu e seguiu Elias como seu assistente.</p>
+            </div>
+
+            <p style="text-align:center; font-size:14px; background:linear-gradient(135deg,#1a3a5c 0%,#e85d2a 100%); color:white; padding:13px; border-radius:12px; margin:10px 0;">
+                <strong>⬇️ Leu? Então continue o devocional abaixo!</strong>
+            </p>
+
+            <hr>
+
+            <h2>💬 E então, UP?</h2>
+
+            <h2>📰 O QUE ACONTECEU</h2>
+            <p>Deus deu a Elias uma nova missão e um nome: Eliseu, filho de Safate. Elias foi até ele. Eliseu estava arando no campo, num dia normal, sem saber que sua vida estava prestes a mudar completamente.</p>
+            <p>Elias chegou, jogou sua capa sobre ele, e foi embora.</p>
+            <p>Eliseu correu atrás. Pediu para se despedir da família. Depois matou os bois, assou a carne, deu ao povo para comer, e foi. Sem hesitação. Sem olhar para trás.</p>
+            <p style="background:#f5f8ff; padding:20px; border-radius:12px; border-left:5px solid #1a3a5c;">
+                <em>"Depois disso, ele saiu e seguiu Elias como seu assistente."</em><br>
+                <strong>— 1 Reis 19.21</strong>
+            </p>
+
+            <hr>
+
+            <h2>🔍 O QUE DEUS QUER TE MOSTRAR HOJE</h2>
+            <p>Elias jogou a capa sobre Eliseu e foi embora. Sem discurso. Sem explicação longa. Um gesto simples que mudou tudo.</p>
+            <p>Eliseu entendeu na hora. Largou os bois, se despediu da família e foi.</p>
+            <p>O que Deus quer te mostrar hoje é que você também tem algo pra dar ao mundo. Um jeito de ser, um dom, uma presença que só você tem. E isso tem valor.</p>
+            <p>A missão de Deus continua de geração em geração. E você faz parte dessa corrente. O que você carrega pode mudar alguém que você ainda nem conhece.</p>
+
+            <hr>
+
+            <h2>🪞 ISSO FALA COM VOCÊ</h2>
+            <p>Você já pensou que talvez Deus esteja te preparando para carregar uma capa que você ainda nem viu chegar?</p>
+            <p>Eliseu não fez nada de especial para merecer. Estava no campo, trabalhando, vivendo a vida normal dele. E a chamada chegou.</p>
+            <p><mark>A missão de Deus continua. E ela continua em você. A questão é se você vai largar os bois quando a capa cair sobre seus ombros.</mark></p>
+
+            <hr>
+
+            <h2>🙏 ORAÇÃO DO DIA</h2>
+            <p style="background:linear-gradient(135deg,#1a3a5c15 0%,#e85d2a15 100%); padding:22px; border-radius:12px; border-left:5px solid #1a3a5c; font-style:italic; line-height:2;">
+                "Senhor, obrigado pelo que o senhor colocou em mim. Me mostra como usar isso para ajudar alguém. Estou disponível. Amém."
+            </p>
+
+            <hr>
+
+            <div class="quiz-container">
+                <h2 style="background:linear-gradient(135deg,#1a3a5c 0%,#e85d2a 100%); color:white; padding:12px 18px; border-radius:12px; font-size:18px; margin:0 0 14px 0;">🧠 QUIZ DO DIA 6</h2>
+                <p style="color:#555; margin-bottom:18px; font-size:14px;">Responda as 3 perguntas para desbloquear o <strong>Artefato do Profeta</strong>! 🔐</p>
+
+                
+                <div class="pergunta" id="q1">
+                    <p class="pergunta-texto">1. O que Elias fez quando encontrou Eliseu no campo?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(1, this, false)">A) Chamou Eliseu pelo nome e o convocou a segui-lo</button>
+                        <button class="alt-btn" onclick="responder(1, this, true)">B) Jogou seu manto sobre os ombros de Eliseu</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">C) Mandou uma mensagem pelo servo para chamar Eliseu</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">D) Pediu a Deus um sinal para confirmar se era Eliseu o escolhido</button>
+                    </div>
+                    <div class="feedback" id="f1"></div>
+                </div>
+
+                <div class="pergunta" id="q2" style="display:none;">
+                    <p class="pergunta-texto">2. O que Eliseu fez antes de seguir Elias?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(2, this, false)">A) Jejuou por três dias e depois foi</button>
+                        <button class="alt-btn" onclick="responder(2, this, true)">B) Voltou para casa, se despediu, matou os bois e deu a carne ao povo</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">C) Vendeu seu campo e doou o dinheiro aos pobres</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">D) Construiu um altar e adorou a Deus antes de partir</button>
+                    </div>
+                    <div class="feedback" id="f2"></div>
+                </div>
+
+                <div class="pergunta" id="q3" style="display:none;">
+                    <p class="pergunta-texto">3. O que o gesto da capa representa nessa história?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(3, this, false)">A) Que Elias estava frio e queria aquecer Eliseu</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">B) Que Elias estava descartando algo que não precisava mais</button>
+                        <button class="alt-btn" onclick="responder(3, this, true)">C) A passagem da missão e do chamado de Elias para Eliseu</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">D) Um sinal de que Eliseu era mais justo do que Elias</button>
+                    </div>
+                    <div class="feedback" id="f3"></div>
+                </div>
+
+
+                <div id="artefato-revelado" style="display:none;">
+                    <div class="artefato-box">
+                        <div class="artefato-label">Artefato do Profeta — Dia 6 de 6 · O último!</div>
+                        <span class="artefato-emoji">🧥</span>
+                        <div class="artefato-nome">A Capa</div>
+                        <p class="artefato-desc">Na história de Elias, a capa não era só roupa. Era símbolo de autoridade, de identidade, de chamado. Quando Elias jogou o manto sobre Eliseu, estava dizendo sem palavras: o que eu carrego agora passa para você.</p><p class="artefato-desc" style="margin-top:12px; background:#e8f4f8; border-left: 3px solid #1a3a5c; padding: 10px 14px; border-radius: 6px;">🎯 <strong>Sua missão:</strong> escolhe uma peça de roupa sua, uma blusa estilosa, um moletom maneiro, aquela peça que é a sua cara. Dobra e coloca na Caixa do Profeta junto com todos os outros artefatos.</p><p class="artefato-desc" style="margin-top:12px; background:#fff3e0; border-left: 3px solid #e85d2a; padding: 10px 14px; border-radius: 6px;">📦 <strong>No dia 22/03, leva a sua Caixa do Profeta para a igreja.</strong> No culto, você vai escolher o artefato que mais fala com a sua história e contar em uma frase por que escolheu ele. Cada objeto que você guardou esta semana conta um pedaço da jornada de Elias. E da sua. A missão continua em você.</p>
+                    </div>
+                </div>
+                <div id="tenta-novamente" style="display:none; background:#ffe0e0; border:2px solid #d63031; padding:16px; border-radius:12px; text-align:center; margin-top:18px;">
+                    <p style="color:#d63031; font-weight:bold; font-size:15px;">Ops! Resposta errada!</p>
+                    <p style="color:#555; margin:8px 0; font-size:13px;">Releia a passagem e tente novamente!</p>
+                </div>
+            </div>
+
+            <script>
+                let acertos = 0;
+                const totalPerguntas = 3;
+                function responder(num, btn, correta) {
+                    const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+                    const feedback = document.getElementById('f' + num);
+                    buttons.forEach(b => b.disabled = true);
+                    if (correta) {
+                        btn.classList.add('correta');
+                        feedback.style.color = '#1a7a3c';
+                        feedback.textContent = '✅ Correto! Muito bem, UP!';
+                        acertos++;
+                        setTimeout(() => {
+                            if (num < totalPerguntas) {
+                                document.getElementById('q' + num).style.opacity = '0.6';
+                                document.getElementById('q' + (num + 1)).style.display = 'block';
+                                document.getElementById('q' + (num + 1)).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            } else {
+                                document.getElementById('artefato-revelado').style.display = 'block';
+                                document.getElementById('artefato-revelado').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }, 900);
+                    } else {
+                        btn.classList.add('errada');
+                        feedback.style.color = '#d63031';
+                        feedback.textContent = 'Não é essa! Releia a passagem...';
+                        setTimeout(() => {
+                            buttons.forEach(b => { b.disabled = false; b.classList.remove('errada'); });
+                            feedback.textContent = '';
+                        }, 1500);
+                    }
+                }
+            </script>
+
+            <hr>
+
+            <div class="nav-buttons">
+                <a href="eliasdia05.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+                <div class="nav-btn nav-btn-next" style="opacity:0.7;cursor:not-allowed;background:linear-gradient(135deg,#43e97b,#38f9d7);">🎉 Desafio Concluído!</div>
+            </div>
+
+            <div style="text-align:center; margin-top:22px;">
+                <a href="../index.html" style="color:#1a3a5c; font-size:13px; text-decoration:none;">← Voltar para o início</a>
+            </div>
+
+            <div class="rodape">
+                <p><span class="rodape-destaque">Central UP</span> - IEQ Central</p>
+                <p style="margin-top:7px;">Desenvolvido por <span class="rodape-destaque">Pr. Eduardo</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const abertura   = new Date('2026-03-21T00:00:00');
+        const fechamento = new Date('2026-03-22T11:59:59');
+        const liberacaoFinal = new Date('2026-03-22T00:00:00');
+        const agora = new Date();
+        const bloqueio = document.getElementById('bloqueio');
+        const conteudo = document.getElementById('conteudo');
+        const msgBloqueio = document.getElementById('msg-bloqueio');
+        const msgSub = document.getElementById('msg-sub');
+
+        function fmt(d) {
+            return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) +
+                   ' às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        if (agora >= liberacaoFinal || (agora >= abertura && agora <= fechamento)) {
+            bloqueio.style.display = 'none';
+            conteudo.style.display = 'block';
+        } else if (agora < abertura) {
+            msgBloqueio.textContent = 'Ei, você está adiantado! 😄';
+            msgSub.innerHTML = 'Este devocional abre no dia <strong>' + fmt(abertura) + '</strong>.<br>Fique ligado, volte no horário certo!';
+        } else {
+            msgBloqueio.textContent = 'Você perdeu o horário deste dia... 😔';
+            msgSub.innerHTML = 'Este devocional encerrou em <strong>' + fmt(fechamento) + '</strong>.<br>Mas não desanima! Os próximos dias ainda estão por vir.<br>A partir de <strong>22/03</strong> todos os dias ficam abertos!';
+        }
+    </script>
+
+    <script>
+        function abrirAdmin() {
+            const senha = prompt('🔒 Senha de supervisão:');
+            if (senha === 'admin') {
+                document.getElementById('bloqueio').style.display = 'none';
+                document.getElementById('conteudo').style.display = 'block';
+            } else if (senha !== null) {
+                alert('Senha incorreta.');
+            }
+        }
+    </script>
+    <div style="position:fixed; bottom:16px; right:16px; z-index:10000;">
+        <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.35);border:1.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;" title="Supervisão">🔒</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 3 — O Confronto no Portão | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #020617;
+            min-height: 100vh; padding: 20px;
+            background-image:
+                radial-gradient(ellipse at top left, #1e1b4b 0%, transparent 55%),
+                radial-gradient(ellipse at bottom right, #0f172a 0%, transparent 55%),
+                radial-gradient(ellipse at center, #020617 0%, transparent 70%);
+        }
+
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: #020617;
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .cb { text-align: center; color: #94a3b8; padding: 40px; max-width: 600px; }
+        #conteudo { display: none; }
+
+        .container {
+            max-width: 780px; margin: 0 auto;
+            background: linear-gradient(160deg, #0f172a 0%, #020617 35%, #1e293b 65%, #020617 100%);
+            border-radius: 2px;
+            padding: 52px 48px;
+            box-shadow:
+                0 0 0 1px rgba(148,163,184,0.2),
+                0 0 0 4px rgba(30,41,59,0.2),
+                0 30px 100px rgba(0,0,0,0.9),
+                inset 0 0 120px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                repeating-linear-gradient(
+                    0deg, transparent, transparent 31px,
+                    rgba(148,163,184,0.02) 31px, rgba(148,163,184,0.02) 32px
+                );
+            pointer-events: none; z-index: 0;
+        }
+
+        .margem-esq {
+            position: absolute; top: 0; left: 52px; bottom: 0;
+            width: 1px; background: rgba(148,163,184,0.07);
+            z-index: 0; pointer-events: none;
+        }
+
+        .borda-topo {
+            position: relative; z-index: 1;
+            padding: 10px 0; margin-bottom: 30px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            border-top: 1px solid rgba(148,163,184,0.3);
+            border-bottom: 1px solid rgba(148,163,184,0.1);
+        }
+        .borda-topo::before { content: '❧'; color: rgba(148,163,184,0.3); font-size: 16px; }
+        .borda-topo::after  { content: '❧'; color: rgba(148,163,184,0.3); font-size: 16px; transform: scaleX(-1); display: inline-block; }
+        .borda-topo span { font-size: 9px; color: rgba(148,163,184,0.35); letter-spacing: 4px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; }
+
+        .logo-topo { text-align: center; margin-bottom: 18px; position: relative; z-index: 1; }
+        .logo-topo img { max-width: 150px; filter: grayscale(1) brightness(1.8); }
+
+        .serie-label { font-size: 9px; color: rgba(148,163,184,0.45); font-weight: bold; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 6px; text-align: center; font-family: 'Segoe UI', sans-serif; position: relative; z-index: 1; }
+        .dia-badge { display: block; text-align: center; font-family: 'Georgia', serif; font-size: 12px; color: rgba(148,163,184,0.5); letter-spacing: 2px; margin-bottom: 18px; position: relative; z-index: 1; }
+
+        h1 { color: #f8fafc; font-size: 25px; margin-bottom: 6px; line-height: 1.35; text-align: center; font-family: 'Georgia', serif; font-weight: normal; text-shadow: 0 2px 16px rgba(0,0,0,0.6); position: relative; z-index: 1; }
+        .subtitle { color: rgba(148,163,184,0.45); font-size: 13px; margin-bottom: 26px; text-align: center; font-style: italic; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+
+        .progresso { background: rgba(0,0,0,0.3); padding: 12px 16px; margin: 18px 0; border: 1px solid rgba(148,163,184,0.1); position: relative; z-index: 1; }
+        .progresso-titulo { color: rgba(148,163,184,0.4); font-weight: bold; margin-bottom: 8px; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; text-align: center; }
+        .progresso-bar { background: rgba(0,0,0,0.4); height: 14px; border: 1px solid rgba(148,163,184,0.08); }
+        .progresso-fill { background: linear-gradient(90deg, #1e1b4b, #334155, #64748b); height: 100%; width: 50%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.8); font-weight: bold; font-size: 9px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; }
+
+        .divisor { border: none; margin: 26px 0; position: relative; z-index: 1; text-align: center; }
+        .divisor::before { content: '· · ·'; color: rgba(148,163,184,0.2); font-size: 16px; letter-spacing: 8px; }
+
+        .chegou-agora { background: rgba(0,0,0,0.2); border-left: 2px solid rgba(56,189,248,0.3); padding: 12px 16px; margin-bottom: 26px; position: relative; z-index: 1; }
+        .ca-label { font-size: 9px; color: rgba(148,163,184,0.4); letter-spacing: 3px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; margin-bottom: 7px; display: block; }
+        .chegou-agora p { font-size: 13px; color: rgba(148,163,184,0.55); line-height: 1.8; font-family: 'Segoe UI', sans-serif; font-style: italic; }
+
+        .narrativa { font-size: 16px; line-height: 2.1; color: #cbd5e1; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+        .narrativa p { margin: 14px 0; }
+        .narrativa .destaque { color: #38bdf8; font-weight: bold; }
+        .narrativa .dialogo { background: rgba(0,0,0,0.18); border-left: 2px solid rgba(56,189,248,0.2); padding: 12px 18px; margin: 16px 0; font-style: italic; color: rgba(148,163,184,0.65); line-height: 2.1; }
+
+        /* GAME: O PORTÃO DE JAFA */
+        .game-box {
+            background: linear-gradient(135deg, #020617, #0f172a);
+            border: 1px solid rgba(56,189,248,0.2);
+            border-top: 3px solid rgba(56,189,248,0.4);
+            padding: 28px;
+            margin: 28px 0;
+            position: relative;
+            z-index: 1;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+        }
+        .game-titulo { color: #38bdf8; font-size: 14px; font-weight: bold; margin-bottom: 6px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; text-transform: uppercase; text-align: center; }
+        
+        .tension-meter {
+            height: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .tension-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #38bdf8, #ef4444);
+            transition: width 0.5s ease;
+        }
+        .tension-label {
+            font-size: 10px;
+            color: rgba(148,163,184,0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .game-scene {
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .game-text { color: #94a3b8; font-size: 14px; font-family: 'Georgia', serif; font-style: italic; line-height: 1.6; }
+
+        .game-options { display: grid; gap: 10px; }
+        .game-btn {
+            background: rgba(30,41,59,0.4);
+            border: 1px solid rgba(148,163,184,0.2);
+            padding: 14px;
+            color: #cbd5e1;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 4px;
+            text-align: left;
+        }
+        .game-btn:hover { background: rgba(56,189,248,0.1); border-color: #38bdf8; }
+        .game-btn:disabled { opacity: 0.5; cursor: default; }
+
+        .next-btn {
+            background: #38bdf8;
+            color: #020617;
+            border: none;
+            padding: 12px 24px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-top: 15px;
+            font-family: 'Segoe UI', sans-serif;
+            letter-spacing: 1px;
+            display: none;
+            width: 100%;
+        }
+
+        .result-screen { display: none; text-align: center; animation: aparecer 0.5s ease; }
+        .result-msg { font-size: 18px; color: #f8fafc; margin-bottom: 10px; }
+        .retry-btn { background: #38bdf8; color: #020617; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; margin-top: 10px; }
+
+        /* ENSINAMENTO */
+        .ensinamento-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(148,163,184,0.15); border-top: 2px solid rgba(56,189,248,0.3); padding: 24px; margin: 28px 0; position: relative; z-index: 1; }
+        .ens-pre { font-size: 9px; color: rgba(148,163,184,0.4); font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; font-family: 'Segoe UI', sans-serif; }
+        .ens-frase { font-size: 16px; font-style: italic; color: #7dd3fc; line-height: 1.9; margin-bottom: 10px; font-weight: normal; }
+        .versic { border-left: 2px solid rgba(56,189,248,0.2); padding: 8px 14px; margin: 10px 0; font-style: italic; color: rgba(148,163,184,0.45); font-size: 12px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; }
+        .ens-texto { font-size: 14px; color: #94a3b8; line-height: 1.95; font-family: 'Segoe UI', sans-serif; }
+
+        .oracao-box { background: rgba(0,0,0,0.15); border: 1px solid rgba(148,163,184,0.1); padding: 20px 24px; margin: 20px 0; font-style: italic; color: rgba(148,163,184,0.55); line-height: 2; font-size: 15px; text-align: center; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+
+        .gancho-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(148,163,184,0.2); padding: 26px; margin: 28px 0; text-align: center; position: relative; z-index: 1; }
+        .gancho-label { font-size: 9px; color: rgba(148,163,184,0.4); font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; font-family: 'Segoe UI', sans-serif; }
+        .gancho-emoji { font-size: 30px; display: block; margin-bottom: 14px; animation: pulsar 2.5s infinite; }
+        .gancho-texto { font-size: 15px; color: #94a3b8; line-height: 2; font-style: italic; font-family: 'Georgia', serif; }
+        .gancho-destaque { color: #38bdf8; font-style: normal; font-weight: bold; display: block; margin-top: 12px; letter-spacing: 1px; }
+
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 32px; gap: 12px; position: relative; z-index: 1; }
+        .nav-btn { flex: 1; padding: 13px 20px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.25s; font-size: 12px; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', sans-serif; letter-spacing: 2px; text-transform: uppercase; }
+        .nav-btn-prev { background: rgba(0,0,0,0.25); color: rgba(148,163,184,0.4); border: 1px solid rgba(148,163,184,0.15); }
+        .nav-btn-prev:hover { color: #cbd5e1; background: rgba(0,0,0,0.4); }
+        .nav-btn-next { background: linear-gradient(135deg, #1e1b4b, #312e81); color: #f8fafc; border: 1px solid rgba(56,189,248,0.2); }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
+
+        .rodape { text-align: center; margin-top: 18px; color: rgba(148,163,184,0.2); font-size: 11px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; position: relative; z-index: 1; }
+        .rodape span { color: #38bdf8; }
+
+        @keyframes aparecer { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulsar   { 0%,100%{transform:scale(1)} 50%{transform:scale(1.07)} }
+
+        @media (max-width: 600px) {
+            .container { padding: 28px 18px; }
+            h1 { font-size: 20px; }
+            .narrativa { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="bloqueio">
+    <div class="cb">
+        <!-- Ajustado para subir um nível e achar o logo na raiz -->
+        <img src="../logoup.png" alt="Central UP" style="max-width:200px; filter:grayscale(1) brightness(1.5);">
+        <p>Chegando no portão...</p>
+    </div>
+</div>
+
+<div id="conteudo">
+<div class="container">
+    <div class="margem-esq"></div>
+
+    <div class="borda-topo"><span>O Confronto no Portão</span></div>
+
+    <!-- Ajustado para subir um nível e achar o logo na raiz -->
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    <div class="serie-label">📖 Semana 2 — A História Continua</div>
+    <div class="dia-badge">✦ &nbsp; Dia 3 de 6 &nbsp; ✦</div>
+
+    <h1>O Confronto no Portão</h1>
+    <p class="subtitle">O ar da noite estava gelado, mas o suor no meu rosto era de tensão.</p>
+
+    <div class="progresso">
+        <div class="progresso-titulo">✦ Progresso da semana</div>
+        <div class="progresso-bar"><div class="progresso-fill">50%</div></div>
+    </div>
+
+    <div class="chegou-agora">
+        <span class="ca-label">✦ Relembrando o Dia Anterior</span>
+        <p>O Médico e o jovem Levi encontraram Pedro escondido na casa de Maria. Enquanto os soldados faziam buscas na vizinhança, o Médico cuidou dos ferimentos de Pedro. Levi bolou um plano arriscado: usar a influência do Médico para passar pelos guardas e tirar Pedro de Jerusalém.</p>
+    </div>
+
+    <div class="divisor"></div>
+
+    <div class="narrativa">
+        <p>Chegamos perto do Portão de Jafa. O barulho das botas dos soldados romanos batendo no chão de pedra parecia marteladas no meu peito. Pedro caminhava entre eu e João Marcos, com o capuz da túnica cobrindo bem os olhos. Levi ia uns metros na frente, fingindo ser apenas um carregador d'água voltando para casa.</p>
+        <p>Meu coração batia tão forte que parecia que ia pular fora. Eu sentia o rolo de papiro escondido na minha manga. Eram minhas notas, o começo de uma história que eu sentia que mudaria o mundo.</p>
+        
+        <div class="dialogo">
+            <strong style="color:#7dd3fc;">Narrador (Eu):</strong> "Fica de cabeça baixa, Pedro. Se eles te virem agora, nossa jornada acaba aqui."<br><br>
+            <strong style="color:#7dd3fc;">João Marcos:</strong> "Doutor, você se preocupa demais. Deixa com a gente. O Levi conhece o centurião que está de plantão hoje."
+        </div>
+
+        <p>De repente, Levi parou. Um centurião romano bloqueou nosso caminho com uma lança.</p>
+    </div>
+
+    <!-- Ajustado para subir um nível e achar a imagem na pasta levi/ -->
+    <img src="../levi/atos3011.png" alt="Desenho em tinta preta e branca de um confronto tenso no portão de Jafa em Jerusalém." style="width:100%; margin:20px 0; display:block; border:1px solid rgba(148,163,184,0.12);" onerror="this.style.display='none'">
+
+    <div class="divisor"></div>
+
+    <!-- GAME: O PORTÃO DE JAFA -->
+    <div class="game-box" id="gate-game">
+        <div class="game-titulo">🎮 Missão: Passar pelo Portão</div>
+        
+        <div class="tension-label">
+            <span>Calma</span>
+            <span>Alerta dos Romanos</span>
+        </div>
+        <div class="tension-meter">
+            <div class="tension-fill" id="tension-fill"></div>
+        </div>
+
+        <div class="game-scene" id="game-scene">
+            <p class="game-text" id="game-text">O Centurião olha bem para vocês. "Identifiquem-se! O que fazem na rua a essa hora da noite?"</p>
+        </div>
+
+        <div class="game-options" id="game-options">
+            <!-- As opções entram via JS -->
+        </div>
+
+        <button class="next-btn" id="next-question-btn" onclick="advanceStep()">Próxima Pergunta</button>
+
+        <div class="result-screen" id="result-screen">
+            <p class="result-msg" id="result-msg"></p>
+            <p class="game-text" id="result-subtext"></p>
+            <button class="retry-btn" onclick="resetGame()">Tentar de Novo</button>
+        </div>
+
+        <div class="result-screen" id="success-screen">
+            <p class="result-msg" style="color:#38bdf8;">Conseguimos!</p>
+            <p class="game-text">Passamos pelos romanos sem levantar suspeitas. Agora o caminho está livre na escuridão fora dos muros.</p>
+        </div>
+    </div>
+
+    <div class="divisor ornamental"></div>
+
+    <div class="narrativa">
+        <p>Depois de alguns segundos de puro silêncio, o portão pesado abriu com um rangido. As sombras nos engoliram assim que saímos de Jerusalém. Estávamos livres, mas Pedro continuava em silêncio.</p>
+        <div class="dialogo">
+            <strong style="color:#7dd3fc;">Pedro:</strong> "Vocês acham que isso acabou, não é? Que sair da cidade é o fim. Mas olhem para trás."
+        </div>
+        <p>Eu olhei. Jerusalém brilhava lá longe sob as estrelas. Percebi que Pedro tinha razão. Eu não estava fugindo de nada. Eu estava sendo enviado para algo maior. Minhas notas no papiro ainda eram poucas, mas eu sentia que a tinta dessa história ainda estava fresca.</p>
+        <div class="pensamento">"Este não é o último capítulo. É apenas o começo de um livro que nunca vai acabar enquanto houver alguém disposto a caminhar com Jesus."</div>
+    </div>
+
+    <div class="divisor"></div>
+
+    <!-- ENSINAMENTO -->
+    <div class="ensinamento-box">
+        <div class="ens-pre">✦ Uma história sem ponto final</div>
+        <div class="ens-frase">"E os discípulos iam por toda parte, anunciando a mensagem..."</div>
+        <div class="versic">— Um registro antigo</div>
+        <div class="ens-texto">
+            Você já percebeu que existem histórias que parecem parar no meio de um parágrafo? Não é porque o autor esqueceu de escrever, mas porque ele queria que <strong>você</strong> continuasse.<br><br>
+            A missão de Deus não terminou quando os muros de Jerusalém ficaram para trás. Ela continuou na estrada, nas casas e no coração de cada pessoa que escolheu seguir o Caminho. A história que eu (o Médico) estou começando a escrever nessas notas não tem um "Fim".<br><br>
+            <strong>Deus ainda está agindo hoje: através do Levi, através de mim e, principalmente, através de você. Você é a continuação dessa aventura.</strong>
+        </div>
+    </div>
+
+    <div class="oracao-box">
+        "Senhor, que a minha vida seja um capítulo que vale a pena ser lido. Amém."
+    </div>
+
+    <!-- GANCHO -->
+    <div class="gancho-box">
+        <div class="gancho-label">✦ Amanhã na história</div>
+        <span class="gancho-emoji">📜</span>
+        <div class="gancho-texto">
+            Chegamos em um lugar seguro, mas as notícias correm rápido.<br><br>
+            Alguém está procurando por nós.<br>
+            E não são os romanos.<br><br>
+            <em>O Médico finalmente vai abrir seu papiro para revelar os segredos do passado.</em>
+            <span class="gancho-destaque">Amanhã: O Rolo de Papiro.</span>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="atos_dia2.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+        <a href="atos_dia4.html" class="nav-btn nav-btn-next" id="next-day-btn" style="opacity:0.3; pointer-events:none;">Próximo Dia →</a>
+    </div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:5px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+</div>
+</div>
+
+<script>
+    // LÓGICA DO GAME
+    let currentStep = 0;
+    let tension = 0;
+
+    const gameSteps = [
+        {
+            text: "O Centurião olha fixamente para vocês. 'Identifiquem-se! O que fazem na rua a essa hora?'",
+            options: [
+                { label: "Manter a calma e dizer que é um Médico Grego.", tension: 10, feedback: "O Centurião respeita sua roupa de médico, mas fica de olho no seu sotaque." },
+                { label: "Deixar o Levi falar primeiro (ele conhece os guardas).", tension: 0, feedback: "Levi faz uma piada e o guarda dá uma risada. Eles relaxam um pouco." },
+                { label: "Ficar em silêncio e apontar para Pedro (fingindo que ele é mudo).", tension: 30, feedback: "O silêncio deixa o guarda desconfiado. Ele te encara feio." }
+            ]
+        },
+        {
+            text: "O guarda aponta para Pedro, que está com o rosto escondido. 'Quem é esse aí? Mostre o rosto!'",
+            options: [
+                { label: "Dizer que ele está com uma febre perigosa e contagiosa.", tension: 15, feedback: "O guarda dá um passo para trás com medo de pegar a doença, mas ainda desconfia." },
+                { label: "Levi 'deixa cair' uma jarra no chão para fazer barulho.", tension: 10, feedback: "O barulho assusta os guardas e tira o foco de Pedro por um segundo." },
+                { label: "João Marcos tenta puxar Pedro para trás das sombras.", tension: 40, feedback: "Movimento brusco! Os guardas colocam a mão na espada na hora." }
+            ]
+        },
+        {
+            text: "Uma patrulha vem vindo com tochas. O tempo está acabando. O guarda pede para ver o que você tem na manga.",
+            options: [
+                { label: "Entregar o papiro dizendo que é uma receita médica.", tension: 20, feedback: "Ele não sabe ler grego, então finge que entendeu tudo." },
+                { label: "Levi oferece um pouco da água fresca que sobrou.", tension: 5, feedback: "A sede fala mais alto. O guarda esquece do papiro por um momento." },
+                { label: "João Marcos assobia alto para avisar do perigo.", tension: 50, feedback: "Péssima ideia! Todos os guardas olham para vocês agora." }
+            ]
+        }
+    ];
+
+    function updateGame() {
+        const fill = document.getElementById('tension-fill');
+        fill.style.width = tension + "%";
+
+        if (tension >= 100) {
+            endGame(false);
+            return;
+        }
+
+        if (currentStep >= gameSteps.length) {
+            endGame(true);
+            return;
+        }
+
+        const step = gameSteps[currentStep];
+        document.getElementById('game-text').textContent = step.text;
+        
+        const optionsDiv = document.getElementById('game-options');
+        optionsDiv.innerHTML = '';
+        
+        document.getElementById('next-question-btn').style.display = 'none';
+
+        step.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'game-btn';
+            btn.textContent = opt.label;
+            btn.onclick = () => {
+                tension += opt.tension;
+                document.getElementById('game-text').textContent = opt.feedback;
+                optionsDiv.innerHTML = '';
+                document.getElementById('next-question-btn').style.display = 'block';
+                document.getElementById('tension-fill').style.width = tension + "%";
+                
+                if (tension >= 100) {
+                    document.getElementById('next-question-btn').textContent = "Ver Resultado";
+                }
+            };
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    function advanceStep() {
+        currentStep++;
+        updateGame();
+    }
+
+    function endGame(success) {
+        document.getElementById('game-scene').style.display = 'none';
+        document.getElementById('game-options').style.display = 'none';
+        document.getElementById('next-question-btn').style.display = 'none';
+        
+        if (success) {
+            document.getElementById('success-screen').style.display = 'block';
+            document.getElementById('next-day-btn').style.opacity = '1';
+            document.getElementById('next-day-btn').style.pointerEvents = 'auto';
+        } else {
+            document.getElementById('result-screen').style.display = 'block';
+            document.getElementById('result-msg').textContent = "Vocês foram pegos!";
+            document.getElementById('result-msg').style.color = "#ef4444";
+            document.getElementById('result-subtext').textContent = "A tensão subiu demais e os guardas revistaram o grupo. Pedro foi levado preso e você também. Tente manter a calma na próxima vez.";
+        }
+    }
+
+    function resetGame() {
+        currentStep = 0;
+        tension = 0;
+        document.getElementById('game-scene').style.display = 'flex';
+        document.getElementById('game-options').style.display = 'grid';
+        document.getElementById('result-screen').style.display = 'none';
+        document.getElementById('success-screen').style.display = 'none';
+        document.getElementById('next-question-btn').textContent = "Próxima Pergunta";
+        updateGame();
+    }
+
+    window.onload = function() {
+        document.getElementById('bloqueio').style.display = 'none';
+        document.getElementById('conteudo').style.display = 'block';
+        updateGame();
+    }
+
+    function abrirAdmin() {
+        const s = prompt('🔒 Senha:');
+        if (s === 'admin') {
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        } else if (s !== null) alert('Senha incorreta.');
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.4);border:1.5px solid rgba(148,163,184,0.2);color:rgba(148,163,184,0.3);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button>
+</div>
+
+</body>
+</html>

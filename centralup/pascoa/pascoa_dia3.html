@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 3 — O Dia que Ninguém Registrou | Semana da Páscoa Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #3b0764 0%, #6b21a8 60%, #d4a843 100%); min-height: 100vh; padding: 20px; }
+        #bloqueio { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: linear-gradient(135deg, #3b0764 0%, #6b21a8 60%, #d4a843 100%); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        #bloqueio .conteudo-bloqueio { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 240px; margin-bottom: 25px; }
+        #bloqueio h1 { font-size: 38px; margin-bottom: 18px; }
+        #bloqueio p { font-size: 18px; line-height: 1.8; color: rgba(255,255,255,0.85); }
+        #conteudo { display: none; }
+        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.4); }
+        .logo-topo { text-align: center; margin-bottom: 28px; }
+        .logo-topo img { max-width: 200px; }
+        .dia-badge { display: inline-block; background: linear-gradient(135deg, #6b21a8, #d4a843); color: white; padding: 9px 22px; border-radius: 25px; font-weight: bold; margin-bottom: 18px; font-size: 13px; letter-spacing: 1px; }
+        .serie-label { font-size: 12px; color: #9333ea; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        h1 { color: #3b0764; font-size: 32px; margin-bottom: 10px; line-height: 1.2; }
+        .subtitle { color: #9333ea; font-size: 16px; margin-bottom: 28px; font-weight: 600; }
+        .progresso { background: #f5f0ff; padding: 18px; border-radius: 12px; margin: 28px 0; text-align: center; }
+        .progresso-titulo { color: #3b0764; font-weight: bold; margin-bottom: 12px; font-size: 13px; }
+        .progresso-bar { background: #e8d5ff; height: 22px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill { background: linear-gradient(135deg, #6b21a8, #d4a843); height: 100%; width: 42%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px; }
+        h2 { color: white; background: linear-gradient(135deg, #3b0764, #6b21a8); padding: 12px 20px; border-radius: 12px; font-size: 17px; margin: 26px 0 16px 0; }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 13px 0; }
+        mark { background: #d4a843; padding: 2px 6px; border-radius: 3px; font-weight: 600; color: #1a0a00; }
+        hr { border: none; border-top: 2px dashed #e8d5ff; margin: 26px 0; }
+        .oracao-box { background: linear-gradient(135deg, #f5f0ff, #ede5ff); border-left: 5px solid #6b21a8; padding: 22px; border-radius: 0 14px 14px 0; font-style: italic; color: #3b0764; line-height: 2; }
+        .quiz-container { background: #f5f0ff; border: 2px solid #6b21a822; border-radius: 20px; padding: 28px; margin: 30px 0; }
+        .pergunta-texto { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 14px; line-height: 1.5; }
+        .alternativas { display: flex; flex-direction: column; gap: 10px; }
+        .alt-btn { background: white; border: 2px solid #6b21a844; padding: 12px 16px; border-radius: 12px; font-size: 14px; cursor: pointer; text-align: left; transition: all 0.2s; color: #333; font-family: inherit; line-height: 1.4; }
+        .alt-btn:hover { background: #f0e8ff; border-color: #6b21a8; transform: translateX(4px); }
+        .alt-btn.correta { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+        .alt-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+        .alt-btn:disabled { cursor: not-allowed; transform: none; }
+        .feedback { margin-top: 10px; font-size: 14px; font-weight: bold; min-height: 22px; }
+        .familia-box { background: linear-gradient(135deg, #3b0764, #6b21a8); border-radius: 20px; padding: 28px; margin: 28px 0; color: white; animation: aparecer 0.8s ease; }
+        .fam-titulo { font-size: 20px; font-weight: bold; color: #d4a843; margin-bottom: 6px; }
+        .fam-sub { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 18px; }
+        .fam-acao { background: linear-gradient(135deg, #d4a843, #c17f3a); border-radius: 14px; padding: 16px 20px; margin: 12px 0; font-size: 14px; line-height: 1.7; color: white; }
+        .fam-acao strong { display: block; margin-bottom: 6px; font-size: 15px; }
+
+        /* ROLETA */
+        .roleta-wrap { text-align: center; margin: 16px 0; }
+        #canvas-roleta3 { border-radius: 50%; display: block; margin: 0 auto; box-shadow: 0 0 30px rgba(107,33,168,0.3); }
+        #btn-girar3 { background: linear-gradient(135deg, #6b21a8, #d4a843); color: white; border: none; padding: 12px 28px; border-radius: 12px; font-size: 15px; font-weight: bold; cursor: pointer; margin: 12px auto 0; display: block; font-family: inherit; }
+        #btn-girar3:disabled { opacity: 0.4; cursor: not-allowed; }
+        #resultado-roleta { text-align: center; margin: 12px 0; font-size: 16px; font-weight: bold; color: #d4a843; min-height: 28px; }
+        .tema-revelado { background: rgba(255,255,255,0.15); border-radius: 14px; padding: 16px 20px; margin: 12px 0; font-size: 16px; line-height: 1.7; display: none; animation: aparecer 0.5s ease; }
+
+        @keyframes aparecer { from { opacity:0; transform: scale(0.95); } to { opacity:1; transform: scale(1); } }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 38px; gap: 14px; }
+        .nav-btn { flex: 1; padding: 14px 22px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.3s; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .nav-btn-prev { background: #e8d5ff; color: #3b0764; }
+        .nav-btn-prev:hover { background: #d8c5f0; transform: translateY(-2px); }
+        .nav-btn-next { background: linear-gradient(135deg, #6b21a8, #d4a843); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #6b21a866; }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #e8d5ff; color: #999; font-size: 12px; }
+        .rodape span { color: #6b21a8; font-weight: bold; }
+        @media (max-width: 600px) { .container { padding: 22px 16px; border-radius: 18px; } h1 { font-size: 24px; } h2 { font-size: 15px; } p { font-size: 14px; } #canvas-roleta3 { width: 220px !important; height: 220px !important; } }
+    </style>
+</head>
+<body>
+<div id="bloqueio">
+    <div class="conteudo-bloqueio">
+        <img src="../logoup.png" alt="Central UP">
+        <h1>✝️</h1>
+        <p id="msg-bloqueio">Este devocional abre na quarta-feira!</p>
+        <p style="margin-top:14px;font-size:15px;" id="msg-sub"></p>
+    </div>
+</div>
+<div id="conteudo">
+<div class="container">
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+
+    <div class="serie-label">✝️ Semana da Páscoa — Central UP</div>
+    <div class="dia-badge">📅 QUARTA-FEIRA · 01/04</div>
+    <h1>🤫 O Dia que Ninguém Registrou</h1>
+    <p class="subtitle">O descanso também é sagrado</p>
+    <div class="progresso">
+        <div class="progresso-titulo">SEMANA DA PÁSCOA — DIA 3 DE 7</div>
+        <div class="progresso-bar"><div class="progresso-fill">42%</div></div>
+    </div>
+    <div style="background:linear-gradient(135deg,#3b0764,#6b21a8);border-radius:16px;padding:16px 20px;margin:0 0 22px 0;text-align:center;">
+        <p style="color:#d4a843;font-size:13px;font-weight:bold;letter-spacing:1px;margin:0 0 8px 0;">✝️ Estamos na Semana da Páscoa</p>
+        <p style="color:rgba(255,255,255,0.85);font-size:15px;margin:0;line-height:1.8;">Numa semana como esta, numa <strong style="color:white;">quarta-feira</strong>, faltava apenas <strong style="color:white;">1 dia</strong> para a crucificação. Os evangelhos não registram nada desse dia. Jesus descansou.</p>
+    </div>
+
+    <hr>
+    <h2>📖 O DIA DO SILÊNCIO</h2>
+    <p>Você abriu a Bíblia hoje e foi procurar o que Jesus fez nessa quarta-feira. E não encontrou nada.</p>
+    <p>Não é engano. Os quatro evangelhos simplesmente não registram nenhum evento para esse dia. Jesus provavelmente estava em Betânia, na casa de Marta, Maria e Lázaro. Descansando.</p>
+    <p>Nenhum milagre registrado. Nenhum debate. Nenhum ensinamento. Um dia comum.</p>
+    <div style="background:#f5f0ff; border-left:5px solid #6b21a8; border-radius:0 14px 14px 0; padding:20px 24px; margin:16px 0;">
+        <p style="font-style:italic; color:#3b0764; margin:0; font-size:15px;">E Deus achou esse dia tão importante que deixou registrado justamente o seu silêncio.</p>
+    </div>
+
+    <hr>
+    <h2>🔍 O QUE ISSO FALA COM VOCÊ</h2>
+    <p>Jesus sabia o que vinha. A traição, o julgamento, a cruz. E ele não passou esse dia antes de tudo isso correndo, pregando, fazendo milagres.</p>
+    <p>Ele descansou. Ficou com as pessoas que amava. Respirou.</p>
+    <p><mark>Descanso não é preguiça. É preparo.</mark></p>
+    <p>São nos dias quietos, sem grandes eventos, que muitas vezes a gente recarrega as baterias com Deus. Não porque estamos ociosos, mas porque estamos presentes. Com Ele, com as pessoas, com a gente mesmo.</p>
+    <p>Quando foi a última vez que você teve um dia assim?</p>
+
+    <hr>
+    <h2>✝️ PARA PENSAR</h2>
+    <div style="background:#f5f0ff; border-left:5px solid #6b21a8; border-radius:0 14px 14px 0; padding:20px 24px; margin:16px 0;">
+        <p style="font-style:italic; color:#3b0764; margin:0;">Jesus era Deus. E precisou descansar. Se Ele precisou, você também precisa. E Deus está nos seus dias quietos tanto quanto está nos milagres e nas tempestades.</p>
+    </div>
+
+    <hr>
+    <h2>🙏 ORAÇÃO DO DIA</h2>
+    <div class="oracao-box">"Senhor, me ensina a estar presente nos dias quietos. Que eu encontre você não só nas grandes coisas, mas também no silêncio e no descanso. Amém."</div>
+    <hr>
+
+    <div class="quiz-container">
+        <h2 style="background:linear-gradient(135deg,#3b0764,#6b21a8);color:white;padding:12px 18px;border-radius:12px;font-size:17px;margin:0 0 14px 0;">🧠 QUIZ DO DIA</h2>
+        <p style="color:#555;margin-bottom:18px;font-size:14px;">Responda as 3 perguntas para liberar o <strong>Desafio em Família</strong>! 🏠</p>
+        <div class="pergunta" id="q1">
+            <p class="pergunta-texto">1. O que os evangelhos registram sobre a quarta-feira da Semana Santa?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(1,this,false)">A) Jesus fez o maior milagre da semana</button>
+                <button class="alt-btn" onclick="responder(1,this,false)">B) Jesus debateu com os fariseus o dia todo</button>
+                <button class="alt-btn" onclick="responder(1,this,true)">C) Nenhum evento foi registrado — foi um dia de descanso</button>
+                <button class="alt-btn" onclick="responder(1,this,false)">D) Jesus viajou para outra cidade pregar</button>
+            </div>
+            <div class="feedback" id="f1"></div>
+        </div>
+        <div class="pergunta" id="q2" style="display:none;">
+            <p class="pergunta-texto">2. O que o devocional diz sobre descanso?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(2,this,false)">A) Que descanso é sinal de falta de fé</button>
+                <button class="alt-btn" onclick="responder(2,this,false)">B) Que apenas os não crentes precisam descansar</button>
+                <button class="alt-btn" onclick="responder(2,this,true)">C) Que descanso não é preguiça, é preparo</button>
+                <button class="alt-btn" onclick="responder(2,this,false)">D) Que Jesus nunca descansou durante o ministério</button>
+            </div>
+            <div class="feedback" id="f2"></div>
+        </div>
+        <div class="pergunta" id="q3" style="display:none;">
+            <p class="pergunta-texto">3. Onde Jesus provavelmente estava nesse dia de descanso?</p>
+            <div class="alternativas">
+                <button class="alt-btn" onclick="responder(3,this,false)">A) No Templo de Jerusalém sozinho</button>
+                <button class="alt-btn" onclick="responder(3,this,true)">B) Em Betânia, com as pessoas que amava</button>
+                <button class="alt-btn" onclick="responder(3,this,false)">C) No Monte das Oliveiras orando a noite toda</button>
+                <button class="alt-btn" onclick="responder(3,this,false)">D) No rio Jordão sendo batizado</button>
+            </div>
+            <div class="feedback" id="f3"></div>
+        </div>
+        <div id="familia-revelado" style="display:none;">
+            <div class="familia-box">
+                <div class="fam-titulo">🏠 Desafio em Família — Dia 3</div>
+                <div class="fam-sub">Hoje o desafio é simples. E poderoso.</div>
+                <div class="fam-acao">
+                    <strong>🎯 A missão de hoje:</strong>
+                    Reúne a família por 10 minutos. Sem celular, sem TV, sem tela. Só vocês juntos. E o tema da conversa? A roleta vai sortear! 👇
+                </div>
+                <div class="roleta-wrap">
+                    <canvas id="canvas-roleta3" width="240" height="240"></canvas>
+                    <div id="resultado-roleta">Gira pra descobrir o tema! 🎲</div>
+                    <button id="btn-girar3" onclick="girarRoleta3()">🎲 Girar o tema</button>
+                    <div class="tema-revelado" id="tema-revelado"></div>
+                </div>
+                <div style="background:rgba(212,168,67,0.15);border:2px solid #d4a843;border-radius:14px;padding:16px 18px;margin-top:16px;">
+                    <p style="color:#d4a843;font-weight:bold;font-size:14px;margin:0 0 6px 0;">⚠️ Aviso de amanhã — Quinta-feira!</p>
+                    <p style="color:rgba(255,255,255,0.85);font-size:13px;line-height:1.7;margin:0;">Amanhã tem um desafio especial em família: o <strong>Jogo dos Elogios</strong> durante uma refeição juntos. Combina <strong>hoje</strong> com a família de fazer uma refeição juntos amanhã à noite! Não deixa pra última hora. 😊</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function responder(num, btn, correta) {
+            const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+            const feedback = document.getElementById('f' + num);
+            buttons.forEach(b => b.disabled = true);
+            if (correta) {
+                btn.classList.add('correta');
+                feedback.style.color = '#1a7a3c';
+                feedback.textContent = '✅ Correto!';
+                setTimeout(() => {
+                    if (num < 3) {
+                        document.getElementById('q'+num).style.opacity='0.6';
+                        document.getElementById('q'+(num+1)).style.display='block';
+                        document.getElementById('q'+(num+1)).scrollIntoView({behavior:'smooth',block:'center'});
+                    } else {
+                        document.getElementById('familia-revelado').style.display='block';
+                        document.getElementById('familia-revelado').scrollIntoView({behavior:'smooth',block:'center'});
+                        iniciarRoleta3();
+                    }
+                }, 900);
+            } else {
+                btn.classList.add('errada');
+                feedback.style.color = '#d63031';
+                feedback.textContent = 'Não é essa! Tente de novo...';
+                setTimeout(() => { buttons.forEach(b=>{b.disabled=false;b.classList.remove('errada');}); feedback.textContent=''; }, 1500);
+            }
+        }
+
+        const temasOriginais = [
+            { emoji:'🐾', texto:'Se você pudesse ser qualquer animal do mundo, qual seria e por quê?' },
+            { emoji:'🦸', texto:'Qual superpoder você escolheria? E como usaria em casa?' },
+            { emoji:'🍕', texto:'Se você abrisse um restaurante, qual seria o prato principal?' },
+            { emoji:'🌍', texto:'Qual é o lugar mais bonito que você já foi ou sonha em conhecer?' },
+            { emoji:'🎵', texto:'Qual música está passando na sua cabeça agora? Canta pelo menos um pedaço!' },
+            { emoji:'📺', texto:'Se sua vida fosse uma série, qual seria o título do episódio de hoje?' },
+            { emoji:'⏪', texto:'Se você pudesse voltar no tempo por um dia, qual dia escolheria?' },
+            { emoji:'🎂', texto:'Qual foi o melhor presente que você já ganhou? E o mais engraçado?' },
+        ];
+        let temas = [...temasOriginais];
+        let temasUsados = [];
+
+        let angRoleta3 = 0, girando3 = false;
+
+        function iniciarRoleta3() {
+            temas = [...temasOriginais];
+            temasUsados = [];
+            desenharRoleta3(0);
+        }
+
+        function desenharRoleta3(ang) {
+            const cv = document.getElementById('canvas-roleta3');
+            if (!cv) return;
+            const ctx = cv.getContext('2d'), cx=120, cy=120, r=110;
+            ctx.clearRect(0,0,240,240);
+            const fatia = (2*Math.PI)/temas.length;
+            const cores = ['#6b21a8','#7c3aed','#8b5cf6','#9333ea','#a855f7','#c084fc','#d4a843','#b45309'];
+            temas.forEach((t,i) => {
+                ctx.beginPath(); ctx.moveTo(cx,cy);
+                ctx.arc(cx,cy,r,ang+i*fatia,ang+(i+1)*fatia);
+                ctx.fillStyle = cores[i]; ctx.fill();
+                ctx.strokeStyle='white'; ctx.lineWidth=2; ctx.stroke();
+                ctx.save(); ctx.translate(cx,cy); ctx.rotate(ang+(i+.5)*fatia);
+                ctx.textAlign='right'; ctx.fillStyle='white'; ctx.font='bold 18px Segoe UI';
+                ctx.fillText(t.emoji, r-10, 6); ctx.restore();
+            });
+            ctx.beginPath(); ctx.moveTo(cx+r+12,cy); ctx.lineTo(cx+r-6,cy-8); ctx.lineTo(cx+r-6,cy+8);
+            ctx.fillStyle='#d4a843'; ctx.fill();
+            ctx.beginPath(); ctx.arc(cx,cy,14,0,2*Math.PI); ctx.fillStyle='white'; ctx.fill();
+        }
+
+        function girarRoleta3() {
+            if (girando3) return;
+            girando3 = true;
+            document.getElementById('btn-girar3').disabled = true;
+            document.getElementById('tema-revelado').style.display = 'none';
+            const voltas = 5+Math.random()*4;
+            const total = voltas*2*Math.PI+Math.random()*2*Math.PI;
+            const dur = 3000, inicio = performance.now(), angIni = angRoleta3;
+            function frame(now) {
+                const t = Math.min((now-inicio)/dur,1);
+                const ease = 1-Math.pow(1-t,3);
+                angRoleta3 = angIni+total*ease;
+                desenharRoleta3(angRoleta3);
+                if (t<1) { requestAnimationFrame(frame); return; }
+                angRoleta3 = angRoleta3%(2*Math.PI);
+                girando3 = false;
+                document.getElementById('btn-girar3').disabled = false;
+                const fatia = (2*Math.PI)/temas.length;
+                const norm = ((2*Math.PI)-(angRoleta3%(2*Math.PI)))%(2*Math.PI);
+                const idx = Math.floor(norm/fatia)%temas.length;
+                const tema = temas[idx];
+                document.getElementById('resultado-roleta').textContent = 'Tema sorteado: ' + tema.emoji;
+                const tr = document.getElementById('tema-revelado');
+                tr.textContent = tema.texto;
+                tr.style.display = 'block';
+                // Remover tema usado
+                temasUsados.push(tema);
+                temas.splice(idx, 1);
+                if (temas.length === 0) {
+                    document.getElementById('btn-girar3').textContent = '✅ Todos os temas usados!';
+                    document.getElementById('btn-girar3').disabled = true;
+                } else {
+                    desenharRoleta3(angRoleta3);
+                }
+            }
+            requestAnimationFrame(frame);
+        }
+    </script>
+
+    <hr>
+    <div class="nav-buttons">
+        <a href="pascoa_dia2.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+        <a href="pascoa_dia4.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+    </div>
+    <div style="text-align:center;margin-top:20px;"><a href="../index.html" style="color:#6b21a8;font-size:13px;text-decoration:none;">← Voltar para o Central UP</a></div>
+    <div class="rodape"><p><span>Central UP</span> — IEQ Central Londrina</p><p style="margin-top:6px;">Desenvolvido por <span>Pr. Eduardo</span></p></div>
+</div>
+</div>
+<script>
+    const abertura=new Date('2026-04-01T00:00:00'),fechamento=new Date('2026-04-02T11:59:59'),liberacaoFinal=new Date('2026-04-05T00:00:00'),agora=new Date();
+    if(agora>=liberacaoFinal||(agora>=abertura&&agora<=fechamento)){document.getElementById('bloqueio').style.display='none';document.getElementById('conteudo').style.display='block';}
+    else if(agora<abertura){document.getElementById('msg-bloqueio').textContent='Este devocional abre na quarta-feira, 01/04! 📅';document.getElementById('msg-sub').textContent='A semana mais importante da história continua.';}
+    else{document.getElementById('msg-bloqueio').textContent='Este dia já passou...';document.getElementById('msg-sub').innerHTML='A partir de <strong>05/04 (Páscoa)</strong> todos ficam abertos!';}
+    function abrirAdmin(){const s=prompt('🔒 Senha:');if(s==='admin'){document.getElementById('bloqueio').style.display='none';document.getElementById('conteudo').style.display='block';}else if(s!==null)alert('Senha incorreta.');}
+</script>
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;"><button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.3);border:1.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button></div>
+</body>
+</html>

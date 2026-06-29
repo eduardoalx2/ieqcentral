@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 4 - ⚔️ Enfrentando Inimigos | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .conteudo-bloqueio {
+            text-align: center; color: white; padding: 40px; max-width: 600px;
+        }
+        #bloqueio img { max-width: 300px; margin-bottom: 30px; }
+        #bloqueio h1 { font-size: 48px; margin-bottom: 20px; color: white; }
+        #bloqueio p { font-size: 24px; line-height: 1.8; color: white; }
+        #conteudo { display: none; }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 30px; }
+        .logo-topo img { max-width: 250px; }
+        .dia-badge {
+            display: inline-block; background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+            color: white; padding: 10px 25px; border-radius: 25px; font-weight: bold; margin-bottom: 20px;
+        }
+        h1 { color: #f5576c; font-size: 38px; margin-bottom: 15px; line-height: 1.2; }
+        .subtitle { color: #f093fb; font-size: 18px; margin-bottom: 30px; font-weight: 600; }
+        .progresso {
+            background: #f5f5f5; padding: 20px; border-radius: 12px; margin: 30px 0; text-align: center;
+        }
+        .progresso-titulo { color: #f5576c; font-weight: bold; margin-bottom: 15px; font-size: 14px; }
+        .progresso-bar { background: #e0e0e0; height: 28px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            height: 100%; width: 67%; display: flex; align-items: center;
+            justify-content: center; color: white; font-weight: bold; font-size: 14px;
+        }
+        .frase-secreta {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border: 4px dashed #d63031; padding: 25px; border-radius: 15px;
+            margin: 30px 0; text-align: center; box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+        }
+        .frase-secreta h3 { color: #d63031; font-size: 20px; margin-bottom: 15px; }
+        .frase-secreta .fragmento {
+            font-size: 30px; font-weight: bold; color: #2d3436;
+            background: white; padding: 15px 25px; border-radius: 10px;
+            display: inline-block; margin: 15px 0;
+        }
+        .frase-secreta p { color: #2d3436; font-size: 15px; margin-top: 15px; }
+        .frase-completa {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            border: 4px solid #ffd700; padding: 30px; border-radius: 20px;
+            margin: 30px 0; text-align: center; color: white;
+        }
+        .frase-completa h3 { color: white; font-size: 24px; margin-bottom: 20px; }
+        .frase-completa .texto-completo {
+            font-size: 22px; font-weight: bold; line-height: 1.6;
+            background: white; color: #667eea; padding: 20px; border-radius: 10px;
+        }
+        h2 {
+            color: white; background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+            padding: 13px 22px; border-radius: 12px; font-size: 20px; margin: 28px 0 18px 0;
+        }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 14px 0; }
+        mark { background: #ffd700; padding: 3px 6px; border-radius: 3px; font-weight: 600; }
+        hr { border: none; border-top: 2px dashed #ddd; margin: 28px 0; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 40px; gap: 15px; }
+        .nav-btn {
+            flex: 1; padding: 15px 25px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; text-align: center; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; font-size: 15px;
+        }
+        .nav-btn-prev { background: #e0e0e0; color: #666; }
+        .nav-btn-prev:hover { background: #d0d0d0; transform: translateY(-2px); }
+        .nav-btn-next { background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #f5576c66; }
+        .rodape {
+            text-align: center; margin-top: 30px; padding-top: 20px;
+            border-top: 2px solid #eee; color: #999; font-size: 13px;
+        }
+        .rodape-destaque { color: #667eea; font-weight: bold; }
+
+        /* ===== MOBILE RESPONSIVO ===== */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 20px 16px; border-radius: 16px; }
+            .logo-topo img { max-width: 140px; }
+            h1 { font-size: 22px !important; line-height: 1.3; }
+            h2 { font-size: 15px !important; padding: 10px 14px; margin: 20px 0 14px 0 !important; }
+            .subtitle { font-size: 13px !important; margin-bottom: 16px; }
+            .dia-badge { font-size: 12px; padding: 7px 14px; }
+            p { font-size: 14px !important; line-height: 1.7; margin: 10px 0; }
+            .progresso { padding: 12px; margin: 16px 0; }
+            .progresso-fill { font-size: 12px; }
+            .frase-secreta { padding: 14px; }
+            .frase-secreta h3 { font-size: 15px; }
+            .frase-secreta .fragmento { font-size: 20px !important; padding: 10px 14px; }
+            .frase-completa { padding: 16px; }
+            .frase-completa h3 { font-size: 17px !important; }
+            .frase-completa .texto-completo { font-size: 15px !important; padding: 12px; }
+            .nav-buttons { flex-direction: column; gap: 10px; }
+            .nav-btn { padding: 13px 16px; font-size: 14px; }
+            .rodape { font-size: 12px; margin-top: 20px; }
+            mark { font-size: 14px; }
+            hr { margin: 18px 0; }
+        }
+        @media (max-width: 400px) {
+            h1 { font-size: 19px !important; }
+            .frase-secreta .fragmento { font-size: 17px !important; }
+        }
+        /* Bloqueio mobile */
+        @media (max-width: 768px) {
+            #bloqueio .conteudo-bloqueio { padding: 24px 18px; }
+            #bloqueio img { max-width: 160px; margin-bottom: 18px; }
+            #bloqueio h1 { font-size: 28px; }
+            #bloqueio p { font-size: 15px; line-height: 1.6; }
+        }
+
+    </style>
+</head>
+<body>
+    <div id="bloqueio">
+        <div class="conteudo-bloqueio">
+            <img src="../logoup.png" alt="Central UP">
+            <h1>Olá, UP! 👋</h1>
+            <p>O devocional é um dia de cada vez!</p>
+            <p style="margin-top: 20px;"><strong>Volte amanhã para o próximo dia! 📅</strong></p>
+            <p style="font-size: 18px; margin-top: 40px; opacity: 0.9;">
+                Este dia estará disponível em: <span id="dataLiberacao" style="font-weight: bold;"></span>
+            </p>
+        </div>
+    </div>
+
+    <div id="conteudo">
+        <div class="container">
+            <div class="logo-topo">
+                <img src="../logoup.png" alt="Central UP">
+            </div>
+
+            <div class="dia-badge">📅 DIA 4 DE 6</div>
+
+            <h1>⚔️ Enfrentando Inimigos</h1>
+            <p class="subtitle">Neemias Capítulo 4 — ORE + TRABALHE + PROTEJA = VITÓRIA</p>
+
+            <div class="progresso">
+                <div class="progresso-titulo">SEU PROGRESSO NO DESAFIO</div>
+                <div class="progresso-bar">
+                    <div class="progresso-fill">DIA 4 - 67%</div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>📖 LEIA NEEMIAS 4</h2>
+            <p>Leia o capítulo 4 de Neemias aqui embaixo — versão <strong>NTLH</strong>. Depois continue! 👇</p>
+
+            <div style="background: #f8f8ff; border: 2px solid #f5576c33; border-radius: 16px; padding: 20px; margin: 16px 0; max-height: 300px; overflow-y: auto; line-height: 1.9; font-size: 14px; color: #333;">
+                <p style="margin:0 0 10px 0;"><strong style="color:#f5576c;">NEEMIAS 4 — NTLH (trechos)</strong></p>
+                
+                <p><strong>1</strong> Quando Sambalá soube que estávamos reconstruindo a muralha, ficou com raiva e começou a ridicularizar os judeus. <strong>2</strong> Ele disse aos seus amigos e ao exército de Samaria: "O que esses judeus miseráveis estão fazendo? Acham que vão conseguir reconstruir a cidade? Com pedras queimadas?"</p>
+
+                <p><strong>4</strong> Mas nós oramos ao nosso Deus e pusemos guardas para proteger a cidade deles, de dia e de noite.</p>
+
+                <p><strong>6</strong> Assim continuamos a reconstrução, e em pouco tempo toda a muralha chegou à metade da altura planejada, porque o povo trabalhava com vontade.</p>
+
+                <p><strong>8</strong> Todos eles combinaram de atacar Jerusalém e criar confusão. <strong>9</strong> Mas nós oramos a Deus e pusemos guardas para nos defender, de dia e de noite.</p>
+
+                <p><strong>14</strong> Quando eu vi que o povo estava com medo, levantei-me e disse aos líderes, aos responsáveis e ao restante do povo: "Não tenham medo deles! Lembrem-se de que o Senhor é grande e poderoso, e lutem pelos seus irmãos, pelos seus filhos e pelas suas filhas, pelas suas esposas e pelas suas casas."</p>
+
+                <p><strong>17</strong> Os que carregavam materiais trabalhavam com uma mão e seguravam uma arma com a outra. <strong>18</strong> Cada construtor trabalhava com uma espada presa ao lado.</p>
+
+                <p><strong>20</strong> "Onde quer que vocês ouçam o som da trombeta, venham todos se juntar a nós. O nosso Deus vai lutar por nós!"</p>
+            </div>
+
+            <p style="text-align: center; font-size: 15px; background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); color: white; padding: 14px; border-radius: 12px; margin: 10px 0;">
+                <strong>⬇️ Leu? Então continue o devocional abaixo!</strong>
+            </p>
+
+            <hr>
+
+            <h2>💬 E então, UP?</h2>
+
+            <h2>📰 O QUE ACONTECEU</h2>
+            <p>A obra estava indo bem — e foi exatamente aí que os inimigos atacaram. Sambalá e Tobias começaram com zombaria, depois com ameaças, depois com planos de ataque.</p>
+            <p><mark>Toda grande obra de Deus atrai oposição.</mark> Neemias sabia disso. E a resposta dele foi dupla:</p>
+            <p style="background: #fff0f5; padding: 20px; border-radius: 12px; border-left: 5px solid #f5576c;">
+                <em>"Mas nós oramos a Deus e pusemos guardas para nos defender, de dia e de noite."</em><br>
+                <strong>— Neemias 4.9</strong>
+            </p>
+            <p>Orar e agir. Confiar em Deus e colocar guardas. Não era contradição — era sabedoria.</p>
+
+            <hr>
+
+            <h2>🔍 O QUE DEUS QUER TE MOSTRAR HOJE</h2>
+            <p>Existe uma armadilha espiritual perigosa: achar que fé significa não fazer nada e esperar Deus resolver tudo. Neemias destrói esse mito.</p>
+            <p>Ele orou. E colocou guardas. Ele confiou em Deus. E deu uma espada para cada trabalhador. <strong>Fé e responsabilidade andam juntas.</strong></p>
+            <p><mark>Deus luta por nós — mas Ele chama a gente para entrar na batalha junto com Ele, não ficar de fora esperando.</mark></p>
+            <p>E quando o medo apareceu no povo, Neemias não ignorou. Ele olhou nos olhos de cada um e disse: "Lembrem-se de que o Senhor é grande e poderoso."</p>
+
+            <hr>
+
+            <h2>🪞 ISSO FALA COM VOCÊ</h2>
+            <p>Quando você começa algo bom — uma mudança de comportamento, um projeto, uma decisão de fé — é muito comum aparecer resistência. De fora, de dentro, de pessoas próximas.</p>
+            <p>Isso não é sinal de que você está no caminho errado. <mark>Muitas vezes é sinal de que você está no caminho certo.</mark></p>
+            <p>Qual é o "inimigo" que está tentando te fazer desistir hoje? E o que você vai fazer: fugir ou pegar a espada e continuar construindo?</p>
+
+            <hr>
+
+            <h2>🙏 ORAÇÃO DO DIA</h2>
+            <p style="background: linear-gradient(135deg, #f5576c15 0%, #f093fb15 100%); padding: 22px; border-radius: 12px; border-left: 5px solid #f5576c; font-style: italic; line-height: 2;">
+                "Senhor, quando a oposição vier, não deixa eu fugir. Que eu aprenda com Neemias a orar e a agir, a confiar em Ti e a não deixar o medo paralisar meus passos. Tu és grande e poderoso — e eu escolho continuar. Amém." 
+            </p>
+
+            <hr>
+
+            <!-- QUIZ -->
+            <div class="quiz-container">
+                <h2 style="background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); color: white; padding: 13px 20px; border-radius: 12px; font-size: 20px; margin: 0 0 16px 0;">🧠 QUIZ DO DIA 4</h2>
+                <p style="color: #555; margin-bottom: 20px; font-size: 15px;">Responda as 3 perguntas para desbloquear a <strong>Frase Secreta</strong>! 🔐</p>
+                
+                <div class="pergunta" id="q1" >
+                    <p class="pergunta-texto">1. Como Sambalá tentou parar a obra no início?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(1, this, true)">😂 Ridicularizando e zombando dos judeus</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">🔥 Queimando os materiais de construção</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">⚔️ Atacando militarmente Jerusalém logo de cara</button>
+                    </div>
+                    <div class="feedback" id="f1"></div>
+                </div>
+
+                <div class="pergunta" id="q2" style="display:none;">
+                    <p class="pergunta-texto">2. Qual foi a estratégia dupla de Neemias diante das ameaças?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(2, this, true)">🙏🛡️ Orar a Deus e colocar guardas armados</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">⚔️ Atacar os inimigos antes que eles atacassem</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">🏃 Fugir e esperar a ameaça passar</button>
+                    </div>
+                    <div class="feedback" id="f2"></div>
+                </div>
+
+                <div class="pergunta" id="q3" style="display:none;">
+                    <p class="pergunta-texto">3. O que os trabalhadores fizeram de especial durante a construção?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(3, this, true)">🔨⚔️ Trabalhavam com uma mão e seguravam uma arma com a outra</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">🎵 Cantaram enquanto construíam para afastar o medo</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">😴 Trabalharam em turnos para descansar bastante</button>
+                    </div>
+                    <div class="feedback" id="f3"></div>
+                </div>
+
+                
+                <div id="frase-revelada" style="display:none;">
+                    <div class="frase-secreta" style="animation: aparecer 0.8s ease;">
+                        <h3>🎉 PARABÉNS! FRASE DESBLOQUEADA!</h3>
+                        <p style="color: #555; margin-bottom: 10px;">FRASE SECRETA — PARTE 4/6</p>
+                        <div class="fragmento">"e fé,"</div>
+                        <p>✏️ <strong>UP, anote este pedaço!</strong> Ao completar os 6 dias, você terá a frase completa!</p>
+                    </div>
+                </div>
+
+                <div id="tenta-novamente" style="display:none; background:#ffe0e0; border:2px solid #d63031; padding:18px; border-radius:12px; text-align:center; margin-top:20px;">
+                    <p style="color:#d63031; font-weight:bold; font-size:16px;">❌ Ops! Resposta errada!</p>
+                    <p style="color:#555; margin:8px 0; font-size:14px;">Releia o capítulo e tente novamente!</p>
+                    <button onclick="tentarNovamente()" style="background: linear-gradient(135deg,#f5576c,#f093fb); color:white; border:none; padding:11px 28px; border-radius:10px; font-size:15px; font-weight:bold; cursor:pointer; margin-top:8px;">🔄 Tentar novamente</button>
+                </div>
+            </div>
+
+            
+            <style>
+                .quiz-container { background: #f8f8ff; border: 2px solid #f5576c33; border-radius: 20px; padding: 30px; margin: 30px 0; }
+                .pergunta { margin-bottom: 10px; }
+                .pergunta-texto { font-size: 17px; font-weight: bold; color: #333; margin-bottom: 15px; line-height: 1.5; }
+                .alternativas { display: flex; flex-direction: column; gap: 10px; }
+                .alt-btn {
+                    background: white; border: 2px solid #f5576c55; padding: 13px 16px;
+                    border-radius: 12px; font-size: 15px; cursor: pointer; text-align: left;
+                    transition: all 0.2s ease; color: #333; font-family: inherit;
+                }
+                .alt-btn:hover { background: #f5576c15; border-color: #f5576c; transform: translateX(4px); }
+                .alt-btn.correta { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+                .alt-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+                .alt-btn:disabled { cursor: not-allowed; transform: none; }
+                .feedback { margin-top: 12px; font-size: 14px; font-weight: bold; min-height: 24px; }
+                @keyframes aparecer { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+                @media (max-width: 768px) {
+                    .quiz-container { padding: 14px; }
+                    .pergunta-texto { font-size: 14px; }
+                    .alt-btn { font-size: 13px; padding: 11px 12px; }
+                }
+            </style>
+
+            
+            <script>
+                let acertos = 0;
+                const totalPerguntas = 3;
+                function responder(num, btn, correta) {
+                    const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+                    const feedback = document.getElementById('f' + num);
+                    buttons.forEach(b => b.disabled = true);
+                    if (correta) {
+                        btn.classList.add('correta');
+                        feedback.style.color = '#1a7a3c';
+                        feedback.textContent = '✅ Correto! Muito bem, UP!';
+                        acertos++;
+                        setTimeout(() => {
+                            if (num < totalPerguntas) {
+                                document.getElementById('q' + num).style.opacity = '0.6';
+                                document.getElementById('q' + (num + 1)).style.display = 'block';
+                                document.getElementById('q' + (num + 1)).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            } else {
+                                document.getElementById('frase-revelada').style.display = 'block';
+                                document.getElementById('frase-revelada').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }, 900);
+                    } else {
+                        btn.classList.add('errada');
+                        feedback.style.color = '#d63031';
+                        feedback.textContent = '❌ Não é essa! Pense bem...';
+                        setTimeout(() => {
+                            buttons.forEach(b => { b.disabled = false; b.classList.remove('errada'); });
+                            feedback.textContent = '';
+                        }, 1500);
+                    }
+                }
+                function tentarNovamente() {
+                    acertos = 0;
+                    ['q1','q2','q3'].forEach((id, i) => {
+                        const el = document.getElementById(id);
+                        el.style.display = i === 0 ? 'block' : 'none';
+                        el.style.opacity = '1';
+                        el.querySelectorAll('.alt-btn').forEach(b => { b.disabled = false; b.className = 'alt-btn'; });
+                        document.getElementById('f' + (i+1)).textContent = '';
+                    });
+                }
+            </script>
+
+
+            <hr>
+
+            <div class="nav-buttons">
+                <a href="neemias3.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+                <a href="neemias5.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+            </div>
+
+            
+            <div style="text-align:center; margin-top:18px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+                <a href="neemias.html" style="color:#667eea; font-size:13px; text-decoration:none; font-weight:600;">← Voltar para Neemias</a>
+                <span style="color:#ccc;">|</span>
+                <a href="https://www.ieqlondrina.com.br/centralup" style="color:#764ba2; font-size:13px; text-decoration:none; font-weight:600;">🏠 Portal Central UP</a>
+            </div>
+            <div class="rodape">
+                <p><span class="rodape-destaque">Central UP</span> - IEQ Central</p>
+                <p style="margin-top: 8px;">Desenvolvido por <span class="rodape-destaque">Pr. Eduardo</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dataLiberacao = new Date('2026-03-05T00:00:00');
+        const agora = new Date();
+        const bloqueio = document.getElementById('bloqueio');
+        const conteudo = document.getElementById('conteudo');
+        const spanData = document.getElementById('dataLiberacao');
+        const opcoes = { year: 'numeric', month: 'long', day: 'numeric' };
+        spanData.textContent = dataLiberacao.toLocaleDateString('pt-BR', opcoes);
+        if (agora >= dataLiberacao) {
+            bloqueio.style.display = 'none';
+            conteudo.style.display = 'block';
+        } else {
+            bloqueio.style.display = 'flex';
+            conteudo.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 3 — O Nome que Ela Não Esperava Ouvir | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 60%, #e85d2a 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 60%, #e85d2a 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .cb { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 220px; margin-bottom: 20px; }
+        #bloqueio p { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.8); }
+        #conteudo { display: none; }
+
+        .container {
+            max-width: 800px; margin: 0 auto; background: #0f0f1a;
+            border-radius: 25px; padding: 36px 32px;
+            box-shadow: 0 15px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(232,93,42,0.2);
+        }
+        .logo-topo { text-align: center; margin-bottom: 22px; }
+        .logo-topo img { max-width: 180px; }
+        .serie-label { font-size: 11px; color: #e85d2a; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .dia-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #1a3a5c, #e85d2a);
+            color: white; padding: 8px 20px; border-radius: 25px;
+            font-weight: bold; margin-bottom: 16px; font-size: 13px; letter-spacing: 1px;
+        }
+        h1 { color: #ff914d; font-size: 28px; margin-bottom: 8px; line-height: 1.3; }
+        .subtitle { color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 24px; }
+
+        .progresso { background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; margin: 20px 0; text-align: center; }
+        .progresso-titulo { color: #e85d2a; font-weight: bold; margin-bottom: 10px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+        .progresso-bar { background: rgba(255,255,255,0.1); height: 20px; border-radius: 10px; overflow: hidden; }
+        .progresso-fill { background: linear-gradient(90deg, #1a3a5c, #e85d2a); height: 100%; width: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 11px; }
+
+        hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 24px 0; }
+
+        /* NARRATIVA */
+        .narrativa { font-size: 16px; line-height: 2; color: rgba(255,255,255,0.85); }
+        .narrativa p { margin: 14px 0; }
+        .narrativa .destaque { color: #ff914d; font-weight: bold; }
+        .narrativa .italico { font-style: italic; color: rgba(255,255,255,0.65); }
+        .narrativa .humor {
+            background: rgba(232,93,42,0.1); border-left: 3px solid #e85d2a;
+            padding: 10px 16px; border-radius: 0 10px 10px 0;
+            margin: 14px 0; font-style: italic; color: rgba(255,255,255,0.8);
+        }
+        .narrativa .pensamento {
+            background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2);
+            border-radius: 12px; padding: 14px 18px; margin: 16px 0;
+            font-style: italic; color: rgba(255,255,255,0.7);
+        }
+        h2 {
+            color: white; background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+            padding: 11px 18px; border-radius: 12px; font-size: 15px;
+            margin: 24px 0 14px 0; border: 1px solid rgba(232,93,42,0.3);
+        }
+
+        /* INTERATIVO — RECONSTITUIÇÃO */
+        .interativo-box {
+            background: linear-gradient(135deg, #1a1a2e, #0d1b2e);
+            border: 2px solid #e85d2a;
+            border-radius: 18px; padding: 24px; margin: 24px 0;
+        }
+        .int-titulo { color: #ff914d; font-size: 16px; font-weight: bold; margin-bottom: 6px; }
+        .int-desc { color: rgba(255,255,255,0.65); font-size: 13px; margin-bottom: 20px; line-height: 1.6; }
+
+        .cards-lista { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+
+        .recon-card {
+            background: rgba(255,255,255,0.04); border: 2px solid rgba(232,93,42,0.25);
+            border-radius: 14px; padding: 14px 16px;
+            display: flex; align-items: center; gap: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .recon-card.correto {
+            border-color: #d4a843;
+            box-shadow: 0 0 14px rgba(212,168,67,0.3);
+            animation: glow 1.5s ease infinite alternate;
+        }
+        .recon-card.errado {
+            animation: shake 0.4s ease;
+            border-color: rgba(232,93,42,0.8);
+        }
+        .card-icon { font-size: 28px; flex-shrink: 0; }
+        .card-corpo { flex: 1; }
+        .card-titulo { font-size: 14px; font-weight: bold; color: rgba(255,255,255,0.9); display: block; margin-bottom: 3px; }
+        .card-texto { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+        .card-controles { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+        .ctrl-btn {
+            background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.6); width: 30px; height: 30px; border-radius: 8px;
+            cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .ctrl-btn:hover { background: rgba(232,93,42,0.2); border-color: #e85d2a; color: white; }
+
+        .verificar-btn {
+            width: 100%; background: linear-gradient(135deg, #1a3a5c, #e85d2a);
+            color: white; border: none; border-radius: 14px; padding: 14px;
+            font-size: 15px; font-weight: bold; cursor: pointer; font-family: inherit;
+            transition: all 0.2s; margin-bottom: 12px;
+        }
+        .verificar-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(232,93,42,0.3); }
+
+        .feedback-msg {
+            display: none; padding: 13px 16px; border-radius: 12px;
+            font-size: 14px; line-height: 1.6; margin-bottom: 10px;
+            animation: aparecer 0.4s ease;
+        }
+        .feedback-msg.erro { background: rgba(232,93,42,0.1); border-left: 4px solid #e85d2a; color: rgba(255,255,255,0.8); }
+
+        .revelacao-box {
+            display: none;
+            background: rgba(212,168,67,0.08); border: 2px solid rgba(212,168,67,0.4);
+            border-radius: 14px; padding: 20px; margin-top: 12px;
+            animation: aparecer 0.6s ease;
+        }
+        .revelacao-box p { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.85; margin: 8px 0; }
+        .revelacao-box p:first-child { margin-top: 0; }
+
+        /* ENSINAMENTO */
+        .ensinamento-box {
+            background: linear-gradient(135deg, #1a0a00, #2a1000);
+            border: 2px solid rgba(212,168,67,0.4);
+            border-radius: 18px; padding: 24px; margin: 24px 0;
+        }
+        .ens-pre { font-size: 12px; color: rgba(212,168,67,0.7); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .ens-frase { font-size: 17px; font-style: italic; color: #d4a843; line-height: 1.8; margin-bottom: 12px; font-weight: 600; }
+        .ens-texto { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.85; }
+        .versic { background: rgba(212,168,67,0.08); border-left: 4px solid #d4a843; border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 12px 0; font-style: italic; color: #d4a843; font-size: 14px; }
+
+        /* GANCHO */
+        .gancho-box {
+            background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+            border: 2px solid rgba(232,93,42,0.5);
+            border-radius: 18px; padding: 22px; margin: 24px 0; text-align: center;
+        }
+        .gancho-label { font-size: 11px; color: #e85d2a; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .gancho-texto { font-size: 16px; color: white; line-height: 1.7; font-style: italic; }
+        .gancho-emoji { font-size: 36px; display: block; margin-bottom: 10px; animation: pulsar 2s infinite; }
+
+        /* ORAÇÃO */
+        .oracao-box {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px; padding: 20px; margin: 20px 0;
+            font-style: italic; color: rgba(255,255,255,0.7); line-height: 2; font-size: 15px; text-align: center;
+        }
+
+        /* NAV */
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; gap: 12px; }
+        .nav-btn { flex: 1; padding: 13px 20px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.3s; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .nav-btn-prev { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        .nav-btn-prev:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-btn-next { background: linear-gradient(135deg, #1a3a5c, #e85d2a); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(232,93,42,0.3); }
+
+        .rodape { text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.25); font-size: 12px; }
+        .rodape span { color: #e85d2a; }
+
+        @keyframes aparecer { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+        @keyframes pulsar { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        @keyframes shake {
+            0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)}
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 8px rgba(212,168,67,0.2); }
+            to   { box-shadow: 0 0 18px rgba(212,168,67,0.5); }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 22px 16px; border-radius: 18px; }
+            h1 { font-size: 22px; }
+            .narrativa { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="bloqueio">
+    <div class="cb">
+        <img src="../logoup.png" alt="Central UP">
+        <p id="msg-bl">Este devocional abre na quarta-feira, 08/04!</p>
+        <p style="margin-top:12px;font-size:14px;" id="msg-sub"></p>
+    </div>
+</div>
+
+<div id="conteudo">
+<div class="container">
+
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    <div class="serie-label">🔥 Levi e o Vento que Mudou Tudo — Semana 1</div>
+    <div class="dia-badge">📅 DIA 3 DE 6</div>
+
+    <h1>O Nome que Ela Não Esperava Ouvir</h1>
+    <p class="subtitle">Levi foi procurar respostas. Encontrou algo que não estava procurando.</p>
+
+    <div class="progresso">
+        <div class="progresso-titulo">⚡ Progresso da semana</div>
+        <div class="progresso-bar">
+            <div class="progresso-fill">50%</div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>📖 A história de hoje</h2>
+
+    <div class="narrativa">
+
+        <p>Levi acordou com uma decisão.</p>
+
+        <p>Ia encontrar aquela mulher.</p>
+
+        <p>Não sabia o nome dela. Não sabia onde morava. Sabia só que ela tinha estado no portão leste de manhã cedo, com o rosto todo molhado de um choro que não fazia sentido, e que aquela imagem tinha passado a noite inteira na frente dos seus olhos toda vez que ele tentava dormir.</p>
+
+        <p>Ele tinha visto gente chorando antes. Muita gente. Jerusalém na época da Páscoa era cheia de emoção. Mas aquilo era diferente. Aquilo era outra coisa.</p>
+
+        <div class="pensamento">"Como alguém chora assim? Com aquele sorriso no meio?"</div>
+
+        <p>Foi pro portão leste antes mesmo do sol subir direito. Ela não estava lá.</p>
+
+        <p>Levi ficou do lado de fora por uns vinte minutos, fingindo verificar o peso da jarra, fingindo amarrar a sandália, fingindo ser invisível como bom carregador de água sabe ser. Não havia rastro dela.</p>
+
+        <p>Começou a perguntar. Discretamente. "Viu um grupo de mulheres aqui de manhã cedo? Uma delas com rosto vermelho de choro?" O vendedor de figos franziu a testa. A senhora das especiarias virou o rosto. Um velho encostado numa parede apontou com o queixo pra uma viela mais estreita, perto do bairro dos tecelões, sem dizer uma palavra.</p>
+
+        <div class="humor">Ótimo. Uma viela.</div>
+
+    </div>
+
+    <img src="../levi/dia301.png" alt="Levi na viela" style="width:100%; border-radius:14px; margin:0 0 20px 0; display:block;" onerror="this.style.display='none'">
+
+    <div class="narrativa">
+
+        <p>Levi entrou na viela.</p>
+
+        <p>Estava quase na metade quando ouviu passos atrás dele. Virou rápido. Dois soldados romanos, conversando baixo, caminhando na mesma direção.</p>
+
+        <p>Ele encostou na parede, fingiu mexer na alça da jarra, coração acelerado.</p>
+
+        <p>Os soldados passaram sem olhar pra ele. Mas Levi ouviu pedaços da conversa:</p>
+
+        <div class="humor">
+            "...ordens de cima pra ninguém falar sobre o túmulo..."<br>
+            "...se alguém perguntar, foi os discípulos que roubaram..."<br>
+            "...tem mais sentido do que a outra versão..."
+        </div>
+
+        <p>Eles viraram na esquina e sumiram.</p>
+
+        <p>Levi ficou parado na viela por um bom tempo.</p>
+
+        <div class="pensamento">"A outra versão."</div>
+
+        <p>Ele sabia qual era a outra versão. Era o boato. Era o que dois homens no mercado tinham sussurrado. Era o que o túmulo vazio não conseguia explicar.</p>
+
+        <p>Continuou andando.</p>
+
+        <p>No fim da viela havia um pequeno pátio aberto. E lá estavam elas. Quatro mulheres sentadas em pedras baixas, conversando em voz baixa. A do rosto vermelho estava no meio, com olhos ainda brilhando, mas sorrindo enquanto falava.</p>
+
+        <p>Levi chegou com a jarra na mão como se fosse a coisa mais natural do mundo.</p>
+
+        <p>"Água? Tenho água fresca do poço de Siloé."</p>
+
+        <p>Duas delas olharam pra ele com desconfiança. A do rosto vermelho, porém, olhou diferente. Como se reconhecesse alguma coisa nele, mas não soubesse o quê.</p>
+
+        <p>"Você estava no portão leste hoje cedo," ela disse. Não era pergunta.</p>
+
+        <p>Levi abriu a boca. Fechou. Abriu de novo.</p>
+
+        <p>"Estava entregando água."</p>
+
+        <p>Ela olhou pra jarra. Pro rosto dele. De volta pra jarra.</p>
+
+        <p>"Você não estava entregando água nenhuma. Você estava me olhando."</p>
+
+        <p>Silêncio.</p>
+
+        <p>"Pode sentar," ela disse, com um meio sorriso. "Água não vai a lugar nenhum."</p>
+
+        <p>O nome dela era <span class="destaque">Maria</span>.</p>
+
+        <p>Ela não contou tudo de uma vez. Foi saindo aos poucos, como quem ainda está aprendendo a colocar em palavras uma coisa que as palavras mal comportam.</p>
+
+        <p>Ela conhecia Jesus. Tinha sido uma das pessoas que o seguiu. Estava lá quando crucificaram. Tinha visto com os próprios olhos. Tinha passado o sábado inteiro destruída, porque aquilo parecia o fim de tudo.</p>
+
+        <p>De manhã cedo, tinha ido ao túmulo com as outras mulheres, levando unguentos pra preparar o corpo.</p>
+
+        <p>O túmulo estava aberto. E vazio.</p>
+
+        <p>"Achei que tivessem roubado," ela disse. "Fiquei parada ali na entrada chorando, porque não entendia nada. Nem o corpo eu podia cuidar direito."</p>
+
+        <p>Levi estava ouvindo com tanta atenção que tinha esquecido completamente de fingir que não estava ouvindo.</p>
+
+        <p>"E aí?"</p>
+
+        <p>"Aí eu ouvi uma voz atrás de mim. Achei que fosse o jardineiro do lugar. Perguntou por que eu estava chorando. E eu disse que tinham levado o meu Senhor e eu não sabia onde estava. E aí..."</p>
+
+        <p>Ela parou.</p>
+
+        <p>"E aí o quê?"</p>
+
+    </div>
+
+    <img src="../levi/dia302.png" alt="Maria contando o que viu" style="width:100%; border-radius:14px; margin:0 0 20px 0; display:block;" onerror="this.style.display='none'">
+
+    <div class="narrativa">
+
+        <p>Maria olhou pra ele com aquele rosto todo misturado de novo, lágrima e sorriso juntos, aquela expressão impossível que Levi não conseguia decifrar.</p>
+
+        <p><span class="destaque">"Ele disse meu nome."</span></p>
+
+        <p>Pausa.</p>
+
+        <p>"Só isso. Falou: 'Maria.' Do jeito que ele sempre falava. E eu soube na hora que era ele."</p>
+
+        <p>Levi ficou quieto por um tempo que não soube medir.</p>
+
+        <p>"Mas ele estava morto."<br>
+        "Eu sei."<br>
+        "Você viu."<br>
+        "Eu sei."<br>
+        "Então como..."<br>
+        "Eu não sei como," ela disse, simplesmente. "Só sei que quando ele falou meu nome, eu sabia que era ele. E sabia que estava vivo. As duas coisas ao mesmo tempo, sem explicação."</p>
+
+        <p>Levi olhou pra pedra no chão. Pro céu. Pra jarra na mão.</p>
+
+        <p>Tinha ido ali pra encontrar uma mulher confusa e sair com uma resposta simples.</p>
+
+        <div class="pensamento">"Tudo bem não entender alguma coisa e ainda assim saber que ela é real?"</div>
+
+        <p>O choro e o sorriso faziam sentido agora. Faziam sentido da pior forma possível: do jeito que as coisas fazem sentido quando você não consegue provar, mas também não consegue negar.</p>
+
+        <p>"Você chora de tristeza quando perde alguém," Levi disse, pensando em voz alta. "E chora de outra coisa quando encontra de volta."</p>
+
+        <p>Maria assentiu devagar.</p>
+
+        <p>"Tem um nome pra isso?"</p>
+
+        <p>Ela sorriu de verdade agora.</p>
+
+        <p>"Alegria," ela disse. "Só que desse jeito, maior do que o normal. Do tipo que passou pela dor primeiro."</p>
+
+        <p>Levi foi embora sem saber o que fazer com nada daquilo.</p>
+
+        <p>Mas antes de sair, Maria mencionou uma coisa quase de passagem, como quem não percebe que está entregando uma informação importante:</p>
+
+        <p>"Os outros estão juntos numa casa, do lado do bairro dos curtidores. Esperando."</p>
+
+        <div class="pensamento">Esperando o quê? Levi não perguntou. Mas anotou o bairro.</div>
+
+    </div>
+
+    <hr>
+
+    <!-- INTERATIVO -->
+    <div class="interativo-box">
+        <div class="int-titulo">🔍 Reconstituição: o que aconteceu naquela manhã?</div>
+        <div class="int-desc">Levi juntou as peças do que ouviu. Mas a ordem importa. Coloque os eventos na sequência certa para revelar o que realmente aconteceu.</div>
+
+        <div class="cards-lista" id="cards-lista"></div>
+
+        <button class="verificar-btn" onclick="verificarOrdem()">Verificar ordem</button>
+
+        <div class="feedback-msg erro" id="feedback-erro">Quase. Releia as pistas e tente de novo.</div>
+
+        <div class="revelacao-box" id="revelacao">
+            <p>Isso não é um conto. É uma reconstituição real.</p>
+            <p>Levi tinha as mesmas quatro pistas. E chegou à mesma conclusão: não tinha resposta fácil. Mas os fatos eram os fatos. A pedra foi removida. O pano foi dobrado. O nome foi chamado.</p>
+            <p><strong style="color:#d4a843;">Alguém que morre com cuidado não rouba o próprio corpo.</strong></p>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- ENSINAMENTO -->
+    <div class="ensinamento-box">
+        <div class="ens-pre">✝️ Levi não sabia, mas Jesus já tinha ensinado sobre isso</div>
+        <div class="ens-frase">"Mas agora, o Senhor que te criou diz: Não tenha medo! Eu te salvei. Eu te chamei pelo seu nome. Você é meu!"</div>
+        <div class="versic">— Isaías 43.1 · NTLH</div>
+        <div class="ens-texto">
+            Levi ficou preso naquele detalhe: ele disse o nome dela. Não "ei, mulher". Não "olha pra mim". O nome dela. Específico. Do jeito que ela conhecia.<br><br>
+            Tem gente que acha que Deus é aquele ser enorme e distante que cuida do universo inteiro e não tem tempo pra prestar atenção num carregador de água de doze anos numa viela de Jerusalém. Nem num pré-adolescente que está tentando entender o que Deus tem a ver com a vida dele.<br><br>
+            Mas Jesus não chamou a multidão. Chamou Maria. Pelo nome.<br><br>
+            E Isaías já tinha escrito aquilo muito antes: "Eu te chamei pelo seu nome. Você é meu."<br><br>
+            <strong style="color:#d4a843;">Deus conhece o seu nome. Não a versão genérica de você. O você de verdade.</strong>
+        </div>
+    </div>
+
+    <!-- ORAÇÃO -->
+    <div class="oracao-box">
+        "Senhor, é difícil acreditar que você me conhece pelo nome quando às vezes eu nem sei direito quem eu sou. Mas se você chamou a Maria assim, talvez me chame também. Me ajuda a ouvir quando você falar. Amém."
+    </div>
+
+    <hr>
+
+    <!-- GANCHO -->
+    <div class="gancho-box">
+        <div class="gancho-label">🔮 Amanhã na história de Levi</div>
+        <span class="gancho-emoji">🚪</span>
+        <div class="gancho-texto">
+            Levi sabia o bairro.<br>
+            Sabia a direção.<br><br>
+            Ficou parado na esquina por um bom tempo, olhando pro lado do bairro dos curtidores.<br><br>
+            Ele não conhecia nenhuma daquelas pessoas. Eram os discípulos de um homem que talvez tivesse ressuscitado. Ou talvez não.<br><br>
+            Mas Maria tinha dito o nome dele assim que chegou perto. Como se soubesse que ele ia aparecer.<br><br>
+            Isso não era normal.<br><br>
+            <em style="color:#e85d2a;">Amanhã ele vai ver aquela casa. Só ver. De longe.</em>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="espirito_dia2.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+        <a href="espirito_dia4.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+    </div>
+
+    <div style="text-align:center; margin-top:18px;">
+        <a href="espirito.html" style="color:rgba(255,255,255,0.3); font-size:13px; text-decoration:none;">← Ver todos os dias</a>
+        &nbsp;&nbsp;·&nbsp;&nbsp;
+        <a href="../index.html" style="color:rgba(255,255,255,0.3); font-size:13px; text-decoration:none;">Portal</a>
+    </div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:5px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+
+</div>
+</div>
+
+<script>
+    // DADOS DOS CARDS
+    const todosCards = {
+        lua:   { icon: '🌙', titulo: 'Antes do amanhecer', texto: 'As mulheres saem no escuro, carregando potes de unguento para preparar o corpo de Jesus' },
+        pedra: { icon: '🪨', titulo: 'O jardim',           texto: 'Chegam ao jardim e encontram a pedra enorme rolada de lado. O túmulo está aberto' },
+        pano:  { icon: '🪢', titulo: 'Dentro do túmulo',   texto: 'Só as faixas de pano, dobradas com cuidado. Nenhum corpo. Nenhuma explicação' },
+        nome:  { icon: '👤', titulo: 'Uma voz',            texto: 'Uma voz chama um nome. Ela vira. E reconhece imediatamente quem está ali' }
+    };
+    const ordemCorreta = ['lua', 'pedra', 'pano', 'nome'];
+    let ordemAtual = ['pedra', 'nome', 'lua', 'pano'];
+
+    function renderCards() {
+        const lista = document.getElementById('cards-lista');
+        lista.innerHTML = '';
+        ordemAtual.forEach((id, idx) => {
+            const c = todosCards[id];
+            const card = document.createElement('div');
+            card.className = 'recon-card';
+            card.id = 'card-' + id;
+            card.innerHTML = `
+                <span class="card-icon">${c.icon}</span>
+                <div class="card-corpo">
+                    <span class="card-titulo">${c.titulo}</span>
+                    <span class="card-texto">${c.texto}</span>
+                </div>
+                <div class="card-controles">
+                    <button class="ctrl-btn" onclick="mover(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3;cursor:default"' : ''}>↑</button>
+                    <button class="ctrl-btn" onclick="mover(${idx}, 1)"  ${idx === ordemAtual.length - 1 ? 'disabled style="opacity:0.3;cursor:default"' : ''}>↓</button>
+                </div>
+            `;
+            lista.appendChild(card);
+        });
+    }
+
+    function mover(idx, direcao) {
+        const novo = idx + direcao;
+        if (novo < 0 || novo >= ordemAtual.length) return;
+        [ordemAtual[idx], ordemAtual[novo]] = [ordemAtual[novo], ordemAtual[idx]];
+        // limpa estados anteriores
+        document.getElementById('feedback-erro').style.display = 'none';
+        document.querySelectorAll('.recon-card').forEach(c => { c.classList.remove('errado', 'correto'); });
+        renderCards();
+    }
+
+    function verificarOrdem() {
+        const correto = ordemAtual.every((id, i) => id === ordemCorreta[i]);
+        document.getElementById('feedback-erro').style.display = 'none';
+        document.getElementById('revelacao').style.display = 'none';
+        document.querySelectorAll('.recon-card').forEach(c => c.classList.remove('errado', 'correto'));
+
+        if (correto) {
+            ordemAtual.forEach(id => document.getElementById('card-' + id).classList.add('correto'));
+            setTimeout(() => {
+                document.getElementById('revelacao').style.display = 'block';
+                document.getElementById('revelacao').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 400);
+        } else {
+            ordemAtual.forEach((id, i) => {
+                if (id !== ordemCorreta[i]) document.getElementById('card-' + id).classList.add('errado');
+            });
+            document.getElementById('feedback-erro').style.display = 'block';
+        }
+    }
+
+    renderCards();
+
+    // BLOQUEIO DE DATA
+    const abertura   = new Date('2026-04-08T00:00:00');
+    const fechamento = new Date('2026-04-09T11:59:00');
+    const liberacao  = new Date('2026-04-12T00:00:00');
+    const agora = new Date();
+
+    const dentroJanela = agora >= abertura && agora < fechamento;
+    const aposLiberacao = agora >= liberacao;
+
+    if (dentroJanela || aposLiberacao) {
+        document.getElementById('bloqueio').style.display = 'none';
+        document.getElementById('conteudo').style.display = 'block';
+    } else if (agora < abertura) {
+        document.getElementById('msg-bl').textContent = 'Este devocional abre na quarta-feira, 08/04!';
+        document.getElementById('msg-sub').textContent = 'A história de Levi continua amanhã. 🔍';
+    } else {
+        document.getElementById('msg-bl').textContent = 'Este devocional já encerrou. Volte domingo para rever tudo!';
+        document.getElementById('msg-sub').textContent = 'A série completa abre no domingo. 📖';
+    }
+
+    function abrirAdmin() {
+        const s = prompt('🔒 Senha:');
+        if (s === 'admin') {
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        } else if (s !== null) alert('Senha incorreta.');
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.3);border:1.5px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.3);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button>
+</div>
+
+</body>
+</html>

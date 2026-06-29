@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 6 — A Jarra que Levi Não Quebrou | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 60%, #e85d2a 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 60%, #e85d2a 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .cb { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 220px; margin-bottom: 20px; }
+        #bloqueio p { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.8); }
+        #conteudo { display: none; }
+
+        .container {
+            max-width: 800px; margin: 0 auto; background: #0f0f1a;
+            border-radius: 25px; padding: 36px 32px;
+            box-shadow: 0 15px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(232,93,42,0.2);
+        }
+        .logo-topo { text-align: center; margin-bottom: 22px; }
+        .logo-topo img { max-width: 180px; }
+        .serie-label { font-size: 11px; color: #e85d2a; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .dia-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4a843, #e85d2a);
+            color: white; padding: 8px 20px; border-radius: 25px;
+            font-weight: bold; margin-bottom: 16px; font-size: 13px; letter-spacing: 1px;
+        }
+        h1 { color: #ff914d; font-size: 28px; margin-bottom: 8px; line-height: 1.3; }
+        .subtitle { color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 24px; }
+
+        .progresso { background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; margin: 20px 0; text-align: center; }
+        .progresso-titulo { color: #d4a843; font-weight: bold; margin-bottom: 10px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+        .progresso-bar { background: rgba(255,255,255,0.1); height: 20px; border-radius: 10px; overflow: hidden; }
+        .progresso-fill { background: linear-gradient(90deg, #1a3a5c, #d4a843); height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 11px; }
+
+        hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 24px 0; }
+
+        .narrativa { font-size: 16px; line-height: 2; color: rgba(255,255,255,0.85); }
+        .narrativa p { margin: 14px 0; }
+        .narrativa .destaque { color: #ff914d; font-weight: bold; }
+        .narrativa .destaque-dourado { color: #d4a843; font-weight: bold; }
+        .narrativa .italico { font-style: italic; color: rgba(255,255,255,0.65); }
+        .narrativa .humor {
+            background: rgba(232,93,42,0.1); border-left: 3px solid #e85d2a;
+            padding: 10px 16px; border-radius: 0 10px 10px 0;
+            margin: 14px 0; font-style: italic; color: rgba(255,255,255,0.8);
+        }
+        .narrativa .pensamento {
+            background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2);
+            border-radius: 12px; padding: 14px 18px; margin: 16px 0;
+            font-style: italic; color: rgba(255,255,255,0.7);
+        }
+        h2 {
+            color: white; background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+            padding: 11px 18px; border-radius: 12px; font-size: 15px;
+            margin: 24px 0 14px 0; border: 1px solid rgba(232,93,42,0.3);
+        }
+
+        /* CARTA COM IA */
+        .carta-box {
+            background: linear-gradient(135deg, #1a1a2e, #0d1b2e);
+            border: 2px solid #d4a843;
+            border-radius: 18px; padding: 28px; margin: 24px 0;
+        }
+        .carta-titulo { color: #d4a843; font-size: 16px; font-weight: bold; margin-bottom: 6px; }
+        .carta-desc { color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 20px; line-height: 1.7; }
+        .carta-pergunta {
+            font-size: 15px; color: rgba(255,255,255,0.85); font-style: italic;
+            margin-bottom: 16px; padding: 14px 18px;
+            background: rgba(212,168,67,0.07); border-left: 3px solid #d4a843;
+            border-radius: 0 10px 10px 0; line-height: 1.7;
+        }
+
+        .carta-textarea {
+            width: 100%; background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(212,168,67,0.3); border-radius: 14px;
+            padding: 16px 18px; color: rgba(255,255,255,0.9);
+            font-family: inherit; font-size: 15px; line-height: 1.7;
+            resize: none; min-height: 110px; outline: none;
+            transition: border-color 0.2s;
+        }
+        .carta-textarea:focus { border-color: #d4a843; }
+        .carta-textarea::placeholder { color: rgba(255,255,255,0.25); font-style: italic; }
+
+        .carta-btn {
+            width: 100%; margin-top: 14px;
+            background: linear-gradient(135deg, #1a3a5c, #d4a843);
+            color: white; border: none; border-radius: 14px; padding: 15px;
+            font-size: 15px; font-weight: bold; cursor: pointer; font-family: inherit;
+            transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .carta-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212,168,67,0.3); }
+        .carta-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* PERGAMINHO */
+        .pergaminho {
+            display: none;
+            margin-top: 20px;
+            background: linear-gradient(160deg, #2a1f0a 0%, #1a1200 60%, #251800 100%);
+            border: 2px solid rgba(212,168,67,0.5);
+            border-radius: 4px 4px 18px 18px;
+            padding: 0;
+            overflow: hidden;
+            animation: aparecer 0.6s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        .pergaminho-topo {
+            background: linear-gradient(90deg, rgba(212,168,67,0.15), rgba(212,168,67,0.05), rgba(212,168,67,0.15));
+            border-bottom: 1px solid rgba(212,168,67,0.2);
+            padding: 10px 20px;
+            font-size: 11px; color: rgba(212,168,67,0.5);
+            letter-spacing: 2px; text-transform: uppercase; text-align: center;
+        }
+        .pergaminho-corpo { padding: 24px 26px; }
+        .pergaminho-label { font-size: 11px; color: rgba(212,168,67,0.5); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .pergaminho-frase-up {
+            font-size: 16px; color: #d4a843; font-style: italic;
+            line-height: 1.8; margin-bottom: 20px; font-weight: 600;
+        }
+        .pergaminho-divider {
+            border: none; border-top: 1px solid rgba(212,168,67,0.15);
+            margin: 16px 0;
+        }
+        .pergaminho-label-levi { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .pergaminho-resposta {
+            font-size: 14px; color: rgba(255,255,255,0.75);
+            line-height: 1.9; font-style: italic;
+            min-height: 40px;
+        }
+        .pergaminho-loading {
+            display: flex; align-items: center; gap: 10px;
+            color: rgba(212,168,67,0.5); font-size: 13px; font-style: italic;
+        }
+        .loading-dots span {
+            display: inline-block; width: 6px; height: 6px;
+            border-radius: 50%; background: #d4a843;
+            animation: piscar 1.2s infinite;
+        }
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        .pergaminho-rodape {
+            padding: 12px 26px 18px;
+            font-size: 11px; color: rgba(212,168,67,0.3);
+            text-align: right; font-style: italic;
+        }
+
+        /* ENSINAMENTO */
+        .ensinamento-box {
+            background: linear-gradient(135deg, #1a0a00, #2a1000);
+            border: 2px solid rgba(212,168,67,0.4);
+            border-radius: 18px; padding: 24px; margin: 24px 0;
+        }
+        .ens-pre { font-size: 12px; color: rgba(212,168,67,0.7); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .ens-frase { font-size: 17px; font-style: italic; color: #d4a843; line-height: 1.8; margin-bottom: 12px; font-weight: 600; }
+        .ens-texto { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.85; }
+        .versic { background: rgba(212,168,67,0.08); border-left: 4px solid #d4a843; border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 12px 0; font-style: italic; color: #d4a843; font-size: 14px; }
+
+        /* FECHAMENTO */
+        .fechamento-box {
+            background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+            border: 2px solid rgba(212,168,67,0.4);
+            border-radius: 18px; padding: 28px; margin: 24px 0; text-align: center;
+        }
+        .fechamento-emoji { font-size: 42px; display: block; margin-bottom: 14px; animation: pulsar 3s infinite; }
+        .fechamento-titulo { font-size: 13px; color: #d4a843; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+        .fechamento-texto { font-size: 16px; color: rgba(255,255,255,0.85); line-height: 1.9; font-style: italic; }
+        .fechamento-frase { font-size: 18px; color: #d4a843; font-weight: bold; margin-top: 16px; line-height: 1.6; }
+
+        /* GANCHO S2 */
+        .gancho-box {
+            background: linear-gradient(135deg, #1a0a00, #2a1000);
+            border: 2px solid rgba(212,168,67,0.5);
+            border-radius: 18px; padding: 22px; margin: 24px 0; text-align: center;
+        }
+        .gancho-label { font-size: 11px; color: #d4a843; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .gancho-texto { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.8; }
+        .gancho-emoji { font-size: 36px; display: block; margin-bottom: 10px; animation: pulsar 2s infinite; }
+
+        /* ORAÇÃO */
+        .oracao-box {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(212,168,67,0.2);
+            border-radius: 14px; padding: 20px; margin: 20px 0;
+            font-style: italic; color: rgba(255,255,255,0.7); line-height: 2; font-size: 15px; text-align: center;
+        }
+
+        /* NAV */
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; gap: 12px; }
+        .nav-btn { flex: 1; padding: 13px 20px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.3s; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .nav-btn-prev { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        .nav-btn-prev:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-btn-next { background: linear-gradient(135deg, #1a3a5c, #d4a843); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212,168,67,0.3); }
+
+        .rodape { text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.25); font-size: 12px; }
+        .rodape span { color: #d4a843; }
+
+        @keyframes aparecer { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+        @keyframes pulsar { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+        @keyframes piscar { 0%,80%,100%{opacity:0.2} 40%{opacity:1} }
+
+        @media (max-width: 600px) {
+            .container { padding: 22px 16px; border-radius: 18px; }
+            h1 { font-size: 22px; }
+            .narrativa { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="bloqueio">
+    <div class="cb">
+        <img src="../logoup.png" alt="Central UP">
+        <p id="msg-bl">Este devocional abre no sábado, 11/04!</p>
+        <p style="margin-top:12px;font-size:14px;" id="msg-sub"></p>
+    </div>
+</div>
+
+<div id="conteudo">
+<div class="container">
+
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    <div class="serie-label">🔥 Levi e o Vento que Mudou Tudo — Semana 1</div>
+    <div class="dia-badge">📅 DIA 6 DE 6 🎉</div>
+
+    <h1>A Jarra que Levi Não Quebrou</h1>
+    <p class="subtitle">Mesma jarra. Mesmo menino. Mesmo Jerusalém. Mas ele não era mais o mesmo.</p>
+
+    <div class="progresso">
+        <div class="progresso-titulo">⚡ Semana 1 completa</div>
+        <div class="progresso-bar">
+            <div class="progresso-fill">100% 🎉</div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>📖 A história de hoje</h2>
+
+    <div class="narrativa">
+
+        <p>Levi acordou antes do sol.</p>
+
+        <p>Ficou um tempo parado na esteira de palha, olhando pro teto de barro no escuro. Cinquenta dias atrás, nessa mesma posição, ele tinha ficado acordado pensando num olhar que não saía da cabeça.</p>
+
+        <p>Hoje era diferente. Hoje ele sabia o nome do olhar.</p>
+
+        <p>Pegou as jarras com cuidado. As duas que sobraram das três que quebraram nos últimos cinquenta dias. Desceu pro poço de Siloé quando a cidade ainda estava quieta, encheu as duas devagar, equilibrou nos ombros.</p>
+
+        <p>E em vez de virar pra direita, na direção do mercado e das entregas do dia, virou pra esquerda.</p>
+
+        <p>Em direção ao bairro dos curtidores.</p>
+
+        <div class="pensamento">"Se eu derramar essa água agora, meu pai vai me matar. Então não vou derramar."</div>
+
+        <p>A porta da casa estava entreaberta, igual sempre. Vozes lá dentro. Mas dessa vez Levi não ficou do outro lado da rua. Não encostou a mão na madeira e foi embora. Não ficou contando os passos até a porta sem dar nenhum.</p>
+
+        <p>Ele empurrou a porta e entrou.</p>
+
+    </div>
+
+    <img src="../levi/dia601.png" alt="Levi entrando pela porta" style="width:100%; border-radius:14px; margin:20px 0; display:block;" onerror="this.style.display='none'">
+
+    <div class="narrativa">
+
+        <p>A sala era menor do que ele imaginava. Umas quinze, vinte pessoas. Alguns ele reconhecia de longe, dos dias em que ficava do lado de fora observando. Outros eram novos.</p>
+
+        <p>Ninguém perguntou quem ele era. Ninguém olhou com desconfiança. Uma mulher mais velha que estava sentada perto da janela olhou pra ele, pras jarras nos ombros, e disse com a naturalidade de quem esperava visita:</p>
+
+        <p>"Que bom que você veio."</p>
+
+        <p>Levi não soube o que responder. Então levantou levemente as jarras e disse:</p>
+
+        <p>"Trouxe água."</p>
+
+        <div class="humor">Não era exatamente uma declaração de fé. Mas foi o suficiente.</div>
+
+        <p>Alguém pegou as jarras das mãos dele. Alguém trouxe um lugar pra ele sentar. E por um bom tempo Levi ficou quieto, ouvindo as conversas ao redor.</p>
+
+        <p>Falavam de Jesus. Não com medo, como os dois homens no mercado cinquenta dias atrás. Não em voz baixa, como se o assunto fosse perigoso. Falavam com aquela naturalidade de quem está descrevendo algo que viu com os próprios olhos e ainda está processando o tamanho do que viu.</p>
+
+        <p>Um dos homens se levantou e disse que iam orar. Levi não fechou os olhos de imediato, ficou olhando pra sala ainda por um segundo.</p>
+
+        <p>Tomé estava lá no fundo, encostado na parede. Quando seus olhos se encontraram, Tomé deu um aceno de cabeça. Simples. Do tipo que diz: <span class="italico">eu sei. Demorou, mas você chegou.</span></p>
+
+        <p>Levi fechou os olhos.</p>
+
+        <p>E alguém começou a orar pelo menino novo que tinha chegado com duas jarras d'água e um monte de perguntas sem resposta.</p>
+
+        <p>Levi sentiu alguma coisa que não sabia nomear. Não era emoção exatamente. Não era aquela sensação de quando você resolve um problema e encaixa. Era mais parecido com chegar em casa depois de uma viagem longa num lugar que você nunca tinha estado antes.</p>
+
+        <div class="pensamento">"Então é isso."</div>
+
+        <p>Não era uma explicação. Não era uma prova. Era um reconhecimento.</p>
+
+        <p>O mesmo tipo de coisa que Maria tinha sentido quando ouviu o nome dela ser chamado num jardim vazio.</p>
+
+        <p>O mesmo tipo de coisa que Tomé tinha sentido quando chegou perto o suficiente e não precisou mais tocar.</p>
+
+        <p>Levi ficou na casa até o meio da tarde. Quando saiu, as jarras estavam vazias. O sol estava do lado certo do céu. O cheiro de curtume continuava igual.</p>
+
+        <p>Mas ele carregava as jarras vazias de um jeito diferente de como tinha carregado as jarras cheias de manhã.</p>
+
+    </div>
+
+    <img src="../levi/dia602.png" alt="Levi saindo com as jarras vazias" style="width:100%; border-radius:14px; margin:20px 0; display:block;" onerror="this.style.display='none'">
+
+    <div class="narrativa">
+
+        <p>Na sexta-feira, cinquenta dias atrás, uma jarra tinha quebrado no chão porque Levi ficou parado demais tempo olhando pra um homem que carregava uma cruz.</p>
+
+        <p>Hoje as duas jarras estavam intactas.</p>
+
+        <p>Mesmas jarras. Mesmo menino. Mesmo Jerusalém.</p>
+
+        <p>Mas alguma coisa tinha entrado pela porta da casa dos curtidores junto com ele, e saído com ele pelas mesmas ruas de sempre, e <span class="destaque-dourado">essa coisa não tinha nome ainda</span>, mas tinha a ver com fogo e vento e um olhar que ele não tinha conseguido esquecer desde o dia em que a jarra caiu.</p>
+
+        <p>Levi voltou pra casa e não quebrou nenhuma jarra no caminho.</p>
+
+        <p class="italico">Primeira vez em cinquenta dias.</p>
+
+    </div>
+
+    <hr>
+
+    <!-- CARTA COM IA -->
+    <div class="carta-box">
+        <div class="carta-titulo">📜 O caderninho de Levi</div>
+        <div class="carta-desc">Levi tinha um caderninho onde escrevia as coisas que não cabia na cabeça. No último dia da semana, ele abriu numa página em branco. Agora é a sua vez.</div>
+        <div class="carta-pergunta">"Se você fosse Levi, o que escreveria no caderninho hoje?"</div>
+
+        <textarea
+            class="carta-textarea"
+            id="carta-input"
+            placeholder="Escreva aqui o que Levi escreveria... pode ser uma frase curta, uma pergunta, uma descoberta."
+            maxlength="300"
+        ></textarea>
+
+        <button class="carta-btn" id="carta-btn" onclick="enviarCarta()">
+            <span>🪶</span> Selar o pergaminho
+        </button>
+
+        <div class="pergaminho" id="pergaminho">
+            <div class="pergaminho-topo">Caderninho de Levi — Jerusalém</div>
+            <div class="pergaminho-corpo">
+                <div class="pergaminho-label">O que você escreveu</div>
+                <div class="pergaminho-frase-up" id="pergaminho-frase"></div>
+                <hr class="pergaminho-divider">
+                <div class="pergaminho-label-levi">O narrador responde</div>
+                <div class="pergaminho-resposta" id="pergaminho-resposta">
+                    <div class="pergaminho-loading" id="loading">
+                        Escrevendo
+                        <div class="loading-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pergaminho-rodape">Semana 1 — O Espírito Santo e o Livro Inacabado</div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- ENSINAMENTO -->
+    <div class="ensinamento-box">
+        <div class="ens-pre">✝️ O que aconteceu com Levi tem um nome</div>
+        <div class="ens-frase">"Vocês, porém, receberão poder quando o Espírito Santo descer sobre vocês."</div>
+        <div class="versic">— Atos 1.8 · NTLH</div>
+        <div class="ens-texto">
+            Levi não entrou naquela casa porque finalmente entendeu tudo. Entrou porque chegou um ponto em que ficar do lado de fora era mais difícil do que entrar.<br><br>
+            O Espírito Santo não espera a pessoa estar pronta. Ele age exatamente quando a pessoa para de fingir que não precisa.<br><br>
+            Levi foi com duas jarras d'água e um monte de perguntas. Saiu com as jarras vazias e as mesmas perguntas. Mas havia algo dentro dele que não estava lá de manhã.<br><br>
+            <strong style="color:#d4a843;">Isso é o que o Espírito Santo faz. Não resolve todas as perguntas. Entra nas perguntas com você.</strong>
+        </div>
+    </div>
+
+    <!-- ORAÇÃO -->
+    <div class="oracao-box">
+        "Espírito Santo, eu não sei tudo ainda. Mas sei que você é real. Entra nas minhas perguntas comigo. Amém."
+    </div>
+
+    <hr>
+
+    <!-- FECHAMENTO DA SEMANA -->
+    <div class="fechamento-box">
+        <span class="fechamento-emoji">💧</span>
+        <div class="fechamento-titulo">Semana 1 concluída</div>
+        <div class="fechamento-texto">
+            Levi começou essa semana com uma jarra quebrada e uma pergunta que não saía da cabeça.<br><br>
+            Terminou com duas jarras intactas e a mesma pergunta, só que agora havia alguém dentro dela com ele.<br><br>
+            A história de Levi não termina aqui. Os discípulos vão sair daquela casa. O Espírito Santo vai se mover por Jerusalém, pela Judeia, pela Samaria, até os fins da terra.<br><br>
+            E um carregador de água de doze anos vai estar no meio disso.
+        </div>
+        <div class="fechamento-frase">"Existe um livro que nunca teve fim.<br>Semana que vem você descobre qual é."</div>
+    </div>
+
+    <!-- GANCHO SEMANA 2 -->
+    <div class="gancho-box">
+        <div class="gancho-label">📖 Na semana que vem</div>
+        <span class="gancho-emoji">✍️</span>
+        <div class="gancho-texto">
+            Enquanto tudo isso acontecia nas ruas de Jerusalém, havia um homem que estava anotando.<br><br>
+            Não era discípulo. Era médico. Viajante. Alguém que tinha o hábito de ouvir testemunhas e registrar o que ouviam com cuidado.<br><br>
+            Ele ainda não sabia que o que estava escrevendo ia mudar o mundo.<br><br>
+            <em style="color:#d4a843;">A história continua na semana que vem. E tem um livro no meio disso.</em>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="espirito_dia5.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+        <a href="../atos/atos_dia1.html" class="nav-btn nav-btn-next">Semana 2 →</a>
+    </div>
+
+    <div style="text-align:center; margin-top:18px;">
+        <a href="espirito.html" style="color:rgba(255,255,255,0.3); font-size:13px; text-decoration:none;">← Ver todos os dias</a>
+        &nbsp;&nbsp;·&nbsp;&nbsp;
+        <a href="../index.html" style="color:rgba(255,255,255,0.3); font-size:13px; text-decoration:none;">Portal</a>
+    </div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:5px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+
+</div>
+</div>
+
+<script>
+    async function enviarCarta() {
+        const input = document.getElementById('carta-input').value.trim();
+        if (!input) {
+            document.getElementById('carta-input').focus();
+            return;
+        }
+
+        const btn = document.getElementById('carta-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳</span> Selando...';
+
+        // Mostrar pergaminho com frase do UP
+        document.getElementById('pergaminho-frase').textContent = '"' + input + '"';
+        document.getElementById('loading').style.display = 'flex';
+        document.getElementById('pergaminho-resposta').innerHTML = document.getElementById('loading').outerHTML;
+        document.getElementById('pergaminho').style.display = 'block';
+        document.getElementById('pergaminho').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        function gerarFallback(texto) {
+            const t = texto.toLowerCase();
+            if (t.includes('dúvid') || t.includes('duvid') || t.includes('não sei') || t.includes('nao sei')) {
+                return 'Levi também não sabia. E foi exatamente com esse não saber que ele entrou pela porta.';
+            } else if (t.includes('mud') || t.includes('diferent')) {
+                return 'A jarra era a mesma. O caminho era o mesmo. Só ele não era mais o mesmo, e isso era suficiente.';
+            } else if (t.includes('medo') || t.includes('assust')) {
+                return 'Tomé também tinha medo. A diferença é que um dia o medo de ficar fora foi maior do que o medo de entrar.';
+            } else if (t.includes('alegr') || t.includes('feliz') || t.includes('bem')) {
+                return 'Maria chamava de alegria. Do tipo que passa pela dor primeiro, e por isso não vai embora fácil.';
+            } else if (t.includes('jesus') || t.includes('deus') || t.includes('espírito') || t.includes('espirito')) {
+                return 'Levi aprendeu o nome. Depois aprendeu a história. Depois entrou pela porta. Nessa ordem, não em outra.';
+            } else if (t.includes('jarra') || t.includes('água') || t.includes('agua')) {
+                return 'Três jarras quebradas em cinquenta dias. E foi exatamente nas quebradas que a história aconteceu.';
+            } else if (t.includes('porta') || t.includes('entrar') || t.includes('entrei')) {
+                return 'A porta estava aberta desde o começo. O que demorou foi Levi perceber que ele podia passar por ela.';
+            } else if (t.includes('pergunt') || t.includes('resposta') || t.includes('entend')) {
+                return 'O Espírito Santo não resolve todas as perguntas. Entra nas perguntas com você.';
+            } else {
+                const genericas = [
+                    'Levi escreveu algo parecido. E depois ficou olhando pra frase por um tempo, sem saber se era o começo ou o fim.',
+                    'Cinquenta dias atrás isso não caberia no caderninho. Hoje cabe, porque ele é maior por dentro.',
+                    'A jarra caiu na sexta-feira. O caderninho ficou cheio na semana seguinte. Não foi coincidência.',
+                    'Isso é exatamente o tipo de coisa que alguém escreve quando para de fingir que não precisa de nada.'
+                ];
+                return genericas[Math.floor(Math.random() * genericas.length)];
+            }
+        }
+
+        try {
+            const response = await fetch('https://api.anthropic.com/v1/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'anthropic-dangerous-direct-browser-access': 'true'
+                },
+                body: JSON.stringify({
+                    model: 'claude-sonnet-4-20250514',
+                    max_tokens: 1000,
+                    system: `Você é o narrador da história de Levi, um menino de 12 anos carregador de água em Jerusalém que acompanhou os eventos do Pentecostes. Sua voz é a da série "O Espírito Santo e o Livro Inacabado". Um pré-adolescente escreveu o que Levi escreveria no caderninho depois de uma semana que mudou tudo. Responda em UMA frase, no máximo duas, curtas, no tom da série: narrativo, leve, com profundidade, sem ser religioso demais nem superficial. Conecte o que o UP escreveu com a jornada de Levi. Não corrija, não avalie, não elogie. Só reflita de volta, como um espelho. Nunca use travão. Nunca mencione "Central UP" ou "ministério". Fale como narrador da história. Seja sempre diferente, nunca repita a mesma resposta.`,
+                    messages: [{
+                        role: 'user',
+                        content: `O pré-adolescente escreveu: "${input}"`
+                    }]
+                })
+            });
+
+            const data = await response.json();
+            const resposta = data.content && data.content[0] ? data.content[0].text : gerarFallback(input);
+            document.getElementById('pergaminho-resposta').innerHTML = resposta;
+
+        } catch (e) {
+            document.getElementById('pergaminho-resposta').innerHTML = gerarFallback(input);
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = '<span>✓</span> Pergaminho selado';
+    }
+
+    // BLOQUEIO DE DATA
+    const abertura   = new Date('2026-04-11T00:00:00');
+    const liberacao  = new Date('2026-04-12T00:00:00');
+    const agora = new Date();
+
+    if (agora >= abertura || agora >= liberacao) {
+        document.getElementById('bloqueio').style.display = 'none';
+        document.getElementById('conteudo').style.display = 'block';
+    } else {
+        document.getElementById('msg-bl').textContent = 'Este devocional abre no sábado, 11/04!';
+        document.getElementById('msg-sub').textContent = 'O último capítulo de Levi. Falta pouco. 💧';
+    }
+
+    function abrirAdmin() {
+        const s = prompt('🔒 Senha:');
+        if (s === 'admin') {
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        } else if (s !== null) alert('Senha incorreta.');
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.3);border:1.5px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.3);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button>
+</div>
+
+</body>
+</html>

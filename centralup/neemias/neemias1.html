@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 1 - 💔 A Notícia que Mudou Tudo | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .conteudo-bloqueio {
+            text-align: center; color: white; padding: 40px; max-width: 600px;
+        }
+        #bloqueio img { max-width: 300px; margin-bottom: 30px; }
+        #bloqueio h1 { font-size: 48px; margin-bottom: 20px; color: white; }
+        #bloqueio p { font-size: 24px; line-height: 1.8; color: white; }
+        #conteudo { display: none; }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 30px; }
+        .logo-topo img { max-width: 250px; }
+        .dia-badge {
+            display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 10px 25px; border-radius: 25px; font-weight: bold; margin-bottom: 20px;
+        }
+        h1 { color: #667eea; font-size: 38px; margin-bottom: 15px; line-height: 1.2; }
+        .subtitle { color: #764ba2; font-size: 20px; margin-bottom: 30px; font-weight: 600; }
+        .progresso {
+            background: #f5f5f5; padding: 20px; border-radius: 12px; margin: 30px 0; text-align: center;
+        }
+        .progresso-titulo { color: #667eea; font-weight: bold; margin-bottom: 15px; }
+        .progresso-bar { background: #e0e0e0; height: 30px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            height: 100%; width: 16.666666666666664%; display: flex; align-items: center;
+            justify-content: center; color: white; font-weight: bold;
+        }
+        .frase-secreta {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border: 4px dashed #d63031; padding: 25px; border-radius: 15px;
+            margin: 30px 0; text-align: center;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        .frase-secreta h3 {
+            color: #d63031; font-size: 22px; margin-bottom: 15px;
+        }
+        .frase-secreta .fragmento {
+            font-size: 32px; font-weight: bold; color: #2d3436;
+            background: white; padding: 15px 25px; border-radius: 10px;
+            display: inline-block; margin: 15px 0;
+        }
+        .frase-secreta p {
+            color: #2d3436; font-size: 16px; margin-top: 15px;
+        }
+        .frase-completa {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            border: 4px solid #ffd700; padding: 30px; border-radius: 20px;
+            margin: 30px 0; text-align: center; color: white;
+        }
+        .frase-completa h3 { color: white; font-size: 28px; margin-bottom: 20px; }
+        .frase-completa .texto-completo {
+            font-size: 28px; font-weight: bold; line-height: 1.6;
+            background: white; color: #667eea; padding: 20px; border-radius: 10px;
+        }
+        h2 {
+            color: white; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 13px 22px; border-radius: 12px; font-size: 20px; margin: 28px 0 18px 0;
+        }
+        p { line-height: 1.9; color: #333; font-size: 17px; margin: 15px 0; }
+        mark { background: #ffd700; padding: 3px 6px; border-radius: 3px; font-weight: 600; }
+        hr { border: none; border-top: 2px dashed #ddd; margin: 30px 0; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 40px; gap: 15px; }
+        .nav-btn {
+            flex: 1; padding: 15px 30px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; text-align: center; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .nav-btn-prev { background: #e0e0e0; color: #666; }
+        .nav-btn-prev:hover { background: #d0d0d0; transform: translateY(-2px); }
+        .nav-btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;
+        }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4); }
+        .rodape {
+            text-align: center; margin-top: 30px; padding-top: 20px;
+            border-top: 2px solid #eee; color: #999; font-size: 14px;
+        }
+        .rodape-destaque { color: #667eea; font-weight: bold; }
+
+        /* ===== MOBILE RESPONSIVO ===== */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 20px 16px; border-radius: 16px; }
+            .logo-topo img { max-width: 140px; }
+            h1 { font-size: 22px !important; line-height: 1.3; }
+            h2 { font-size: 15px !important; padding: 10px 14px; margin: 20px 0 14px 0 !important; }
+            .subtitle { font-size: 13px !important; margin-bottom: 16px; }
+            .dia-badge { font-size: 12px; padding: 7px 14px; }
+            p { font-size: 14px !important; line-height: 1.7; margin: 10px 0; }
+            .progresso { padding: 12px; margin: 16px 0; }
+            .progresso-fill { font-size: 12px; }
+            .frase-secreta { padding: 14px; }
+            .frase-secreta h3 { font-size: 15px; }
+            .frase-secreta .fragmento { font-size: 20px !important; padding: 10px 14px; }
+            .frase-completa { padding: 16px; }
+            .frase-completa h3 { font-size: 17px !important; }
+            .frase-completa .texto-completo { font-size: 15px !important; padding: 12px; }
+            .nav-buttons { flex-direction: column; gap: 10px; }
+            .nav-btn { padding: 13px 16px; font-size: 14px; }
+            .rodape { font-size: 12px; margin-top: 20px; }
+            mark { font-size: 14px; }
+            hr { margin: 18px 0; }
+        }
+        @media (max-width: 400px) {
+            h1 { font-size: 19px !important; }
+            .frase-secreta .fragmento { font-size: 17px !important; }
+        }
+        @media (max-width: 768px) {
+            #bloqueio .conteudo-bloqueio { padding: 24px 18px; }
+            #bloqueio img { max-width: 160px; margin-bottom: 18px; }
+            #bloqueio h1 { font-size: 28px; }
+            #bloqueio p { font-size: 15px; line-height: 1.6; }
+        }
+    </style>
+</head>
+<body>
+    <div id="bloqueio">
+        <div class="conteudo-bloqueio">
+            <img src="../logoup.png" alt="Central UP">
+            <h1>Olá, UP! 👋</h1>
+            <p>O devocional é um dia de cada vez!</p>
+            <p style="margin-top: 20px;"><strong>Volte amanhã para o próximo dia! 📅</strong></p>
+            <p style="font-size: 18px; margin-top: 40px; opacity: 0.9;">
+                Este dia estará disponível em: <span id="dataLiberacao" style="font-weight: bold;"></span>
+            </p>
+        </div>
+    </div>
+
+    <div id="conteudo">
+        <div class="container">
+            <div class="logo-topo">
+                <img src="../logoup.png" alt="Central UP">
+            </div>
+            
+            <div class="dia-badge">📅 DIA 1 DE 6</div>
+            
+            <h1>💔 A Notícia que Mudou Tudo</h1>
+            <p class="subtitle">Neemias Capítulo 1 - Quando seu coração quebra pelo que quebra o coração de Deus</p>
+
+            <div class="progresso">
+                <div class="progresso-titulo">SEU PROGRESSO NO DESAFIO</div>
+                <div class="progresso-bar">
+                    <div class="progresso-fill">DIA 1 - 17%</div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>📖 LEIA NEEMIAS 1</h2>
+            <p>E aí, UP! Leia o capítulo 1 de Neemias aqui embaixo — na versão <strong>NTLH</strong> (Nova Tradução na Linguagem de Hoje). Depois continue o devocional! 👇</p>
+
+            <div style="background: #f8f8ff; border: 2px solid #667eea33; border-radius: 16px; padding: 20px; margin: 20px 0; max-height: 320px; overflow-y: auto; line-height: 2; font-size: 15px; color: #333;">
+                <p style="margin:0 0 10px 0;"><strong style="color:#667eea;">NEEMIAS 1 — NTLH</strong></p>
+
+                <p><strong>1</strong> Estas são as memórias de Neemias, filho de Hacalias.</p>
+                <p>No mês de quisleu do vigésimo ano do reinado de Artaxerxes, eu estava na fortaleza de Susã. <strong>2</strong> Hanani, um dos meus irmãos, chegou de Judá junto com alguns outros homens. Perguntei a eles a respeito dos judeus que tinham escapado do exílio e a respeito de Jerusalém. <strong>3</strong> Eles me disseram: "Os que sobreviveram ao exílio estão em situação muito difícil e cheia de vergonha. A muralha de Jerusalém está em ruínas, e as suas portas foram destruídas pelo fogo."</p>
+
+                <p><strong>4</strong> Quando ouvi isso, sentei no chão e comecei a chorar. Por vários dias fiquei em prantos, jejuando e orando ao Deus do céu. <strong>5</strong> Eu disse:</p>
+
+                <p style="padding-left:16px; border-left: 3px solid #667eea; margin: 12px 0;">"Senhor, Deus do céu, Deus grande e poderoso, que cumpre a sua aliança e trata com bondade os que te amam e obedecem aos teus mandamentos: <strong>6</strong> escuta a minha oração. Estou orando a ti dia e noite pelos teus servos, o povo de Israel. Confesso os pecados que nós, israelitas, cometemos contra ti. Eu e a minha família pecamos contra ti. <strong>7</strong> Agimos muito mal contra ti; não obedecemos aos mandamentos, leis e normas que deste ao teu servo Moisés.</p>
+
+                <p style="padding-left:16px; border-left: 3px solid #667eea; margin: 12px 0;"><strong>8</strong> Lembra-te do que disseste ao teu servo Moisés: 'Se vocês me desobedecerem, eu os espalherei pelas nações. <strong>9</strong> Mas se vocês voltarem a mim e obedecerem aos meus mandamentos, mesmo que estejam espalhados pelo mundo inteiro, eu os reunirei do lugar para onde os exilei e os trarei de volta para o lugar que escolhi como morada do meu nome.'</p>
+
+                <p style="padding-left:16px; border-left: 3px solid #667eea; margin: 12px 0;"><strong>10</strong> Eles são os teus servos e o teu povo, que tu resgataste com o teu grande poder e com a tua mão poderosa. <strong>11</strong> Senhor, escuta a minha oração e as orações dos teus servos que têm prazer em honrar o teu nome. Faz com que hoje eu tenha sucesso e que este rei tenha pena de mim."</p>
+
+                <p>Eu era o copeiro do rei.</p>
+            </div>
+
+            <p style="text-align: center; font-size: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px; border-radius: 12px; margin: 10px 0;">
+                <strong>⬇️ Leu? Então continue o devocional abaixo!</strong>
+            </p>
+
+
+            <hr>
+            <h2>💬 E então, UP?</h2>
+            <p>Você acabou de ler o capítulo 1 de Neemias. Agora deixa eu te contar o que está acontecendo nessa cena — e por que ela fala diretamente com a sua vida.</p>
+
+            <hr>
+
+            <h2>📰 O QUE ACONTECEU</h2>
+            <p>Neemias estava bem de vida. Tinha um cargo importante no palácio do rei mais poderoso do mundo. Tinha segurança, salário, status. Do ponto de vista humano, ele não precisava de nada.</p>
+            <p>Aí chegou a notícia: <mark>Jerusalém estava destruída. Os muros em ruínas. O povo, em desgraça.</mark></p>
+            <p>E Neemias… quebrou por dentro.</p>
+            <p style="background: #f0f4ff; padding: 20px; border-radius: 12px; border-left: 5px solid #667eea;">
+                <em>"Quando ouvi estas palavras, sentei-me e chorei, e por alguns dias estive de luto, jejuando e orando diante do Deus dos céus."</em><br>
+                <strong>— Neemias 1.4</strong>
+            </p>
+
+            <hr>
+
+            <h2>🔍 O QUE DEUS QUER TE MOSTRAR HOJE</h2>
+            <p>Repara numa coisa: Neemias não recebeu uma visão sobrenatural. Não ouviu uma voz do céu. Ele simplesmente <strong>ouviu uma notícia — e deixou ela tocar seu coração de verdade.</strong></p>
+            <p>A maioria das pessoas ouve sobre problemas ao redor e continua a vida normalmente. Neemias não. Ele chorou. Jejuou. Orou. Por dias.</p>
+            <p>Isso tem um nome: <mark>compaixão de verdade</mark>. E é exatamente por aí que Deus começa a mover pessoas extraordinárias.</p>
+            <p>Antes de Neemias pegar uma pedra para construir qualquer coisa, ele ficou dias diante de Deus com o coração partido. A oração dele no final do capítulo 1 é longa, honesta e intensa — ele confessa os pecados do povo, lembra as promessas de Deus e pede uma única coisa: <strong>uma oportunidade.</strong></p>
+            <p>Deus usou o que partiu o coração de Neemias para revelar a missão de Neemias.</p>
+
+            <hr>
+
+            <h2>🪞 ISSO FALA COM VOCÊ</h2>
+            <p>Existe algo ao seu redor que deveria te incomodar mais do que incomoda? Uma situação na sua família, na sua escola, no seu grupo de amigos que você já se acostumou a ignorar?</p>
+            <p>Talvez Deus esteja esperando exatamente isso de você hoje: <mark>parar, sentir de verdade, e levar isso pra Ele em oração.</mark></p>
+            <p>Grandes histórias não começam com grandes ações. Elas começam com um coração que se importa.</p>
+
+            <hr>
+
+            <h2>🙏 ORAÇÃO DO DIA</h2>
+            <p style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 25px; border-radius: 12px; border-left: 5px solid #764ba2; font-style: italic; line-height: 2;">
+                "Senhor, quero ter um coração sensível como o de Neemias. Não deixa eu me acostumar com o que deveria me mover. Mostra o que quebra o Teu coração — e que isso também quebre o meu. Usa a minha vida como ponto de partida para algo que só pode ter vindo de Ti. Amém."
+            </p>
+
+
+            <hr>
+
+            <!-- QUIZ -->
+            <div class="quiz-container">
+                <h2 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 25px; border-radius: 12px; font-size: 26px; margin: 0 0 20px 0;">🧠 QUIZ DO DIA 1</h2>
+                <p style="color: #555; margin-bottom: 25px; font-size: 16px;">Responda as 3 perguntas corretamente para desbloquear a <strong>Frase Secreta</strong>! 🔐</p>
+
+                <!-- Pergunta 1 -->
+                <div class="pergunta" id="q1">
+                    <p class="pergunta-texto">1. Qual era o cargo de Neemias no palácio do rei?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(1, this, false)">⚔️ General do exército</button>
+                        <button class="alt-btn" onclick="responder(1, this, true)">🍷 Copeiro do rei</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">📜 Escriba real</button>
+                    </div>
+                    <div class="feedback" id="f1"></div>
+                </div>
+
+                <!-- Pergunta 2 -->
+                <div class="pergunta" id="q2" style="display:none;">
+                    <p class="pergunta-texto">2. O que Neemias fez ao receber a notícia sobre Jerusalém?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(2, this, false)">✈️ Partiu imediatamente para Jerusalém</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">😤 Ficou com raiva e reclamou ao rei</button>
+                        <button class="alt-btn" onclick="responder(2, this, true)">😢 Chorou, jejuou e orou por dias</button>
+                    </div>
+                    <div class="feedback" id="f2"></div>
+                </div>
+
+                <!-- Pergunta 3 -->
+                <div class="pergunta" id="q3" style="display:none;">
+                    <p class="pergunta-texto">3. O que Neemias pediu a Deus no final do capítulo 1?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(3, this, false)">💰 Riquezas para reconstruir os muros</button>
+                        <button class="alt-btn" onclick="responder(3, this, true)">🚪 Uma oportunidade diante do rei</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">⚡ Um milagre para destruir os inimigos</button>
+                    </div>
+                    <div class="feedback" id="f3"></div>
+                </div>
+
+                <!-- Frase revelada -->
+                <div id="frase-revelada" style="display:none;">
+                    <div class="frase-secreta" style="animation: aparecer 0.8s ease;">
+                        <h3>🎉 PARABÉNS! FRASE DESBLOQUEADA!</h3>
+                        <p style="color: #555; margin-bottom: 10px;">FRASE SECRETA — PARTE 1/6</p>
+                        <div class="fragmento">"Com Deus,"</div>
+                        <p>✏️ <strong>UP, anote este pedaço!</strong> Ao completar os 6 dias, você terá a frase completa!</p>
+                    </div>
+                </div>
+
+                <!-- Errou tudo -->
+                <div id="tenta-novamente" style="display:none; background:#ffe0e0; border:2px solid #d63031; padding:20px; border-radius:12px; text-align:center; margin-top:20px;">
+                    <p style="color:#d63031; font-weight:bold; font-size:18px;">❌ Ops! Resposta errada!</p>
+                    <p style="color:#555; margin:10px 0;">Releia o capítulo e tente novamente!</p>
+                    <button onclick="tentarNovamente()" style="background: linear-gradient(135deg,#667eea,#764ba2); color:white; border:none; padding:12px 30px; border-radius:10px; font-size:16px; font-weight:bold; cursor:pointer; margin-top:10px;">🔄 Tentar novamente</button>
+                </div>
+            </div>
+
+            <style>
+                .quiz-container { background: #f8f8ff; border: 2px solid #667eea33; border-radius: 20px; padding: 30px; margin: 30px 0; }
+                .pergunta { margin-bottom: 10px; }
+                .pergunta-texto { font-size: 18px; font-weight: bold; color: #333; margin-bottom: 15px; line-height: 1.5; }
+                .alternativas { display: flex; flex-direction: column; gap: 10px; }
+                .alt-btn {
+                    background: white; border: 2px solid #667eea55; padding: 14px 18px;
+                    border-radius: 12px; font-size: 16px; cursor: pointer; text-align: left;
+                    transition: all 0.2s ease; color: #333; font-family: inherit;
+                }
+                .alt-btn:hover { background: #667eea15; border-color: #667eea; transform: translateX(4px); }
+                .alt-btn.correta { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+                .alt-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+                .alt-btn:disabled { cursor: not-allowed; transform: none; }
+                .feedback { margin-top: 12px; font-size: 15px; font-weight: bold; min-height: 24px; }
+                @keyframes aparecer { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+                @media (max-width: 768px) {
+                    .quiz-container { padding: 16px; }
+                    .pergunta-texto { font-size: 16px; }
+                    .alt-btn { font-size: 14px; padding: 12px 14px; }
+                }
+            </style>
+
+            <script>
+                let acertos = 0;
+                const totalPerguntas = 3;
+
+                function responder(num, btn, correta) {
+                    const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+                    const feedback = document.getElementById('f' + num);
+                    buttons.forEach(b => b.disabled = true);
+
+                    if (correta) {
+                        btn.classList.add('correta');
+                        feedback.style.color = '#1a7a3c';
+                        feedback.textContent = '✅ Correto! Muito bem, UP!';
+                        acertos++;
+                        setTimeout(() => {
+                            if (num < totalPerguntas) {
+                                document.getElementById('q' + num).style.opacity = '0.6';
+                                document.getElementById('q' + (num + 1)).style.display = 'block';
+                                document.getElementById('q' + (num + 1)).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            } else {
+                                document.getElementById('frase-revelada').style.display = 'block';
+                                document.getElementById('frase-revelada').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }, 900);
+                    } else {
+                        btn.classList.add('errada');
+                        feedback.style.color = '#d63031';
+                        feedback.textContent = '❌ Não é essa! Pense bem...';
+                        setTimeout(() => {
+                            buttons.forEach(b => { b.disabled = false; b.classList.remove('errada'); });
+                            feedback.textContent = '';
+                        }, 1500);
+                    }
+                }
+
+                function tentarNovamente() {
+                    document.getElementById('tenta-novamente').style.display = 'none';
+                    acertos = 0;
+                    ['q1','q2','q3'].forEach((id, i) => {
+                        const el = document.getElementById(id);
+                        el.style.display = i === 0 ? 'block' : 'none';
+                        el.style.opacity = '1';
+                        el.querySelectorAll('.alt-btn').forEach(b => { b.disabled = false; b.className = 'alt-btn'; });
+                        document.getElementById('f' + (i+1)).textContent = '';
+                    });
+                }
+            </script>
+
+            <hr>
+
+            <div class="nav-buttons">
+                <div class="nav-btn nav-btn-prev" style="opacity: 0.5; cursor: not-allowed;">← Dia Anterior</div>
+                <a href="neemias2.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+            </div>
+
+            
+            <div style="text-align:center; margin-top:18px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+                <a href="neemias.html" style="color:#667eea; font-size:13px; text-decoration:none; font-weight:600;">← Voltar para Neemias</a>
+                <span style="color:#ccc;">|</span>
+                <a href="https://www.ieqlondrina.com.br/centralup" style="color:#764ba2; font-size:13px; text-decoration:none; font-weight:600;">🏠 Portal Central UP</a>
+            </div>
+            <div class="rodape">
+                <p><span class="rodape-destaque">Central UP</span> - IEQ Central</p>
+                <p style="margin-top: 10px;">Desenvolvido por <span class="rodape-destaque">Pr. Eduardo</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dataLiberacao = new Date('2026-03-02T00:00:00');
+        const agora = new Date();
+        const bloqueio = document.getElementById('bloqueio');
+        const conteudo = document.getElementById('conteudo');
+        const spanData = document.getElementById('dataLiberacao');
+        
+        const opcoes = { year: 'numeric', month: 'long', day: 'numeric' };
+        spanData.textContent = dataLiberacao.toLocaleDateString('pt-BR', opcoes);
+        
+        if (agora >= dataLiberacao) {
+            bloqueio.style.display = 'none';
+            conteudo.style.display = 'block';
+        } else {
+            bloqueio.style.display = 'flex';
+            conteudo.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

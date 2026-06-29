@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermão Interativo - Elias | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        .container {
+            max-width: 820px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 25px; }
+        .logo-topo img { max-width: 200px; }
+        .badge {
+            display: inline-block; background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            color: white; padding: 9px 22px; border-radius: 25px; font-weight: bold; margin-bottom: 18px; font-size: 14px;
+        }
+        h1 { color: #1a3a5c; font-size: 34px; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { color: #e85d2a; font-size: 17px; margin-bottom: 28px; font-weight: 600; }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 12px 0; }
+        h2 {
+            color: white; background: linear-gradient(135deg, #1a3a5c 0%, #2d5986 100%);
+            padding: 12px 20px; border-radius: 12px; font-size: 19px; margin: 30px 0 16px 0;
+        }
+        hr { border: none; border-top: 2px dashed #ddd; margin: 28px 0; }
+        mark { background: #ffd700; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+
+        /* ABERTURA */
+        .breakice { background: linear-gradient(135deg, #1a3a5c11, #e85d2a11); border: 2px solid #1a3a5c44; padding: 24px; border-radius: 16px; margin: 18px 0; }
+        .breakice h3 { color: #1a3a5c; font-size: 17px; margin-bottom: 12px; }
+        .opcoes-dinamica { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+        .opcao {
+            background: white; border: 2px solid #1a3a5c33; border-radius: 12px;
+            padding: 14px 18px; cursor: pointer; transition: all 0.2s ease;
+            font-size: 15px; color: #333; text-align: left;
+        }
+        .opcao:hover { border-color: #1a3a5c; background: #eaf0f8; transform: translateX(6px); }
+        .opcao.selecionada { background: #1a3a5c; color: white; border-color: #1a3a5c; }
+        .resposta-dinamica { display: none; background: #e8f5e9; border: 2px solid #43e97b; border-radius: 12px; padding: 16px; margin-top: 14px; }
+
+        /* PUZZLE ORDEM */
+        .puzzle-cenas { margin: 18px 0; }
+        .cena-item {
+            background: white; border: 2px solid #1a3a5c33; border-radius: 14px;
+            padding: 14px 16px; margin: 10px 0; font-size: 14px;
+            display: flex; align-items: center; gap: 14px; transition: all 0.2s ease;
+        }
+        .cena-item.correta { border-color: #43e97b; background: #e8f5e9; }
+        .cena-item.errada { border-color: #d63031; background: #ffebee; }
+        .cena-num-btns { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; max-width: 80px; }
+        .num-btn {
+            width: 32px; height: 32px; border-radius: 50%; border: 2px solid #1a3a5c66;
+            background: white; color: #1a3a5c; font-weight: bold; font-size: 13px;
+            cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center;
+        }
+        .num-btn:hover { background: #eaf0f8; border-color: #1a3a5c; transform: scale(1.1); }
+        .num-btn.ativo { background: #1a3a5c; color: white; border-color: #1a3a5c; transform: scale(1.1); }
+        .num-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .cena-texto { flex: 1; line-height: 1.5; }
+        .btn-verificar {
+            background: linear-gradient(135deg, #1a3a5c 0%, #2d5986 100%);
+            color: white; border: none; padding: 14px 28px; border-radius: 12px;
+            font-size: 15px; font-weight: bold; cursor: pointer; margin: 14px 0; transition: all 0.3s;
+        }
+        .btn-verificar:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(26,58,92,0.4); }
+        .resultado-box { display: none; padding: 16px; border-radius: 12px; margin-top: 12px; font-weight: bold; font-size: 15px; }
+
+        /* DECODIFICADOR */
+        .decoder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; margin: 18px 0; }
+        .decoder-card {
+            border: 2px solid #1a3a5c33; border-radius: 14px; padding: 14px; text-align: center;
+            cursor: pointer; transition: all 0.25s ease; background: white;
+        }
+        .decoder-card:hover { border-color: #1a3a5c; background: #eaf0f8; transform: scale(1.04); }
+        .decoder-card.certa { background: #e8f5e9; border-color: #43e97b; }
+        .decoder-card.errada { background: #ffebee; border-color: #d63031; animation: shake 0.3s ease; }
+        .decoder-card .emoji-grande { font-size: 32px; display: block; margin-bottom: 6px; }
+        .decoder-card .label { font-size: 12px; color: #555; font-weight: 600; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+        /* LACUNAS */
+        .frase-lacuna { background: #f5f8ff; border: 2px solid #1a3a5c22; border-radius: 14px; padding: 20px; margin: 14px 0; font-size: 16px; line-height: 2.4; color: #333; }
+        .lacuna {
+            display: inline-block; border-bottom: 3px solid #1a3a5c; min-width: 90px; padding: 3px 8px;
+            text-align: center; font-weight: bold; color: #1a3a5c; background: #eaf0f8; border-radius: 6px; cursor: pointer;
+        }
+        .palavras-banco { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+        .palavra-banco {
+            background: linear-gradient(135deg, #1a3a5c, #2d5986); color: white;
+            padding: 10px 18px; border-radius: 25px; cursor: pointer; font-size: 14px;
+            transition: all 0.2s ease; user-select: none; font-weight: bold;
+        }
+        .palavra-banco:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(26,58,92,0.4); }
+        .palavra-banco.usada { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-verificar-lacunas {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white; border: none; padding: 14px 28px; border-radius: 12px;
+            font-size: 15px; font-weight: bold; cursor: pointer; margin: 14px 0; transition: all 0.3s;
+        }
+        .btn-verificar-lacunas:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(67,233,123,0.4); }
+
+        /* VERDADEIRO OU FALSO */
+        .vf-item { background: #f5f8ff; border: 2px solid #eee; border-radius: 14px; padding: 18px; margin: 12px 0; }
+        .vf-pergunta { font-size: 15px; color: #333; margin-bottom: 12px; font-weight: 600; line-height: 1.5; }
+        .vf-btns { display: flex; gap: 10px; }
+        .vf-btn {
+            flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 10px;
+            cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.2s ease;
+            background: white; color: #333;
+        }
+        .vf-btn:hover { transform: scale(1.03); }
+        .vf-btn.verde { background: #e8f5e9; border-color: #43e97b; color: #1b5e20; }
+        .vf-btn.vermelho { background: #ffebee; border-color: #d63031; color: #b71c1c; }
+        .vf-feedback { display: none; margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 14px; font-weight: 600; }
+
+        /* QUIZ PERSONAGEM */
+        .pq-pergunta { background: linear-gradient(135deg, #1a3a5c11, #e85d2a11); border: 2px solid #1a3a5c33; border-radius: 14px; padding: 20px; margin: 14px 0; }
+        .pq-pergunta h4 { color: #1a3a5c; font-size: 15px; margin-bottom: 12px; line-height: 1.5; }
+        .pq-opcoes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .pq-btn {
+            padding: 14px 12px; border: 2px solid #1a3a5c33; border-radius: 10px;
+            cursor: pointer; font-size: 13px; background: white; transition: all 0.2s; text-align: center;
+            color: #333; font-weight: 600;
+        }
+        .pq-btn:hover { border-color: #1a3a5c; background: #eaf0f8; }
+        .pq-btn.certa { background: #e8f5e9; border-color: #43e97b; color: #1b5e20; }
+        .pq-btn.errada { background: #ffebee; border-color: #d63031; color: #b71c1c; }
+
+        /* REFLEXÃO */
+        .reflexao { background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); border: 4px dashed #e85d2a; padding: 28px; border-radius: 18px; margin: 28px 0; text-align: center; }
+        .reflexao h3 { color: #1a3a5c; font-size: 20px; margin-bottom: 16px; }
+        .reflexao .frase-grande { font-size: 20px; font-weight: bold; color: #2d3436; line-height: 1.6; }
+
+        /* MISSÃO SECRETA */
+        .missao-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.85); z-index: 1000;
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        .missao-overlay.ativa { display: flex; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .missao-card {
+            background: white; border-radius: 24px; padding: 40px; max-width: 520px; width: 100%;
+            text-align: center; box-shadow: 0 20px 80px rgba(0,0,0,0.5);
+            border: 4px solid #ffd700;
+        }
+        .missao-card .estrelas { font-size: 40px; margin-bottom: 12px; animation: pulse 1.2s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        .missao-card h2 { color: #1a3a5c; font-size: 26px; margin-bottom: 8px; background: none; padding: 0; border-radius: 0; }
+        .missao-card .sub { color: #e85d2a; font-size: 16px; font-weight: 600; margin-bottom: 18px; }
+        .missao-card p { font-size: 15px; color: #444; line-height: 1.8; margin-bottom: 16px; }
+        .missao-card .destaque-box {
+            background: linear-gradient(135deg, #1a3a5c 0%, #2d5986 100%);
+            color: white; padding: 16px 20px; border-radius: 14px; margin: 16px 0;
+            font-size: 15px; line-height: 1.7;
+        }
+        .missao-card .destaque-box strong { color: #ffd700; }
+        .input-nome {
+            width: 100%; padding: 14px 18px; border: 3px solid #1a3a5c44; border-radius: 12px;
+            font-size: 16px; margin: 14px 0; outline: none; text-align: center;
+            transition: border-color 0.2s ease;
+        }
+        .input-nome:focus { border-color: #1a3a5c; }
+        .btn-whatsapp {
+            display: none; width: 100%; background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            color: white; border: none; padding: 16px; border-radius: 14px;
+            font-size: 17px; font-weight: bold; cursor: pointer; margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(37,211,102,0.4); }
+        .btn-fechar-missao {
+            background: none; border: 2px solid #ccc; color: #999; padding: 10px 20px;
+            border-radius: 10px; cursor: pointer; font-size: 13px; margin-top: 14px;
+            transition: all 0.2s;
+        }
+        .btn-fechar-missao:hover { border-color: #999; color: #555; }
+
+        /* BOTÃO FINAL */
+        .btn-voltar {
+            display: inline-block; background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            color: white; padding: 14px 30px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; margin-top: 28px; font-size: 15px; transition: all 0.3s ease;
+        }
+        .btn-voltar:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(26,58,92,0.4); }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #eee; color: #999; font-size: 12px; }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px 14px; }
+            h1 { font-size: 22px; }
+            h2 { font-size: 15px; padding: 10px 14px; }
+            p { font-size: 14px; }
+            .pq-opcoes { grid-template-columns: 1fr; }
+            .logo-topo img { max-width: 150px; }
+            .reflexao .frase-grande { font-size: 16px; }
+            .decoder-grid { grid-template-columns: repeat(3, 1fr); }
+            .missao-card { padding: 28px 20px; }
+            .missao-card h2 { font-size: 22px; }
+        }
+        /* BARRA DE PROGRESSO FIXA */
+        .progress-bar-wrap {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+            background: rgba(255,255,255,0.97); backdrop-filter: blur(6px);
+            padding: 10px 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .progress-label { font-size: 12px; font-weight: 700; color: #1a3a5c; white-space: nowrap; flex-shrink: 0; }
+        .progress-track { flex: 1; background: #e0e0e0; border-radius: 999px; height: 13px; overflow: hidden; }
+        .progress-fill {
+            height: 100%; border-radius: 999px; width: 0%;
+            background: linear-gradient(90deg, #1a3a5c 0%, #e85d2a 100%);
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .progress-pct { font-size: 13px; font-weight: 800; color: #e85d2a; white-space: nowrap; flex-shrink: 0; min-width: 38px; text-align: right; }
+        body { padding-top: 52px; }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar-wrap">
+    <span class="progress-label">🔥 Sua jornada:</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span class="progress-pct" id="progress-pct">0%</span>
+</div>
+
+<div class="container">
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+    <div class="badge">🎮 SERMÃO INTERATIVO — ELIAS</div>
+    <h1>🌿 Deus e o Profeta Debaixo de uma Árvore</h1>
+    <p class="subtitle">Uma experiência interativa sobre recomeço, esgotamento e o cuidado de Deus</p>
+
+    <p>Hoje não é só leitura! Você vai clicar, resolver puzzles, completar desafios e descobrir a história de Elias de um jeito diferente. E tem uma surpresa no final para quem chegar até lá. 🔥</p>
+
+    <hr>
+
+    <!-- PARTE 1: ABERTURA -->
+    <h2>🎯 PARTE 1 — DINÂMICA DE ABERTURA</h2>
+    <p><strong>Clique na opção que mais combina com você hoje:</strong></p>
+
+    <div class="breakice">
+        <h3>Você acabou de fazer algo muito difícil e deu tudo de si. No dia seguinte, você acorda como?</h3>
+        <div class="opcoes-dinamica" id="opcoes-abertura">
+            <button class="opcao" onclick="escolherAbertura(this, 'cheio')">⚡ Cheio de energia, pronto para o próximo desafio!</button>
+            <button class="opcao" onclick="escolherAbertura(this, 'normal')">😐 Normal, como qualquer outro dia</button>
+            <button class="opcao" onclick="escolherAbertura(this, 'cansado')">😴 Bem cansado, mas satisfeito com o que fiz</button>
+            <button class="opcao" onclick="escolherAbertura(this, 'vazio')">😶 Vazio. Estranhamente vazio, sem saber por quê</button>
+        </div>
+        <div class="resposta-dinamica" id="resp-abertura"></div>
+    </div>
+
+    <hr>
+
+    <!-- PARTE 2: DECODIFICADOR DE PERSONAGENS -->
+    <h2>🕵️ PARTE 2 — DECODIFICADOR DE PERSONAGENS</h2>
+    <p>Cada símbolo representa um personagem da história. <strong>Clique no personagem certo para cada pista:</strong></p>
+
+    <div id="decoder-section">
+
+        <div style="background:#f5f8ff; border:2px solid #1a3a5c22; border-radius:14px; padding:20px; margin:16px 0;">
+            <p style="font-weight:700; color:#1a3a5c; margin-bottom:14px;">🔎 Pista 1: <em>"Virou as costas para Deus, adorou Baal, e depois do fogo no Carmelo ainda não mudou. Contou tudo para a esposa."</em></p>
+            <div class="decoder-grid" id="dec1">
+                <div class="decoder-card" onclick="respDecoder(this, false, 1)"><span class="emoji-grande">🔥</span><span class="label">Elias</span></div>
+                <div class="decoder-card" onclick="respDecoder(this, true, 1)"><span class="emoji-grande">👑</span><span class="label">Acabe</span></div>
+                <div class="decoder-card" onclick="respDecoder(this, false, 1)"><span class="emoji-grande">🐍</span><span class="label">Jezabel</span></div>
+                <div class="decoder-card" onclick="respDecoder(this, false, 1)"><span class="emoji-grande">🌱</span><span class="label">Eliseu</span></div>
+            </div>
+        </div>
+
+        <div style="background:#f5f8ff; border:2px solid #1a3a5c22; border-radius:14px; padding:20px; margin:16px 0;">
+            <p style="font-weight:700; color:#1a3a5c; margin-bottom:14px;">🔎 Pista 2: <em>"Recebeu uma ameaça e não ficou bravo. Ficou com medo, correu para o deserto e queria abandonar tudo."</em></p>
+            <div class="decoder-grid" id="dec2">
+                <div class="decoder-card" onclick="respDecoder(this, true, 2)"><span class="emoji-grande">🔥</span><span class="label">Elias</span></div>
+                <div class="decoder-card" onclick="respDecoder(this, false, 2)"><span class="emoji-grande">👑</span><span class="label">Acabe</span></div>
+                <div class="decoder-card" onclick="respDecoder(this, false, 2)"><span class="emoji-grande">🛡️</span><span class="label">Obadias</span></div>
+                <div class="decoder-card" onclick="respDecoder(this, false, 2)"><span class="emoji-grande">🌱</span><span class="label">Eliseu</span></div>
+            </div>
+        </div>
+
+        <div style="background:#f5f8ff; border:2px solid #1a3a5c22; border-radius:14px; padding:20px; margin:16px 0;">
+            <p style="font-weight:700; color:#1a3a5c; margin-bottom:14px;">🔎 Pista 3: <em>"Estava arando no campo quando um estranho jogou uma capa sobre ele. Largou os bois, se despediu da família e foi."</em></p>
+            <div class="decoder-grid" id="dec3">
+                <div class="decoder-card" onclick="respDecoder(this, false, 3)"><span class="emoji-grande">🔥</span><span class="label">Elias</span></div>
+                <div class="decoder-card" onclick="respDecoder(this, false, 3)"><span class="emoji-grande">🛡️</span><span class="label">Obadias</span></div>
+                <div class="decoder-card" onclick="respDecoder(this, false, 3)"><span class="emoji-grande">🐍</span><span class="label">Jezabel</span></div>
+                <div class="decoder-card" onclick="respDecoder(this, true, 3)"><span class="emoji-grande">🌱</span><span class="label">Eliseu</span></div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- PARTE 3: PUZZLE CRONOLÓGICO -->
+    <h2>🔀 PARTE 3 — COLOQUE A HISTÓRIA EM ORDEM</h2>
+    <p>As cenas da história de Elias estão embaralhadas! <strong>Numere de 1 a 6 na ordem correta:</strong></p>
+
+    <div class="puzzle-cenas" id="puzzle-cenas">
+        <div class="cena-item" id="cena-a" data-ordem-correta="4">
+            <div class="cena-num-btns">
+                <button class="num-btn" onclick="selecionarNumero('cena-a', 1)">1</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-a', 2)">2</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-a', 3)">3</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-a', 4)">4</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-a', 5)">5</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-a', 6)">6</button>
+            </div>
+            <span class="cena-texto">🕳️ Elias entra numa caverna no Monte Horebe e Deus pergunta: "O que você está fazendo aqui?"</span>
+        </div>
+        <div class="cena-item" id="cena-b" data-ordem-correta="1">
+            <div class="cena-num-btns">
+                <button class="num-btn" onclick="selecionarNumero('cena-b', 1)">1</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-b', 2)">2</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-b', 3)">3</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-b', 4)">4</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-b', 5)">5</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-b', 6)">6</button>
+            </div>
+            <span class="cena-texto">⚡ No Monte Carmelo, fogo cai do céu depois que Elias ora. Os 850 profetas de Baal são derrotados</span>
+        </div>
+        <div class="cena-item" id="cena-c" data-ordem-correta="6">
+            <div class="cena-num-btns">
+                <button class="num-btn" onclick="selecionarNumero('cena-c', 1)">1</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-c', 2)">2</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-c', 3)">3</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-c', 4)">4</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-c', 5)">5</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-c', 6)">6</button>
+            </div>
+            <span class="cena-texto">🧥 Elias joga sua capa sobre Eliseu no campo, e Eliseu larga tudo e o segue</span>
+        </div>
+        <div class="cena-item" id="cena-d" data-ordem-correta="2">
+            <div class="cena-num-btns">
+                <button class="num-btn" onclick="selecionarNumero('cena-d', 1)">1</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-d', 2)">2</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-d', 3)">3</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-d', 4)">4</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-d', 5)">5</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-d', 6)">6</button>
+            </div>
+            <span class="cena-texto">😰 Jezabel manda uma ameaça de morte para Elias. Ele fica com medo e foge para o deserto</span>
+        </div>
+        <div class="cena-item" id="cena-e" data-ordem-correta="3">
+            <div class="cena-num-btns">
+                <button class="num-btn" onclick="selecionarNumero('cena-e', 1)">1</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-e', 2)">2</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-e', 3)">3</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-e', 4)">4</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-e', 5)">5</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-e', 6)">6</button>
+            </div>
+            <span class="cena-texto">🌿 Debaixo de uma árvore no deserto, Elias senta esgotado e pede para desistir de tudo</span>
+        </div>
+        <div class="cena-item" id="cena-f" data-ordem-correta="5">
+            <div class="cena-num-btns">
+                <button class="num-btn" onclick="selecionarNumero('cena-f', 1)">1</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-f', 2)">2</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-f', 3)">3</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-f', 4)">4</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-f', 5)">5</button>
+                <button class="num-btn" onclick="selecionarNumero('cena-f', 6)">6</button>
+            </div>
+            <span class="cena-texto">🤫 Deus passa pelo Horebe: vento, terremoto, fogo. Mas estava no sussurro. Elias sai da caverna</span>
+        </div>
+    </div>
+
+    <button class="btn-verificar" onclick="verificarPuzzle()">✅ Verificar Ordem</button>
+    <div class="resultado-box" id="resultado-puzzle"></div>
+
+    <hr>
+
+    <!-- PARTE 4: COMPLETE AS LACUNAS -->
+    <h2>✏️ PARTE 4 — COMPLETE AS LACUNAS</h2>
+    <p>Clique em uma palavra do banco e depois clique na lacuna onde ela deve entrar:</p>
+
+    <div class="palavras-banco" id="palavras-banco">
+        <span class="palavra-banco" onclick="usarPalavra(this, 'sussurro')">sussurro</span>
+        <span class="palavra-banco" onclick="usarPalavra(this, '7.000')">7.000</span>
+        <span class="palavra-banco" onclick="usarPalavra(this, 'pão e água')">pão e água</span>
+        <span class="palavra-banco" onclick="usarPalavra(this, '40 dias')">40 dias</span>
+        <span class="palavra-banco" onclick="usarPalavra(this, 'Carmelo')">Carmelo</span>
+        <span class="palavra-banco" onclick="usarPalavra(this, 'Eliseu')">Eliseu</span>
+    </div>
+
+    <div class="frase-lacuna">
+        O maior confronto espiritual da geração aconteceu no Monte <span class="lacuna" id="l1" data-resposta="Carmelo">__________</span>.
+    </div>
+    <div class="frase-lacuna">
+        O anjo levou <span class="lacuna" id="l2" data-resposta="pão e água">__________</span> para Elias debaixo da árvore.
+    </div>
+    <div class="frase-lacuna">
+        Com a força daquela refeição, Elias caminhou por <span class="lacuna" id="l3" data-resposta="40 dias">__________</span> e 40 noites.
+    </div>
+    <div class="frase-lacuna">
+        Deus não estava no vento nem no terremoto. Estava no <span class="lacuna" id="l4" data-resposta="sussurro">__________</span>.
+    </div>
+    <div class="frase-lacuna">
+        Existiam <span class="lacuna" id="l5" data-resposta="7.000">__________</span> pessoas em Israel que não tinham se curvado para Baal.
+    </div>
+    <div class="frase-lacuna">
+        O sucessor de Elias se chamava <span class="lacuna" id="l6" data-resposta="Eliseu">__________</span>.
+    </div>
+
+    <button class="btn-verificar-lacunas" onclick="verificarLacunas()">🔍 Verificar Respostas</button>
+    <div id="resultado-lacunas" style="display:none; margin-top:12px; font-weight:bold; font-size:15px; padding:14px; border-radius:12px;"></div>
+
+    <hr>
+
+    <!-- PARTE 5: VERDADEIRO OU FALSO -->
+    <h2>⚡ PARTE 5 — VERDADEIRO OU FALSO?</h2>
+    <p>Clique em <strong>VERDADEIRO</strong> ou <strong>FALSO</strong> para cada afirmação:</p>
+
+    <div class="vf-item">
+        <div class="vf-pergunta">1. Elias desafiou 450 profetas de Baal e mais 400 profetas de Aserá no Monte Carmelo.</div>
+        <div class="vf-btns">
+            <button class="vf-btn" onclick="respVF(this, true, 'Correto! A Bíblia fala em 450 profetas de Baal e 400 de Aserá, totalizando 850 contra Elias.', 1)">✅ VERDADEIRO</button>
+            <button class="vf-btn" onclick="respVF(this, false, 'Verdadeiro! Eram 850 profetas no total: 450 de Baal e 400 de Aserá. Elias estava sozinho contra todos.', 1)">❌ FALSO</button>
+        </div>
+        <div class="vf-feedback" id="vf1"></div>
+    </div>
+
+    <div class="vf-item">
+        <div class="vf-pergunta">2. Depois do Carmelo, Jezabel se arrependeu e parou de perseguir os profetas de Deus.</div>
+        <div class="vf-btns">
+            <button class="vf-btn" onclick="respVF(this, false, 'Falso! Jezabel ficou ainda mais furiosa. Mandou uma ameaça de morte para Elias logo no dia seguinte.', 2)">✅ VERDADEIRO</button>
+            <button class="vf-btn" onclick="respVF(this, true, 'Correto! Jezabel não se arrependeu. Pelo contrário, mandou uma ameaça de morte para Elias no dia seguinte.', 2)">❌ FALSO</button>
+        </div>
+        <div class="vf-feedback" id="vf2"></div>
+    </div>
+
+    <div class="vf-item">
+        <div class="vf-pergunta">3. O anjo de Deus foi até Elias na árvore e ficou pregando e o corrigindo por ter fugido.</div>
+        <div class="vf-btns">
+            <button class="vf-btn" onclick="respVF(this, false, 'Falso! O anjo não pregou nem cobrou nada. Apenas tocou nele e disse: Levante-se e coma. Deus cuidou do corpo primeiro.', 3)">✅ VERDADEIRO</button>
+            <button class="vf-btn" onclick="respVF(this, true, 'Correto! O anjo não pregou nem cobrou nada. Só tocou nele e disse: Levante e coma. Deus cuidou do corpo antes de qualquer conversa.', 3)">❌ FALSO</button>
+        </div>
+        <div class="vf-feedback" id="vf3"></div>
+    </div>
+
+    <div class="vf-item">
+        <div class="vf-pergunta">4. Elias pensava que estava sozinho, mas Deus revelou que haviam 7.000 pessoas fiéis em Israel.</div>
+        <div class="vf-btns">
+            <button class="vf-btn" onclick="respVF(this, true, 'Correto! Elias achava que era o único que sobrou. Deus revelou que existiam 7.000 pessoas que nunca se curvaram para Baal.', 4)">✅ VERDADEIRO</button>
+            <button class="vf-btn" onclick="respVF(this, false, 'Verdadeiro! Elias achava que era o único fiel. Mas Deus disse que havia 7.000 pessoas do mesmo lado que ele.', 4)">❌ FALSO</button>
+        </div>
+        <div class="vf-feedback" id="vf4"></div>
+    </div>
+
+    <hr>
+
+    <!-- PARTE 6: QUAL LUGAR É ESSE? -->
+    <h2>🗺️ PARTE 6 — QUAL LUGAR É ESSE?</h2>
+    <p>Leia a descrição e identifique o lugar certo na história de Elias:</p>
+
+    <div class="pq-pergunta">
+        <h4>Lugar 1: "Foi aqui que o fogo caiu do céu. 850 profetas de um lado, Elias do outro. O povo caiu de joelhos."</h4>
+        <div class="pq-opcoes" id="pg1">
+            <button class="pq-btn certa-ref" onclick="respPG(this, true, 1)">🏔️ Monte Carmelo</button>
+            <button class="pq-btn" onclick="respPG(this, false, 1)">🏜️ Deserto de Berseba</button>
+            <button class="pq-btn" onclick="respPG(this, false, 1)">⛰️ Monte Horebe</button>
+            <button class="pq-btn" onclick="respPG(this, false, 1)">🌊 Rio Jordão</button>
+        </div>
+    </div>
+
+    <div class="pq-pergunta">
+        <h4>Lugar 2: "Elias sentou aqui depois de fugir. Esgotado, com vontade de desistir de tudo. O anjo apareceu com pão e água."</h4>
+        <div class="pq-opcoes" id="pg2">
+            <button class="pq-btn" onclick="respPG(this, false, 2)">🏔️ Monte Carmelo</button>
+            <button class="pq-btn certa-ref" onclick="respPG(this, true, 2)">🌿 Sob uma árvore no deserto</button>
+            <button class="pq-btn" onclick="respPG(this, false, 2)">⛰️ Monte Horebe</button>
+            <button class="pq-btn" onclick="respPG(this, false, 2)">🏰 Palácio de Acabe</button>
+        </div>
+    </div>
+
+    <div class="pq-pergunta">
+        <h4>Lugar 3: "O mesmo lugar onde Moisés encontrou Deus séculos antes. Elias caminhou 40 dias para chegar aqui. Ficou numa caverna."</h4>
+        <div class="pq-opcoes" id="pg3">
+            <button class="pq-btn" onclick="respPG(this, false, 3)">🏔️ Monte Carmelo</button>
+            <button class="pq-btn" onclick="respPG(this, false, 3)">🌿 Deserto de Berseba</button>
+            <button class="pq-btn certa-ref" onclick="respPG(this, true, 3)">⛰️ Monte Horebe</button>
+            <button class="pq-btn" onclick="respPG(this, false, 3)">🌊 Mar Vermelho</button>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- PARTE 7: REFLEXÃO FINAL -->
+    <h2>🪞 REFLEXÃO FINAL</h2>
+    <p>Você chegou até aqui. Agora a pergunta mais importante:</p>
+
+    <div class="breakice" style="text-align: center; margin-top: 16px;">
+        <h3 style="font-size: 18px; margin-bottom: 16px;">Onde você mais se vê nessa história de Elias?</h3>
+        <div class="opcoes-dinamica" id="opcoes-reflexao">
+            <button class="opcao" onclick="escolherReflexao(this, 'carmelo')">🔥 No Carmelo: dando tudo de mim por algo que acredito</button>
+            <button class="opcao" onclick="escolherReflexao(this, 'arvore')">🌿 Debaixo da árvore: esgotado, sem vontade de continuar</button>
+            <button class="opcao" onclick="escolherReflexao(this, 'caverna')">🕳️ Na caverna: escondido, querendo ficar longe de tudo</button>
+            <button class="opcao" onclick="escolherReflexao(this, 'sussurro')">🎧 Esperando o sussurro: tentando silenciar o barulho para ouvir Deus</button>
+        </div>
+        <div id="resposta-reflexao" style="display:none; margin-top:18px; padding:18px; border-radius:14px; background:white; border: 2px solid #1a3a5c;"></div>
+    </div>
+
+    <div class="reflexao">
+        <h3>🔑 PARA TERMINAR</h3>
+        <div class="frase-grande">"Deus não desiste de você mesmo quando você já desistiu de tudo."</div>
+        <p style="margin-top: 18px; font-size: 15px; color: #2d3436;">Faz o desafio de 6 dias e descobre o que Deus tem a te dizer através dessa história. 🌿</p>
+    </div>
+
+    <div style="text-align: center;">
+        <a href="../index.html" class="btn-voltar">← Voltar para o início</a>
+    </div>
+
+    <div class="rodape">
+        <p><strong style="color: #1a3a5c;">Central UP</strong> - IEQ Central</p>
+        <p style="margin-top: 7px;">Desenvolvido por <strong style="color: #1a3a5c;">Pr. Eduardo</strong></p>
+    </div>
+</div>
+
+<!-- QUASE LÁ OVERLAY -->
+<div class="missao-overlay" id="quasela-overlay">
+    <div class="missao-card">
+        <div class="estrelas" style="animation:none;">🌿⚡🔥</div>
+        <h2 style="color:#e85d2a;">Quase lá, profeta!</h2>
+        <p class="sub">Você chegou até o fim, mas ainda tem respostas erradas pelo caminho</p>
+        <div class="destaque-box">
+            Elias também não chegou no Monte Horebe na primeira tentativa. O anjo teve que voltar uma <strong>segunda vez</strong> e dizer: <strong>"Levante e coma, porque o caminho ainda é longo."</strong>
+        </div>
+        <p>Há uma <strong style="color:#1a3a5c;">mensagem secreta</strong> esperando quem completar o desafio com 100%. Volte, corrija os erros e descubra o que está escondido no fim da jornada. 🗝️</p>
+        <button onclick="fecharQuaseLa()" style="width:100%; background:linear-gradient(135deg,#1a3a5c,#e85d2a); color:white; border:none; padding:16px; border-radius:14px; font-size:16px; font-weight:bold; cursor:pointer; margin-top:8px;">
+            🔄 Voltar e completar o desafio
+        </button>
+        <br>
+        <button class="btn-fechar-missao" onclick="fecharQuaseLa()">Fechar</button>
+    </div>
+</div>
+
+<!-- MISSÃO SECRETA OVERLAY -->
+<div class="missao-overlay" id="missao-overlay">
+    <div class="missao-card">
+        <div class="estrelas">🏆🔥⚡</div>
+        <h2>Missão Cumprida, Profeta!</h2>
+        <p class="sub">Você completou o sermão interativo do Elias</p>
+        <div class="destaque-box">
+            Assim como Elias, você chegou até o fim mesmo com o percurso longo. Agora tem uma <strong>missão secreta especial</strong> esperando por você no culto de <strong>domingo, 22/03</strong>. 🎁
+        </div>
+        <p>Para confirmar sua chegada, envie a mensagem secreta abaixo. Seu prêmio estará reservado!</p>
+        <input type="text" class="input-nome" id="input-nome" placeholder="Digite o seu nome aqui..." oninput="verificarNome()" autocomplete="off">
+        <button class="btn-whatsapp" id="btn-wpp" onclick="enviarWhatsApp()">
+            📲 Enviar mensagem secreta no WhatsApp
+        </button>
+        <br>
+        <button class="btn-fechar-missao" onclick="fecharMissao()">Fechar</button>
+    </div>
+</div>
+
+<script>
+    // ==============================
+    // RASTREAMENTO DE CONCLUSÃO
+    // ==============================
+    const concluido = {
+        decoder: [false, false, false],
+        puzzle: false,
+        lacunas: false,
+        vf: [false, false, false, false],
+        lugares: [false, false, false],
+        reflexao: false
+    };
+
+    function atualizarProgresso() {
+        const total = 13; // 3 decoder + 1 puzzle + 1 lacunas + 4 vf + 3 lugares + 1 reflexao
+        let feitos = 0;
+        feitos += concluido.decoder.filter(v => v).length;
+        if (concluido.puzzle) feitos++;
+        if (concluido.lacunas) feitos++;
+        feitos += concluido.vf.filter(v => v).length;
+        feitos += concluido.lugares.filter(v => v).length;
+        if (concluido.reflexao) feitos++;
+        const pct = Math.round((feitos / total) * 100);
+        document.getElementById('progress-fill').style.width = pct + '%';
+        document.getElementById('progress-pct').textContent = pct + '%';
+    }
+
+    function verificarTudo() {
+        atualizarProgresso();
+        const decoderOk = concluido.decoder.every(v => v);
+        const vfOk = concluido.vf.every(v => v);
+        const lugaresOk = concluido.lugares.every(v => v);
+        const tudoOk = decoderOk && concluido.puzzle && concluido.lacunas && vfOk && lugaresOk && concluido.reflexao;
+        if (tudoOk) {
+            setTimeout(() => abrirMissao(), 800);
+        } else if (concluido.reflexao) {
+            // Reflexão foi a última ação — UP terminou sem 100%
+            setTimeout(() => abrirQuaseLa(), 1000);
+        }
+    }
+
+    // ==============================
+    // ABERTURA
+    // ==============================
+    const respostasAbertura = {
+        cheio:   { bg: '#e8f5e9', texto: '⚡ Elias também parecia assim depois do Carmelo! Mas o esgotamento chegou mais tarde. Fique atento: o seu corpo e sua mente têm limite, mesmo quando você se sente invencível.' },
+        normal:  { bg: '#f5f8ff', texto: '😐 Isso é mais comum do que parece. Elias depois do Carmelo não estava num dia "normal". Estava num dia de colapso disfarçado. Às vezes a queda não avisa.' },
+        cansado: { bg: '#fff3e0', texto: '😴 Honestidade! Elias entenderia você. Depois do Carmelo ele estava exatamente assim, e muito mais. O cansaço depois de uma grande entrega é real e não é falta de fé.' },
+        vazio:   { bg: '#f3e5f5', texto: '😶 Elias conhece esse sentimento muito bem. Fogo do céu hoje, vazio amanhã. Esse é exatamente o coração da história que vamos explorar juntos.' }
+    };
+    function escolherAbertura(btn, tipo) {
+        document.querySelectorAll('#opcoes-abertura .opcao').forEach(b => b.classList.remove('selecionada'));
+        btn.classList.add('selecionada');
+        const r = respostasAbertura[tipo];
+        const div = document.getElementById('resp-abertura');
+        div.style.display = 'block';
+        div.style.background = r.bg;
+        div.innerHTML = `<p style="color:#333; font-size:15px; line-height:1.8;">${r.texto}</p>`;
+    }
+
+    // ==============================
+    // DECODIFICADOR
+    // ==============================
+    function respDecoder(btn, certa, num) {
+        const cards = document.querySelectorAll(`#dec${num} .decoder-card`);
+        cards.forEach(c => { c.style.pointerEvents = 'none'; });
+        if (certa) {
+            btn.classList.add('certa');
+            concluido.decoder[num - 1] = true;
+            verificarTudo();
+        } else {
+            btn.classList.add('errada');
+            setTimeout(() => {
+                btn.classList.remove('errada');
+                cards.forEach(c => { c.style.pointerEvents = ''; });
+            }, 600);
+        }
+    }
+
+    // ==============================
+    // PUZZLE
+    // ==============================
+    const selecoes = {};
+    function selecionarNumero(cenaId, num) {
+        // Limpa classe visual de erro/acerto ao editar qualquer cena
+        document.querySelectorAll('.cena-item').forEach(c => c.classList.remove('correta', 'errada'));
+        document.getElementById('resultado-puzzle').style.display = 'none';
+
+        Object.keys(selecoes).forEach(id => {
+            if (selecoes[id] === num && id !== cenaId) {
+                delete selecoes[id];
+                document.querySelectorAll(`#${id} .num-btn`).forEach(b => b.classList.remove('ativo'));
+            }
+        });
+        selecoes[cenaId] = num;
+        document.querySelectorAll(`#${cenaId} .num-btn`).forEach(b => {
+            b.classList.toggle('ativo', parseInt(b.textContent) === num);
+        });
+    }
+    function verificarPuzzle() {
+        const cenas = ['cena-a', 'cena-b', 'cena-c', 'cena-d', 'cena-e', 'cena-f'];
+        const div = document.getElementById('resultado-puzzle');
+        if (cenas.some(id => !selecoes[id])) {
+            div.style.display = 'block';
+            div.style.background = '#fff3e0'; div.style.border = '2px solid #ff9800'; div.style.color = '#e65100';
+            div.textContent = '⚠️ Numere todas as 6 cenas antes de verificar!';
+            return;
+        }
+        let acertos = 0;
+        cenas.forEach(id => {
+            const cena = document.getElementById(id);
+            const correto = parseInt(cena.dataset.ordemCorreta) === selecoes[id];
+            cena.classList.remove('correta', 'errada');
+            cena.classList.add(correto ? 'correta' : 'errada');
+            if (correto) acertos++;
+        });
+        div.style.display = 'block';
+        if (acertos === 6) {
+            div.style.background = '#e8f5e9'; div.style.border = '2px solid #43e97b'; div.style.color = '#1b5e20';
+            div.innerHTML = '🎉 Perfeito! Você colocou a história toda na ordem certa!';
+            document.querySelectorAll('.num-btn').forEach(b => b.disabled = true);
+            concluido.puzzle = true;
+            verificarTudo();
+        } else {
+            div.style.background = '#fff3e0'; div.style.border = '2px solid #ff9800'; div.style.color = '#e65100';
+            div.innerHTML = `🤔 Você acertou ${acertos} de 6. As cenas em vermelho estão fora de ordem. Releia a história e tente de novo!`;
+        }
+    }
+
+    // ==============================
+    // LACUNAS
+    // ==============================
+    let lacunaAtiva = null;
+    document.querySelectorAll('.lacuna').forEach(l => {
+        l.addEventListener('click', function () {
+            document.querySelectorAll('.lacuna').forEach(x => x.style.outline = '');
+            this.style.outline = '3px solid #1a3a5c';
+            lacunaAtiva = this;
+        });
+    });
+    function devolverPalavraAoBanco(palavra) {
+        document.querySelectorAll('#palavras-banco .palavra-banco').forEach(btn => {
+            if (btn.textContent.trim() === palavra) {
+                btn.classList.remove('usada');
+            }
+        });
+    }
+    function usarPalavra(btn, palavra) {
+        if (btn.classList.contains('usada')) return;
+        if (!lacunaAtiva) { alert('Primeiro clique na lacuna que quer preencher!'); return; }
+        // Se a lacuna já tinha uma palavra, devolve ao banco
+        const anterior = lacunaAtiva.dataset.preenchido;
+        if (anterior) devolverPalavraAoBanco(anterior);
+        lacunaAtiva.textContent = palavra;
+        lacunaAtiva.dataset.preenchido = palavra;
+        lacunaAtiva.style.outline = '';
+        lacunaAtiva.style.background = '#fffde7';
+        lacunaAtiva.style.color = '#1a3a5c';
+        btn.classList.add('usada');
+        lacunaAtiva = null;
+    }
+    function verificarLacunasReset() {
+        // Ao tentar de novo: devolve palavras erradas ao banco e limpa lacunas erradas
+        document.querySelectorAll('.lacuna').forEach(l => {
+            if (l.style.background === 'rgb(255, 235, 238)') { // ffebee = errada
+                devolverPalavraAoBanco(l.dataset.preenchido || '');
+                l.textContent = '__________';
+                delete l.dataset.preenchido;
+                l.style.background = '#eaf0f8';
+                l.style.color = '#1a3a5c';
+            }
+        });
+        document.getElementById('resultado-lacunas').style.display = 'none';
+    }
+    function verificarLacunas() {
+        let acertos = 0;
+        document.querySelectorAll('.lacuna').forEach(l => {
+            if (l.dataset.preenchido === l.dataset.resposta) {
+                l.style.background = '#e8f5e9'; l.style.color = '#1b5e20'; acertos++;
+            } else {
+                l.style.background = '#ffebee'; l.style.color = '#b71c1c';
+            }
+        });
+        const res = document.getElementById('resultado-lacunas');
+        res.style.display = 'block';
+        if (acertos === 6) {
+            res.style.background = '#e8f5e9'; res.style.color = '#1b5e20'; res.style.border = '2px solid #43e97b';
+            res.textContent = '🎉 Perfeito! Todas as 6 lacunas corretas!';
+            concluido.lacunas = true;
+            verificarTudo();
+        } else {
+            res.style.background = '#fff3e0'; res.style.color = '#e65100'; res.style.border = '2px solid #ff9800';
+            res.innerHTML = `🤔 Você acertou ${acertos} de 6. As lacunas em vermelho estão erradas. <button onclick="verificarLacunasReset()" style="margin-left:10px; background:#1a3a5c; color:white; border:none; padding:6px 14px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:13px;">↩ Corrigir erros</button>`;
+        }
+    }
+
+    // ==============================
+    // VERDADEIRO OU FALSO
+    // ==============================
+    function respVF(btn, correto, texto, num) {
+        const btns = btn.parentElement.querySelectorAll('.vf-btn');
+        btns.forEach(b => b.disabled = true);
+        btn.classList.add(correto ? 'verde' : 'vermelho');
+        const fb = document.getElementById('vf' + num);
+        fb.style.display = 'block';
+        fb.style.background = correto ? '#e8f5e9' : '#ffebee';
+        fb.style.color = correto ? '#1b5e20' : '#b71c1c';
+        fb.textContent = (correto ? '✅ ' : '❌ ') + texto;
+        if (correto) {
+            concluido.vf[num - 1] = true;
+            verificarTudo();
+        }
+    }
+
+    // ==============================
+    // LUGARES
+    // ==============================
+    function respPG(btn, certa, num) {
+        const btns = document.querySelectorAll(`#pg${num} .pq-btn`);
+        btns.forEach(b => b.disabled = true);
+        btn.classList.add(certa ? 'certa' : 'errada');
+        if (!certa) {
+            btns.forEach(b => { if (b.classList.contains('certa-ref')) b.classList.add('certa'); });
+        }
+        if (certa) {
+            concluido.lugares[num - 1] = true;
+            verificarTudo();
+        }
+    }
+
+    // ==============================
+    // REFLEXÃO
+    // ==============================
+    const respostasReflexao = {
+        carmelo: { bg: '#fff3e0', texto: '🔥 Que momento incrível estar no Carmelo! Mas Elias mostra que depois da vitória também é preciso cuidar de si. Aproveite esse fogo, mas não esqueça de descansar e nutrir o que Deus plantou em você.' },
+        arvore:  { bg: '#e8f5e9', texto: '🌿 Você está no lugar mais honesto da história. Elias também estava lá, e Deus não o abandonou naquele ponto. Ele foi até a árvore. Deixa Ele ir até você também.' },
+        caverna: { bg: '#e3f2fd', texto: '🕳️ A caverna é o lugar onde a pergunta de Deus chega mais clara: "O que você está fazendo aqui?" Não é acusação. É convite para sair. Você consegue ouvir isso?' },
+        sussurro: { bg: '#f3e5f5', texto: '🎧 Essa postura de quem espera o sussurro é exatamente o que Deus estava ensinando Elias. Silenciar o barulho pra ouvir o que vem quieto. Continue assim.' }
+    };
+    function escolherReflexao(btn, tipo) {
+        document.querySelectorAll('#opcoes-reflexao .opcao').forEach(b => b.classList.remove('selecionada'));
+        btn.classList.add('selecionada');
+        const r = respostasReflexao[tipo];
+        const div = document.getElementById('resposta-reflexao');
+        div.style.display = 'block';
+        div.style.background = r.bg;
+        div.innerHTML = `<p style="color:#333; font-size:15px; line-height:1.8;">${r.texto}</p>`;
+        div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        concluido.reflexao = true;
+        verificarTudo();
+    }
+
+    // ==============================
+    // MISSÃO SECRETA
+    // ==============================
+    function abrirMissao() {
+        document.getElementById('missao-overlay').classList.add('ativa');
+    }
+    function fecharMissao() {
+        document.getElementById('missao-overlay').classList.remove('ativa');
+    }
+    function abrirQuaseLa() {
+        document.getElementById('quasela-overlay').classList.add('ativa');
+    }
+    function fecharQuaseLa() {
+        document.getElementById('quasela-overlay').classList.remove('ativa');
+    }
+    function verificarNome() {
+        const nome = document.getElementById('input-nome').value.trim();
+        const btn = document.getElementById('btn-wpp');
+        btn.style.display = nome.length >= 2 ? 'block' : 'none';
+    }
+    function enviarWhatsApp() {
+        const nome = document.getElementById('input-nome').value.trim();
+        if (!nome) return;
+        const mensagem = encodeURIComponent(
+            `🔥 Oi! Meu nome é ${nome}, e acabei de completar o sermão interativo do Elias na Central UP!\n\nAssim como o profeta que saiu da caverna depois do sussurro de Deus, eu cheguei até o fim do desafio. Estou pronto para a missão secreta do domingo, 22/03! 🌿⚡`
+        );
+        window.open(`https://wa.me/5543998237237?text=${mensagem}`, '_blank');
+    }
+</script>
+</body>
+</html>

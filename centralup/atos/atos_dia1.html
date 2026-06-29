@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 1 — O Homem que Não Vai Dizer o Nome | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #020617;
+            min-height: 100vh; padding: 20px;
+            background-image:
+                radial-gradient(ellipse at top left, #1e1b4b 0%, transparent 55%),
+                radial-gradient(ellipse at bottom right, #0f172a 0%, transparent 55%),
+                radial-gradient(ellipse at center, #020617 0%, transparent 70%);
+        }
+
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: #020617;
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .cb { text-align: center; color: #94a3b8; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 220px; margin-bottom: 20px; filter: grayscale(1) brightness(1.5); }
+        #bloqueio p { font-size: 16px; line-height: 1.8; color: rgba(148,163,184,0.6); font-family: 'Georgia', serif; }
+        #conteudo { display: none; }
+
+        .container {
+            max-width: 780px; margin: 0 auto;
+            background: linear-gradient(160deg, #0f172a 0%, #020617 35%, #1e293b 65%, #020617 100%);
+            border-radius: 2px;
+            padding: 52px 48px;
+            box-shadow:
+                0 0 0 1px rgba(148,163,184,0.2),
+                0 0 0 4px rgba(30,41,59,0.2),
+                0 0 0 5px rgba(148,163,184,0.05),
+                0 30px 100px rgba(0,0,0,0.9),
+                inset 0 0 120px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(148,163,184,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                repeating-linear-gradient(
+                    0deg, transparent, transparent 31px,
+                    rgba(148,163,184,0.02) 31px, rgba(148,163,184,0.02) 32px
+                );
+            pointer-events: none; z-index: 0;
+        }
+        .container::after {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse at 15% 10%, rgba(56,189,248,0.05) 0%, transparent 40%),
+                radial-gradient(ellipse at 85% 85%, rgba(148,163,184,0.07) 0%, transparent 40%),
+                radial-gradient(circle at 90% 15%, rgba(56,189,248,0.04) 0%, transparent 25%),
+                radial-gradient(circle at 10% 80%, rgba(56,189,248,0.04) 0%, transparent 25%);
+            pointer-events: none; z-index: 0;
+        }
+        .margem-esq {
+            position: absolute; top: 0; left: 52px; bottom: 0;
+            width: 1px; background: rgba(148,163,184,0.07);
+            z-index: 0; pointer-events: none;
+        }
+
+        .borda-topo {
+            position: relative; z-index: 1;
+            padding: 10px 0; margin-bottom: 30px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            border-top: 1px solid rgba(148,163,184,0.3);
+            border-bottom: 1px solid rgba(148,163,184,0.1);
+        }
+        .borda-topo::before { content: '❧'; color: rgba(148,163,184,0.3); font-size: 16px; }
+        .borda-topo::after  { content: '❧'; color: rgba(148,163,184,0.3); font-size: 16px; transform: scaleX(-1); display: inline-block; }
+        .borda-topo span { font-size: 9px; color: rgba(148,163,184,0.35); letter-spacing: 4px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; }
+
+        .logo-topo { text-align: center; margin-bottom: 18px; position: relative; z-index: 1; }
+        .logo-topo img { max-width: 150px; filter: grayscale(1) brightness(1.8); }
+
+        .serie-label { font-size: 9px; color: rgba(148,163,184,0.45); font-weight: bold; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 6px; text-align: center; font-family: 'Segoe UI', sans-serif; position: relative; z-index: 1; }
+        .dia-badge { display: block; text-align: center; font-family: 'Georgia', serif; font-size: 12px; color: rgba(148,163,184,0.5); letter-spacing: 2px; margin-bottom: 18px; position: relative; z-index: 1; }
+
+        h1 { color: #f8fafc; font-size: 25px; margin-bottom: 6px; line-height: 1.35; text-align: center; font-family: 'Georgia', serif; font-weight: normal; text-shadow: 0 2px 16px rgba(0,0,0,0.6), 0 0 40px rgba(56,189,248,0.1); position: relative; z-index: 1; }
+        .subtitle { color: rgba(148,163,184,0.45); font-size: 13px; margin-bottom: 26px; text-align: center; font-style: italic; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+
+        .progresso { background: rgba(0,0,0,0.3); padding: 12px 16px; margin: 18px 0; border: 1px solid rgba(148,163,184,0.1); position: relative; z-index: 1; }
+        .progresso-titulo { color: rgba(148,163,184,0.4); font-weight: bold; margin-bottom: 8px; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; text-align: center; }
+        .progresso-bar { background: rgba(0,0,0,0.4); height: 14px; border: 1px solid rgba(148,163,184,0.08); }
+        .progresso-fill { background: linear-gradient(90deg, #1e1b4b, #334155, #64748b); height: 100%; width: 16%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.8); font-weight: bold; font-size: 9px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; }
+
+        .divisor { border: none; margin: 26px 0; position: relative; z-index: 1; text-align: center; }
+        .divisor::before { content: '· · ·'; color: rgba(148,163,184,0.2); font-size: 16px; letter-spacing: 8px; }
+        .divisor.ornamental::before { content: '— ✦ —'; color: rgba(148,163,184,0.15); font-size: 13px; letter-spacing: 4px; }
+
+        h2 { color: rgba(148,163,184,0.6); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin: 26px 0 14px 0; font-family: 'Segoe UI', sans-serif; font-weight: bold; display: flex; align-items: center; gap: 10px; position: relative; z-index: 1; }
+        h2::after { content: ''; flex: 1; height: 1px; background: rgba(148,163,184,0.15); }
+
+        .chegou-agora { background: rgba(0,0,0,0.2); border-left: 2px solid rgba(56,189,248,0.3); padding: 12px 16px; margin-bottom: 26px; position: relative; z-index: 1; }
+        .ca-label { font-size: 9px; color: rgba(148,163,184,0.4); letter-spacing: 3px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; margin-bottom: 7px; display: block; }
+        .chegou-agora p { font-size: 13px; color: rgba(148,163,184,0.55); line-height: 1.8; font-family: 'Segoe UI', sans-serif; font-style: italic; }
+
+        .narrativa { font-size: 16px; line-height: 2.1; color: #cbd5e1; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+        .narrativa p { margin: 14px 0; }
+        .narrativa .destaque { color: #38bdf8; font-weight: bold; }
+        .narrativa .italico { font-style: italic; color: rgba(148,163,184,0.55); }
+        .narrativa .dialogo { background: rgba(0,0,0,0.18); border-left: 2px solid rgba(56,189,248,0.2); padding: 12px 18px; margin: 16px 0; font-style: italic; color: rgba(148,163,184,0.65); line-height: 2.1; }
+        .narrativa .pensamento { background: rgba(0,0,0,0.15); border: 1px dashed rgba(148,163,184,0.18); padding: 12px 16px; margin: 16px 0; font-style: italic; color: rgba(148,163,184,0.5); line-height: 1.8; font-size: 14px; }
+        .narrativa .lista-rapida { padding-left: 0; list-style: none; margin: 8px 0 8px 16px; }
+        .narrativa .lista-rapida li { color: rgba(148,163,184,0.65); font-style: italic; line-height: 2; font-size: 15px; }
+        .narrativa .lista-rapida li::before { content: '— '; color: rgba(148,163,184,0.3); }
+
+        /* PUZZLE */
+        .puzzle-box { background: linear-gradient(135deg, #020617, #0f172a); border: 1px solid rgba(56,189,248,0.2); border-top: 3px solid rgba(56,189,248,0.4); padding: 28px; margin: 28px 0; position: relative; z-index: 1; box-shadow: inset 0 0 40px rgba(0,0,0,0.4); }
+        .puzzle-titulo { color: #38bdf8; font-size: 14px; font-weight: bold; margin-bottom: 6px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; }
+        .puzzle-desc { color: rgba(148,163,184,0.55); font-size: 13px; margin-bottom: 22px; line-height: 1.7; font-family: 'Segoe UI', sans-serif; }
+
+        .tabuinha { background: linear-gradient(145deg, #1e293b, #0f172a, #1e293b); border: 2px solid rgba(148,163,184,0.3); border-radius: 3px; padding: 20px 24px; margin-bottom: 20px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.4), inset 0 0 30px rgba(0,0,0,0.2); position: relative; }
+        .tabuinha::before { content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; border: 1px solid rgba(148,163,184,0.1); pointer-events: none; }
+        .tabuinha-label { font-size: 9px; color: rgba(148,163,184,0.3); letter-spacing: 3px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; margin-bottom: 12px; display: block; }
+        .codigo-cifrado { font-family: 'Georgia', serif; font-size: 22px; color: rgba(148,163,184,0.7); letter-spacing: 6px; text-align: center; padding: 10px 0; text-shadow: 0 0 20px rgba(56,189,248,0.15); }
+
+        .chave-label { font-size: 11px; color: rgba(148,163,184,0.45); font-family: 'Segoe UI', sans-serif; margin: 18px 0 12px; letter-spacing: 1px; }
+        
+        .puzzle-input-area { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+        .puzzle-input { background: rgba(0,0,0,0.4); border: 1px solid rgba(148,163,184,0.2); padding: 14px; color: #7dd3fc; font-family: 'Georgia', serif; font-size: 16px; text-align: center; text-transform: uppercase; letter-spacing: 2px; outline: none; transition: border-color 0.3s; }
+        .puzzle-input:focus { border-color: rgba(56,189,248,0.5); box-shadow: 0 0 15px rgba(56,189,248,0.1); }
+        .puzzle-submit { background: linear-gradient(135deg, #1e1b4b, #312e81); border: 1px solid rgba(56,189,248,0.3); padding: 12px; color: #f8fafc; font-family: 'Segoe UI', sans-serif; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; font-size: 12px; }
+        .puzzle-submit:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); border-color: rgba(56,189,248,0.5); }
+        .puzzle-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .puzzle-feedback { display: none; padding: 12px 16px; margin-top: 8px; font-size: 13px; line-height: 1.7; font-family: 'Segoe UI', sans-serif; border-left: 2px solid rgba(239,68,68,0.4); background: rgba(239,68,68,0.05); color: rgba(148,163,184,0.55); font-style: italic; animation: aparecer 0.4s ease; }
+
+        .revelacao { display: none; margin-top: 20px; animation: aparecer 0.8s ease; }
+        .tabuinha-revelada { background: linear-gradient(145deg, #0f172a, #020617); border: 2px solid rgba(56,189,248,0.3); padding: 20px 24px; margin-bottom: 16px; box-shadow: inset 0 0 30px rgba(0,0,0,0.4), 0 0 20px rgba(56,189,248,0.05); position: relative; }
+        .tabuinha-revelada::before { content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; border: 1px solid rgba(56,189,248,0.1); pointer-events: none; }
+        .mensagem-revelada { font-family: 'Georgia', serif; font-size: 26px; color: #7dd3fc; letter-spacing: 8px; text-align: center; padding: 10px 0; text-shadow: 0 0 30px rgba(56,189,248,0.4); }
+        .revelacao-texto { font-size: 14px; color: rgba(148,163,184,0.65); line-height: 1.85; font-family: 'Segoe UI', sans-serif; font-style: italic; border-left: 2px solid rgba(148,163,184,0.2); padding-left: 16px; }
+
+        /* ENSINAMENTO */
+        .ensinamento-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(148,163,184,0.15); border-top: 2px solid rgba(56,189,248,0.3); padding: 24px; margin: 28px 0; position: relative; z-index: 1; }
+        .ens-pre { font-size: 9px; color: rgba(148,163,184,0.4); font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; font-family: 'Segoe UI', sans-serif; }
+        .ens-frase { font-size: 16px; font-style: italic; color: #7dd3fc; line-height: 1.9; margin-bottom: 10px; font-weight: normal; }
+        .versic { border-left: 2px solid rgba(56,189,248,0.2); padding: 8px 14px; margin: 10px 0; font-style: italic; color: rgba(148,163,184,0.45); font-size: 12px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; }
+        .ens-texto { font-size: 14px; color: #94a3b8; line-height: 1.95; font-family: 'Segoe UI', sans-serif; }
+        .ens-texto strong { color: #f1f5f9; }
+
+        .oracao-box { background: rgba(0,0,0,0.15); border: 1px solid rgba(148,163,184,0.1); padding: 20px 24px; margin: 20px 0; font-style: italic; color: rgba(148,163,184,0.55); line-height: 2; font-size: 15px; text-align: center; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+
+        .gancho-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(148,163,184,0.2); padding: 26px; margin: 28px 0; text-align: center; position: relative; z-index: 1; }
+        .gancho-label { font-size: 9px; color: rgba(148,163,184,0.4); font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; font-family: 'Segoe UI', sans-serif; }
+        .gancho-emoji { font-size: 30px; display: block; margin-bottom: 14px; animation: pulsar 2.5s infinite; }
+        .gancho-texto { font-size: 15px; color: #94a3b8; line-height: 2; font-style: italic; font-family: 'Georgia', serif; }
+        .gancho-destaque { color: #38bdf8; font-style: normal; font-weight: bold; display: block; margin-top: 12px; letter-spacing: 1px; }
+
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 32px; gap: 12px; position: relative; z-index: 1; }
+        .nav-btn { flex: 1; padding: 13px 20px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.25s; font-size: 12px; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', sans-serif; letter-spacing: 2px; text-transform: uppercase; }
+        .nav-btn-prev { background: rgba(0,0,0,0.25); color: rgba(148,163,184,0.4); border: 1px solid rgba(148,163,184,0.15); }
+        .nav-btn-prev:hover { color: #cbd5e1; background: rgba(0,0,0,0.4); }
+        .nav-btn-next { background: linear-gradient(135deg, #1e1b4b, #312e81); color: #f8fafc; border: 1px solid rgba(56,189,248,0.2); }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
+
+        .borda-baixo { border-top: 1px solid rgba(148,163,184,0.1); border-bottom: 1px solid rgba(148,163,184,0.3); padding: 10px 0; margin-top: 30px; display: flex; align-items: center; justify-content: center; gap: 10px; position: relative; z-index: 1; }
+        .borda-baixo::before { content: '❧'; color: rgba(148,163,184,0.3); font-size: 16px; }
+        .borda-baixo::after  { content: '❧'; color: rgba(148,163,184,0.3); font-size: 16px; transform: scaleX(-1); display: inline-block; }
+
+        .rodape { text-align: center; margin-top: 18px; color: rgba(148,163,184,0.2); font-size: 11px; font-family: 'Segoe UI', sans-serif; letter-spacing: 1px; position: relative; z-index: 1; }
+        .rodape span { color: rgba(148,163,184,0.35); }
+
+        @keyframes aparecer { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulsar   { 0%,100%{transform:scale(1)} 50%{transform:scale(1.07)} }
+        @keyframes tremor   { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+
+        @media (max-width: 600px) {
+            .container { padding: 28px 18px; }
+            h1 { font-size: 20px; }
+            .narrativa { font-size: 15px; }
+            .codigo-cifrado { font-size: 17px; letter-spacing: 4px; }
+            .mensagem-revelada { font-size: 20px; letter-spacing: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="bloqueio">
+    <div class="cb">
+        <img src="../logoup.png" alt="Central UP">
+        <p id="msg-bl">Este devocional abre na segunda-feira, 13/04!</p>
+        <p style="margin-top:12px;font-size:14px;font-family:'Segoe UI',sans-serif;" id="msg-sub"></p>
+    </div>
+</div>
+
+<div id="conteudo">
+<div class="container">
+    <div class="margem-esq"></div>
+
+    <div class="borda-topo"><span>O Espírito Santo e o Livro Inacabado</span></div>
+
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    <div class="serie-label">📖 Semana 2 — A História Continua</div>
+    <div class="dia-badge">✦ &nbsp; Dia 1 de 6 &nbsp; ✦</div>
+
+    <h1>O Homem que Não Vai Dizer o Nome</h1>
+    <p class="subtitle">Alguém estava aqui desde o começo. Você só não tinha percebido.</p>
+
+    <div class="progresso">
+        <div class="progresso-titulo">✦ Progresso da semana</div>
+        <div class="progresso-bar"><div class="progresso-fill">16%</div></div>
+    </div>
+
+    <div class="divisor"></div>
+
+    <div class="chegou-agora">
+        <span class="ca-label">✦ Chegou agora na série?</span>
+        <p>Rápido: Levi, 12 anos, carregador de água em Jerusalém. Na semana passada viu a crucificação, investigou o túmulo vazio, ficou semanas parado na porta de uma casa sem conseguir entrar. Quando entrou, saiu diferente. Pronto, tá por dentro.</p>
+    </div>
+
+    <h2>📜 A história de hoje</h2>
+
+    <div class="narrativa">
+        <p>Olá, meu querido leitor. Você está bem?</p>
+        <p>Desculpe aparecer assim, sem avisar.</p>
+        <p>Desde o primeiro dia eu já estava aqui.</p>
+        <ul class="lista-rapida">
+            <li>A jarra que caiu? Eu estava lá.</li>
+            <li>O mercado cheio de gente? Lá também.</li>
+            <li>A viela escura, os soldados, a mulher que chorava e sorria ao mesmo tempo?</li>
+        </ul>
+        <p>Lá. Lá. E lá.</p>
+        <p>Só esqueci de me apresentar.</p>
+        <p>Pois bem. A história de Levi estava sendo narrada por alguém. Histórias não se contam sozinhas. Alguém ouviu. Alguém anotou. Alguém achou que essa história merecia ser escrita.</p>
+        <p><span class="destaque">Esse alguém sou eu.</span></p>
+    </div>
+
+    <div class="divisor ornamental"></div>
+
+    <div class="narrativa">
+        <p>Meu nome eu não vou dizer. Não agora. Não porque seja segredo. Mas porque essa história não é sobre mim.</p>
+        <p>Sou médico. Grego. Viajante. Ouvi falar de Jesus depois que tudo já tinha acontecido. Mas ouvi de quem estava lá. E isso é quase tão importante quanto ter visto.</p>
+        <p>No dia em que o Espírito Santo veio sobre a comunidade, eu não estava em Jerusalém. Estava longe. Mas um dia cheguei aqui procurando respostas, procurando entender como tudo começou.</p>
+        <p>E encontrei quem poderia me contar.</p>
+        <p>Foi um velho curtidor que morava perto da casa onde tudo acontecia. Ele viu coisas. Notou detalhes. E principalmente, notou um rapaz.</p>
+        <div class="dialogo">
+            <strong style="color:#7dd3fc;">O Narrador:</strong> "Tem um rapaz. Ficava parado do lado de fora toda manhã por semanas."<br><br>
+            <strong style="color:#7dd3fc;">O Curtidor:</strong> "E entrou?"<br><br>
+            <strong style="color:#7dd3fc;">O Narrador:</strong> O velho deu uma risada curta. "Entrou. Levou dois jarros d'água e ficou a tarde toda."<br><br>
+            <strong style="color:#7dd3fc;">O Curtidor:</strong> "Onde encontro ele?"
+        </div>
+    </div>
+
+    <img src="../levi/atos101.png" alt="O narrador no mercado de Jerusalém" style="width:100%; margin:20px 0; display:block; border:1px solid rgba(148,163,184,0.12);" onerror="this.style.display='none'">
+
+    <div class="narrativa">
+        <p>Achei Levi numa tarde de quarta-feira. Agora, já tinha dezesseis anos. Atravessando o mercado com pressa, duas jarras nos ombros, aquela expressão de quem tem um lugar pra chegar e o tempo está curto.</p>
+        <p>Corri pra alcançar.</p>
+        <div class="dialogo">
+            <strong style="color:#7dd3fc;">O Narrador:</strong> "Levi."<br><br>
+            Ele virou. Me olhou de cima a baixo.<br><br>
+            <strong style="color:#7dd3fc;">Levi:</strong> "Quem é você?"<br><br>
+            <strong style="color:#7dd3fc;">O Narrador:</strong> "Alguém que quer ouvir o que aconteceu. Desde o começo."<br><br>
+            Silêncio.<br><br>
+            <strong style="color:#7dd3fc;">Levi:</strong> "Por que eu? Tinha três mil pessoas naquele dia."<br><br>
+            <strong style="color:#7dd3fc;">O Narrador:</strong> "Porque você estava lá antes," eu disse. "Quando eram só doze numa sala fechada e ninguém sabia o que ia acontecer."
+        </div>
+        <p>Isso parou Levi no lugar. Ele respirou fundo. Olhou pro mercado ao redor. E ia sentar.</p>
+        <p>Quando um menino apareceu correndo.</p>
+        <p>Cabelo bagunçado, sandália quase caindo, aquela expressão de quem saiu de casa com uma mensagem urgente e correu o caminho inteiro sem parar.</p>
+        <p>Chegou ofegante na frente de Levi. Tirou de dentro da túnica uma pequena tabuinha de madeira amarrada com um cordão fino. Enfiou nas mãos de Levi. Disse três palavras em voz baixa. E saiu correndo de volta.</p>
+        <p>Levi desatou o cordão. Abriu a tabuinha. Leu as letras gravadas na cera. Passou o polegar.</p>
+        <p>A mensagem sumiu.</p>
+        <p>Fechou a tabuinha. Enfiou na túnica. Olhou pra mim.</p>
+        <div class="dialogo">
+            <strong style="color:#7dd3fc;">Levi:</strong> "Você quer ouvir a história?"<br><br>
+            <strong style="color:#7dd3fc;">O Narrador:</strong> "Quero."<br><br>
+            <strong style="color:#7dd3fc;">Levi:</strong> "Então vai ter que acompanhar." Ele ajeitou as jarras nos ombros. "Porque a história não parou."
+        </div>
+        <div class="pensamento">"Eu vim pra ouvir o passado. Mas o passado estava se movendo."</div>
+    </div>
+
+    <img src="../levi/atos102.png" alt="Levi lendo a tabuinha de cera" style="width:100%; margin:20px 0; display:block; border:1px solid rgba(148,163,184,0.12);" onerror="this.style.display='none'">
+
+    <div class="divisor"></div>
+
+    <!-- PUZZLE -->
+    <div class="puzzle-box">
+        <div class="puzzle-titulo">🔍 Decodifique a mensagem</div>
+        <div class="puzzle-desc">A tabuinha usava um código simples para enganar os soldados romanos. Cada número corresponde a uma letra do alfabeto (A=1, B=2...). Descubra a frase gravada na cera e digite abaixo para continuar.</div>
+
+        <div class="tabuinha">
+            <span class="tabuinha-label">✦ Mensagem cifrada</span>
+            <div class="codigo-cifrado">16 5 4 18 15 &nbsp;|&nbsp; 12 9 22 18 5</div>
+        </div>
+
+        <div class="chave-label">O que está escrito na tabuinha?</div>
+        <div class="puzzle-input-area">
+            <input type="text" class="puzzle-input" id="puzzle-input" placeholder="Digite a frase aqui..." autocomplete="off">
+            <button class="puzzle-submit" id="puzzle-submit" onclick="verificarFrase()">Verificar Mensagem</button>
+        </div>
+
+        <div class="puzzle-feedback" id="puzzle-feedback"></div>
+
+        <div class="revelacao" id="revelacao">
+            <div class="tabuinha-revelada">
+                <span class="tabuinha-label">✦ Mensagem decifrada</span>
+                <div class="mensagem-revelada" id="msg-revelada"></div>
+            </div>
+            <div class="revelacao-texto">
+                Pedro tinha sido preso. E acabava de ser solto milagrosamente. A comunidade precisava saber, e precisava saber rápido, antes que os soldados percebessem.<br><br>
+                Levi era o mensageiro.<br><br>
+                E o menino que trouxe a tabuinha? Esse era <strong style="color:#7dd3fc;">João Marcos</strong>. Filho de Maria, dona da casa onde a comunidade se reunia. Você vai conhecer ele melhor amanhã.
+            </div>
+        </div>
+    </div>
+
+    <div class="divisor"></div>
+
+    <!-- ENSINAMENTO -->
+    <div class="ensinamento-box">
+        <div class="ens-pre">✦ O narrador não sabia, mas Jesus já tinha falado sobre isso</div>
+        <div class="ens-frase">"Eu os estou mandando como ovelhas para o meio de lobos. Por isso, sejam prudentes como cobras e simples como pombas."</div>
+        <div class="versic">— Mateus 10.16 · NTLH</div>
+        <div class="ens-texto">
+            Levi virou mensageiro sem planejar. João Marcos correu pela cidade sem pensar duas vezes. O narrador foi atrás de uma conversa tranquila e acabou no meio de uma missão.<br><br>
+            É assim que o Espírito Santo funciona às vezes. Você não recebe um manual. Não recebe um roteiro. Recebe uma tabuinha de cera enfiada nas mãos e três palavras em voz baixa.<br><br>
+            <strong>E aí você decide: senta e fica. Ou ajusta as jarras nos ombros e vai.</strong>
+        </div>
+    </div>
+
+    <!-- ORAÇÃO -->
+    <div class="oracao-box">
+        "Senhor, quando a missão aparecer sem avisar, me dá coragem de ajustar as jarras e ir. Amém."
+    </div>
+
+    <div class="divisor"></div>
+
+    <!-- GANCHO -->
+    <div class="gancho-box">
+        <div class="gancho-label">✦ Amanhã na história</div>
+        <span class="gancho-emoji">🏃</span>
+        <div class="gancho-texto">
+            O narrador acompanhou Levi pelo mercado, tentando não perder o passo.<br><br>
+            Pedro estava livre.<br>
+            A cidade não sabia ainda.<br>
+            E alguém precisava chegar antes que soubesse.<br><br>
+            O menino do papel ia estar na casa de Maria essa noite.<br>
+            Levi ia encontrá-lo.<br><br>
+            <em>E os dois não iam se gostar nem um pouco.</em>
+            <span class="gancho-destaque">Amanhã: João Marcos.</span>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="../espirito/espirito_dia6.html" class="nav-btn nav-btn-prev">← Semana 1</a>
+        <a href="atos_dia2.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+    </div>
+
+    <div style="text-align:center; margin-top:18px; position:relative; z-index:1;">
+        <a href="../espirito/espirito.html" style="color:rgba(148,163,184,0.25); font-size:11px; text-decoration:none; font-family:'Segoe UI',sans-serif; letter-spacing:1px;">← Ver todos os dias</a>
+        &nbsp;&nbsp;·&nbsp;&nbsp;
+        <a href="../index.html" style="color:rgba(148,163,184,0.25); font-size:11px; text-decoration:none; font-family:'Segoe UI',sans-serif; letter-spacing:1px;">Portal</a>
+    </div>
+
+    <div class="borda-baixo"></div>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:5px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+</div>
+</div>
+
+<script>
+    let tentativas = 0;
+
+    function verificarFrase() {
+        const input = document.getElementById('puzzle-input');
+        const submitBtn = document.getElementById('puzzle-submit');
+        const feedback = document.getElementById('puzzle-feedback');
+        const fraseDigitada = input.value.trim().toUpperCase();
+        
+        if (fraseDigitada === 'PEDRO LIVRE') {
+            input.disabled = true;
+            submitBtn.disabled = true;
+            feedback.style.display = 'none';
+
+            const revelacao = document.getElementById('revelacao');
+            const msgEl = document.getElementById('msg-revelada');
+            revelacao.style.display = 'block';
+
+            const mensagem = 'PEDRO LIVRE';
+            msgEl.textContent = '';
+            let i = 0;
+            const intervalo = setInterval(() => {
+                if (i < mensagem.length) {
+                    msgEl.textContent += mensagem[i];
+                    i++;
+                } else {
+                    clearInterval(intervalo);
+                }
+            }, 130);
+
+            setTimeout(() => revelacao.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 200);
+
+        } else if (fraseDigitada === '') {
+            return;
+        } else {
+            tentativas++;
+            input.classList.add('errada');
+            feedback.style.display = 'block';
+            
+            if (tentativas === 1) {
+                feedback.textContent = 'Não é essa a mensagem. Os soldados romanos estão de olho. Tente decodificar os números.';
+            } else {
+                feedback.textContent = 'Dica: Cada número é uma posição no alfabeto (1=A, 2=B, 3=C, 4=D, 5=E...).';
+            }
+            
+            setTimeout(() => {
+                input.classList.remove('errada');
+            }, 500);
+        }
+    }
+
+    // Permitir pressionar Enter para enviar
+    document.getElementById('puzzle-input')?.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            verificarFrase();
+        }
+    });
+
+    const abertura   = new Date('2026-04-13T00:00:00');
+    const fechamento = new Date('2026-04-14T11:59:00');
+    const liberacao  = new Date('2026-04-19T00:00:00');
+    const agora = new Date();
+
+    // Sempre mostrar o conteúdo
+    document.getElementById('bloqueio').style.display = 'none';
+    document.getElementById('conteudo').style.display = 'block';
+
+    function abrirAdmin() {
+        const s = prompt('🔒 Senha:');
+        if (s === 'admin') {
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        } else if (s !== null) alert('Senha incorreta.');
+    }
+</script>
+
+<div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+    <button onclick="abrirAdmin()" style="background:rgba(0,0,0,0.4);border:1.5px solid rgba(148,163,184,0.2);color:rgba(148,163,184,0.3);font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;">🔒</button>
+</div>
+
+</body>
+</html>

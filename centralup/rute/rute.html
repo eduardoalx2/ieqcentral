@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rute — A Estrangeira que Deus Escolheu | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #8b4513 0%, #c17f3a 60%, #d4a843 100%);
+            min-height: 100vh;
+            padding: 28px 20px 40px;
+            display: flex; align-items: flex-start; justify-content: center;
+        }
+        .container {
+            max-width: 860px; width: 100%; background: white;
+            border-radius: 28px; padding: 44px 40px;
+            box-shadow: 0 20px 70px rgba(0,0,0,0.3);
+            text-align: center; position: relative; overflow: hidden;
+        }
+        .container::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, #8b4513, #c17f3a, #d4a843);
+        }
+        .logo { max-width: 200px; margin-bottom: 22px; }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b4513, #c17f3a);
+            color: white; font-size: 11px; font-weight: bold;
+            letter-spacing: 1.5px; padding: 5px 16px; border-radius: 20px;
+            margin-bottom: 16px; text-transform: uppercase;
+        }
+        h1 { color: #6b3410; font-size: 38px; margin-bottom: 6px; line-height: 1.2; }
+        .subtitle { color: #c17f3a; font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .frase-chave {
+            background: linear-gradient(135deg, #fdf8f0, #f5ede0);
+            border: 2px solid #c17f3a44;
+            border-left: 5px solid #c17f3a;
+            padding: 16px 22px; border-radius: 0 14px 14px 0;
+            margin: 16px 0 28px; font-size: 15px;
+            font-style: italic; color: #5a3020; line-height: 1.8; text-align: left;
+        }
+        .aviso {
+            background: linear-gradient(135deg, #fdf8f0, #f5ede0);
+            border: 2px solid #c17f3a44;
+            padding: 15px 20px; border-radius: 14px;
+            margin-bottom: 26px; font-size: 13px; color: #444; line-height: 1.7;
+        }
+        .aviso strong { color: #6b3410; }
+        h2 { color: #6b3410; font-size: 17px; margin: 28px 0 14px; font-weight: bold; letter-spacing: 0.5px; }
+
+        /* DIAS */
+        .dias-container {
+            display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 28px;
+        }
+        .dia-btn {
+            background: linear-gradient(135deg, #6b3410, #8b4513);
+            color: white; padding: 18px 8px; border-radius: 14px;
+            text-decoration: none; font-weight: bold; font-size: 14px;
+            transition: all 0.3s ease; display: block;
+        }
+        .dia-btn:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(139,69,19,0.4); }
+        .dia-numero { font-size: 28px; display: block; margin-bottom: 3px; }
+        .dia-btn.ultimo { background: linear-gradient(135deg, #c17f3a, #d4a843); }
+
+        /* RECURSOS */
+        .cards-container { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-bottom: 14px; }
+        .card {
+            background: #fdf8f2; border: 2px solid #c17f3a22;
+            padding: 22px 16px; border-radius: 18px; text-decoration: none;
+            color: #333; transition: all 0.3s ease; text-align: center;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(139,69,19,0.13); background: #f5ede0; }
+        .card .icon { font-size: 32px; margin-bottom: 10px; display: block; }
+        .card .ctitle { font-size: 15px; font-weight: bold; color: #6b3410; margin-bottom: 5px; }
+        .card .cdesc { font-size: 12px; color: #777; line-height: 1.5; }
+
+        /* CADERNINHO */
+        .caderninho-box {
+            background: linear-gradient(135deg, #fdf8f0, #f5ede0);
+            border: 2px solid #c17f3a55;
+            padding: 22px 24px; border-radius: 18px;
+            margin: 20px 0 28px; text-align: left;
+        }
+        .caderninho-box strong { font-size: 15px; display: block; margin-bottom: 10px; color: #6b3410; }
+        .caderninho-box p { font-size: 14px; color: #555; line-height: 1.85; }
+
+        .voltar {
+            display: inline-block; margin-top: 8px;
+            color: #8b4513; font-size: 13px; text-decoration: none; font-weight: 600;
+        }
+        .voltar:hover { text-decoration: underline; }
+        .rodape { margin-top: 28px; padding-top: 18px; border-top: 2px solid #e0d5c5; color: #999; font-size: 12px; }
+        .rodape span { color: #8b4513; font-weight: bold; }
+
+        @media (max-width: 600px) {
+            .container { padding: 24px 16px; border-radius: 18px; }
+            h1 { font-size: 26px; }
+            .dias-container { grid-template-columns: repeat(3,1fr); gap: 8px; }
+            .dia-btn { padding: 12px 4px; font-size: 12px; }
+            .dia-numero { font-size: 20px; }
+            .cards-container { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 360px) {
+            .dias-container { grid-template-columns: repeat(2,1fr); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <img src="../logoup.png" alt="Central UP" class="logo">
+    <div class="badge">🌾 Desafio de 6 Dias — Temporada 4</div>
+    <h1>🌾 Rute</h1>
+    <p class="subtitle">A Estrangeira que Deus Escolheu</p>
+
+    <div class="frase-chave">
+        "Ela perdeu tudo. E foi exatamente aí que a história começou."
+    </div>
+
+    <div class="aviso">
+        Cada devocional abre <strong>à meia-noite do seu dia</strong> e fica disponível até as <strong>11h59 do dia seguinte</strong>. A partir de <strong>29/03</strong> todos os dias ficam abertos!
+    </div>
+
+    <h2>📖 DEVOCIONAIS DIÁRIOS</h2>
+    <div class="dias-container">
+        <a href="rutedia01.html" class="dia-btn"><span class="dia-numero">1</span>23/03</a>
+        <a href="rutedia02.html" class="dia-btn"><span class="dia-numero">2</span>24/03</a>
+        <a href="rutedia03.html" class="dia-btn"><span class="dia-numero">3</span>25/03</a>
+        <a href="rutedia04.html" class="dia-btn"><span class="dia-numero">4</span>26/03</a>
+        <a href="rutedia05.html" class="dia-btn"><span class="dia-numero">5</span>27/03</a>
+        <a href="rutedia06.html" class="dia-btn ultimo"><span class="dia-numero">6</span>28/03 🎉</a>
+    </div>
+
+    <h2>📚 RECURSOS EXTRAS</h2>
+    <div class="cards-container">
+        <a href="rute_mensagem1.html" class="card">
+            <span class="icon">📖</span>
+            <div class="ctitle">Mensagem Bíblica</div>
+            <div class="cdesc">A história completa de Rute</div>
+        </a>
+        <a href="rute_interativo1.html" class="card">
+            <span class="icon">🎮</span>
+            <div class="ctitle">Sermão Interativo</div>
+            <div class="cdesc">Puzzles e desafios sobre Rute</div>
+        </a>
+        <a href="campo_rute.html" class="card" style="grid-column:1/-1;">
+            <span class="icon">⚔️</span>
+            <div class="ctitle">Campo de Rute — Jogo do Culto</div>
+            <div class="cdesc">Meninos vs Meninas · Roleta, dado e desafios em equipe</div>
+        </a>
+    </div>
+
+    <div class="caderninho-box">
+        <strong>📓 Caderninho do Campo</strong>
+        <p>Cada dia você completa o devocional, responde o quiz e recebe a Missão do Caderninho. Escreve à mão, faz a ação do dia, e guarda o caderninho. No dia 29/03, leva pra igreja e escolhe um dia pra contar em voz alta o que você escreveu.</p>
+    </div>
+
+    <a href="../index.html" class="voltar">← Voltar para o Central UP</a>
+
+    <div class="rodape">
+        <p><span>Central UP</span> — IEQ Central Londrina</p>
+        <p style="margin-top:6px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+    </div>
+</div>
+</body>
+</html>

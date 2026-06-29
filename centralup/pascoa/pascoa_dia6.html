@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sábado — O Silêncio | Semana da Páscoa Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Georgia', serif;
+            background: #000;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; inset: 0; background: #000; z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; gap: 16px; text-align: center; padding: 30px;
+        }
+        #bloqueio img { max-width: 160px; margin-bottom: 16px; }
+        #bloqueio p { font-size: 15px; color: rgba(255,255,255,0.6); max-width: 360px; line-height: 1.8; }
+        #conteudo { display: none; width: 100%; display: none; }
+        .tela-silencio {
+            max-width: 680px; width: 100%;
+            text-align: center;
+            color: rgba(255,255,255,0.85);
+            padding: 60px 40px;
+            animation: aparecer 2s ease;
+            margin: 0 auto;
+        }
+        .cruz { font-size: 60px; display: block; margin-bottom: 40px; opacity: 0.6; }
+        .passagem { font-size: 13px; color: rgba(255,255,255,0.4); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 40px; }
+        .linha-cinza { width: 60px; height: 1px; background: rgba(255,255,255,0.2); margin: 30px auto; }
+        .texto-principal { font-size: 22px; font-weight: bold; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 20px; letter-spacing: 0.5px; }
+        .texto-drama { font-size: 16px; color: rgba(255,255,255,0.65); line-height: 2.2; margin: 20px 0; }
+        .texto-drama em { color: rgba(255,255,255,0.45); font-style: italic; }
+        .nome-personagem { font-size: 14px; color: rgba(255,255,255,0.35); letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; }
+        .separador { color: rgba(255,255,255,0.15); font-size: 20px; margin: 16px 0; letter-spacing: 8px; }
+        .frase-final { font-size: 18px; color: rgba(255,255,255,0.5); font-style: italic; line-height: 1.8; margin: 40px 0 20px; }
+        .ultima-linha { font-size: 13px; color: rgba(255,255,255,0.25); letter-spacing: 3px; text-transform: uppercase; }
+        .pedra { font-size: 48px; display: block; margin: 30px auto; opacity: 0.4; }
+        .link-voltar { display: inline-block; margin-top: 60px; color: rgba(255,255,255,0.2); font-size: 12px; text-decoration: none; font-family: 'Segoe UI', sans-serif; letter-spacing: 2px; }
+        .link-voltar:hover { color: rgba(255,255,255,0.4); }
+        @keyframes aparecer { from { opacity: 0; } to { opacity: 1; } }
+        @media (max-width: 500px) {
+            .tela-silencio { padding: 40px 20px; }
+            .texto-principal { font-size: 18px; }
+            .texto-drama { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="bloqueio">
+        <img src="../logoup.png" alt="Central UP">
+        <p style="font-size:22px; color:white;">✝️</p>
+        <p>Este devocional abre no sábado, 04/04.<br>O silêncio vem antes da ressurreição.</p>
+    </div>
+
+    <div id="conteudo">
+        <div class="tela-silencio">
+
+            <span class="cruz">✝</span>
+
+            <div class="passagem">Mateus 27.57–66</div>
+
+            <div class="linha-cinza"></div>
+
+            <div class="texto-principal">Este foi o Sábado do Silêncio.</div>
+
+            <div class="linha-cinza"></div>
+
+            <div class="texto-drama">
+                Jesus não estava entre os homens.<br>
+                O Messias havia sido morto.
+            </div>
+
+            <div class="separador">· · ·</div>
+
+            <div class="texto-drama">
+                Pedro, o pescador corajoso<br>
+                que havia prometido morrer por Jesus,<br>
+                voltou para as redes.<br>
+                <em>Afinal, o que mais havia pra fazer?</em>
+            </div>
+            <div class="nome-personagem">Pedro</div>
+
+            <div class="separador">· · ·</div>
+
+            <div class="texto-drama">
+                João, o discípulo amado,<br>
+                ficou em casa olhando pro vazio.<br>
+                <em>Sem palavras. Sem choro. Só vazio.</em>
+            </div>
+            <div class="nome-personagem">João</div>
+
+            <div class="separador">· · ·</div>
+
+            <div class="texto-drama">
+                Maria, a mãe,<br>
+                guardava dentro do coração<br>
+                o que os olhos não conseguiam<br>
+                mais suportar ter visto.
+            </div>
+            <div class="nome-personagem">Maria</div>
+
+            <div class="separador">· · ·</div>
+
+            <div class="texto-drama">
+                Maria Madalena chorava.<br>
+                Ela havia visto tudo.<br>
+                <em>A flagelação. A cruz. O último suspiro.</em><br>
+                E agora não havia mais nada.
+            </div>
+            <div class="nome-personagem">Maria Madalena</div>
+
+            <div class="separador">· · ·</div>
+
+            <span class="pedra">🪨</span>
+
+            <div class="texto-drama">
+                A pedra estava no lugar.<br>
+                Os soldados, na guarda.<br>
+                Os discípulos, escondidos.<br>
+                <em>E Deus... parecia ausente.</em>
+            </div>
+
+            <div class="linha-cinza"></div>
+
+            <div class="frase-final">Parecia.</div>
+
+            <div class="linha-cinza"></div>
+
+            <div class="ultima-linha">Amanhã, tudo muda.</div>
+
+            <a href="../index.html" class="link-voltar">← central up</a>
+
+        </div>
+    </div>
+
+    <div style="position:fixed;bottom:16px;right:16px;z-index:10000;">
+        <button onclick="abrirAdmin()" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.2);font-size:16px;width:34px;height:34px;border-radius:50%;cursor:pointer;">🔒</button>
+    </div>
+
+    <script>
+        const abertura = new Date('2026-04-04T00:00:00');
+        const liberacao = new Date('2026-04-05T00:00:00');
+        const agora = new Date();
+
+        if (agora >= abertura || agora >= liberacao) {
+            document.getElementById('bloqueio').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'block';
+        }
+
+        function abrirAdmin() {
+            const s = prompt('🔒 Senha de supervisão:');
+            if (s === 'admin') {
+                document.getElementById('bloqueio').style.display = 'none';
+                document.getElementById('conteudo').style.display = 'block';
+            } else if (s !== null) {
+                alert('Senha incorreta.');
+            }
+        }
+    </script>
+
+</body>
+</html>

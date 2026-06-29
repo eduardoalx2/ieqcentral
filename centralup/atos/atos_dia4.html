@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 4 — O Rastro na Pedra | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #020617;
+            min-height: 100vh; padding: 20px;
+            background-image:
+                radial-gradient(ellipse at top left, #1e1b4b 0%, transparent 55%),
+                radial-gradient(ellipse at bottom right, #0f172a 0%, transparent 55%),
+                radial-gradient(ellipse at center, #020617 0%, transparent 70%);
+        }
+
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: #020617;
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .cb { text-align: center; color: #94a3b8; padding: 40px; max-width: 600px; }
+        #conteudo { display: none; }
+
+        .container {
+            max-width: 780px; margin: 0 auto;
+            background: linear-gradient(160deg, #0f172a 0%, #020617 35%, #1e293b 65%, #020617 100%);
+            border-radius: 2px;
+            padding: 52px 48px;
+            box-shadow:
+                0 0 0 1px rgba(148,163,184,0.2),
+                0 0 0 4px rgba(30,41,59,0.2),
+                0 30px 100px rgba(0,0,0,0.9),
+                inset 0 0 120px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .margem-esq {
+            position: absolute; top: 0; left: 52px; bottom: 0;
+            width: 1px; background: rgba(148,163,184,0.07);
+            z-index: 0; pointer-events: none;
+        }
+
+        .borda-topo {
+            position: relative; z-index: 1;
+            padding: 10px 0; margin-bottom: 30px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            border-top: 1px solid rgba(148,163,184,0.3);
+            border-bottom: 1px solid rgba(148,163,184,0.1);
+        }
+        .borda-topo span { font-size: 9px; color: rgba(148,163,184,0.35); letter-spacing: 4px; text-transform: uppercase; font-family: 'Segoe UI', sans-serif; }
+
+        .logo-topo { text-align: center; margin-bottom: 18px; position: relative; z-index: 1; }
+        .logo-topo img { max-width: 150px; filter: grayscale(1) brightness(1.8); }
+
+        .serie-label { font-size: 9px; color: rgba(148,163,184,0.45); font-weight: bold; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 6px; text-align: center; font-family: 'Segoe UI', sans-serif; position: relative; z-index: 1; }
+        .dia-badge { display: block; text-align: center; font-family: 'Georgia', serif; font-size: 12px; color: rgba(148,163,184,0.5); letter-spacing: 2px; margin-bottom: 18px; position: relative; z-index: 1; }
+
+        h1 { color: #f8fafc; font-size: 25px; margin-bottom: 6px; line-height: 1.35; text-align: center; font-family: 'Georgia', serif; font-weight: normal; text-shadow: 0 2px 16px rgba(0,0,0,0.6); position: relative; z-index: 1; }
+        .subtitle { color: rgba(148,163,184,0.45); font-size: 13px; margin-bottom: 26px; text-align: center; font-style: italic; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+
+        /* FOTO DA VIELA */
+        .foto-container {
+            width: 100%;
+            margin: 32px 0;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(148,163,184,0.15);
+            background: #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            line-height: 0;
+        }
+        .foto-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: sepia(0.2) contrast(1.1) brightness(0.9);
+        }
+
+        .narrativa { font-size: 16px; line-height: 2.1; color: #cbd5e1; font-family: 'Georgia', serif; position: relative; z-index: 1; }
+        .narrativa p { margin: 14px 0; }
+        .narrativa .dialogo { background: rgba(0,0,0,0.18); border-left: 2px solid rgba(56,189,248,0.2); padding: 12px 18px; margin: 16px 0; font-style: italic; color: rgba(148,163,184,0.65); }
+
+        /* PUZZLE */
+        .game-box {
+            background: linear-gradient(135deg, #020617, #0f172a);
+            border: 1px solid rgba(56,189,248,0.2);
+            border-top: 3px solid #38bdf8;
+            padding: 28px; margin: 28px 0; position: relative; z-index: 1;
+        }
+        .game-titulo { color: #38bdf8; font-size: 14px; font-weight: bold; margin-bottom: 16px; text-align: center; letter-spacing: 1px; text-transform: uppercase; }
+        .track-options { display: grid; gap: 10px; }
+        .track-btn {
+            background: rgba(30,41,59,0.4); border: 1px solid rgba(148,163,184,0.2);
+            padding: 16px; color: #cbd5e1; font-family: 'Segoe UI', sans-serif;
+            font-size: 13px; cursor: pointer; transition: all 0.2s; border-radius: 4px; text-align: left;
+        }
+        .track-btn:hover { background: rgba(56,189,248,0.1); border-color: #38bdf8; }
+        .track-btn strong { color: #38bdf8; display: block; margin-bottom: 4px; }
+
+        #feedback-area { display: none; margin-top: 20px; padding: 15px; border-radius: 4px; font-size: 14px; line-height: 1.6; animation: aparecer 0.4s ease; }
+        .feedback-bad { background: rgba(239,68,68,0.1); border-left: 3px solid #ef4444; color: #fca5a5; }
+        .feedback-good { background: rgba(56,189,248,0.1); border-left: 3px solid #38bdf8; color: #93c5fd; }
+
+        /* FINALIZAÇÃO */
+        .ensinamento-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(148,163,184,0.15); border-top: 2px solid rgba(56,189,248,0.3); padding: 24px; margin: 28px 0; position: relative; z-index: 1; }
+        .versic { border-left: 2px solid rgba(56,189,248,0.2); padding: 8px 14px; margin: 10px 0; font-style: italic; color: rgba(148,163,184,0.45); font-size: 13px; }
+        .oracao-box { background: rgba(0,0,0,0.15); border: 1px solid rgba(148,163,184,0.1); padding: 20px; margin: 20px 0; font-style: italic; color: rgba(148,163,184,0.55); text-align: center; position: relative; z-index: 1; }
+        .gancho-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(148,163,184,0.2); padding: 26px; margin: 28px 0; text-align: center; position: relative; z-index: 1; }
+
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 32px; gap: 12px; position: relative; z-index: 1; }
+        .nav-btn { flex: 1; padding: 13px 20px; text-decoration: none; font-weight: bold; text-align: center; transition: all 0.25s; font-size: 12px; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', sans-serif; letter-spacing: 2px; text-transform: uppercase; border-radius: 4px; }
+        .nav-btn-prev { background: rgba(0,0,0,0.25); color: rgba(148,163,184,0.4); border: 1px solid rgba(148,163,184,0.15); }
+        .nav-btn-next { background: linear-gradient(135deg, #1e1b4b, #312e81); color: #f8fafc; border: 1px solid rgba(56,189,248,0.2); opacity: 0.3; pointer-events: none; }
+
+        @keyframes aparecer { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+    </style>
+</head>
+<body>
+
+<div id="bloqueio">
+    <div class="cb">
+        <img src="../logoup.png" alt="Central UP" style="max-width:200px; filter:grayscale(1) brightness(1.5);">
+        <p>Aguardando o orvalho secar nas pedras...</p>
+    </div>
+</div>
+
+<div id="conteudo">
+<div class="container">
+    <div class="margem-esq"></div>
+    <div class="borda-topo"><span>O Rastro na Pedra</span></div>
+    <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+    <div class="serie-label">📖 A História Continua</div>
+    <div class="dia-badge">✦ &nbsp; Dia 4 de 9 &nbsp; ✦</div>
+
+    <h1>Dia 4 — O Rastro na Pedra</h1>
+    <p class="subtitle">Às três da manhã, cada detalhe pode ser a diferença entre passar e ser preso.</p>
+
+    <div class="narrativa">
+        <p>Chegamos no terceiro ponto de guarda perto das três da manhã.</p>
+        <p>Os dois primeiros tinham ido bem. No primeiro, Levi passou com as jarras e os soldados nem olharam. No segundo, o soldado que conhecia João Marcos estava lá, mas distraído, e passamos rápido encostados na parede, quase sem respirar.</p>
+        <p>O terceiro era diferente.</p>
+        <p>Não era um ponto fixo. Era uma patrulha. Dois soldados andando numa rota que cortava exatamente o caminho que precisávamos fazer. Imprevisível o suficiente pra ser perigosa. Regular o suficiente pra ter padrão, se você soubesse observar.</p>
+        <p>Ficamos os três agachados numa viela escura.</p>
+    </div>
+
+    <div class="foto-container">
+        <img src="../levi/atos401.png" alt="Viela de Jerusalém à noite">
+    </div>
+
+    <div class="narrativa">
+        <p>João Marcos queria atravessar logo. Levi queria esperar mais. Eu estava tentando observar o padrão da patrulha quando Levi apontou pro chão sem falar.</p>
+        <p>No calçamento de pedra molhado pelo orvalho da madrugada, havia marcas. Pegadas, sulcos de diferentes profundidades. A pedra molhada guarda mais do que parece.</p>
+        <p>"Você consegue ler isso?" perguntou Levi.</p>
+        <p>Olhei pro calçamento com aquela atenção que aprendi ao longo de anos observando coisas que a maioria das pessoas passa por cima.</p>
+        <p>"O mesmo que um médico procura num paciente," disse. "O que está sendo dito sem palavras."</p>
+        <p>Havia três tipos diferentes de marcas. Cada uma contava uma coisa.</p>
+    </div>
+
+    <div class="game-box">
+        <div class="game-titulo">🔍 Puzzle: O Olhar do Detetive</div>
+        <div class="track-options">
+            <button class="track-btn" onclick="checkTrack(1)">
+                <strong>Opção 1: Sulcos Profundos e Metálicos</strong>
+                Marcas de sandálias pesadas com pequenos furos no centro. Ritmo de marcha militar.
+            </button>
+            <button class="track-btn" onclick="checkTrack(2)">
+                <strong>Opção 2: Marcas de Arrasto e Poeira Mexida</strong>
+                Pedras riscadas e passos irregulares de quem parece estar fugindo ou em luta.
+            </button>
+            <button class="track-btn" onclick="checkTrack(3)">
+                <strong>Opção 3: O Furo do Cajado</strong>
+                Pegada firme acompanhada por um furo circular pequeno e constante ao lado.
+            </button>
+        </div>
+        <div id="feedback-area"></div>
+    </div>
+
+    <div id="historia-final" style="display:none;">
+        <div class="narrativa">
+            <p>João Marcos escolheu rápido. Levi chegou na mesma conclusão um segundo depois.</p>
+            <div class="dialogo">
+                "Cajado. Ritmo constante. Alguém que conhece o caminho."<br><br>
+                "Exatamente. Seguimos pelo mesmo lado, ficamos no ponto cego da patrulha tempo suficiente pra passar."
+            </div>
+            <p>Atravessamos o largo em silêncio, encostados na parede esquerda. A patrulha passou a uns vinte metros, na direção oposta, sem nos ver.</p>
+            <p>Do outro lado, João Marcos encostou na parede e soltou o ar de uma vez.</p>
+            <p>"Feito."</p>
+            <p>Olhei pros dois. Um de dezasseis anos, um de quatorze. Atravessando Jerusalém de madrugada com uma mensagem que a cidade precisava receber antes do amanhecer.</p>
+            <p>Tirei o papiro. Escrevi uma linha.</p>
+            <p>A história não é sobre o Espírito Santo descendo sobre os apóstolos. É sobre o que as pessoas nas ruas fizeram depois.</p>
+            <p>"Você vai escrever sobre nós?" perguntou Levi.</p>
+            <p>"Sobre vocês. Sobre Pedro. Sobre a mulher que chorava e sorria ao mesmo tempo num portão leste numa manhã de domingo."</p>
+            <p>"Você a conhece?"</p>
+            <p>"Ainda não. Mas vou conhecer."</p>
+            <p>Chegamos no destino faltando uma hora pro amanhecer. A mensagem foi entregue.</p>
+            <p>Na volta, na viela que cheirava a curtume, Levi parou antes de virar na esquina.</p>
+            <p>"Quem vai ler o que você escrever?"</p>
+            <p>"Qualquer pessoa que precise saber que a história não acabou. Qualquer pessoa que precise ver que dois meninos atravessaram Jerusalém de madrugada e chegaram do outro lado."</p>
+            <p>Levi ficou me olhando um segundo.</p>
+            <p>Depois entrou na casa sem dizer mais nada.</p>
+            <p>Fiquei do lado de fora. Abri o papiro. No meio das anotações da noite, havia uma frase que não lembrava de ter escrito.</p>
+            <p>Eles seguiam em frente. E o que começou não tinha fim declarado.</p>
+            <p>Fechei o papiro. Entrei.</p>
+        </div>
+
+        <div class="ensinamento-box">
+            <h4 style="color:#7dd3fc; margin-bottom:12px; font-family:'Segoe UI';">✦ Eu não sabia, mas Jesus já tinha falado sobre isso</h4>
+            <div class="versic">
+                "Mas vocês receberão poder quando o Espírito Santo descer sobre vocês e serão minhas testemunhas em Jerusalém, em toda a Judeia e Samaria e até os confins da terra."<br>
+                
+            </div>
+            <p style="color:#94a3b8; font-size:14px; line-height:1.8;">
+                Testemunha não é quem sabe tudo. É quem viu.<br><br>
+                Levi viu. João Marcos viu. Eu estava vendo enquanto escrevia.<br><br>
+                <strong>A pergunta que fica não é se a história é verdadeira. É se você está dentro dela ou ainda olhando de fora.</strong>
+            </p>
+        </div>
+
+        <div class="oracao-box">
+            "Senhor, me faz querer entrar. Não só observar. Entrar de verdade e fazer parte da história que você está escrevendo. Amém."
+        </div>
+
+        <div class="gancho-box">
+            <p style="color:rgba(148,163,184,0.4); font-size:9px; text-transform:uppercase; letter-spacing:2px; margin-bottom:10px;">Amanhã na história</p>
+            <p style="color:#cbd5e1; font-style:italic; line-height:1.8;">
+                A mensagem tinha sido entregue. Mas na manhã seguinte, quando voltamos à casa de Maria, havia algo diferente no ar. Uma tensão que não estava lá na noite anterior. Alguém tinha falado.
+            </p>
+            <p style="color:#38bdf8; font-weight:bold; margin-top:10px;">Amanhã: o preço de estar dentro.</p>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="atos_dia3.html" class="nav-btn nav-btn-prev">← Anterior</a>
+        <a href="atos_dia5.html" class="nav-btn nav-btn-next" id="next-day-btn">Próximo →</a>
+    </div>
+
+    <div style="text-align:center; margin-top:20px; color:rgba(148,163,184,0.2); font-size:10px;">
+        <span>Central UP</span> — IEQ Central Londrina
+    </div>
+</div>
+</div>
+
+<script>
+    function checkTrack(option) {
+        const feedback = document.getElementById('feedback-area');
+        feedback.style.display = 'block';
+        
+        if (option === 1) {
+            feedback.className = 'feedback-area feedback-bad';
+            feedback.innerHTML = "<strong>Diagnóstico: Risco de Captura!</strong> Essas marcas de metal indicam a patrulha romana. Se os seguirmos, seremos parados imediatamente.";
+        } else if (option === 2) {
+            feedback.className = 'feedback-area feedback-bad';
+            feedback.innerHTML = "<strong>Diagnóstico: Instabilidade!</strong> Este rastro indica pânico e pressa. Não é o caminho seguro para quem não quer ser visto.";
+        } else if (option === 3) {
+            feedback.className = 'feedback-area feedback-good';
+            feedback.innerHTML = "<strong>Diagnóstico Correto!</strong> O cajado e o ritmo constante indicam alguém experiente que conhece os pontos cegos da guarda. Vamos por aqui!";
+            
+            document.getElementById('historia-final').style.display = 'block';
+            const nextBtn = document.getElementById('next-day-btn');
+            nextBtn.style.opacity = '1';
+            nextBtn.style.pointerEvents = 'auto';
+            setTimeout(() => feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 200);
+        }
+    }
+
+    window.onload = function() {
+        document.getElementById('bloqueio').style.display = 'none';
+        document.getElementById('conteudo').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

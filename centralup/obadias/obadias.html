@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obadias, o Guardião Secreto | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4a0080 0%, #c9a800 100%);
+            min-height: 100vh;
+            padding: 28px 20px 40px 20px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .container {
+            max-width: 860px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            padding: 44px 40px;
+            box-shadow: 0 20px 70px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #4a0080, #c9a800);
+        }
+        .logo { max-width: 200px; margin-bottom: 22px; }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4a0080, #c9a800);
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            padding: 5px 16px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+        h1 {
+            color: #4a0080;
+            font-size: 38px;
+            margin-bottom: 6px;
+            line-height: 1.2;
+        }
+        .subtitle { color: #c9a800; font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .descricao { color: #555; font-size: 15px; line-height: 1.85; margin-bottom: 28px; }
+        .aviso {
+            background: linear-gradient(135deg, #ffd70020, #ffed4e30);
+            border: 2px solid #c9a80055;
+            padding: 15px 20px;
+            border-radius: 14px;
+            margin-bottom: 26px;
+            font-size: 13px;
+            color: #444;
+            line-height: 1.7;
+        }
+        .aviso strong { color: #4a0080; }
+        h2 { color: #4a0080; font-size: 17px; margin: 28px 0 14px 0; font-weight: bold; letter-spacing: 0.5px; }
+        .dias-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .dia-btn {
+            background: linear-gradient(135deg, #4a0080 0%, #7b00cc 100%);
+            color: white;
+            padding: 18px 8px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        .dia-btn:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(74,0,128,0.4); }
+        .dia-numero { font-size: 28px; display: block; margin-bottom: 3px; }
+        .dia-btn.ultimo { background: linear-gradient(135deg, #c9a800 0%, #ff8c00 100%); }
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        .card {
+            background: #f8f4ff;
+            border: 2px solid #4a008022;
+            padding: 22px 16px;
+            border-radius: 18px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(74,0,128,0.13); background: #f0e8ff; }
+        .card .icon { font-size: 32px; margin-bottom: 10px; display: block; }
+        .card .ctitle { font-size: 15px; font-weight: bold; color: #4a0080; margin-bottom: 5px; }
+        .card .cdesc { font-size: 12px; color: #777; line-height: 1.5; }
+        .frase-box {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            padding: 22px 24px;
+            border-radius: 18px;
+            margin: 20px 0 28px 0;
+            color: white;
+            text-align: left;
+        }
+        .frase-box strong { font-size: 15px; display: block; margin-bottom: 10px; }
+        .frase-box p { font-size: 14px; line-height: 1.85; opacity: 0.95; }
+        .frase-secreta-texto {
+            background: white;
+            color: #2d3436;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .voltar {
+            display: inline-block;
+            margin-top: 8px;
+            color: #4a0080;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .voltar:hover { text-decoration: underline; }
+        .rodape { margin-top: 28px; padding-top: 18px; border-top: 2px solid #eee; color: #999; font-size: 12px; }
+        .rodape span { color: #4a0080; font-weight: bold; }
+
+        @media (max-width: 600px) {
+            .container { padding: 24px 16px; border-radius: 18px; }
+            h1 { font-size: 26px; }
+            .dias-container { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .dia-btn { padding: 12px 4px; font-size: 12px; }
+            .dia-numero { font-size: 20px; }
+            .cards-container { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 360px) {
+            .dias-container { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <img src="../logoup.png" alt="Central UP" class="logo">
+        <div class="badge">📅 Desafio de 6 Dias — Central UP</div>
+        <h1>🛡️ Obadias</h1>
+        <p class="subtitle">O Guardião Secreto</p>
+
+        <p class="descricao">
+            Um homem que viveu no lugar mais perigoso possível, servindo ao rei mais mau de Israel, e ainda assim manteve o coração com Deus. Em silêncio. Sem plateia. Sem reconhecimento.<br>
+            Esse é Obadias. E talvez seja você também.
+        </p>
+
+        <div class="aviso">
+            Este desafio está <strong>concluído</strong>. Todos os dias estão liberados para acesso livre! 🎉
+        </div>
+
+        <h2>📖 DEVOCIONAIS DIÁRIOS</h2>
+
+        <div class="dias-container">
+            <a href="obadiasdia1.html" class="dia-btn">
+                <span class="dia-numero">1</span>09/03
+            </a>
+            <a href="obadiasdia2.html" class="dia-btn">
+                <span class="dia-numero">2</span>10/03
+            </a>
+            <a href="obadiasdia3.html" class="dia-btn">
+                <span class="dia-numero">3</span>11/03
+            </a>
+            <a href="obadiasdia4.html" class="dia-btn">
+                <span class="dia-numero">4</span>12/03
+            </a>
+            <a href="obadiasdia5.html" class="dia-btn">
+                <span class="dia-numero">5</span>13/03
+            </a>
+            <a href="obadiasdia6.html" class="dia-btn ultimo">
+                <span class="dia-numero">6</span>14/03 🎉
+            </a>
+        </div>
+
+        <h2>📚 RECURSOS EXTRAS</h2>
+
+        <div class="cards-container">
+            <a href="obadiasmensagem1.html" class="card">
+                <span class="icon">🙏</span>
+                <div class="ctitle">Mensagem Bíblica</div>
+                <div class="cdesc">A história completa de Obadias</div>
+            </a>
+            <a href="obadiasinterativo1.html" class="card">
+                <span class="icon">🎮</span>
+                <div class="ctitle">Sermão Interativo</div>
+                <div class="cdesc">Puzzles e dinâmicas sobre Obadias</div>
+            </a>
+        </div>
+
+        <div class="frase-box">
+            <strong>🔐 Frase Secreta — Completa!</strong>
+            <p>Você desbloqueou todos os fragmentos ao longo dos 6 dias. A frase completa:</p>
+            <div class="frase-secreta-texto">"Deus não precisa de heróis famosos, Ele procura pessoas fiéis nos lugares onde ninguém está olhando!"</div>
+        </div>
+
+        <a href="../index.html" class="voltar">← Voltar para o início</a>
+
+        <div class="rodape">
+            <p><span>Central UP</span> — IEQ Central Londrina</p>
+            <p style="margin-top:6px;">Desenvolvido por <span>Pr. Eduardo</span></p>
+        </div>
+
+    </div>
+</body>
+</html>

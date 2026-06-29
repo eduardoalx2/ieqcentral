@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 2 - 🌿 Quando Você Quer Desistir | Elias Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        #bloqueio {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        #bloqueio .conteudo-bloqueio { text-align: center; color: white; padding: 40px; max-width: 600px; }
+        #bloqueio img { max-width: 260px; margin-bottom: 25px; }
+        #bloqueio h1 { font-size: 42px; margin-bottom: 18px; color: white; }
+        #bloqueio p { font-size: 20px; line-height: 1.8; color: white; }
+        #conteudo { display: none; }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 28px; }
+        .logo-topo img { max-width: 220px; }
+        .dia-badge {
+            display: inline-block; background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%);
+            color: white; padding: 9px 22px; border-radius: 25px; font-weight: bold; margin-bottom: 18px; font-size: 14px;
+        }
+        h1 { color: #1a3a5c; font-size: 34px; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { color: #e85d2a; font-size: 17px; margin-bottom: 28px; font-weight: 600; }
+        .progresso { background: #f5f5f5; padding: 18px; border-radius: 12px; margin: 28px 0; text-align: center; }
+        .progresso-titulo { color: #1a3a5c; font-weight: bold; margin-bottom: 12px; font-size: 13px; }
+        .progresso-bar { background: #e0e0e0; height: 26px; border-radius: 15px; overflow: hidden; }
+        .progresso-fill {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            height: 100%; width: 33%; display: flex; align-items: center;
+            justify-content: center; color: white; font-weight: bold; font-size: 13px;
+        }
+        .artefato-box {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border: 4px dashed #e85d2a; padding: 24px; border-radius: 18px;
+            margin: 28px 0; text-align: center; box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+            animation: aparecer 0.8s ease;
+        }
+        .artefato-box .artefato-label { color: #1a3a5c; font-size: 13px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .artefato-box .artefato-emoji { font-size: 52px; display: block; margin: 10px 0; }
+        .artefato-box .artefato-nome { font-size: 26px; font-weight: bold; color: #1a3a5c; margin-bottom: 10px; }
+        .artefato-box .artefato-desc { font-size: 14px; color: #2d3436; line-height: 1.8; }
+        h2 {
+            color: white; background: linear-gradient(135deg, #1a3a5c 0%, #2d5986 100%);
+            padding: 12px 20px; border-radius: 12px; font-size: 18px; margin: 26px 0 16px 0;
+        }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 13px 0; }
+        mark { background: #ffd700; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+        hr { border: none; border-top: 2px dashed #ddd; margin: 26px 0; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 38px; gap: 14px; }
+        .nav-btn {
+            flex: 1; padding: 14px 22px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; text-align: center; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; font-size: 14px;
+        }
+        .nav-btn-prev { background: #e0e0e0; color: #666; }
+        .nav-btn-prev:hover { background: #d0d0d0; transform: translateY(-2px); }
+        .nav-btn-next { background: linear-gradient(135deg, #1a3a5c 0%, #e85d2a 100%); color: white; }
+        .nav-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #1a3a5c66; }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #eee; color: #999; font-size: 12px; }
+        .rodape-destaque { color: #1a3a5c; font-weight: bold; }
+        .quiz-container { background: #f5f8ff; border: 2px solid #1a3a5c33; border-radius: 20px; padding: 28px; margin: 30px 0; }
+        .pergunta { margin-bottom: 10px; }
+        .pergunta-texto { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 14px; line-height: 1.5; }
+        .alternativas { display: flex; flex-direction: column; gap: 10px; }
+        .alt-btn {
+            background: white; border: 2px solid #1a3a5c55; padding: 12px 16px;
+            border-radius: 12px; font-size: 14px; cursor: pointer; text-align: left;
+            transition: all 0.2s ease; color: #333; font-family: inherit; line-height: 1.4;
+        }
+        .alt-btn:hover { background: #eaf0f8; border-color: #1a3a5c; transform: translateX(4px); }
+        .alt-btn.correta { background: #e8fff0; border-color: #43e97b; color: #1a7a3c; font-weight: bold; }
+        .alt-btn.errada { background: #ffe8e8; border-color: #d63031; color: #d63031; }
+        .alt-btn:disabled { cursor: not-allowed; transform: none; }
+        .feedback { margin-top: 10px; font-size: 14px; font-weight: bold; min-height: 22px; }
+        @keyframes aparecer { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 20px 16px; border-radius: 16px; }
+            .logo-topo img { max-width: 140px; }
+            h1 { font-size: 22px !important; line-height: 1.3; }
+            h2 { font-size: 15px !important; padding: 10px 14px; margin: 20px 0 14px 0 !important; }
+            .subtitle { font-size: 13px !important; margin-bottom: 14px; }
+            .dia-badge { font-size: 12px; padding: 7px 14px; }
+            p { font-size: 14px !important; line-height: 1.7; margin: 10px 0; }
+            .progresso { padding: 12px; margin: 16px 0; }
+            .progresso-fill { font-size: 11px; }
+            .nav-buttons { flex-direction: column; gap: 10px; }
+            .nav-btn { padding: 13px 16px; font-size: 14px; }
+            .rodape { font-size: 12px; margin-top: 20px; }
+            hr { margin: 18px 0; }
+            .quiz-container { padding: 14px; }
+            .pergunta-texto { font-size: 13px; }
+            .alt-btn { font-size: 12px; padding: 10px 12px; }
+            .artefato-box .artefato-emoji { font-size: 40px; }
+            .artefato-box .artefato-nome { font-size: 20px; }
+            #bloqueio .conteudo-bloqueio { padding: 24px 18px; }
+            #bloqueio img { max-width: 160px; margin-bottom: 18px; }
+            #bloqueio h1 { font-size: 28px; }
+            #bloqueio p { font-size: 15px; line-height: 1.6; }
+        }
+        @media (max-width: 400px) {
+            h1 { font-size: 19px !important; }
+        }
+    </style>
+</head>
+<body>
+    <div id="bloqueio">
+        <div class="conteudo-bloqueio">
+            <img src="../logoup.png" alt="Central UP">
+            <h1>Opa, UP! 👋</h1>
+            <p id="msg-bloqueio">Cada devocional tem o seu momento certo.</p>
+            <p style="margin-top:16px; font-size:17px;" id="msg-sub"></p>
+        </div>
+    </div>
+
+    <div id="conteudo">
+        <div class="container">
+            <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+            <div class="dia-badge">📅 DIA 2 DE 6 — ELIAS</div>
+            <h1>🌿 Quando Você Quer Desistir</h1>
+            <p class="subtitle">1 Reis 19.1-4 · O esgotamento que a Bíblia não esconde</p>
+
+            <div class="progresso">
+                <div class="progresso-titulo">SEU PROGRESSO NO DESAFIO</div>
+                <div class="progresso-bar">
+                    <div class="progresso-fill">DIA 2 — 33%</div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>📖 LEIA A PASSAGEM DE HOJE</h2>
+            <p>Leia o texto bíblico abaixo na versão <strong>NTLH</strong>. Depois continue o devocional! 👇</p>
+
+            <div style="background:#f5f8ff; border:2px solid #1a3a5c33; border-radius:16px; padding:18px; margin:16px 0; max-height:300px; overflow-y:auto; line-height:1.9; font-size:14px; color:#333;">
+                <p style="margin:0 0 10px 0;"><strong style="color:#1a3a5c;">1 REIS 19.1-4 — NTLH</strong></p>
+                <p><strong>1</strong> Acabe contou a Jezabel tudo o que Elias tinha feito e como tinha matado todos os profetas de Baal.</p>
+                <p><strong>2</strong> Jezabel então mandou um mensageiro dizer a Elias: "Que os deuses me matem se até amanhã a esta hora eu não fizer com você o mesmo que você fez com os meus profetas!"</p>
+                <p><strong>3</strong> Com medo, Elias fugiu para salvar a sua vida. Quando chegou a Berseba, cidade do reino de Judá, deixou lá o seu servo</p>
+                <p><strong>4</strong> e continuou sozinho pelo deserto por um dia inteiro. Depois disso, sentou debaixo de uma árvore e pediu que Deus o deixasse morrer. Disse: "Já chega, Senhor! Tira a minha vida, porque eu não sou melhor do que os meus antepassados."</p>
+            </div>
+
+            <p style="text-align:center; font-size:14px; background:linear-gradient(135deg,#1a3a5c 0%,#e85d2a 100%); color:white; padding:13px; border-radius:12px; margin:10px 0;">
+                <strong>⬇️ Leu? Então continue o devocional abaixo!</strong>
+            </p>
+
+            <hr>
+
+            <h2>💬 E então, UP?</h2>
+
+            <h2>📰 O QUE ACONTECEU</h2>
+            <p>No dia seguinte ao Carmelo, Jezabel mandou uma ameaça de morte. E Elias, o profeta que não piscou diante de 850 rivais, ficou com medo e saiu correndo.</p>
+            <p>Ele foi até o fim da terra que conhecia. Deixou o servo para trás. E entrou no deserto sozinho, caminhando um dia inteiro até a força acabar completamente.</p>
+            <p style="background:#f5f8ff; padding:20px; border-radius:12px; border-left:5px solid #1a3a5c;">
+                <em>"Já chega, Senhor! Tira a minha vida, porque eu não sou melhor do que os meus antepassados."</em><br>
+                <strong>— 1 Reis 19.4</strong>
+            </p>
+            <p>A Bíblia não esconde esse momento. Não tenta dourar. Registra com honestidade o que o esgotamento faz com qualquer pessoa, mesmo com as mais usadas por Deus.</p>
+
+            <hr>
+
+            <h2>🔍 O QUE DEUS QUER TE MOSTRAR HOJE</h2>
+            <p>Sabe o que é incrível nessa parte da história? Deus não desistiu de Elias.</p>
+            <p>Elias estava no deserto, sozinho, falando que não queria mais nada. E Deus foi atrás. Mandou um anjo. Cuidou dele. Não o largou.</p>
+            <p><mark>O que Deus quer te mostrar hoje é simples e poderoso: quando você está mal, Ele vai atrás de você.</mark> Não fica esperando você se arrumar pra depois aparecer. Vai na sua casa, na sua cama, no seu deserto.</p>
+            <p>Ele não desistiu de Elias. Não vai desistir de você.</p>
+
+            <hr>
+
+            <h2>🪞 ISSO FALA COM VOCÊ</h2>
+            <p>Você já viu Deus agir na sua vida de um jeito que você não esperava? Um amigo que apareceu na hora certa, uma palavra que chegou no momento exato, uma situação que se resolveu sem você entender como?</p>
+            <p>Isso é Deus indo atrás de você. Exatamente como foi atrás de Elias no deserto.</p>
+            <p><mark>Fica de olho. Ele está mais presente do que você imagina.</mark></p>
+
+            <hr>
+
+            <h2>🙏 ORAÇÃO DO DIA</h2>
+            <p style="background:linear-gradient(135deg,#1a3a5c15 0%,#e85d2a15 100%); padding:22px; border-radius:12px; border-left:5px solid #1a3a5c; font-style:italic; line-height:2;">
+                "Senhor, obrigado por não desistir de mim. Por ir atrás quando eu me perco. Me ajuda a enxergar as formas que Tu usas para cuidar de mim todo dia. Amém."
+            </p>
+
+            <hr>
+
+            <div class="quiz-container">
+                <h2 style="background:linear-gradient(135deg,#1a3a5c 0%,#e85d2a 100%); color:white; padding:12px 18px; border-radius:12px; font-size:18px; margin:0 0 14px 0;">🧠 QUIZ DO DIA 2</h2>
+                <p style="color:#555; margin-bottom:18px; font-size:14px;">Responda as 3 perguntas para desbloquear o <strong>Artefato do Profeta</strong>! 🔐</p>
+
+                
+                <div class="pergunta" id="q1">
+                    <p class="pergunta-texto">1. O que Jezabel fez depois que Acabe contou o que aconteceu no Carmelo?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(1, this, false)">A) Fugiu do país com medo de Elias</button>
+                        <button class="alt-btn" onclick="responder(1, this, true)">B) Mandou uma ameaça de morte para Elias</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">C) Se arrependeu e pediu perdão a Deus</button>
+                        <button class="alt-btn" onclick="responder(1, this, false)">D) Mandou prender Elias no palácio</button>
+                    </div>
+                    <div class="feedback" id="f1"></div>
+                </div>
+
+                <div class="pergunta" id="q2" style="display:none;">
+                    <p class="pergunta-texto">2. Para onde Elias foi depois de fugir?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(2, this, false)">A) Para o Monte Carmelo novamente</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">B) Para o palácio de outro rei</button>
+                        <button class="alt-btn" onclick="responder(2, this, true)">C) Para o deserto, depois de chegar a Berseba</button>
+                        <button class="alt-btn" onclick="responder(2, this, false)">D) Para o Monte Horebe diretamente</button>
+                    </div>
+                    <div class="feedback" id="f2"></div>
+                </div>
+
+                <div class="pergunta" id="q3" style="display:none;">
+                    <p class="pergunta-texto">3. O que Elias fez quando chegou ao deserto?</p>
+                    <div class="alternativas">
+                        <button class="alt-btn" onclick="responder(3, this, false)">A) Orou por horas pedindo força para continuar</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">B) Subiu uma montanha para encontrar Deus</button>
+                        <button class="alt-btn" onclick="responder(3, this, true)">C) Sentou debaixo de uma árvore esgotado, sem querer continuar</button>
+                        <button class="alt-btn" onclick="responder(3, this, false)">D) Voltou para encontrar o rei Acabe</button>
+                    </div>
+                    <div class="feedback" id="f3"></div>
+                </div>
+
+
+                <div id="artefato-revelado" style="display:none;">
+                    <div class="artefato-box">
+                        <div class="artefato-label">Artefato do Profeta — Dia 2 de 6</div>
+                        <span class="artefato-emoji">🪨</span>
+                        <div class="artefato-nome">A Pedra</div>
+                        <p class="artefato-desc">Elias sentou no deserto carregando um peso que não cabia mais dentro dele. A pedra representa esse peso, o que a gente carrega quando quer largar tudo e não consegue mais dar um passo.</p>
+                        <p class="artefato-desc" style="margin-top:12px; background:#e8f4f8; border-left: 3px solid #1a3a5c; padding: 10px 14px; border-radius: 6px;">🎯 <strong>Sua missão:</strong> pega uma pedra. Pode ser do jardim, da calçada, qualquer pedra pequena que você encontrar por aí. Coloca ela na sua Caixa do Profeta. Esse é o seu segundo artefato. Faltam 4 para completar!</p>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                let acertos = 0;
+                const totalPerguntas = 3;
+                function responder(num, btn, correta) {
+                    const buttons = btn.parentElement.querySelectorAll('.alt-btn');
+                    const feedback = document.getElementById('f' + num);
+                    buttons.forEach(b => b.disabled = true);
+                    if (correta) {
+                        btn.classList.add('correta');
+                        feedback.style.color = '#1a7a3c';
+                        feedback.textContent = '✅ Correto! Muito bem, UP!';
+                        acertos++;
+                        setTimeout(() => {
+                            if (num < totalPerguntas) {
+                                document.getElementById('q' + num).style.opacity = '0.6';
+                                document.getElementById('q' + (num + 1)).style.display = 'block';
+                                document.getElementById('q' + (num + 1)).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            } else {
+                                document.getElementById('artefato-revelado').style.display = 'block';
+                                document.getElementById('artefato-revelado').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }, 900);
+                    } else {
+                        btn.classList.add('errada');
+                        feedback.style.color = '#d63031';
+                        feedback.textContent = 'Não é essa! Releia a passagem...';
+                        setTimeout(() => {
+                            buttons.forEach(b => { b.disabled = false; b.classList.remove('errada'); });
+                            feedback.textContent = '';
+                        }, 1500);
+                    }
+                }
+            </script>
+
+            <hr>
+
+            <div class="nav-buttons">
+                <a href="eliasdia01.html" class="nav-btn nav-btn-prev">← Dia Anterior</a>
+                <a href="eliasdia03.html" class="nav-btn nav-btn-next">Próximo Dia →</a>
+            </div>
+
+            <div style="text-align:center; margin-top:22px;">
+                <a href="../index.html" style="color:#1a3a5c; font-size:13px; text-decoration:none;">← Voltar para o início</a>
+            </div>
+
+            <div class="rodape">
+                <p><span class="rodape-destaque">Central UP</span> - IEQ Central</p>
+                <p style="margin-top:7px;">Desenvolvido por <span class="rodape-destaque">Pr. Eduardo</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const abertura   = new Date('2026-03-17T00:00:00');
+        const fechamento = new Date('2026-03-18T11:59:59');
+        const liberacaoFinal = new Date('2026-03-22T00:00:00');
+        const agora = new Date();
+        const bloqueio = document.getElementById('bloqueio');
+        const conteudo = document.getElementById('conteudo');
+        const msgBloqueio = document.getElementById('msg-bloqueio');
+        const msgSub = document.getElementById('msg-sub');
+
+        function fmt(d) {
+            return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) +
+                   ' às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        if (agora >= liberacaoFinal || (agora >= abertura && agora <= fechamento)) {
+            bloqueio.style.display = 'none';
+            conteudo.style.display = 'block';
+        } else if (agora < abertura) {
+            msgBloqueio.textContent = 'Ei, você está adiantado! 😄';
+            msgSub.innerHTML = 'Este devocional abre no dia <strong>' + fmt(abertura) + '</strong>.<br>Fique ligado, volte no horário certo!';
+        } else {
+            msgBloqueio.textContent = 'Você perdeu o horário deste dia... 😔';
+            msgSub.innerHTML = 'Este devocional encerrou em <strong>' + fmt(fechamento) + '</strong>.<br>Mas não desanima! Os próximos dias ainda estão por vir.<br>A partir de <strong>22/03</strong> todos os dias ficam abertos!';
+        }
+    </script>
+</body>
+</html>

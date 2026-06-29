@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermão Interativo - Obadias | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4a0080 0%, #c9a800 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        .container {
+            max-width: 820px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 40px; box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 25px; }
+        .logo-topo img { max-width: 200px; }
+        .badge {
+            display: inline-block; background: linear-gradient(135deg, #4a0080 0%, #c9a800 100%);
+            color: white; padding: 9px 22px; border-radius: 25px; font-weight: bold; margin-bottom: 18px; font-size: 14px;
+        }
+        h1 { color: #4a0080; font-size: 36px; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { color: #c9a800; font-size: 17px; margin-bottom: 28px; font-weight: 600; }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 12px 0; }
+        h2 {
+            color: white; background: linear-gradient(135deg, #4a0080 0%, #7b00cc 100%);
+            padding: 12px 20px; border-radius: 12px; font-size: 19px; margin: 30px 0 16px 0;
+        }
+        hr { border: none; border-top: 2px dashed #ddd; margin: 28px 0; }
+        mark { background: #ffd700; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+
+        /* SEÇÃO: QUEBRA GELO */
+        .breakice { background: linear-gradient(135deg, #4a008015, #c9a80015); border: 2px solid #4a008044; padding: 24px; border-radius: 16px; margin: 18px 0; }
+        .breakice h3 { color: #4a0080; font-size: 17px; margin-bottom: 12px; }
+        .breakice p { font-size: 15px; color: #444; }
+        .opcoes-dinamica { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+        .opcao {
+            background: white; border: 2px solid #4a008033; border-radius: 12px;
+            padding: 14px 18px; cursor: pointer; transition: all 0.2s ease;
+            font-size: 15px; color: #333; text-align: left;
+        }
+        .opcao:hover { border-color: #4a0080; background: #f5eeff; transform: translateX(6px); }
+        .opcao.selecionada { background: #4a0080; color: white; border-color: #4a0080; }
+        .resposta-dinamica { display: none; background: #e8f5e9; border: 2px solid #43e97b; border-radius: 12px; padding: 16px; margin-top: 14px; }
+        .resposta-dinamica p { color: #1b5e20; font-size: 15px; font-weight: 600; }
+
+        /* PUZZLE: CENA EMBARALHADA */
+        .puzzle-cenas { margin: 18px 0; }
+        .cena-item {
+            background: white; border: 2px solid #4a008033; border-radius: 12px;
+            padding: 14px 18px; margin: 8px 0; cursor: grab; font-size: 14px;
+            display: flex; align-items: center; gap: 12px; transition: all 0.2s ease;
+            user-select: none;
+        }
+        .cena-item:active { cursor: grabbing; opacity: 0.7; }
+        .cena-item.dragging { opacity: 0.5; border: 2px dashed #4a0080; }
+        .cena-item.drag-over { border-color: #43e97b; background: #e8f5e9; }
+        .cena-num { background: #4a008022; color: #4a0080; font-weight: bold; padding: 6px 12px; border-radius: 8px; min-width: 36px; text-align: center; }
+        .cena-texto { flex: 1; }
+        .btn-verificar {
+            background: linear-gradient(135deg, #4a0080 0%, #7b00cc 100%);
+            color: white; border: none; padding: 14px 28px; border-radius: 12px;
+            font-size: 15px; font-weight: bold; cursor: pointer; margin: 14px 0; transition: all 0.3s;
+        }
+        .btn-verificar:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(74,0,128,0.4); }
+        .resultado-puzzle { display: none; padding: 16px; border-radius: 12px; margin-top: 12px; font-weight: bold; font-size: 15px; }
+
+        /* LACUNAS */
+        .lacuna-container { margin: 18px 0; }
+        .frase-lacuna { background: #f8f8ff; border: 2px solid #4a008033; border-radius: 14px; padding: 22px; margin: 14px 0; font-size: 16px; line-height: 2.2; color: #333; }
+        .lacuna {
+            display: inline-block; border-bottom: 3px solid #4a0080; min-width: 100px; padding: 3px 8px;
+            text-align: center; font-weight: bold; color: #4a0080; background: #f5eeff; border-radius: 6px;
+        }
+        .palavras-banco { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+        .palavra-banco {
+            background: linear-gradient(135deg, #4a0080, #7b00cc); color: white;
+            padding: 10px 18px; border-radius: 25px; cursor: pointer; font-size: 14px;
+            transition: all 0.2s ease; user-select: none; font-weight: bold;
+        }
+        .palavra-banco:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(74,0,128,0.4); }
+        .palavra-banco.usada { opacity: 0.3; cursor: not-allowed; }
+        .btn-verificar-lacunas {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white; border: none; padding: 14px 28px; border-radius: 12px;
+            font-size: 15px; font-weight: bold; cursor: pointer; margin: 14px 0; transition: all 0.3s;
+        }
+        .btn-verificar-lacunas:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(67,233,123,0.4); }
+
+        /* VERDADEIRO OU FALSO */
+        .vf-item { background: #f8f8ff; border: 2px solid #eee; border-radius: 14px; padding: 18px; margin: 12px 0; }
+        .vf-pergunta { font-size: 15px; color: #333; margin-bottom: 12px; font-weight: 600; line-height: 1.5; }
+        .vf-btns { display: flex; gap: 10px; }
+        .vf-btn {
+            flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 10px;
+            cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.2s ease;
+            background: white; color: #333;
+        }
+        .vf-btn:hover { transform: scale(1.03); }
+        .vf-btn.verde { background: #e8f5e9; border-color: #43e97b; color: #1b5e20; }
+        .vf-btn.vermelho { background: #ffebee; border-color: #d63031; color: #b71c1c; }
+        .vf-feedback { display: none; margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 14px; font-weight: 600; }
+
+        /* PERSONAGEM */
+        .personagem-quiz { margin: 18px 0; }
+        .pq-pergunta { background: linear-gradient(135deg, #4a008015, #c9a80015); border: 2px solid #4a008033; border-radius: 14px; padding: 20px; margin: 14px 0; }
+        .pq-pergunta h4 { color: #4a0080; font-size: 15px; margin-bottom: 12px; }
+        .pq-opcoes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .pq-btn {
+            padding: 14px 12px; border: 2px solid #4a008033; border-radius: 10px;
+            cursor: pointer; font-size: 13px; background: white; transition: all 0.2s; text-align: center;
+            color: #333; font-weight: 600;
+        }
+        .pq-btn:hover { border-color: #4a0080; background: #f5eeff; }
+        .pq-btn.certa { background: #e8f5e9; border-color: #43e97b; color: #1b5e20; }
+        .pq-btn.errada { background: #ffebee; border-color: #d63031; color: #b71c1c; }
+
+        /* REFLEXÃO FINAL */
+        .reflexao { background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); border: 4px dashed #d63031; padding: 28px; border-radius: 18px; margin: 28px 0; text-align: center; }
+        .reflexao h3 { color: #4a0080; font-size: 20px; margin-bottom: 16px; }
+        .reflexao .frase-grande { font-size: 20px; font-weight: bold; color: #2d3436; line-height: 1.6; }
+
+        /* BOTÃO VOLTAR */
+        .btn-voltar {
+            display: inline-block; background: linear-gradient(135deg, #4a0080 0%, #c9a800 100%);
+            color: white; padding: 14px 30px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; margin-top: 28px; font-size: 15px; transition: all 0.3s ease;
+        }
+        .btn-voltar:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(74,0,128,0.4); }
+        .rodape { text-align: center; margin-top: 28px; padding-top: 18px; border-top: 2px solid #eee; color: #999; font-size: 12px; }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px 14px; }
+            h1 { font-size: 24px; }
+            h2 { font-size: 15px; padding: 10px 14px; }
+            p { font-size: 14px; }
+            .pq-opcoes { grid-template-columns: 1fr; }
+            .logo-topo img { max-width: 150px; }
+            .reflexao .frase-grande { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+        <div class="badge">🎮 SERMÃO INTERATIVO — OBADIAS</div>
+        <h1>🛡️ Obadias, o Guardião Secreto</h1>
+        <p class="subtitle">Uma experiência interativa sobre fidelidade onde ninguém está olhando</p>
+
+        <p>Hoje não é só leitura! Você vai participar, clicar, arrastar, completar e descobrir a história de Obadias de um jeito diferente. Bora lá! 🚀</p>
+
+        <hr>
+
+        <!-- PARTE 1: QUEBRA GELO -->
+        <h2>🎯 PARTE 1 — DINÂMICA DE ABERTURA</h2>
+        <p><strong>Clique na situação que mais combina com você:</strong></p>
+
+        <div class="breakice">
+            <h3>Se você soubesse de um segredo importante e guardar esse segredo te colocasse em risco, o que você faria?</h3>
+            <div class="opcoes-dinamica" id="opcoes">
+                <button class="opcao" onclick="escolherDinamica(this, 'fuja')">🏃 Fugia e não me metia em confusão</button>
+                <button class="opcao" onclick="escolherDinamica(this, 'conta')">📢 Contava para alguém de confiança</button>
+                <button class="opcao" onclick="escolherDinamica(this, 'guarda')">🤫 Guardava o segredo e fazia o que precisava ser feito</button>
+                <button class="opcao" onclick="escolherDinamica(this, 'rezava')">🙏 Orava e esperava Deus me dizer o que fazer</button>
+            </div>
+            <div class="resposta-dinamica" id="resposta-dinamica"></div>
+        </div>
+
+        <hr>
+
+        <!-- PARTE 2: PUZZLE ORDEM DA HISTÓRIA -->
+        <h2>🔀 PARTE 2 — COLOQUE A HISTÓRIA EM ORDEM</h2>
+        <p>As cenas da história de Obadias estão embaralhadas! <strong>Arraste para colocar na ordem correta:</strong></p>
+
+        <div class="puzzle-cenas" id="puzzle-cenas">
+            <div class="cena-item" draggable="true" data-ordem="3" id="cena-a">
+                <span class="cena-num">?</span>
+                <span class="cena-texto">😰 Obadias encontra Elias e entra em pânico com o pedido do profeta</span>
+            </div>
+            <div class="cena-item" draggable="true" data-ordem="1" id="cena-b">
+                <span class="cena-num">?</span>
+                <span class="cena-texto">🏰 Obadias trabalha como administrador no palácio do rei Acabe</span>
+            </div>
+            <div class="cena-item" draggable="true" data-ordem="4" id="cena-c">
+                <span class="cena-num">?</span>
+                <span class="cena-texto">📣 Obadias obedece e vai avisar o rei, apesar do medo</span>
+            </div>
+            <div class="cena-item" draggable="true" data-ordem="2" id="cena-d">
+                <span class="cena-num">?</span>
+                <span class="cena-texto">🕯️ Em segredo, Obadias esconde 100 profetas em cavernas e os alimenta</span>
+            </div>
+        </div>
+
+        <button class="btn-verificar" onclick="verificarPuzzle()">✅ Verificar Ordem</button>
+        <div class="resultado-puzzle" id="resultado-puzzle"></div>
+
+        <hr>
+
+        <!-- PARTE 3: COMPLETE AS LACUNAS -->
+        <h2>✏️ PARTE 3 — COMPLETE AS LACUNAS</h2>
+        <p>Clique nas palavras abaixo para preencher as frases sobre Obadias:</p>
+
+        <div class="palavras-banco" id="palavras-banco">
+            <span class="palavra-banco" onclick="usarPalavra(this, 'administrador')">administrador</span>
+            <span class="palavra-banco" onclick="usarPalavra(this, 'Jezabel')">Jezabel</span>
+            <span class="palavra-banco" onclick="usarPalavra(this, 'cem')">cem</span>
+            <span class="palavra-banco" onclick="usarPalavra(this, 'cavernas')">cavernas</span>
+            <span class="palavra-banco" onclick="usarPalavra(this, 'Elias')">Elias</span>
+            <span class="palavra-banco" onclick="usarPalavra(this, 'pão e água')">pão e água</span>
+        </div>
+
+        <div class="frase-lacuna">
+            Obadias era o <span class="lacuna" id="l1" data-resposta="administrador">__________</span> do palácio real.
+        </div>
+        <div class="frase-lacuna">
+            Quando <span class="lacuna" id="l2" data-resposta="Jezabel">__________</span> começou a matar os profetas, Obadias agiu.
+        </div>
+        <div class="frase-lacuna">
+            Ele escondeu <span class="lacuna" id="l3" data-resposta="cem">__________</span> profetas em duas <span class="lacuna" id="l4" data-resposta="cavernas">__________</span>.
+        </div>
+        <div class="frase-lacuna">
+            Obadias os abastecia com <span class="lacuna" id="l5" data-resposta="pão e água">__________</span> todos os dias.
+        </div>
+        <div class="frase-lacuna">
+            No caminho, ele encontrou o profeta <span class="lacuna" id="l6" data-resposta="Elias">__________</span>.
+        </div>
+
+        <button class="btn-verificar-lacunas" onclick="verificarLacunas()">🔍 Verificar Respostas</button>
+        <div id="resultado-lacunas" style="display:none; margin-top:12px; font-weight:bold; font-size:15px; padding:14px; border-radius:12px;"></div>
+
+        <hr>
+
+        <!-- PARTE 4: VERDADEIRO OU FALSO -->
+        <h2>⚡ PARTE 4 — VERDADEIRO OU FALSO?</h2>
+        <p>Clique em V (Verdadeiro) ou F (Falso) para cada afirmação:</p>
+
+        <div class="vf-item">
+            <div class="vf-pergunta">1. Obadias era um profeta que vivia no deserto longe do rei Acabe.</div>
+            <div class="vf-btns">
+                <button class="vf-btn" onclick="respVF(this, false, 'Falso! Obadias era o administrador do palácio real, trabalhando diretamente para o rei Acabe.', 1)">✅ VERDADEIRO</button>
+                <button class="vf-btn" onclick="respVF(this, true, 'Correto! Obadias não era profeta do deserto. Era o administrador do palácio real de Acabe.', 1)">❌ FALSO</button>
+            </div>
+            <div class="vf-feedback" id="vf1"></div>
+        </div>
+
+        <div class="vf-item">
+            <div class="vf-pergunta">2. Obadias escondeu cem profetas para protegê-los de Jezabel.</div>
+            <div class="vf-btns">
+                <button class="vf-btn" onclick="respVF(this, true, 'Correto! Obadias escondeu cinquenta profetas em cada caverna, totalizando cem, para protegê-los da perseguição de Jezabel.', 2)">✅ VERDADEIRO</button>
+                <button class="vf-btn" onclick="respVF(this, false, 'Na verdade é verdadeiro! Obadias escondeu exatamente cem profetas nas cavernas.', 2)">❌ FALSO</button>
+            </div>
+            <div class="vf-feedback" id="vf2"></div>
+        </div>
+
+        <div class="vf-item">
+            <div class="vf-pergunta">3. Obadias ficou tranquilo e feliz quando Elias pediu para ele ir falar com o rei.</div>
+            <div class="vf-btns">
+                <button class="vf-btn" onclick="respVF(this, false, 'Falso! Obadias ficou com muito medo e argumentou bastante antes de obedecer. Ele disse que o rei ia matá-lo!', 3)">✅ VERDADEIRO</button>
+                <button class="vf-btn" onclick="respVF(this, true, 'Correto! Obadias ficou apavorado e argumentou bastante com Elias antes de obedecer.', 3)">❌ FALSO</button>
+            </div>
+            <div class="vf-feedback" id="vf3"></div>
+        </div>
+
+        <div class="vf-item">
+            <div class="vf-pergunta">4. A Bíblia diz que Obadias tinha muito respeito pelo Senhor.</div>
+            <div class="vf-btns">
+                <button class="vf-btn" onclick="respVF(this, true, 'Correto! 1 Reis 18.3 diz exatamente isso: que Obadias tinha muito respeito pelo Senhor.', 4)">✅ VERDADEIRO</button>
+                <button class="vf-btn" onclick="respVF(this, false, 'Na verdade é verdadeiro! 1 Reis 18.3 registra exatamente isso sobre o coração de Obadias.', 4)">❌ FALSO</button>
+            </div>
+            <div class="vf-feedback" id="vf4"></div>
+        </div>
+
+        <hr>
+
+        <!-- PARTE 5: QUAL PERSONAGEM -->
+        <h2>🎭 PARTE 5 — QUAL PERSONAGEM É ESSE?</h2>
+        <p>Leia a descrição e identifique o personagem correto:</p>
+
+        <div class="personagem-quiz">
+            <div class="pq-pergunta">
+                <h4>Personagem 1: "Era a rainha. Mandava matar os profetas de Deus e introduziu a adoração a Baal em Israel."</h4>
+                <div class="pq-opcoes" id="pg1">
+                    <button class="pq-btn" onclick="respPG(this, false, 1)">👑 Acabe</button>
+                    <button class="pq-btn" onclick="respPG(this, true, 1)">🐍 Jezabel</button>
+                    <button class="pq-btn" onclick="respPG(this, false, 1)">🛡️ Obadias</button>
+                    <button class="pq-btn" onclick="respPG(this, false, 1)">🔥 Elias</button>
+                </div>
+            </div>
+            <div class="pq-pergunta">
+                <h4>Personagem 2: "Era o profeta de Deus que encontrou o administrador do palácio no caminho e pediu um favor."</h4>
+                <div class="pq-opcoes" id="pg2">
+                    <button class="pq-btn" onclick="respPG(this, false, 2)">👑 Acabe</button>
+                    <button class="pq-btn" onclick="respPG(this, false, 2)">🐍 Jezabel</button>
+                    <button class="pq-btn" onclick="respPG(this, false, 2)">🛡️ Obadias</button>
+                    <button class="pq-btn" onclick="respPG(this, true, 2)">🔥 Elias</button>
+                </div>
+            </div>
+            <div class="pq-pergunta">
+                <h4>Personagem 3: "Era o pior rei de toda a história de Israel. Adorava Baal e seu nome significa 'pai da iniquidade'."</h4>
+                <div class="pq-opcoes" id="pg3">
+                    <button class="pq-btn" onclick="respPG(this, true, 3)">👑 Acabe</button>
+                    <button class="pq-btn" onclick="respPG(this, false, 3)">🐍 Jezabel</button>
+                    <button class="pq-btn" onclick="respPG(this, false, 3)">🛡️ Obadias</button>
+                    <button class="pq-btn" onclick="respPG(this, false, 3)">🔥 Elias</button>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- REFLEXÃO FINAL -->
+        <h2>🪞 REFLEXÃO FINAL</h2>
+        <p>Você chegou até aqui. Agora é hora da pergunta mais importante:</p>
+
+        <div class="breakice" style="text-align: center; margin-top: 16px;">
+            <h3 style="font-size: 18px; margin-bottom: 16px;">Qual dessas frases representa mais onde você está hoje?</h3>
+            <div class="opcoes-dinamica" id="opcoes-reflexao">
+                <button class="opcao" onclick="escolherReflexao(this, 'a')">😕 Estou num lugar difícil e não consigo ver Deus nisso</button>
+                <button class="opcao" onclick="escolherReflexao(this, 'b')">😰 Estou com medo de dar um passo que eu sei que devo dar</button>
+                <button class="opcao" onclick="escolherReflexao(this, 'c')">🤫 Estou fazendo o bem em silêncio, mesmo sem reconhecimento</button>
+                <button class="opcao" onclick="escolherReflexao(this, 'd')">💪 Quero ser mais fiel no lugar onde Deus me colocou</button>
+            </div>
+            <div id="resposta-reflexao" style="display:none; margin-top:18px; padding:18px; border-radius:14px; background:white; border: 2px solid #4a0080;"></div>
+        </div>
+
+        <div class="reflexao">
+            <h3>🔑 PARA TERMINAR</h3>
+            <div class="frase-grande">"Deus não precisa de heróis famosos, Ele procura pessoas fiéis nos lugares onde ninguém está olhando!"</div>
+            <p style="margin-top: 18px; font-size: 15px; color: #2d3436;">Obadias provou isso. E você pode provar também.</p>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="../index.html" class="btn-voltar">← Voltar para o início</a>
+        </div>
+
+        <div class="rodape">
+            <p><strong style="color: #4a0080;">Central UP</strong> - IEQ Central</p>
+            <p style="margin-top: 7px;">Desenvolvido por <strong style="color: #4a0080;">Pr. Eduardo</strong></p>
+        </div>
+    </div>
+
+    <script>
+        // DINÂMICA DE ABERTURA
+        const respostasAbertura = {
+            fuga: { cor: '#fff3e0', borda: '#ff9800', texto: '🤔 Entendemos! Mas Obadias poderia ter fugido também. Em vez disso, ele ficou e salvou 100 vidas. Às vezes o lugar difícil é exatamente onde Deus quer te usar!' },
+            conta: { cor: '#e3f2fd', borda: '#1976d2', texto: '💬 Dividir o peso com alguém de confiança é sabedoria! Obadias porém carregou esse segredo sozinho por anos, pois não havia ninguém para contar.' },
+            guarda: { cor: '#e8f5e9', borda: '#43e97b', texto: '🙌 É exatamente isso que Obadias fez! Em silêncio, sem alarde, ele foi lá e salvou 100 vidas. Fidelidade que não precisa de plateia.' },
+            rezava: { cor: '#f3e5f5', borda: '#7b1fa2', texto: '🙏 Oração é sempre o ponto de partida! Obadias com certeza orava também. Mas ele combinava a oração com a ação, exatamente como Deus queria.' }
+        };
+        function escolherDinamica(btn, tipo) {
+            document.querySelectorAll('#opcoes .opcao').forEach(b => b.classList.remove('selecionada'));
+            btn.classList.add('selecionada');
+            const r = respostasAbertura[tipo];
+            const div = document.getElementById('resposta-dinamica');
+            div.style.display = 'block';
+            div.style.background = r.cor;
+            div.style.borderColor = r.borda;
+            div.innerHTML = `<p style="color:#333;">${r.texto}</p>`;
+        }
+
+        // PUZZLE DRAG AND DROP
+        let dragSrc = null;
+        document.querySelectorAll('.cena-item').forEach(item => {
+            item.addEventListener('dragstart', function() { dragSrc = this; this.classList.add('dragging'); });
+            item.addEventListener('dragend', function() { this.classList.remove('dragging'); document.querySelectorAll('.cena-item').forEach(i => i.classList.remove('drag-over')); });
+            item.addEventListener('dragover', function(e) { e.preventDefault(); this.classList.add('drag-over'); });
+            item.addEventListener('dragleave', function() { this.classList.remove('drag-over'); });
+            item.addEventListener('drop', function(e) {
+                e.preventDefault();
+                if (dragSrc !== this) {
+                    const parent = this.parentNode;
+                    const srcIndex = Array.from(parent.children).indexOf(dragSrc);
+                    const tgtIndex = Array.from(parent.children).indexOf(this);
+                    if (srcIndex < tgtIndex) parent.insertBefore(dragSrc, this.nextSibling);
+                    else parent.insertBefore(dragSrc, this);
+                }
+            });
+        });
+
+        function verificarPuzzle() {
+            const items = document.querySelectorAll('#puzzle-cenas .cena-item');
+            const ordens = Array.from(items).map(i => parseInt(i.dataset.ordem));
+            const correto = ordens[0] === 1 && ordens[1] === 2 && ordens[2] === 3 && ordens[3] === 4;
+            const div = document.getElementById('resultado-puzzle');
+            div.style.display = 'block';
+            if (correto) {
+                div.style.background = '#e8f5e9'; div.style.border = '2px solid #43e97b'; div.style.color = '#1b5e20';
+                div.innerHTML = '🎉 Parabéns! Você colocou a história na ordem certa! Obadias foi fiel em cada etapa!';
+                items.forEach((item, i) => { item.querySelector('.cena-num').textContent = i + 1; });
+            } else {
+                div.style.background = '#fff3e0'; div.style.border = '2px solid #ff9800'; div.style.color = '#e65100';
+                div.innerHTML = '🤔 Quase! Releia a história de Obadias em 1 Reis 18 e tente reorganizar. Dica: pense em qual foi a primeira coisa que aconteceu!';
+            }
+        }
+
+        // LACUNAS
+        let lacunaAtiva = null;
+        document.querySelectorAll('.lacuna').forEach(l => {
+            l.addEventListener('click', function() {
+                document.querySelectorAll('.lacuna').forEach(x => x.style.outline = '');
+                this.style.outline = '3px solid #4a0080';
+                lacunaAtiva = this;
+            });
+        });
+        function usarPalavra(btn, palavra) {
+            if (btn.classList.contains('usada')) return;
+            if (!lacunaAtiva) { alert('Primeiro clique na lacuna que quer preencher!'); return; }
+            lacunaAtiva.textContent = palavra;
+            lacunaAtiva.dataset.preenchido = palavra;
+            lacunaAtiva.style.outline = '';
+            lacunaAtiva.style.background = '#fffde7';
+            lacunaAtiva.style.color = '#4a0080';
+            btn.classList.add('usada');
+            lacunaAtiva = null;
+        }
+        function verificarLacunas() {
+            let acertos = 0;
+            document.querySelectorAll('.lacuna').forEach(l => {
+                if (l.dataset.preenchido === l.dataset.resposta) {
+                    l.style.background = '#e8f5e9'; l.style.color = '#1b5e20'; acertos++;
+                } else {
+                    l.style.background = '#ffebee'; l.style.color = '#b71c1c';
+                }
+            });
+            const res = document.getElementById('resultado-lacunas');
+            res.style.display = 'block';
+            if (acertos === 6) {
+                res.style.background = '#e8f5e9'; res.style.color = '#1b5e20'; res.style.border = '2px solid #43e97b';
+                res.textContent = '🎉 Perfeito! Você completou todas as 6 lacunas corretamente!';
+            } else {
+                res.style.background = '#fff3e0'; res.style.color = '#e65100'; res.style.border = '2px solid #ff9800';
+                res.textContent = `Você acertou ${acertos} de 6. As lacunas em vermelho estão erradas. Tente novamente!`;
+            }
+        }
+
+        // VERDADEIRO OU FALSO
+        function respVF(btn, correto, texto, num) {
+            const btns = btn.parentElement.querySelectorAll('.vf-btn');
+            btns.forEach(b => b.disabled = true);
+            btn.classList.add(correto ? 'verde' : 'vermelho');
+            const fb = document.getElementById('vf' + num);
+            fb.style.display = 'block';
+            fb.style.background = correto ? '#e8f5e9' : '#ffebee';
+            fb.style.color = correto ? '#1b5e20' : '#b71c1c';
+            fb.textContent = (correto ? '✅ ' : '❌ ') + texto;
+        }
+
+        // PERSONAGENS
+        function respPG(btn, correto, num) {
+            const btns = document.querySelectorAll(`#pg${num} .pq-btn`);
+            btns.forEach(b => b.disabled = true);
+            btn.classList.add(correto ? 'certa' : 'errada');
+            if (!correto) {
+                btns.forEach(b => { if (b.classList.contains('certa') || b.textContent.includes(num === 1 ? 'Jezabel' : num === 2 ? 'Elias' : 'Acabe')) b.classList.add('certa'); });
+            }
+        }
+
+        // REFLEXÃO FINAL
+        const respostasReflexao = {
+            a: { bg: '#e3f2fd', texto: '🏰 Obadias também estava num lugar difícil, no palácio do pior rei de Israel. Mas Deus estava presente mesmo ali. Pede a Deus para te mostrar o propósito do lugar onde você está.' },
+            b: { bg: '#fff3e0', texto: '😰 Obadias também teve muito medo! Mas depois de reclamar com Elias, ele foi mesmo assim. Fé não é ausência de medo, é dar o passo mesmo tremendo. Você consegue!' },
+            c: { bg: '#e8f5e9', texto: '🤫 Isso é exatamente o espírito de Obadias! Fidelidade que não precisa de plateia. Deus vê cada ato fiel que o mundo ignora. Continue assim!' },
+            d: { bg: '#f3e5f5', texto: '💪 Esse desejo já é o começo! Obadias foi fiel no lugar onde Deus o colocou, sem esperar um lugar melhor. Você pode começar hoje, exatamente onde está.' }
+        };
+        function escolherReflexao(btn, tipo) {
+            document.querySelectorAll('#opcoes-reflexao .opcao').forEach(b => b.classList.remove('selecionada'));
+            btn.classList.add('selecionada');
+            const r = respostasReflexao[tipo];
+            const div = document.getElementById('resposta-reflexao');
+            div.style.display = 'block';
+            div.style.background = r.bg;
+            div.innerHTML = `<p style="color:#333; font-size:15px; line-height:1.8;">${r.texto}</p>`;
+            div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>

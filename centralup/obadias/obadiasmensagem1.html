@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagem Bíblica - Obadias | Central UP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4a0080 0%, #c9a800 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        .container {
+            max-width: 800px; margin: 0 auto; background: white;
+            border-radius: 25px; padding: 45px; box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+        }
+        .logo-topo { text-align: center; margin-bottom: 28px; }
+        .logo-topo img { max-width: 200px; }
+        .badge {
+            display: inline-block; background: linear-gradient(135deg, #4a0080 0%, #c9a800 100%);
+            color: white; padding: 9px 22px; border-radius: 25px; font-weight: bold; margin-bottom: 18px; font-size: 14px;
+        }
+        h1 { color: #4a0080; font-size: 38px; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { color: #c9a800; font-size: 18px; margin-bottom: 30px; font-weight: 600; }
+        p { line-height: 1.9; color: #333; font-size: 16px; margin: 13px 0; }
+        h2 {
+            color: white; background: linear-gradient(135deg, #4a0080 0%, #7b00cc 100%);
+            padding: 12px 20px; border-radius: 12px; font-size: 19px; margin: 28px 0 16px 0;
+        }
+        h2.dourado { background: linear-gradient(135deg, #c9a800 0%, #ff8c00 100%); }
+        h2.vermelho { background: linear-gradient(135deg, #b71c1c 0%, #e65100 100%); }
+        h2.verde { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%); }
+        h2.azul { background: linear-gradient(135deg, #1a237e 0%, #283593 100%); }
+        mark { background: #ffd700; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+        .destaque {
+            background: linear-gradient(135deg, #4a0080 0%, #7b00cc 100%);
+            color: white; padding: 22px 26px; border-radius: 16px; margin: 22px 0; line-height: 1.9;
+        }
+        .destaque p { color: white; font-size: 17px; }
+        .destaque strong { color: #ffd700; }
+        .versículo {
+            background: #f8f8ff; border-left: 5px solid #4a0080;
+            padding: 18px 22px; border-radius: 12px; margin: 18px 0;
+            font-style: italic; font-size: 15px; color: #333; line-height: 1.8;
+        }
+        .versículo .ref { color: #4a0080; font-weight: bold; font-style: normal; margin-top: 10px; display: block; }
+        .caixa-amarela {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            padding: 22px; border-radius: 16px; margin: 22px 0;
+            border-left: 6px solid #4a0080;
+        }
+        .caixa-amarela h3 { color: #4a0080; margin-bottom: 12px; font-size: 17px; }
+        .caixa-amarela p { color: #2d3436; font-size: 15px; }
+        .personagens {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px; margin: 22px 0;
+        }
+        .personagem {
+            background: #f5f5f5; border-radius: 16px; padding: 20px; text-align: center;
+            border-top: 5px solid #4a0080;
+        }
+        .personagem .emoji { font-size: 42px; margin-bottom: 10px; display: block; }
+        .personagem h3 { color: #4a0080; margin-bottom: 8px; font-size: 16px; }
+        .personagem p { font-size: 13px; color: #555; line-height: 1.6; margin: 0; }
+        hr { border: none; border-top: 2px dashed #ddd; margin: 28px 0; }
+        .aplicacao { background: #e8f5e9; border: 2px solid #43e97b; border-radius: 16px; padding: 24px; margin: 22px 0; }
+        .aplicacao h3 { color: #1b5e20; margin-bottom: 14px; font-size: 17px; }
+        .aplicacao p { color: #2d3436; font-size: 15px; line-height: 1.8; }
+        .frase-final {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            padding: 28px; border-radius: 20px; margin: 30px 0; text-align: center;
+            box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+        }
+        .frase-final h3 { color: #4a0080; font-size: 20px; margin-bottom: 14px; }
+        .frase-final .frase { font-size: 22px; font-weight: bold; color: #2d3436; line-height: 1.5; }
+        .rodape { text-align: center; margin-top: 35px; padding-top: 20px; border-top: 2px solid #eee; color: #999; font-size: 12px; }
+        .btn-voltar {
+            display: inline-block; background: linear-gradient(135deg, #4a0080 0%, #c9a800 100%);
+            color: white; padding: 14px 30px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; margin-top: 28px; font-size: 15px; transition: all 0.3s ease;
+        }
+        .btn-voltar:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(74,0,128,0.4); }
+
+        @media (max-width: 768px) {
+            .container { padding: 22px 16px; border-radius: 16px; }
+            h1 { font-size: 26px; }
+            h2 { font-size: 16px; padding: 10px 14px; }
+            p { font-size: 14px; }
+            .destaque p { font-size: 14px; }
+            .frase-final .frase { font-size: 17px; }
+            .personagens { grid-template-columns: 1fr 1fr; }
+            .logo-topo img { max-width: 150px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-topo"><img src="../logoup.png" alt="Central UP"></div>
+
+        <div class="badge">🙏 MENSAGEM BÍBLICA — OBADIAS</div>
+        <h1>🛡️ O Homem do Palácio Que Salvou 100 Vidas</h1>
+        <p class="subtitle">A história de Obadias em 1 Reis 18</p>
+
+        <p>Você já imaginou como seria viver no palácio do pior rei de toda a história de Israel, trabalhando lado a lado com uma rainha que quer matar todos os servos de Deus, e ainda assim manter o coração completamente fiel a Deus?</p>
+        <p>Essa era a vida de Obadias. Todo dia.</p>
+
+        <hr>
+
+        <h2>👥 OS PERSONAGENS DESSA HISTÓRIA</h2>
+
+        <div class="personagens">
+            <div class="personagem">
+                <span class="emoji">🛡️</span>
+                <h3>OBADIAS</h3>
+                <p>Administrador do palácio. O segundo homem mais importante do reino. Fiel a Deus em segredo absoluto.</p>
+            </div>
+            <div class="personagem" style="border-top-color: #b71c1c;">
+                <span class="emoji">👑</span>
+                <h3>ACABE</h3>
+                <p>Rei de Israel. A Bíblia diz que foi o pior rei da história, pior que todos os anteriores.</p>
+            </div>
+            <div class="personagem" style="border-top-color: #7b0000;">
+                <span class="emoji">🐍</span>
+                <h3>JEZABEL</h3>
+                <p>Rainha e esposa de Acabe. Estava caçando e matando todos os profetas de Deus em Israel.</p>
+            </div>
+            <div class="personagem" style="border-top-color: #f57f17;">
+                <span class="emoji">🔥</span>
+                <h3>ELIAS</h3>
+                <p>O profeta de Deus. Estava fugindo e se escondendo. Jezabel queria a sua cabeça.</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2 class="vermelho">😰 O CENÁRIO: A PIOR ÉPOCA</h2>
+
+        <p>Imagina o seguinte: toda semana chegam notícias de mais profetas sendo presos e mortos. Jezabel tinha montado uma caçada sistemática. Quem fosse pego ajudando um profeta de Deus seria considerado inimigo do rei.</p>
+
+        <p>Obadias trabalhava dentro do palácio onde essas ordens eram dadas. Ele ouvia as conversas. Via os soldados saírem para caçar os profetas. Sabia exatamente o que estava acontecendo.</p>
+
+        <div class="versículo">
+            "Acabe chamou Obadias, que administrava o palácio real. Obadias tinha muito respeito pelo Senhor."
+            <span class="ref">— 1 Reis 18.3</span>
+        </div>
+
+        <p>Dois versículos, duas verdades que parecem impossíveis juntas. <mark>Trabalhava para Acabe. Amava a Deus.</mark> A Bíblia não explica a tensão. Só registra que era assim.</p>
+
+        <hr>
+
+        <h2 class="azul">🕯️ O QUE OBADIAS FEZ NA ESCURIDÃO</h2>
+
+        <p>Uma noite, sem dizer para ninguém, sem pedir permissão, sem saber se ia dar certo, Obadias tomou uma decisão.</p>
+
+        <div class="destaque">
+            <p>Ele saiu do palácio carregando pão e água. Atravessou a cidade. Subiu os morros. Encontrou as cavernas nas pedras ao redor de Samaria. E começou a esconder profetas.</p>
+            <p>Cinquenta numa caverna. Cinquenta em outra. <strong>Cem vidas.</strong></p>
+            <p>Todo dia voltava com comida e água. Todo dia arriscava tudo.</p>
+        </div>
+
+        <div class="versículo">
+            "Obadias pegou cem deles, escondeu cinquenta em cada uma de duas cavernas e os abasteceu de pão e água."
+            <span class="ref">— 1 Reis 18.4</span>
+        </div>
+
+        <p>E ninguém sabia. Nem os profetas sabiam exatamente quem era o homem do palácio que os estava alimentando. Obadias carregou esse segredo sozinho por anos.</p>
+
+        <hr>
+
+        <h2>😰 O DIA QUE ELE QUASE DESMORONOU</h2>
+
+        <p>Um dia Obadias estava cumprindo uma tarefa do rei quando encontrou Elias no caminho. O profeta tinha uma missão simples para ele: "Vai falar com o rei Acabe que eu estou aqui."</p>
+
+        <p>Aí Obadias entrou em colapso. Ele falou sem parar, explicou todos os motivos para não ir, argumentou, quase implorou para Elias mudar de ideia.</p>
+
+        <div class="versículo">
+            "E agora o senhor me diz para ir comunicar ao meu amo que o senhor está aqui? Ele vai me matar!"
+            <span class="ref">— 1 Reis 18.14</span>
+        </div>
+
+        <p>E aqui está algo muito importante: <mark>Obadias teve medo.</mark> Muito medo. O mesmo homem que havia escondido 100 profetas com coragem absurda estava tremendo diante de um pedido simples.</p>
+
+        <p>Isso é mais honesto do que parece. Obadias não era um robô sem sentimentos. Ele tinha medo real, de uma ameaça real. E mesmo assim, depois de reclamar bastante, ele foi fazer o que Elias pediu.</p>
+
+        <hr>
+
+        <h2 class="dourado">🏆 O DESFECHO: SEM HOLOFOTE</h2>
+
+        <p>Obadias foi. Avisou o rei. E o encontro histórico entre Elias e Acabe aconteceu. O maior confronto espiritual daquela geração, o fogo do céu, a derrota dos profetas de Baal, tudo começou com um homem do palácio que foi dar um recado.</p>
+
+        <div class="versículo">
+            "Obadias foi encontrar Acabe e lhe deu o recado. Então Acabe foi ao encontro de Elias."
+            <span class="ref">— 1 Reis 18.16</span>
+        </div>
+
+        <p>E depois disso, Obadias some da história. Sem comemorações. Sem discurso de vitória. Sem capítulo com seu nome.</p>
+
+        <p><mark>Mas sem Obadias, nada daquilo teria acontecido.</mark></p>
+
+        <hr>
+
+        <h2 class="verde">💡 O QUE A VIDA DE OBADIAS TE ENSINA</h2>
+
+        <div class="caixa-amarela">
+            <h3>1. Deus coloca pessoas certas em lugares difíceis de propósito</h3>
+            <p>Obadias poderia estar em qualquer outro lugar. Mas estava no palácio de Acabe. E foi lá que ele salvou 100 vidas que só ele poderia salvar naquele lugar.</p>
+        </div>
+
+        <div class="caixa-amarela" style="border-left-color: #1a237e; background: linear-gradient(135deg, #e8eaf615 0%, #283593 0%);">
+            <h3 style="color: #1a237e;">2. Fidelidade real acontece quando ninguém está olhando</h3>
+            <p>Ninguém sabia o que Obadias fazia nas cavernas. Ninguém aplaudia. Se descobrissem, ele morreria. Ele fez porque era certo, não porque alguém estava vendo.</p>
+        </div>
+
+        <div class="caixa-amarela" style="border-left-color: #b71c1c; background: linear-gradient(135deg, #ffebee 0%, #ffebee 100%);">
+            <h3 style="color: #b71c1c;">3. Fé e medo podem coexistir</h3>
+            <p>Obadias não era destemido. Ele tinha medo. Mas depois de reclamar com Elias, ele foi mesmo assim. Fé não é ausência de medo, é dar o passo mesmo com medo.</p>
+        </div>
+
+        <div class="caixa-amarela" style="border-left-color: #1b5e20; background: linear-gradient(135deg, #e8f5e9 0%, #e8f5e9 100%);">
+            <h3 style="color: #1b5e20;">4. Heróis sem palco também mudam a história</h3>
+            <p>Obadias não tem livro com seu nome. Não tem monumento. Mas salvou 100 vidas e foi o elo que tornou possível o maior momento espiritual de sua geração.</p>
+        </div>
+
+        <hr>
+
+        <div class="aplicacao">
+            <h3>🪞 E VOCÊ COM ISSO?</h3>
+            <p>Você tem o seu "palácio de Acabe"? Um lugar difícil, um ambiente que pressiona, uma situação onde ser fiel parece impossível?</p>
+            <p style="margin-top:12px;">Obadias não fugiu do palácio. Ele ficou, foi fiel, e salvou vidas que só ele poderia salvar naquele lugar.</p>
+            <p style="margin-top:12px;"><mark>A questão não é onde você está. É se o seu coração ainda pertence a Deus enquanto você está lá.</mark></p>
+        </div>
+
+        <div class="frase-final">
+            <h3>🔑 FRASE DA SEMANA</h3>
+            <div class="frase">"Deus não precisa de heróis famosos, Ele procura pessoas fiéis nos lugares onde ninguém está olhando!"</div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="../index.html" class="btn-voltar">← Voltar para o início</a>
+        </div>
+
+        <div class="rodape">
+            <p><strong style="color: #4a0080;">Central UP</strong> - IEQ Central</p>
+            <p style="margin-top: 7px;">Desenvolvido por <strong style="color: #4a0080;">Pr. Eduardo</strong></p>
+            <p style="margin-top: 14px; font-size: 11px;">📚 Desafio Obadias, o Guardião Secreto | Baseado em 1 Reis 18</p>
+        </div>
+    </div>
+</body>
+</html>

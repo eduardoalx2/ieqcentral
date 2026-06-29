@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campo de Rute 🌾 — Meninos vs Meninas</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Segoe UI',sans-serif;background:#1a0a00;color:#fff;min-height:100vh;}
+
+        /* SENHA */
+        #tela-senha{position:fixed;inset:0;background:#1a0a00;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px;}
+        #tela-senha h1{font-size:30px;color:#d4a843;}
+        #input-senha{padding:14px 20px;border-radius:12px;border:2px solid #c17f3a;background:#2a1500;color:white;font-size:18px;text-align:center;outline:none;width:240px;font-family:inherit;letter-spacing:4px;}
+        #btn-entrar{background:linear-gradient(135deg,#8b4513,#c17f3a);color:white;border:none;padding:13px 32px;border-radius:12px;font-size:15px;font-weight:bold;cursor:pointer;font-family:inherit;}
+        #erro-senha{color:#ef4444;font-size:13px;display:none;}
+
+        /* PLACAR */
+        #placar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(26,10,0,0.97);border-bottom:3px solid #c17f3a;padding:8px 16px;display:none;align-items:center;justify-content:space-between;gap:8px;}
+        .pl-time{display:flex;align-items:center;gap:10px;}
+        .pl-nome{font-size:13px;font-weight:bold;color:#aaa;}
+        .pl-pts{font-size:26px;font-weight:900;min-width:70px;text-align:center;padding:3px 10px;border-radius:8px;}
+        .pl-m .pl-pts{background:rgba(59,130,246,0.2);color:#60a5fa;border:2px solid #3b82f6;}
+        .pl-f .pl-pts{background:rgba(236,72,153,0.2);color:#f472b6;border:2px solid #ec4899;}
+        .pl-centro{text-align:center;flex:1;}
+        .pl-titulo{font-size:11px;color:#c17f3a;font-weight:bold;letter-spacing:2px;}
+        #timer{font-size:24px;font-weight:900;color:#d4a843;font-variant-numeric:tabular-nums;}
+        #timer.urgente{color:#ef4444;animation:pulsar 0.5s infinite;}
+        .timer-btns{display:flex;gap:6px;justify-content:center;margin-top:2px;}
+        .tbtn{background:#2a1500;border:1.5px solid #c17f3a;color:#d4a843;padding:4px 12px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:bold;font-family:inherit;}
+
+        /* APP */
+        #app{display:none;padding-top:76px;}
+
+        /* ABAS */
+        .abas{display:flex;gap:4px;padding:12px 16px 0;justify-content:center;flex-wrap:wrap;}
+        .aba{padding:9px 18px;border:2px solid #c17f3a44;border-bottom:none;background:#2a1500;color:#666;font-size:12px;font-weight:bold;cursor:pointer;border-radius:10px 10px 0 0;font-family:inherit;transition:all 0.2s;}
+        .aba.on{background:linear-gradient(135deg,#8b4513,#c17f3a);color:white;border-color:#c17f3a;}
+
+        /* RODADAS */
+        .rod{display:none;padding:16px;max-width:860px;margin:0 auto;}
+        .rod.on{display:block;}
+
+        /* CARD */
+        .card{background:#2a1500;border:2px solid #c17f3a33;border-radius:18px;padding:20px;margin-bottom:14px;}
+        .card-t{font-size:16px;font-weight:bold;color:#d4a843;margin-bottom:10px;}
+        .card-d{font-size:13px;color:#888;margin-bottom:14px;line-height:1.6;}
+
+        /* ROLETA */
+        .roleta-wrap{text-align:center;}
+        #canvas-roleta{border-radius:50%;cursor:pointer;display:block;margin:0 auto;}
+        #btn-girar{background:linear-gradient(135deg,#8b4513,#d4a843);color:white;border:none;padding:12px 32px;border-radius:12px;font-size:15px;font-weight:bold;cursor:pointer;margin:12px auto 0;display:block;font-family:inherit;}
+        #btn-girar:disabled{opacity:0.4;cursor:not-allowed;}
+
+        /* PERGUNTA ATIVA */
+        .perg-ativa{background:#0d0500;border:2px solid #d4a843;border-radius:16px;padding:18px;margin:14px 0;}
+        .pv{font-size:11px;color:#d4a843;font-weight:bold;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+        .pt{font-size:16px;color:#fff;line-height:1.65;font-weight:600;margin-bottom:12px;}
+        .pr{font-size:14px;color:#bbb;display:none;padding:12px;background:#1a0a00;border-radius:8px;border-left:4px solid #d4a843;line-height:1.7;margin-bottom:12px;}
+
+        /* BOTÕES */
+        .btns-row{display:flex;gap:8px;flex-wrap:wrap;}
+        .btn{padding:10px 16px;border-radius:10px;border:none;font-size:13px;font-weight:bold;cursor:pointer;font-family:inherit;transition:all 0.18s;}
+        .btn:hover{transform:translateY(-2px);}
+        .btn-m{background:rgba(59,130,246,0.15);color:#60a5fa;border:2px solid #3b82f6;}
+        .btn-m:hover{background:#3b82f6;color:white;}
+        .btn-f{background:rgba(236,72,153,0.15);color:#f472b6;border:2px solid #ec4899;}
+        .btn-f:hover{background:#ec4899;color:white;}
+        .btn-rev{background:#1a0a00;color:#d4a843;border:2px solid #c17f3a;}
+        .btn-rev:hover{background:#c17f3a;color:white;}
+        .btn-amb{background:#1a0a00;color:#aaa;border:2px solid #555;}
+        .btn-amb:hover{background:#555;color:white;}
+
+        /* DADO */
+        #dado{font-size:90px;text-align:center;padding:10px;cursor:pointer;user-select:none;display:block;margin:0 auto;line-height:1;}
+        #dado:active{transform:scale(0.9);}
+        #dado.rolando{animation:rolarDado 0.6s ease;}
+        @keyframes rolarDado{0%,100%{transform:rotate(0)}30%{transform:rotate(-25deg) scale(1.15)}70%{transform:rotate(20deg) scale(0.9)}}
+        #res-dado{text-align:center;font-size:14px;color:#d4a843;font-weight:bold;min-height:22px;margin:6px 0;}
+
+        /* LEGENDA DADO */
+        .legenda{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
+        .leg-item{background:#1a0a00;border:1.5px solid #c17f3a22;border-radius:10px;padding:10px;text-align:center;font-size:12px;color:#888;}
+        .leg-item strong{display:block;color:#d4a843;font-size:14px;margin-bottom:2px;}
+
+        /* MISSÃO FINAL */
+        .missao{background:#1a0a00;border:2px solid #c17f3a22;border-radius:14px;padding:16px;margin-bottom:12px;}
+        .m-num{font-size:11px;color:#c17f3a;font-weight:bold;letter-spacing:2px;margin-bottom:6px;}
+        .m-txt{font-size:15px;color:#fff;line-height:1.65;font-weight:600;margin-bottom:10px;}
+        .m-resp{font-size:13px;color:#aaa;display:none;padding:10px;background:#2a1500;border-radius:8px;border-left:3px solid #d4a843;line-height:1.7;margin-bottom:10px;}
+
+        /* FLASH */
+        .flash{position:fixed;inset:0;z-index:9997;pointer-events:none;opacity:0;transition:opacity 0.3s;}
+        .flash.on{opacity:1;}
+
+        /* CONFETE */
+        @keyframes cair{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+        /* VAZIO */
+        .vazio{text-align:center;padding:24px;color:#555;font-style:italic;font-size:14px;}
+
+        @keyframes pulsar{0%,100%{opacity:1}50%{opacity:0.4}}
+
+        @media(max-width:500px){
+            #canvas-roleta{width:230px!important;height:230px!important;}
+            .legenda{grid-template-columns:repeat(2,1fr);}
+            .pl-pts{font-size:20px;}
+        }
+    </style>
+</head>
+<body>
+
+<div id="tela-senha">
+    <div style="font-size:52px">🌾</div>
+    <h1>Campo de Rute</h1>
+    <p style="color:#888;font-size:13px;">Meninos vs Meninas — acesso exclusivo</p>
+    <input id="input-senha" type="password" placeholder="••••••" onkeydown="if(event.key==='Enter')entrar()">
+    <button id="btn-entrar" onclick="entrar()">Entrar no Jogo</button>
+    <p id="erro-senha">Senha incorreta.</p>
+</div>
+
+<div class="flash" id="flash"></div>
+
+<div id="placar">
+    <div class="pl-time pl-m">
+        <span style="font-size:22px">🔵</span>
+        <div><div class="pl-nome">Meninos</div><div class="pl-pts" id="pts-m">0</div></div>
+    </div>
+    <div class="pl-centro">
+        <div class="pl-titulo">🌾 CAMPO DE RUTE</div>
+        <div id="timer">7:30</div>
+        <div class="timer-btns">
+            <button class="tbtn" id="btn-timer" onclick="toggleTimer()">▶ Iniciar</button>
+            <button class="tbtn" onclick="resetTimer()">↩ Reset</button>
+        </div>
+    </div>
+    <div class="pl-time pl-f" style="flex-direction:row-reverse">
+        <span style="font-size:22px">🩷</span>
+        <div style="text-align:right"><div class="pl-nome">Meninas</div><div class="pl-pts" id="pts-f">0</div></div>
+    </div>
+</div>
+
+<div id="app">
+    <div class="abas">
+        <button class="aba on" onclick="irRod(0)">⚡ Rodada 1 — Campo</button>
+        <button class="aba" onclick="irRod(1)">🎲 Rodada 2 — Dado</button>
+        <button class="aba" onclick="irRod(2)">🌾 Rodada 3 — Final</button>
+    </div>
+
+    <!-- R1 -->
+    <div class="rod on" id="r0">
+        <div class="card">
+            <div class="card-t">⚡ Rodada 1 — O Campo de Boaz</div>
+            <div class="card-d">Gire a roleta para sortear o valor da pergunta. Revele a resposta quando quiser e marque o ponto.</div>
+            <div class="roleta-wrap">
+                <canvas id="canvas-roleta" width="260" height="260"></canvas>
+                <button id="btn-girar" onclick="girar()">🎯 Girar Roleta</button>
+            </div>
+        </div>
+        <div class="perg-ativa" id="pbox" style="display:none">
+            <div class="pv" id="pv"></div>
+            <div class="pt" id="pt"></div>
+            <div class="pr" id="pr"></div>
+            <div class="btns-row">
+                <button class="btn btn-rev" onclick="rev('pr')">👁️ Resposta</button>
+                <button class="btn btn-m" id="btn-pm" onclick="pontoPerg('m')">🔵 Meninos</button>
+                <button class="btn btn-f" id="btn-pf" onclick="pontoPerg('f')">🩷 Meninas</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- R2 -->
+    <div class="rod" id="r1">
+        <div class="card">
+            <div class="card-t">🎲 Rodada 2 — Desafio do Dado</div>
+            <div class="card-d">Clique no dado para rolar. O número define o tipo de desafio.</div>
+            <div id="dado" onclick="rolarDado()">🎲</div>
+            <div id="res-dado">Clique no dado!</div>
+        </div>
+        <div class="perg-ativa" id="dbox" style="display:none">
+            <div class="pv" id="dv"></div>
+            <div class="pt" id="dt"></div>
+            <div class="pr" id="dr"></div>
+            <div class="btns-row" id="dbtns">
+                <button class="btn btn-rev" id="btn-drev" onclick="rev('dr')" style="display:none">👁️ Resposta</button>
+                <button class="btn btn-m" onclick="pontoDado('m')">🔵 Meninos</button>
+                <button class="btn btn-f" onclick="pontoDado('f')">🩷 Meninas</button>
+                <button class="btn btn-amb" onclick="pontoDado('a')">🤝 Ambos</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="legenda">
+                <div class="leg-item"><strong>1</strong>Fácil · 100pts</div>
+                <div class="leg-item"><strong>2</strong>Médio · 150pts</div>
+                <div class="leg-item"><strong>3</strong>Difícil · 300pts</div>
+                <div class="leg-item"><strong>4</strong>🎭 Mímica</div>
+                <div class="leg-item"><strong>5</strong>⚡ Duelo</div>
+                <div class="leg-item"><strong>6</strong>🃏 Coringa</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- R3 -->
+    <div class="rod" id="r2">
+        <div class="card">
+            <div class="card-t">🌾 Rodada 3 — Missão Final</div>
+            <div class="card-d">Desafios em equipe. Os dois times têm 30 segundos para discutir. Marque quem acertou (200 pts cada).</div>
+        </div>
+        <div class="missao">
+            <div class="m-num">MISSÃO 1 — HISTÓRIA</div>
+            <div class="m-txt">Qual é a sequência genealógica que conecta Rute ao rei Davi?</div>
+            <div class="m-resp" id="mr1">Rute + Boaz → Obede → Jessé → Davi.</div>
+            <div class="btns-row">
+                <button class="btn btn-rev" onclick="rev('mr1')">👁️ Resposta</button>
+                <button class="btn btn-m" onclick="pts('m',200)">🔵 Meninos +200</button>
+                <button class="btn btn-f" onclick="pts('f',200)">🩷 Meninas +200</button>
+                <button class="btn btn-amb" onclick="pts('a',200)">🤝 Ambos +200</button>
+            </div>
+        </div>
+        <div class="missao">
+            <div class="m-num">MISSÃO 2 — CRISTOLOGIA</div>
+            <div class="m-txt">Boaz pagou o preço do resgate por Rute sem ser obrigado. Como isso aponta para Jesus?</div>
+            <div class="m-resp" id="mr2">Assim como Boaz, Jesus pagou o preço do nosso resgate na cruz voluntariamente. Boaz é o go'el de Rute, e Jesus é o nosso go'el — o parente redentor que se fez carne para ter o direito de nos salvar.</div>
+            <div class="btns-row">
+                <button class="btn btn-rev" onclick="rev('mr2')">👁️ Resposta</button>
+                <button class="btn btn-m" onclick="pts('m',200)">🔵 Meninos +200</button>
+                <button class="btn btn-f" onclick="pts('f',200)">🩷 Meninas +200</button>
+                <button class="btn btn-amb" onclick="pts('a',200)">🤝 Ambos +200</button>
+            </div>
+        </div>
+        <div class="missao">
+            <div class="m-num">MISSÃO 3 — REFLEXÃO</div>
+            <div class="m-txt">"Ela perdeu tudo. E foi exatamente aí que a história começou." O que isso diz sobre como Deus age?</div>
+            <div class="m-resp" id="mr3">Deus usa os momentos de perda como ponto de partida. Noemi voltou vazia, Rute não tinha nada — e foi aí que Deus começou a agir. Ele inclui quem o mundo exclui e transforma o que parece fim em começo.</div>
+            <div class="btns-row">
+                <button class="btn btn-rev" onclick="rev('mr3')">👁️ Resposta</button>
+                <button class="btn btn-m" onclick="pts('m',200)">🔵 Meninos +200</button>
+                <button class="btn btn-f" onclick="pts('f',200)">🩷 Meninas +200</button>
+                <button class="btn btn-amb" onclick="pts('a',200)">🤝 Ambos +200</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// === SENHA ===
+function entrar(){
+    if(document.getElementById('input-senha').value==='admin'){
+        document.getElementById('tela-senha').style.display='none';
+        document.getElementById('placar').style.display='flex';
+        document.getElementById('app').style.display='block';
+        desenharRoleta(0);
+    } else {
+        document.getElementById('erro-senha').style.display='block';
+        document.getElementById('input-senha').value='';
+    }
+}
+
+// === ABAS ===
+function irRod(n){
+    document.querySelectorAll('.rod').forEach((r,i)=>r.classList.toggle('on',i===n));
+    document.querySelectorAll('.aba').forEach((b,i)=>b.classList.toggle('on',i===n));
+}
+
+// === PLACAR ===
+let pM=0,pF=0;
+function pts(t,v){
+    if(t==='m'||t==='a'){pM+=v;document.getElementById('pts-m').textContent=pM;}
+    if(t==='f'||t==='a'){pF+=v;document.getElementById('pts-f').textContent=pF;}
+    const fl=document.getElementById('flash');
+    fl.style.background=t==='m'?'rgba(59,130,246,0.22)':t==='f'?'rgba(236,72,153,0.22)':'rgba(212,168,67,0.18)';
+    fl.classList.add('on');setTimeout(()=>fl.classList.remove('on'),400);
+    confete(t);
+}
+
+function confete(t){
+    const cores=t==='m'?['#3b82f6','#93c5fd']:t==='f'?['#ec4899','#f9a8d4']:['#d4a843','#fff'];
+    for(let i=0;i<35;i++){
+        const e=document.createElement('div');
+        e.style.cssText=`position:fixed;top:-10px;left:${Math.random()*100}%;width:8px;height:8px;background:${cores[i%cores.length]};border-radius:${Math.random()>.5?'50%':'2px'};z-index:9998;pointer-events:none;animation:cair ${.7+Math.random()*.9}s ease forwards;`;
+        document.body.appendChild(e);setTimeout(()=>e.remove(),2000);
+    }
+}
+
+// === TIMER ===
+let tSec=900,tRun=false,tInt=null;
+function toggleTimer(){
+    tRun=!tRun;
+    document.getElementById('btn-timer').textContent=tRun?'⏸ Pausar':'▶ Retomar';
+    if(tRun)tInt=setInterval(tick,1000);else clearInterval(tInt);
+}
+function tick(){
+    if(tSec<=0){clearInterval(tInt);tRun=false;return;}
+    tSec--;
+    const m=Math.floor(tSec/60),s=tSec%60;
+    const el=document.getElementById('timer');
+    el.textContent=m+':'+String(s).padStart(2,'0');
+    el.classList.toggle('urgente',tSec<=60);
+}
+function resetTimer(){clearInterval(tInt);tRun=false;tSec=900;document.getElementById('timer').textContent='15:00';document.getElementById('timer').classList.remove('urgente');document.getElementById('btn-timer').textContent='▶ Iniciar';}
+
+// === PERGUNTAS ===
+// Fila separada por dificuldade — quando acaba, mostra aviso
+const banco = {
+    f: [
+        {q:'Como se chama a sogra de Rute?', r:'Noemi.'},
+        {q:'De qual povo era Rute?', r:'Rute era moabita, do povo de Moabe.'},
+        {q:'O que Rute foi fazer no campo?', r:'Catava as espigas que os ceifeiros deixavam para trás.'},
+        {q:'Como Noemi pediu para ser chamada ao voltar? O que significa?', r:'Mara, que significa "amarga" ou "amargurada".'},
+        {q:'Quem se casou com Rute no final da história?', r:'Boaz.'},
+    ],
+    m: [
+        {q:'O que significa a palavra hebraica go\'el?', r:'Parente redentor — o familiar mais próximo com direito e responsabilidade de resgatar a família.'},
+        {q:'O que Boaz fez quando notou Rute no campo?', r:'Mandou os servos deixarem cair mais espigas de propósito e a convidou para comer com eles.'},
+        {q:'Por que Rute foi ao campo de espigas? O que isso diz sobre a situação dela?', r:'Ela precisava de comida e não tinha recursos. Catava o que sobrava depois da colheita, que era o trabalho dos mais pobres.'},
+        {q:'O que significa Noemi dizer "não me chamem de Noemi"?', r:'Noemi significa "feliz" e Mara significa "amarga". Ela expressava a dor de ter perdido tudo.'},
+    ],
+    d: [
+        {q:'Qual é a ordem genealógica que conecta Rute a Jesus?', r:'Rute + Boaz → Obede → Jessé → Davi → ... → Jesus.'},
+        {q:'A Bíblia diz que Rute "por acaso" foi ao campo de Boaz. O que isso revela sobre como Deus age?', r:'Não foi acaso — foi a providência de Deus agindo por trás de uma decisão fiel. Deus guia os passos de quem caminha com fidelidade.'},
+        {q:'Por que a entrada de Rute na linhagem de Jesus revela algo sobre o caráter de Deus?', r:'Deus inclui quem o mundo exclui. Rute era estrangeira, viúva e sem nada — e Deus a colocou na linhagem do Messias.'},
+    ]
+};
+
+// Ponteiros — nunca repetem, mostram vazio quando acabam
+let idx={f:0,m:0,d:0};
+function proxPerg(nivel){
+    const lista=banco[nivel];
+    if(idx[nivel]>=lista.length) return null;
+    return lista[idx[nivel]++];
+}
+
+// === ROLETA ===
+const segs=[
+    {l:'100',cor:'#c17f3a',tipo:'f',bonus:false},
+    {l:'150',cor:'#8b4513',tipo:'m',bonus:false},
+    {l:'🍀 50',cor:'#065f46',tipo:null,bonus:50},
+    {l:'100',cor:'#c17f3a',tipo:'f',bonus:false},
+    {l:'200',cor:'#6b3410',tipo:'d',bonus:false},
+    {l:'⚡DUELO',cor:'#7c3aed',tipo:'m',bonus:false,duelo:true},
+    {l:'150',cor:'#8b4513',tipo:'m',bonus:false},
+    {l:'300',cor:'#991b1b',tipo:'d',bonus:false},
+];
+const ptsSeg={f:100,m:150,d:300};
+let angAtual=0,girando=false;
+let pergAtual=null,ptsAtual=0;
+
+function desenharRoleta(ang){
+    const cv=document.getElementById('canvas-roleta');
+    if(!cv)return;
+    const ctx=cv.getContext('2d'),cx=130,cy=130,r=120;
+    ctx.clearRect(0,0,260,260);
+    const fatia=(2*Math.PI)/segs.length;
+    segs.forEach((s,i)=>{
+        ctx.beginPath();ctx.moveTo(cx,cy);
+        ctx.arc(cx,cy,r,ang+i*fatia,ang+(i+1)*fatia);
+        ctx.fillStyle=s.cor;ctx.fill();
+        ctx.strokeStyle='#1a0a00';ctx.lineWidth=2;ctx.stroke();
+        ctx.save();ctx.translate(cx,cy);ctx.rotate(ang+(i+.5)*fatia);
+        ctx.textAlign='right';ctx.fillStyle='#fff';ctx.font='bold 12px Segoe UI';
+        ctx.fillText(s.l,r-8,5);ctx.restore();
+    });
+    // seta
+    ctx.beginPath();ctx.moveTo(cx+r+12,cy);ctx.lineTo(cx+r-8,cy-9);ctx.lineTo(cx+r-8,cy+9);
+    ctx.fillStyle='#d4a843';ctx.fill();
+    // centro
+    ctx.beginPath();ctx.arc(cx,cy,16,0,2*Math.PI);ctx.fillStyle='#1a0a00';ctx.fill();
+    ctx.strokeStyle='#d4a843';ctx.lineWidth=3;ctx.stroke();
+}
+
+function girar(){
+    if(girando)return;
+    girando=true;
+    document.getElementById('btn-girar').disabled=true;
+    document.getElementById('pbox').style.display='none';
+    const voltas=5+Math.random()*4;
+    const total=voltas*2*Math.PI+Math.random()*2*Math.PI;
+    const dur=3000,inicio=performance.now(),angIni=angAtual;
+    function frame(now){
+        const t=Math.min((now-inicio)/dur,1);
+        const ease=1-Math.pow(1-t,3);
+        angAtual=angIni+total*ease;
+        desenharRoleta(angAtual);
+        if(t<1){requestAnimationFrame(frame);return;}
+        angAtual=angAtual%(2*Math.PI);
+        girando=false;
+        document.getElementById('btn-girar').disabled=false;
+        mostrarPergRoleta();
+    }
+    requestAnimationFrame(frame);
+}
+
+function mostrarPergRoleta(){
+    const fatia=(2*Math.PI)/segs.length;
+    const norm=((2*Math.PI)-(angAtual%(2*Math.PI)))%(2*Math.PI);
+    const s=segs[Math.floor(norm/fatia)%segs.length];
+    const box=document.getElementById('pbox');
+
+    if(s.bonus){
+        document.getElementById('pv').textContent='🍀 SORTE!';
+        document.getElementById('pt').textContent='O time da vez ganha '+s.bonus+' pontos de bônus! Sem pergunta.';
+        document.getElementById('pr').textContent='';
+        document.getElementById('pr').style.display='none';
+        ptsAtual=s.bonus;
+        document.getElementById('btn-pm').onclick=()=>{pts('m',s.bonus);box.style.display='none';};
+        document.getElementById('btn-pf').onclick=()=>{pts('f',s.bonus);box.style.display='none';};
+        box.querySelector('.btn-rev').style.display='none';
+        box.style.display='block';
+        return;
+    }
+
+    const nivel=s.duelo?'m':s.tipo;
+    const p=proxPerg(nivel);
+    const valorPts=s.duelo?150:(ptsSeg[nivel]||100);
+    ptsAtual=valorPts;
+
+    document.getElementById('pv').textContent=(s.duelo?'⚡ DUELO — ':'')+valorPts+' PTS'+(s.duelo?' · Primeiro a responder ganha!':'');
+    box.querySelector('.btn-rev').style.display='inline-flex';
+
+    if(!p){
+        document.getElementById('pt').textContent='⚠️ Perguntas deste nível esgotadas! Gire novamente.';
+        document.getElementById('pr').textContent='';
+        document.getElementById('pr').style.display='none';
+        document.getElementById('btn-pm').onclick=()=>{box.style.display='none';};
+        document.getElementById('btn-pf').onclick=()=>{box.style.display='none';};
+        box.querySelector('.btn-rev').style.display='none';
+        box.style.display='block';
+        return;
+    }
+    pergAtual=p;
+    document.getElementById('pt').textContent=p.q;
+    document.getElementById('pr').textContent='✅ '+p.r;
+    document.getElementById('pr').style.display='none';
+    document.getElementById('btn-pm').onclick=()=>pontoPerg('m');
+    document.getElementById('btn-pf').onclick=()=>pontoPerg('f');
+    box.style.display='block';
+}
+
+function pontoPerg(t){
+    pts(t,ptsAtual);
+    document.getElementById('pbox').style.display='none';
+}
+
+// === DADO ===
+const faces=['⚀','⚁','⚂','⚃','⚄','⚅'];
+let dadoPts=0;
+
+function rolarDado(){
+    const el=document.getElementById('dado');
+    if(el.classList.contains('rolando'))return;
+    el.classList.add('rolando');
+    document.getElementById('dbox').style.display='none';
+    let c=0;
+    const it=setInterval(()=>{
+        el.textContent=faces[Math.floor(Math.random()*6)];
+        if(++c>12){
+            clearInterval(it);
+            const n=Math.floor(Math.random()*6)+1;
+            el.textContent=faces[n-1];
+            el.classList.remove('rolando');
+            document.getElementById('res-dado').textContent='Saiu '+n+'!';
+            mostrarDesafio(n);
+        }
+    },80);
+}
+
+function mostrarDesafio(n){
+    const box=document.getElementById('dbox');
+    const revBtn=document.getElementById('btn-drev');
+    document.getElementById('dr').style.display='none';
+
+    if(n===4){
+        // mímica
+        const personagens=['Rute — a estrangeira fiel que não abandona Noemi','Noemi — que volta amarga e curvada de tristeza','Boaz — o homem rico e bondoso que nota Rute no campo'];
+        const p=personagens[Math.floor(Math.random()*personagens.length)];
+        document.getElementById('dv').textContent='🎭 MÍMICA — 100 PTS';
+        document.getElementById('dt').textContent='Um UP do time encena sem falar:\n"'+p+'"';
+        document.getElementById('dr').textContent='';
+        revBtn.style.display='none';
+        dadoPts=100;
+        box.style.display='block';
+        return;
+    }
+    if(n===6){
+        document.getElementById('dv').textContent='🃏 CORINGA — O TIME ESCOLHE!';
+        document.getElementById('dt').textContent='O time da vez escolhe o nível da pergunta:\n• Fácil = 100 pts\n• Médio = 150 pts\n• Difícil = 300 pts';
+        document.getElementById('dr').textContent='';
+        revBtn.style.display='none';
+        dadoPts=150;
+        box.style.display='block';
+        return;
+    }
+
+    const mapa={1:{nivel:'f',pts:100,label:'100 PTS — FÁCIL'},2:{nivel:'m',pts:150,label:'150 PTS — MÉDIO'},3:{nivel:'d',pts:300,label:'300 PTS — DIFÍCIL 🔥'},5:{nivel:'m',pts:150,label:'⚡ DUELO — 150 PTS · Primeiro a responder ganha!'}};
+    const cfg=mapa[n];
+    dadoPts=cfg.pts;
+    const p=proxPerg(cfg.nivel);
+    document.getElementById('dv').textContent=cfg.label;
+    if(!p){
+        document.getElementById('dt').textContent='⚠️ Perguntas deste nível esgotadas! Role o dado novamente.';
+        revBtn.style.display='none';
+    } else {
+        document.getElementById('dt').textContent=p.q;
+        document.getElementById('dr').textContent='✅ '+p.r;
+        revBtn.style.display='inline-flex';
+    }
+    box.style.display='block';
+}
+
+function pontoDado(t){ pts(t,dadoPts); document.getElementById('dbox').style.display='none'; }
+
+// === REVELAR ===
+function rev(id){
+    const el=document.getElementById(id);
+    el.style.display=el.style.display==='block'?'none':'block';
+}
+</script>
+    <div style="position:fixed; bottom:16px; left:16px; z-index:200;">
+        <a href="rute.html" style="background:rgba(0,0,0,0.4); color:#d4a843; font-size:12px; font-weight:bold; padding:7px 14px; border-radius:20px; text-decoration:none; border:1px solid #c17f3a55;">← Rute</a>
+    </div>
+</body>
+</html>

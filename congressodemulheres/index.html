@@ -198,9 +198,16 @@
         document.getElementById('cnt-pago').textContent      = formatBRL(totalPago);
         document.getElementById('cnt-pendente').textContent  = formatBRL(Math.max(0, totalDevido - totalPago));
       } catch (e) {
+        console.error('[Congresso Mulheres] Erro ao carregar dados da API:', e.message);
         ['cnt-inscritos','cnt-igrejas','cnt-pago','cnt-pendente'].forEach(id => {
-          document.getElementById(id).textContent = '—';
+          document.getElementById(id).textContent = 'Erro';
+          document.getElementById(id).title = e.message;
         });
+        // Exibe aviso visível para facilitar diagnóstico
+        const aviso = document.createElement('div');
+        aviso.style.cssText = 'background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;padding:12px 16px;border-radius:10px;font-size:13px;margin-top:12px;';
+        aviso.innerHTML = `<strong>Falha ao conectar com a API.</strong> Verifique o console (F12) para detalhes.<br><small style="opacity:.7">${e.message}</small>`;
+        document.querySelector('.max-w-5xl.mx-auto.px-6.mt-8').appendChild(aviso);
       }
     }
 

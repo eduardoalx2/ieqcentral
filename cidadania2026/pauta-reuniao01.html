@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pauta do Líder · Reunião 01 · 04/07/2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #1E3A5F;
+      --gold: #C8A951;
+      --blue-light: #BDD7EE;
+      --blue-mid: #2E6DA4;
+      --bg: #EEF2F7;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: #111;
+      min-height: 100vh;
+    }
+
+    /* ══════════════════════════════
+       TELA DE SENHA
+    ══════════════════════════════ */
+    #gate {
+      position: fixed;
+      inset: 0;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 24px;
+    }
+    .gate-box {
+      background: #fff;
+      border-radius: 24px;
+      padding: 36px 28px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+    .gate-logo { width: 56px; height: 56px; margin: 0 auto 18px; }
+    .gate-logo img { width: 100%; height: 100%; object-fit: contain; }
+    .gate-org {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .gate-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .gate-sub { font-size: 13px; color: #888; margin-bottom: 28px; }
+
+    .gate-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #555;
+      text-align: left;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+    .gate-input {
+      width: 100%;
+      border: 2px solid #dde4ef;
+      border-radius: 10px;
+      padding: 13px 16px;
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--navy);
+      outline: none;
+      transition: border-color .2s;
+      letter-spacing: 2px;
+    }
+    .gate-input:focus { border-color: var(--navy); }
+    .gate-input.error { border-color: #e53e3e; }
+    .gate-err {
+      font-size: 12px;
+      color: #e53e3e;
+      margin-top: 6px;
+      text-align: left;
+      min-height: 18px;
+    }
+    .gate-btn {
+      width: 100%;
+      margin-top: 18px;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .gate-btn:hover { background: var(--blue-mid); }
+    .gate-footer { margin-top: 20px; font-size: 11px; color: #bbb; }
+
+    /* ══════════════════════════════
+       CONTEÚDO (oculto até auth)
+    ══════════════════════════════ */
+    #content { display: none; }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      background: var(--navy);
+      border-bottom: 3px solid var(--gold);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .top-bar a { color: var(--gold); font-size: 20px; text-decoration: none; line-height: 1; }
+    .top-bar .logo { width: 32px; height: 32px; flex-shrink: 0; }
+    .top-bar .logo img { width: 100%; height: 100%; object-fit: contain; }
+    .top-bar .t { flex: 1; }
+    .top-bar .t h1 { font-size: 13px; font-weight: 800; color: #fff; }
+    .top-bar .t p { font-size: 11px; color: var(--blue-light); }
+    .btn-print {
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 7px 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      padding: 24px 20px;
+      border-bottom: 2px solid var(--gold);
+    }
+    .hero-inner { max-width: 860px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .hero-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-row h1 { font-size: 20px; font-weight: 900; color: #fff; line-height: 1.2; }
+    .hero-row h2 { font-size: 14px; font-weight: 600; color: var(--blue-light); margin-top: 3px; }
+    .hero-meta { text-align: right; flex-shrink: 0; }
+    .hero-meta .hm-date { font-size: 18px; font-weight: 900; color: #fff; }
+    .hero-meta .hm-info { font-size: 12px; color: var(--blue-light); margin-top: 3px; }
+    .hero-meta .hm-name { font-size: 13px; font-weight: 700; color: var(--gold); margin-top: 4px; }
+
+    /* ── BODY ── */
+    .body { max-width: 860px; margin: 0 auto; padding: 24px 16px 56px; }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 28px; }
+    .sec-title {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--navy);
+      border-bottom: 2px solid var(--navy);
+      padding-bottom: 5px;
+      margin-bottom: 12px;
+    }
+
+    /* ── PONTOS CRÍTICOS ── */
+    .pontos { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media (min-width: 600px) { .pontos { grid-template-columns: 1fr 1fr 1fr; } }
+    .ponto {
+      border-left: 4px solid var(--navy);
+      background: #f5f8fc;
+      border-radius: 0 10px 10px 0;
+      padding: 12px 14px;
+    }
+    .ponto .pt-num { font-size: 9px; font-weight: 900; color: var(--navy); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+    .ponto .pt-title { font-size: 14px; font-weight: 800; margin-bottom: 5px; color: #111; }
+    .ponto .pt-desc { font-size: 12px; color: #555; line-height: 1.5; margin-bottom: 6px; }
+    .pt-note {
+      border: 1px dashed #bbb;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 11px;
+      color: #aaa;
+      font-style: italic;
+    }
+
+    /* ── TABELAS ── */
+    .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    table { width: 100%; border-collapse: collapse; min-width: 560px; background: #fff; }
+    table thead tr th {
+      background: var(--navy);
+      color: #fff;
+      padding: 9px 10px;
+      font-size: 10px;
+      font-weight: 700;
+      text-align: left;
+      letter-spacing: 0.5px;
+    }
+    table tbody tr td {
+      border: 1px solid #e8edf5;
+      padding: 9px 10px;
+      font-size: 12px;
+      color: #333;
+      vertical-align: top;
+    }
+    table tbody tr:nth-child(even) td { background: #f5f8fc; }
+    .campo {
+      border-bottom: 1px dotted #bbb;
+      display: inline-block;
+      width: 100%;
+      min-height: 14px;
+    }
+    .campo-w { min-width: 90px; }
+
+    /* ── TABELA IGREJAS ── */
+    .tbl-igrejas thead th { font-size: 9.5px; }
+    .tbl-igrejas .chk { text-align: center; font-size: 12px; width: 36px; }
+    .tag-p { font-size: 9px; color: #888; background: #eee; padding: 1px 4px; border-radius: 3px; margin-left: 3px; }
+    .tag-m { font-size: 9px; color: var(--navy); background: #e3edf7; padding: 1px 4px; border-radius: 3px; margin-left: 3px; }
+    .tbl-hint { font-size: 10px; color: #999; margin-top: 6px; }
+
+    /* ── EQUIPES ── */
+    .equipes { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+    @media (max-width: 440px) { .equipes { grid-template-columns: 1fr; } }
+    .equipe {
+      border: 1.5px solid var(--navy);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .equipe .eq-t { font-size: 10px; font-weight: 900; color: var(--navy); border-bottom: 1px solid #dde4ef; padding-bottom: 4px; margin-bottom: 4px; }
+    .equipe .eq-p { font-size: 12px; font-weight: 700; color: #333; }
+
+    /* ── SEMANAS ── */
+    .semanas { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+    .semana {
+      border: 1.5px solid var(--navy);
+      border-radius: 8px;
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .semana .sw { font-size: 13px; font-weight: 900; color: var(--navy); }
+    .semana .sd { font-size: 10px; color: #777; }
+
+    /* ── CHECKLIST ── */
+    .checklists { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media (min-width: 600px) { .checklists { grid-template-columns: 1fr 1fr; } }
+    .checklist-box {
+      background: #fff;
+      border: 1px solid #dde4ef;
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .checklist-box h3 { font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
+    .checklist-box ul { list-style: none; }
+    .checklist-box ul li {
+      font-size: 12px;
+      color: #333;
+      padding: 5px 0;
+      border-bottom: 1px dotted #eee;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      line-height: 1.4;
+    }
+    .checklist-box ul li:last-child { border-bottom: none; }
+    .checklist-box ul li::before { content: "☐"; flex-shrink: 0; color: var(--navy); }
+
+    /* ── FAQ ── */
+    .faq { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    @media (min-width: 600px) { .faq { grid-template-columns: 1fr 1fr; } }
+    .faq-item {
+      background: #fff;
+      border: 1px solid #dde4ef;
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .faq-item h3 { font-size: 12px; font-weight: 800; color: var(--navy); margin-bottom: 6px; line-height: 1.3; }
+    .faq-item p { font-size: 12px; color: #444; line-height: 1.5; margin-bottom: 6px; }
+    .faq-note { border: 1px dashed #bbb; border-radius: 6px; padding: 4px 8px; font-size: 10px; color: #bbb; font-style: italic; }
+
+    /* ── NOTAS ── */
+    .notas-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media (min-width: 600px) { .notas-grid { grid-template-columns: 1fr 1fr; } }
+    .nota-bloco label { display: block; font-size: 10px; font-weight: 700; color: #555; margin-bottom: 5px; }
+    .nota-area {
+      border: 1px dashed #bbb;
+      border-radius: 8px;
+      padding: 10px;
+      min-height: 70px;
+      color: #ccc;
+      font-size: 12px;
+      font-style: italic;
+    }
+
+    /* ── PRÓXIMAS REUNIÕES ── */
+    .proximas { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    .prox-header { background: var(--navy); color: var(--gold); font-size: 10px; font-weight: 800; padding: 8px 14px; letter-spacing: 1.5px; text-transform: uppercase; }
+    .prox-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0;
+      border-bottom: 1px solid #eee;
+    }
+    .prox-row:last-child { border-bottom: none; }
+    .prox-data {
+      background: #f5f8fc;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--navy);
+      border-right: 1px solid #eee;
+      min-width: 90px;
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .prox-data .pd-hoje { font-size: 9px; font-weight: 700; color: var(--gold); background: var(--navy); padding: 1px 5px; border-radius: 4px; margin-top: 3px; }
+    .prox-info { padding: 10px 14px; }
+    .prox-info .pi-title { font-size: 12px; font-weight: 800; color: var(--navy); margin-bottom: 3px; }
+    .prox-info .pi-pauta { font-size: 12px; color: #444; line-height: 1.4; margin-bottom: 3px; }
+    .prox-info .pi-cobrar { font-size: 11px; color: #888; font-style: italic; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--navy);
+      padding: 18px 20px;
+      border-top: 3px solid var(--gold);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .footer .fl { font-size: 11px; color: var(--blue-light); line-height: 1.7; }
+    .footer .fl strong { color: #fff; }
+    .footer .fr { font-size: 12px; font-weight: 800; color: var(--gold); text-align: right; }
+
+    /* ── PRINT ── */
+    @media print {
+      #gate { display: none !important; }
+      #content { display: block !important; }
+      .top-bar { position: static; }
+      .btn-print { display: none !important; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ TELA DE SENHA ══ -->
+  <div id="gate">
+    <div class="gate-box">
+      <div class="gate-logo">
+        <img src="https://ieqlondrina.com.br/logo.png" alt="IEQ">
+      </div>
+      <div class="gate-org">IEQ · Região 655 · Cidadania 2026</div>
+      <div class="gate-title">Acesso Restrito</div>
+      <div class="gate-sub">Pauta do Líder · Reunião 01<br>04 de Julho de 2026</div>
+
+      <label class="gate-label" for="senha">Senha de acesso</label>
+      <input
+        type="password"
+        id="senha"
+        class="gate-input"
+        placeholder="••••••••••••••"
+        autocomplete="current-password"
+        onkeydown="if(event.key==='Enter') entrar()"
+      >
+      <div class="gate-err" id="gate-err"></div>
+      <button class="gate-btn" onclick="entrar()">Entrar →</button>
+      <div class="gate-footer">Uso exclusivo da coordenação</div>
+    </div>
+  </div>
+
+  <!-- ══ CONTEÚDO ══ -->
+  <div id="content">
+
+    <!-- Barra fixa -->
+    <div class="top-bar">
+      <a href="index.html">←</a>
+      <div class="logo"><img src="https://ieqlondrina.com.br/logo.png" alt="IEQ"></div>
+      <div class="t">
+        <h1>Pauta do Líder · Reunião 01</h1>
+        <p>04 de Julho de 2026 · Coordenação</p>
+      </div>
+      <button class="btn-print" onclick="window.print()">🖨️ Imprimir</button>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-badge">USO EXCLUSIVO DO COORDENADOR</div>
+        <div class="hero-row">
+          <div>
+            <h1>PAUTA DO LÍDER</h1>
+            <h2>CAMPANHA REGIONAL 2026 · PROJETO 5x5<br>Igreja do Evangelho Quadrangular · Região 655</h2>
+          </div>
+          <div class="hero-meta">
+            <div class="hm-date">04 de Julho de 2026</div>
+            <div class="hm-info">1ª Reunião de Coordenadores</div>
+            <div class="hm-info">IEQ Central · Londrina/PR</div>
+            <div class="hm-name">Pr. Eduardo Silva</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="body">
+
+      <!-- ── VISÃO GERAL ── -->
+      <div class="section">
+        <div class="sec-title">Visão Geral — O que precisa sair definido hoje</div>
+        <div class="pontos">
+          <div class="ponto">
+            <div class="pt-num">Ponto 1 · Urgente</div>
+            <div class="pt-title">Líderes Locais de Cidadania</div>
+            <div class="pt-desc">Cada pastor define ou confirma o nome do Líder Local da sua igreja. Igrejas pequenas: o próprio pastor.</div>
+            <div class="pt-note">Meta: 13 nomes confirmados ao final</div>
+          </div>
+          <div class="ponto">
+            <div class="pt-num">Ponto 2 · Urgente</div>
+            <div class="pt-title">Datas das Visitas (13–30/07)</div>
+            <div class="pt-desc">Cruzar disponibilidade de cada equipe com a agenda de cada pastor. Seminário começa em 9 dias.</div>
+            <div class="pt-note">Meta: 13 datas preenchidas na planilha</div>
+          </div>
+          <div class="ponto">
+            <div class="pt-num">Ponto 3</div>
+            <div class="pt-title">Logística do Material</div>
+            <div class="pt-desc">O Líder de Cidadania recebe, distribui e contabiliza o material no dia. Cada coordenador informa a quantidade esperada com antecedência.</div>
+            <div class="pt-note">Qtd. estimada por igreja:</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ROTEIRO ── -->
+      <div class="section">
+        <div class="sec-title">Roteiro da Reunião — Tempo Máximo: 35 min</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:9%">HORA</th>
+                <th style="width:6%">MIN</th>
+                <th style="width:22%">PONTO</th>
+                <th style="width:35%">O QUE CONDUZIR</th>
+                <th style="width:28%">ANOTAÇÕES DO LÍDER</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>00:00</td>
+                <td>5'</td>
+                <td><strong>Abertura</strong><br>Boas-vindas + oração</td>
+                <td>Rev. Valdir abre. Tom rápido e direto: não é política, é cidadania cristã. Campanha começa agora.</td>
+                <td><span class="campo"></span></td>
+              </tr>
+              <tr>
+                <td>00:05</td>
+                <td>10'</td>
+                <td><strong>Apresentação da Campanha</strong><br>Estratégia + Projeto 5x5 + Equipes</td>
+                <td>Você (Eduardo) apresenta: o Projeto 5x5, as 3 equipes, o seminário "Os 5 Pães" (13–30/07) e o cronograma jul–set.</td>
+                <td><span class="campo"></span></td>
+              </tr>
+              <tr>
+                <td>00:15</td>
+                <td>10'</td>
+                <td><strong>Definição dos Líderes Locais</strong><br>★ Ponto mais crítico</td>
+                <td>Cada pastor fala o nome do Líder Local. Anotar na tabela abaixo. Igrejas pequenas: confirmar se é o próprio pastor. Anotar quantidade estimada de presentes por igreja.</td>
+                <td><span class="campo"></span></td>
+              </tr>
+              <tr>
+                <td>00:25</td>
+                <td>5'</td>
+                <td><strong>Agendamento dos Seminários</strong><br>Semanas de julho</td>
+                <td>Cada pastor escolhe a semana disponível (13, 20 ou 27/07) e o horário. Anotar na tabela de agendamento.</td>
+                <td><span class="campo"></span></td>
+              </tr>
+              <tr>
+                <td>00:30</td>
+                <td>5'</td>
+                <td><strong>Encerramento + Próximos Passos</strong></td>
+                <td>Confirmar grupo de WhatsApp. Lembrar: cada coordenador informa quantidade de presentes até ___/07. Próxima reunião: 08/08. Rev. Valdir ora.</td>
+                <td><span class="campo"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── LÍDERES LOCAIS ── -->
+      <div class="section">
+        <div class="sec-title">Confirmação dos Líderes Locais de Cidadania — Preencher na Reunião</div>
+        <div class="tbl-wrap">
+          <table class="tbl-igrejas">
+            <thead>
+              <tr>
+                <th class="chk">✓</th>
+                <th style="width:22%">IGREJA</th>
+                <th style="width:22%">PASTOR TITULAR</th>
+                <th style="width:26%">NOME DO LÍDER LOCAL DE CIDADANIA</th>
+                <th style="width:18%">TELEFONE / WHATSAPP</th>
+                <th style="width:10%">QTD.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="chk">☐</td><td>IEQ Central <span class="tag-m">Sede</span></td><td>Valdir Avila Ramos</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td class="chk">☐</td><td>IEQ Piza <span class="tag-m">Méd.</span></td><td>Flavio Jose dos Santos</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td class="chk">☐</td><td>IEQ Maria Cecília <span class="tag-p">Peq.</span></td><td>Anderson Borges Batista</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td class="chk">☐</td><td>IEQ Alto da Boa Vista <span class="tag-m">Méd.</span></td><td>Jose Nilton Olivares</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td class="chk">☐</td><td>IEQ Indusville <span class="tag-m">Méd.</span></td><td>Rudy Hashimoto de Lima</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td class="chk">☐</td><td>IEQ Mônaco <span class="tag-m">Méd.</span></td><td>Rafael Soares Coelho</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td class="chk">☐</td><td>IEQ Jd. do Leste <span class="tag-m">Méd.</span></td><td>Juan Carlos P. de Almeida</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td class="chk">☐</td><td>IEQ São Jorge <span class="tag-p">Peq.</span></td><td>Fernando da Silva Wernek</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td class="chk">☐</td><td>IEQ Farid Libos <span class="tag-m">Méd.</span></td><td>Geomar Balbino Alves</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td class="chk">☐</td><td>IEQ Sabarú <span class="tag-m">Méd.</span></td><td>Wellington S. de Mello Jr.</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td class="chk">☐</td><td>IEQ Conj. Luis de Sá <span class="tag-m">Méd.</span></td><td>Elias da Silva Santos</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td class="chk">☐</td><td>IEQ Colúmbia <span class="tag-p">Peq.</span></td><td>Sandra R. B. da Silva Vieira</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td class="chk">☐</td><td>IEQ Carnascialli <span class="tag-p">Peq.</span></td><td>Jorge Selepenki Neto</td><td><span class="campo campo-w"></span></td><td><span class="campo campo-w"></span></td><td><span class="campo"></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tbl-hint"><strong>Peq.</strong> = pastor como líder local &nbsp;|&nbsp; <strong>QTD.</strong> = nº estimado de presentes no seminário</div>
+      </div>
+
+      <!-- ── AGENDAMENTO ── -->
+      <div class="section">
+        <div class="sec-title">Agendamento dos Seminários — Julho 2026</div>
+
+        <div class="equipes">
+          <div class="equipe">
+            <div class="eq-t">EQUIPE A</div>
+            <div class="eq-p">Valdir · Merlo</div>
+          </div>
+          <div class="equipe">
+            <div class="eq-t">EQUIPE B</div>
+            <div class="eq-p">Eduardo · Juan</div>
+          </div>
+          <div class="equipe">
+            <div class="eq-t">EQUIPE C</div>
+            <div class="eq-p">Rudy · Rafael</div>
+          </div>
+        </div>
+
+        <div class="semanas">
+          <div class="semana">
+            <span class="sw">13/07</span>
+            <span class="sd">Seg 14 · Ter 15 · Qua 16 · Qui 17 · Sex 18</span>
+          </div>
+          <div class="semana">
+            <span class="sw">20/07</span>
+            <span class="sd">Seg 21 · Ter 22 · Qua 23 · Qui 24 · Sex 25</span>
+          </div>
+          <div class="semana">
+            <span class="sw">27/07</span>
+            <span class="sd">Seg 28 · Ter 29 · Qua 30</span>
+          </div>
+        </div>
+
+        <div class="tbl-wrap">
+          <table class="tbl-igrejas">
+            <thead>
+              <tr>
+                <th style="width:20%">IGREJA</th>
+                <th style="width:20%">PASTOR</th>
+                <th style="width:8%; text-align:center">EQ.</th>
+                <th style="width:8%; text-align:center">13/07</th>
+                <th style="width:8%; text-align:center">20/07</th>
+                <th style="width:8%; text-align:center">27/07</th>
+                <th style="width:12%; text-align:center">HORÁRIO</th>
+                <th style="width:16%">OBS.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>IEQ Central</td><td>Valdir Avila Ramos</td><td style="text-align:center; font-size:10px;">A B C</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td>IEQ Piza</td><td>Flavio Jose dos Santos</td><td style="text-align:center; font-size:10px;">A B C</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td>IEQ Maria Cecília <span class="tag-p">Peq.</span></td><td>Anderson Borges Batista</td><td style="text-align:center; font-size:10px; color:#888; font-style:italic;">Titular</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td>IEQ Alto da Boa Vista</td><td>Jose Nilton Olivares</td><td style="text-align:center; font-size:10px;">A B C</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td>IEQ Indusville</td><td>Rudy Hashimoto de Lima</td><td style="text-align:center; font-size:10px;">A B C</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td>IEQ Mônaco</td><td>Rafael Soares Coelho</td><td style="text-align:center; font-size:10px;">A B C</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td>IEQ Jd. do Leste</td><td>Juan Carlos P. de Almeida</td><td style="text-align:center; font-size:10px;">A B C</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td>IEQ São Jorge <span class="tag-p">Peq.</span></td><td>Fernando da Silva Wernek</td><td style="text-align:center; font-size:10px; color:#888; font-style:italic;">Titular</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td>IEQ Farid Libos</td><td>Geomar Balbino Alves</td><td style="text-align:center; font-size:10px;">A B C</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td>IEQ Sabarú</td><td>Wellington S. de Mello Jr.</td><td style="text-align:center; font-size:10px;">A B C</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td>IEQ Conj. Luis de Sá</td><td>Elias da Silva Santos</td><td style="text-align:center; font-size:10px;">A B C</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td>IEQ Colúmbia <span class="tag-p">Peq.</span></td><td>Sandra R. B. da Silva Vieira</td><td style="text-align:center; font-size:10px; color:#888; font-style:italic;">Titular</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+              <tr><td>IEQ Carnascialli <span class="tag-p">Peq.</span></td><td>Jorge Selepenki Neto</td><td style="text-align:center; font-size:10px; color:#888; font-style:italic;">Titular</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td style="text-align:center">☐</td><td><span class="campo"></span></td><td><span class="campo"></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tbl-hint"><strong>EQ.</strong> = marque qual equipe irá a esta igreja &nbsp;|&nbsp; marque a semana preferida do pastor</div>
+      </div>
+
+      <!-- ── CHECKLIST ── -->
+      <div class="section">
+        <div class="sec-title">Checklist — O que não pode sair pendente desta reunião</div>
+        <div class="checklists">
+          <div class="checklist-box">
+            <h3>Definições obrigatórias</h3>
+            <ul>
+              <li>13 Líderes Locais nomeados (ou prazo até segunda)</li>
+              <li>13 datas de visita preenchidas na planilha</li>
+              <li>Equipes cientes de quais igrejas visitarão</li>
+              <li>Responsável pelo material impresso definido</li>
+              <li>Quantidade de cópias "Meu Projeto 5x5" por igreja</li>
+              <li>Grupo de WhatsApp dos Coordenadores Locais criado</li>
+              <li>Link do formulário de cadastro enviado a todos</li>
+            </ul>
+          </div>
+          <div class="checklist-box">
+            <h3>Comunicados a reforçar</h3>
+            <ul>
+              <li>Próxima reunião: <strong>08/08/2026</strong> — mesma dinâmica</li>
+              <li>Culto Regional: <strong>21/09/2026 · 20h</strong></li>
+              <li>Não é campanha política — é formação cidadã</li>
+              <li>Candidatos são apresentados <strong>fora do púlpito</strong></li>
+              <li>Cada Líder Local já sai com o material "Meu Projeto 5x5"</li>
+              <li>Reunião quinzenal do Líder Local com líderes de célula</li>
+              <li>Acompanhamento semanal de cada célula com suas 5 pessoas</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── FAQ ── -->
+      <div class="section">
+        <div class="sec-title">Perguntas Esperadas e Como Responder</div>
+        <div class="faq">
+          <div class="faq-item">
+            <h3>"Isso não é fazer política na igreja?"</h3>
+            <p>Não. Não indicamos candidatos no púlpito. Formamos cidadãos com valores cristãos. A Bíblia fala de responsabilidade com a sociedade (Rm 13, Mt 5).</p>
+            <div class="faq-note">Reforçar:</div>
+          </div>
+          <div class="faq-item">
+            <h3>"Minha igreja é pequena, consigo fazer isso?"</h3>
+            <p>Sim. Para igrejas pequenas, o próprio pastor é o Líder Local. O formato é adaptado — reunião local, não o seminário completo de 1h20.</p>
+            <div class="faq-note">Reforçar:</div>
+          </div>
+          <div class="faq-item">
+            <h3>"Preciso comparecer às reuniões mensais?"</h3>
+            <p>Sim, são obrigatórias. É onde alinhamos o projeto, celebramos resultados e corrigimos o rumo. Datas: 04/07, 08/08, 05/09.</p>
+            <div class="faq-note">Reforçar:</div>
+          </div>
+          <div class="faq-item">
+            <h3>"E se o líder que eu indicar não funcionar?"</h3>
+            <p>Podemos trocar. O importante é que seja alguém com acesso ao povo da igreja e comprometimento real. Comunicar ao coordenador regional.</p>
+            <div class="faq-note">Reforçar:</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── NOTAS ── -->
+      <div class="section">
+        <div class="sec-title">Anotações Gerais da Reunião</div>
+        <div class="notas-grid">
+          <div>
+            <div class="nota-bloco">
+              <label>Decisões tomadas:</label>
+              <div class="nota-area"></div>
+            </div>
+            <div class="nota-bloco" style="margin-top:12px;">
+              <label>Pendências / Follow-up:</label>
+              <div class="nota-area"></div>
+            </div>
+          </div>
+          <div>
+            <div class="nota-bloco">
+              <label>Situações a resolver:</label>
+              <div class="nota-area"></div>
+            </div>
+            <div class="nota-bloco" style="margin-top:12px;">
+              <label>Observações pessoais:</label>
+              <div class="nota-area"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PRÓXIMAS REUNIÕES ── -->
+      <div class="section">
+        <div class="sec-title">Visão das Próximas Reuniões — Para Contextualizar os Pastores</div>
+        <div class="proximas">
+          <div class="prox-header">CALENDÁRIO REGIONAL 2026</div>
+          <div class="prox-row">
+            <div class="prox-data">04/07/2026 <div class="pd-hoje">HOJE</div></div>
+            <div class="prox-info">
+              <div class="pi-title">1ª Reunião de Coordenadores</div>
+              <div class="pi-pauta">Lançamento, Líderes Locais, datas do seminário</div>
+              <div class="pi-cobrar">— Reunião de abertura</div>
+            </div>
+          </div>
+          <div class="prox-row">
+            <div class="prox-data">08/08/2026</div>
+            <div class="prox-info">
+              <div class="pi-title">2ª Reunião de Coordenadores</div>
+              <div class="pi-pauta">Status do Projeto 5x5: quantas pessoas cada líder já acompanha. Revisão das visitas realizadas.</div>
+              <div class="pi-cobrar">Cobrar: seminários nas 13 igrejas concluídos. Todos com as 5 pessoas mapeadas.</div>
+            </div>
+          </div>
+          <div class="prox-row">
+            <div class="prox-data">05/09/2026</div>
+            <div class="prox-info">
+              <div class="pi-title">3ª Reunião de Coordenadores</div>
+              <div class="pi-pauta">Relatório de acompanhamento. Histórias de impacto. Ajustes finais.</div>
+              <div class="pi-cobrar">Cobrar: atualização do status de cada pessoa no 5x5.</div>
+            </div>
+          </div>
+          <div class="prox-row">
+            <div class="prox-data">21/09/2026</div>
+            <div class="prox-info">
+              <div class="pi-title">Culto Regional · 20h</div>
+              <div class="pi-pauta">Ceia da Liderança Cidadã. Toda a liderança regional. Celebração.</div>
+              <div class="pi-cobrar">Cobrar: presença de todos os Líderes Locais e coordenadores.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /body -->
+
+    <div class="footer">
+      <div class="fl">
+        <strong>Região Eclesiástica 655 · Londrina/PR</strong><br>
+        Superintendente: <strong>Rev. Valdir Ávila Ramos</strong> · Coord. Cidadania: <strong>Pr. Eduardo Silva</strong>
+      </div>
+      <div class="fr">Pauta Interna do Líder<br>04 / 07 / 2026</div>
+    </div>
+
+  </div><!-- /content -->
+
+  <script>
+    (function () {
+      const SENHA = 'cidadania2026';
+      const CHAVE = 'auth_pauta_01';
+
+      function mostrarConteudo() {
+        document.getElementById('gate').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+      }
+
+      if (sessionStorage.getItem(CHAVE) === '1') {
+        mostrarConteudo();
+      }
+
+      window.entrar = function () {
+        const val = document.getElementById('senha').value;
+        const inp = document.getElementById('senha');
+        const err = document.getElementById('gate-err');
+        if (val === SENHA) {
+          sessionStorage.setItem(CHAVE, '1');
+          mostrarConteudo();
+        } else {
+          inp.classList.add('error');
+          err.textContent = 'Senha incorreta. Tente novamente.';
+          inp.value = '';
+          inp.focus();
+          setTimeout(() => { inp.classList.remove('error'); err.textContent = ''; }, 2500);
+        }
+      };
+    })();
+  </script>
+
+</body>
+</html>

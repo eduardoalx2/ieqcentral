@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cidadania 2026 · IEQ Região 655</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #1E3A5F;
+      --gold: #C8A951;
+      --blue-mid: #2E6DA4;
+      --blue-light: #BDD7EE;
+      --bg: #EEF2F7;
+      --white: #fff;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: #111;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--navy);
+      padding: 20px 20px 18px;
+      border-bottom: 3px solid var(--gold);
+    }
+    .header-inner {
+      max-width: 620px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .logo { width: 46px; height: 46px; flex-shrink: 0; }
+    .logo img { width: 100%; height: 100%; object-fit: contain; }
+    .header-text .org {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 3px;
+    }
+    .header-text h1 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+    }
+    .header-text .sub {
+      font-size: 11px;
+      color: var(--blue-light);
+      margin-top: 2px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, var(--navy) 70%, var(--blue-mid));
+      padding: 30px 20px 36px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(200,169,81,.2);
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 14px;
+    }
+    .hero h2 {
+      font-size: 26px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .hero h2 em { color: var(--gold); font-style: normal; }
+    .hero p {
+      font-size: 13px;
+      color: var(--blue-light);
+      line-height: 1.65;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    /* ── MAIN ── */
+    .main {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    /* ── DATAS BOX ── */
+    .dates-box {
+      background: var(--navy);
+      border-radius: 18px;
+      padding: 20px 18px;
+      margin-bottom: 28px;
+    }
+    .dates-box .box-title {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .date-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      gap: 10px;
+    }
+    .date-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .date-row .dl { font-size: 12px; color: var(--blue-light); flex: 1; }
+    .date-row .dv {
+      font-size: 12px;
+      color: #fff;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .date-row.highlight .dl { color: var(--gold); font-weight: 600; }
+    .date-row.highlight .dv { color: var(--gold); }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 12px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--white);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      margin-bottom: 14px;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+      transition: box-shadow .2s, transform .15s;
+    }
+    .card:active { transform: scale(0.98); }
+    .card:hover { box-shadow: 0 6px 28px rgba(30,58,95,0.14); }
+
+    .card-stripe { height: 4px; }
+    .card-stripe.gold { background: var(--gold); }
+    .card-stripe.navy { background: var(--navy); }
+
+    .card-body {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 16px;
+    }
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+    .card-icon.yellow { background: #FFF8E1; }
+    .card-icon.blue   { background: #E8F0FB; }
+
+    .card-info { flex: 1; min-width: 0; }
+    .card-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 3px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+    .card-desc {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.45;
+      margin-bottom: 6px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 100px;
+    }
+    .badge-open { background: #E6F4EA; color: #2E7D32; }
+    .badge-lock { background: #FFF3E0; color: #E65100; }
+
+    .card-arrow {
+      color: #ccc;
+      font-size: 22px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 0 16px 32px;
+      font-size: 11px;
+      color: #aaa;
+      line-height: 1.7;
+    }
+    footer strong { color: #888; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <img src="https://ieqlondrina.com.br/logo.png" alt="IEQ">
+      </div>
+      <div class="header-text">
+        <div class="org">IEQ · Região Eclesiástica 655</div>
+        <h1>Cidadania 2026</h1>
+        <div class="sub">Campanha Regional · Londrina/PR</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-badge">Julho — Setembro 2026</div>
+    <h2>Liderança Cidadã<br><em>Os 5 Pães da Transformação</em></h2>
+    <p>13 igrejas mobilizadas para exercer cidadania consciente, responsável e comprometida com valores cristãos.</p>
+  </div>
+
+  <main class="main">
+
+    <!-- Datas -->
+    <div class="dates-box">
+      <div class="box-title">📅 Calendário da Campanha</div>
+      <div class="date-row highlight">
+        <span class="dl">1ª Reunião de Coordenadores</span>
+        <span class="dv">04/07</span>
+      </div>
+      <div class="date-row">
+        <span class="dl">Seminários nas 13 igrejas</span>
+        <span class="dv">13–30/07</span>
+      </div>
+      <div class="date-row">
+        <span class="dl">2ª Reunião de Coordenadores</span>
+        <span class="dv">08/08</span>
+      </div>
+      <div class="date-row">
+        <span class="dl">3ª Reunião de Coordenadores</span>
+        <span class="dv">05/09</span>
+      </div>
+      <div class="date-row">
+        <span class="dl">Culto Regional · Ceia da Liderança</span>
+        <span class="dv">21/09 · 20h</span>
+      </div>
+    </div>
+
+    <!-- Materiais -->
+    <div class="section-label">Materiais</div>
+
+    <a href="resumo.html" class="card">
+      <div class="card-stripe gold"></div>
+      <div class="card-body">
+        <div class="card-icon yellow">📋</div>
+        <div class="card-info">
+          <div class="card-tag">Para pastores e coordenadores</div>
+          <div class="card-title">Resumo do Projeto</div>
+          <div class="card-desc">Visão geral da campanha, Os 5 Pães, Projeto 5x5 e cronograma completo.</div>
+          <span class="badge badge-open">🔓 Acesso livre</span>
+        </div>
+        <div class="card-arrow">›</div>
+      </div>
+    </a>
+
+    <a href="pauta-reuniao01.html" class="card">
+      <div class="card-stripe navy"></div>
+      <div class="card-body">
+        <div class="card-icon blue">📝</div>
+        <div class="card-info">
+          <div class="card-tag">Coordenação · 04 de Julho</div>
+          <div class="card-title">Pauta do Líder — Reunião 01</div>
+          <div class="card-desc">Roteiro completo da 1ª Reunião de Coordenadores, confirmação de líderes e agendamento.</div>
+          <span class="badge badge-lock">🔒 Acesso restrito</span>
+        </div>
+        <div class="card-arrow">›</div>
+      </div>
+    </a>
+
+  </main>
+
+  <footer>
+    <strong>Igreja do Evangelho Quadrangular · Região 655 · Londrina/PR</strong><br>
+    Superintendente: Rev. Valdir Ávila Ramos<br>
+    Coord. de Cidadania: Pr. Eduardo Silva
+  </footer>
+
+</body>
+</html>

@@ -497,8 +497,63 @@
       padding:0 6mm;
     }
     .item{page-break-inside:avoid;}
+    .banner-perso{page-break-inside:avoid;}
     @page{size:A4; margin:14mm;}
   }
+
+  /* ===== PERSONALIZAÇÃO POR SEMINÁRIO (via parâmetros de URL) ===== */
+  .banner-perso{
+    max-width:900px;
+    margin:22px auto 0;
+    padding:16px 18px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-left:6px solid var(--gold);
+    border-radius:0 14px 14px 0;
+    box-shadow:0 4px 18px rgba(30,58,95,.08);
+  }
+  .banner-perso .bp-label{
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1.8px;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:8px;
+  }
+  .banner-perso .bp-igreja{
+    font-size:19px;
+    font-weight:900;
+    color:var(--navy);
+    line-height:1.15;
+  }
+  .banner-perso .bp-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 18px;
+    margin-top:10px;
+  }
+  .banner-perso .bp-meta span{
+    font-size:13px;
+    font-weight:700;
+    color:var(--navy);
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .ministrador-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:12.5px;
+    font-weight:800;
+    background:var(--gold);
+    color:var(--navy);
+    padding:5px 12px;
+    border-radius:100px;
+    width:100%;
+    box-shadow:0 1px 4px rgba(0,0,0,.15);
+  }
+  .ministrador-chip .mc-label{font-weight:700;opacity:.8;text-transform:uppercase;font-size:10px;letter-spacing:.5px;}
 </style>
 </head>
 <body>
@@ -1252,6 +1307,56 @@
       if(it.badge){ it.badge.textContent = '⏳'; it.badge.classList.remove('ativo','feito'); }
     });
   }
+</script>
+
+<!-- ========== PERSONALIZAÇÃO POR SEMINÁRIO (parâmetros de URL) ========== -->
+<script>
+  (function(){
+    var p = new URLSearchParams(location.search);
+    var ig = (p.get('ig') || '').trim();
+    var dt = (p.get('dt') || '').trim();
+    var hr = (p.get('hr') || '').trim();
+
+    // Ministradores dos 7 blocos do AdmReg → 8 seções do roteiro.
+    // O bloco 7 (Projeto 5x5 + Conclusão) cobre as duas últimas seções.
+    var m = [];
+    for (var i = 1; i <= 7; i++) m.push((p.get('m' + i) || '').trim());
+    var mapaSecao = [0,1,2,3,4,5,6,6]; // seção -> índice do ministrador
+
+    // 1) Banner de personalização (só se houver igreja/data/hora)
+    if (ig || dt || hr) {
+      var banner = document.createElement('div');
+      banner.className = 'banner-perso';
+      var metas = [];
+      if (dt) metas.push('<span>📅 ' + esc(dt) + '</span>');
+      if (hr) metas.push('<span>🕒 ' + esc(hr) + '</span>');
+      banner.innerHTML =
+        '<div class="bp-label">Seminário agendado</div>' +
+        (ig ? '<div class="bp-igreja">' + esc(ig) + '</div>' : '') +
+        (metas.length ? '<div class="bp-meta">' + metas.join('') + '</div>' : '');
+      var header = document.querySelector('header.top');
+      header.parentNode.insertBefore(banner, header.nextSibling);
+    }
+
+    // 2) Chip com o nome do facilitador no topo de cada bloco
+    var secoes = document.querySelectorAll('section.bloco');
+    secoes.forEach(function(sec, idx){
+      var nome = m[mapaSecao[idx]];
+      if (!nome) return;
+      var head = sec.querySelector('.bloco-head');
+      if (!head) return;
+      var chip = document.createElement('div');
+      chip.className = 'ministrador-chip';
+      chip.innerHTML = '<span class="mc-label">🎤 Facilitador</span> ' + esc(nome);
+      head.appendChild(chip);
+    });
+
+    function esc(s){
+      return String(s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+  })();
 </script>
 
 </body>

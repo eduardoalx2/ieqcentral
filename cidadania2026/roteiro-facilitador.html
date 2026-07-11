@@ -484,6 +484,56 @@
     #toolbar{left:auto; right:24px; bottom:24px; max-width:300px;}
   }
 
+  /* ===== SÓ CELULAR: aproveitar largura (sem molduras laterais) ===== */
+  @media (max-width:639px){
+    .bloco{ padding:0; margin:18px 0; }
+    .bloco-head{ border-radius:0; }
+    .bloco-body{
+      border-left:none; border-right:none;
+      border-radius:0;
+      padding:16px 14px 20px;
+    }
+    .bloco-body:has(+ .versiculo-chave){ padding-bottom:14px; }
+    .versiculo-chave{
+      border-left:none; border-right:none;
+      border-radius:0;
+      max-width:none;
+    }
+    .cronograma-wrap{ padding-left:14px; padding-right:14px; }
+    .notas, .banner-perso{ border-radius:0; }
+  }
+
+  /* ===== CONTROLE DE FONTE (só celular) ===== */
+  #fonte-ctrl{
+    display:none;
+    position:fixed;
+    top:10px; right:10px;
+    z-index:1000;
+    background:var(--navy);
+    border:2px solid var(--gold);
+    border-radius:100px;
+    box-shadow:0 4px 16px rgba(0,0,0,.3);
+    overflow:hidden;
+  }
+  #fonte-ctrl button{
+    font-family:inherit;
+    font-weight:900;
+    color:var(--gold);
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    padding:8px 14px;
+    line-height:1;
+  }
+  #fonte-ctrl button:active{ background:rgba(255,255,255,.12); }
+  #fonte-ctrl .fc-minus{ font-size:14px; }
+  #fonte-ctrl .fc-plus{ font-size:19px; }
+  #fonte-ctrl .fc-div{ width:1px; background:rgba(200,169,81,.4); }
+  @media (max-width:639px){
+    #fonte-ctrl{ display:flex; align-items:stretch; }
+  }
+  @media print{ #fonte-ctrl{ display:none !important; } }
+
   /* ===== IMPRESSÃO A4 ===== */
   @media print{
     * {-webkit-print-color-adjust:exact !important; print-color-adjust:exact !important;}
@@ -1166,6 +1216,13 @@
 
 <footer class="rodape">Região Eclesiástica 655 · IEQ Londrina, PR — Material de uso interno do facilitador</footer>
 
+<!-- ========== CONTROLE DE FONTE (só celular) ========== -->
+<div id="fonte-ctrl" aria-label="Ajustar tamanho da fonte">
+  <button class="fc-minus" onclick="ajustarFonte(-1)" aria-label="Diminuir fonte">A−</button>
+  <div class="fc-div"></div>
+  <button class="fc-plus" onclick="ajustarFonte(1)" aria-label="Aumentar fonte">A+</button>
+</div>
+
 <!-- ========== TOOLBAR FLUTUANTE ========== -->
 <div id="toolbar">
   <div class="row1">
@@ -1307,6 +1364,36 @@
       if(it.badge){ it.badge.textContent = '⏳'; it.badge.classList.remove('ativo','feito'); }
     });
   }
+</script>
+
+<!-- ========== AJUSTE DE FONTE (só celular) ========== -->
+<script>
+  (function(){
+    var TAMANHOS = [17, 19, 21, 23, 25, 27]; // px do corpo
+    var PADRAO = 0; // índice do 17px
+    var chave = 'roteiroFonteIdx';
+    var idx = PADRAO;
+    try {
+      var salvo = parseInt(localStorage.getItem(chave), 10);
+      if (!isNaN(salvo) && salvo >= 0 && salvo < TAMANHOS.length) idx = salvo;
+    } catch (e) {}
+
+    function aplicar(){
+      // Só interfere no celular; no desktop deixa o CSS mandar
+      if (window.matchMedia('(max-width:639px)').matches) {
+        document.body.style.fontSize = TAMANHOS[idx] + 'px';
+      } else {
+        document.body.style.fontSize = '';
+      }
+    }
+    window.ajustarFonte = function(delta){
+      idx = Math.min(TAMANHOS.length - 1, Math.max(0, idx + delta));
+      aplicar();
+      try { localStorage.setItem(chave, idx); } catch (e) {}
+    };
+    aplicar();
+    window.addEventListener('resize', aplicar);
+  })();
 </script>
 
 <!-- ========== PERSONALIZAÇÃO POR SEMINÁRIO (parâmetros de URL) ========== -->

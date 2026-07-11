@@ -219,6 +219,27 @@
       render();
     }
 
+    // ── Máscara de tratamento dos pastores ──────────────────────────
+    // Regra padrão: "Pr. " + primeiro nome (ex.: EDUARDO ALEXANDRE DA SILVA → Pr. Eduardo)
+    // Exceções: nome completo (sem acento, minúsculo) → como exibir (sem o "Pr.")
+    const EXCECOES_PASTOR = {
+      'jose nilton olivares': 'Nilton Olivares'
+      // adicione novas exceções aqui, ex.: 'joao carlos souza': 'Carlos Souza'
+    };
+    const RE_ACENTOS = new RegExp('[\\u0300-\\u036f]', 'g');
+    function normNome(s) {
+      return String(s || '').toLowerCase().normalize('NFD').replace(RE_ACENTOS, '').replace(/\s+/g, ' ').trim();
+    }
+    function capNome(w) {
+      return w ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase() : w;
+    }
+    function pastor(nome) {
+      if (!nome) return '';
+      const chave = normNome(nome);
+      if (EXCECOES_PASTOR[chave]) return 'Pr. ' + EXCECOES_PASTOR[chave];
+      return 'Pr. ' + capNome(nome.trim().split(/\s+/)[0]);
+    }
+
     // ── Monta o link personalizado do Roteiro do Facilitador ──
     function linkRoteiro(s) {
       const u = new URL('roteiro-facilitador.html', location.href);
@@ -227,7 +248,7 @@
       if (s.data)       q.set('dt', s.data.split('-').reverse().join('/'));
       if (s.horario)    q.set('hr', s.horario);
       (s.blocos || []).forEach((b, i) => {
-        if (b && b.ministradorNome) q.set('m' + (i + 1), b.ministradorNome);
+        if (b && b.ministradorNome) q.set('m' + (i + 1), pastor(b.ministradorNome));
       });
       return u.href;
     }
@@ -261,7 +282,7 @@
         const horaFmt = s.horario || 'Horário a definir';
 
         const blocos = (s.blocos && s.blocos.length) ? s.blocos.map(b => {
-          const nome = (b && b.ministradorNome) ? esc(b.ministradorNome) : '— a definir';
+          const nome = (b && b.ministradorNome) ? esc(pastor(b.ministradorNome)) : '— a definir';
           const cls  = (b && b.ministradorNome) ? '' : ' vazio';
           return '<div class="brow"><span class="bn">' + (b.bloco) + '. ' + esc(b.nome || '') + '</span>' +
                  '<span class="bm' + cls + '">' + nome + '</span></div>';
@@ -274,7 +295,7 @@
             '<div class="card-stripe ' + stKey + '"></div>' +
             '<div class="card-head">' +
               '<div class="card-igreja">' + esc(s.igrejaNome || 'Igreja sem nome') + '</div>' +
-              '<div class="card-titular">Pastor titular: ' + esc(s.pastorTitularNome || 'não cadastrado') + '</div>' +
+              '<div class="card-titular">Pastor titular: ' + esc(pastor(s.pastorTitularNome) || 'não cadastrado') + '</div>' +
               '<div class="card-meta">' +
                 '<span class="chip">📅 ' + dataFmt + '</span>' +
                 '<span class="chip">🕒 ' + horaFmt + '</span>' +

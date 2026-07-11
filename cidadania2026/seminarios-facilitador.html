@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seminários · Roteiro do Facilitador · Cidadania 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #1E3A5F;
+      --gold: #C8A951;
+      --gold-bg: #f7f4ec;
+      --blue-mid: #2E6DA4;
+      --blue-light: #BDD7EE;
+      --bg: #EEF2F7;
+      --line: #dde4ef;
+      --white: #fff;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: #111; }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      background: var(--navy);
+      border-bottom: 3px solid var(--gold);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .top-bar a.back { color: var(--gold); font-size: 20px; text-decoration: none; line-height: 1; }
+    .top-bar .logo { width: 32px; height: 32px; flex-shrink: 0; }
+    .top-bar .logo img { width: 100%; height: 100%; object-fit: contain; }
+    .top-bar .t { flex: 1; }
+    .top-bar .t h1 { font-size: 14px; font-weight: 800; color: #fff; }
+    .top-bar .t p  { font-size: 11px; color: var(--blue-light); }
+
+    /* ── HERO ── */
+    .hero { background: linear-gradient(160deg, #1a3354 0%, var(--navy) 70%); padding: 26px 20px 30px; text-align: center; }
+    .hero .tag {
+      display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+    }
+    .hero h2 { font-size: 22px; font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 8px; }
+    .hero p { font-size: 13px; color: var(--blue-light); max-width: 460px; margin: 0 auto; line-height: 1.55; }
+
+    /* ── MAIN ── */
+    .main { max-width: 1100px; margin: 0 auto; padding: 22px 16px 56px; }
+
+    /* ── FILTROS ── */
+    .filtros {
+      background: var(--white); border: 1px solid var(--line); border-radius: 14px;
+      padding: 14px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px;
+      box-shadow: 0 2px 12px rgba(30,58,95,.06);
+    }
+    .filtros input, .filtros select {
+      flex: 1; min-width: 160px; font-family: inherit; font-size: 14px; color: var(--navy);
+      padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 10px; outline: none; background: #fff;
+    }
+    .filtros input:focus, .filtros select:focus { border-color: var(--navy); }
+    .contador { width: 100%; font-size: 11px; color: #888; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+    .contador b { color: var(--navy); }
+
+    /* ── GRID ── */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+
+    .card {
+      background: var(--white); border: 1px solid var(--line); border-radius: 18px;
+      overflow: hidden; box-shadow: 0 2px 16px rgba(30,58,95,.07); display: flex; flex-direction: column;
+    }
+    .card-stripe { height: 4px; background: var(--navy); }
+    .card-stripe.agendado { background: var(--gold); }
+    .card-stripe.realizado { background: #2E7D32; }
+
+    .card-head { padding: 16px 16px 12px; border-bottom: 1px solid #f0f2f6; }
+    .card-igreja { font-size: 15px; font-weight: 900; color: var(--navy); line-height: 1.2; }
+    .card-titular { font-size: 10px; color: #999; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-top: 3px; }
+
+    .card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; }
+    .chip { font-size: 12px; font-weight: 700; color: var(--navy); background: var(--bg); border: 1px solid var(--line); border-radius: 100px; padding: 4px 11px; display: inline-flex; align-items: center; gap: 5px; }
+    .badge { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; border-radius: 100px; padding: 4px 10px; }
+    .badge.agendar { background: #F1F5F9; color: #64748b; }
+    .badge.agendado { background: rgba(200,169,81,.18); color: #9a7b26; }
+    .badge.realizado { background: #E6F4EA; color: #2E7D32; }
+
+    /* Blocos / ministradores */
+    .blocos { padding: 12px 16px; flex: 1; }
+    .blocos-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: #aaa; margin-bottom: 8px; }
+    .brow { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; padding: 4px 0; border-bottom: 1px dashed #eef1f5; }
+    .brow:last-child { border-bottom: none; }
+    .brow .bn { color: #667; flex-shrink: 0; }
+    .brow .bm { color: var(--navy); font-weight: 700; text-align: right; }
+    .brow .bm.vazio { color: #c9ced6; font-weight: 500; font-style: italic; }
+
+    /* Ações */
+    .acoes { padding: 12px 16px 16px; display: flex; gap: 8px; border-top: 1px solid #f0f2f6; }
+    .btn { flex: 1; font-family: inherit; font-size: 13px; font-weight: 800; padding: 10px 8px; border-radius: 10px; border: none; cursor: pointer; text-decoration: none; text-align: center; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: transform .12s, box-shadow .2s; }
+    .btn:active { transform: scale(.97); }
+    .btn-open { background: var(--navy); color: #fff; }
+    .btn-open:hover { box-shadow: 0 4px 14px rgba(30,58,95,.3); }
+    .btn-copy { background: var(--gold-bg); color: var(--navy); border: 1.5px solid var(--gold); }
+    .btn-copy.ok { background: #E6F4EA; border-color: #2E7D32; color: #2E7D32; }
+
+    /* Estados */
+    .estado { text-align: center; padding: 60px 20px; color: #999; }
+    .estado .spin { width: 38px; height: 38px; border: 4px solid var(--line); border-top-color: var(--navy); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    footer { text-align: center; padding: 24px 16px 40px; font-size: 11px; color: #aaa; line-height: 1.7; }
+
+    /* Toast */
+    #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--navy); color: #fff; font-size: 13px; font-weight: 700; padding: 12px 20px; border-radius: 100px; box-shadow: 0 8px 28px rgba(0,0,0,.3); opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 9999; }
+    #toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="index.html" class="back">←</a>
+    <div class="logo"><img src="https://ieqlondrina.com.br/logo.png" alt="IEQ"></div>
+    <div class="t">
+      <h1>Seminários · Roteiro do Facilitador</h1>
+      <p>Campanha Regional 2026 · Região 655</p>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="tag">Cidadania 2026 · Os 5 Pães</div>
+    <h2>Gerar Roteiro personalizado</h2>
+    <p>Cada seminário agendado gera um link do Roteiro do Facilitador já com a igreja, a data, o horário e o facilitador de cada bloco. Abra ou copie o link e compartilhe.</p>
+  </div>
+
+  <main class="main">
+    <div class="filtros">
+      <input type="text" id="busca" placeholder="🔎 Buscar por igreja ou facilitador...">
+      <select id="status">
+        <option value="">Todos os status</option>
+        <option value="Agendado">Confirmados (Agendados)</option>
+        <option value="A Agendar">A Agendar / A Confirmar</option>
+        <option value="Realizado">Realizados</option>
+      </select>
+      <div class="contador">Exibindo <b id="cont-f">0</b> de <b id="cont-t">0</b> seminários</div>
+    </div>
+
+    <div id="grid" class="grid">
+      <div class="estado" style="grid-column:1/-1">
+        <div class="spin"></div>
+        <p style="font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:12px;">Carregando seminários da agenda...</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <strong>Igreja do Evangelho Quadrangular · Região 655 · Londrina/PR</strong><br>
+    Dados sincronizados da agenda regional · Coord. de Cidadania: Pr. Eduardo Silva
+  </footer>
+
+  <div id="toast"></div>
+
+  <script>
+    // ── Config Firestore (leitura pública da coleção "seminarios") ──
+    const PROJECT = 'regiao655-admin';
+    const API_KEY = 'AIzaSyBTjxxbYqsSVPN_BhsA__gMtTseSn9_Tr0';
+    const BASE_URL = 'https://firestore.googleapis.com/v1/projects/' + PROJECT + '/databases/(default)/documents/seminarios';
+
+    let seminarios = [];
+
+    // Converte um valor tipado do Firestore REST para JS puro
+    function val(v) {
+      if (v == null) return null;
+      if ('stringValue'  in v) return v.stringValue;
+      if ('integerValue' in v) return parseInt(v.integerValue, 10);
+      if ('doubleValue'  in v) return v.doubleValue;
+      if ('booleanValue' in v) return v.booleanValue;
+      if ('nullValue'    in v) return null;
+      if ('timestampValue' in v) return v.timestampValue;
+      if ('mapValue'   in v) { const o = {}; const f = (v.mapValue.fields) || {}; for (const k in f) o[k] = val(f[k]); return o; }
+      if ('arrayValue' in v) return ((v.arrayValue.values) || []).map(val);
+      return null;
+    }
+    function doc2obj(d) { const o = {}; const f = d.fields || {}; for (const k in f) o[k] = val(f[k]); return o; }
+
+    async function carregar() {
+      let docs = [], pageToken = '';
+      try {
+        do {
+          const url = BASE_URL + '?key=' + API_KEY + '&pageSize=300' + (pageToken ? '&pageToken=' + pageToken : '');
+          const r = await fetch(url);
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          const data = await r.json();
+          (data.documents || []).forEach(d => docs.push(doc2obj(d)));
+          pageToken = data.nextPageToken || '';
+        } while (pageToken);
+      } catch (e) {
+        document.getElementById('grid').innerHTML =
+          '<div class="estado" style="grid-column:1/-1"><p style="font-weight:700">Não foi possível carregar a agenda.</p>' +
+          '<p style="font-size:12px;margin-top:6px">' + esc(e.message) + '</p></div>';
+        return;
+      }
+
+      // Ordena: próximos primeiro (asc), passados depois (desc), sem data por último
+      const hoje = new Date().toISOString().slice(0, 10);
+      docs.sort((a, b) => {
+        if (!a.data && !b.data) return 0;
+        if (!a.data) return 1;
+        if (!b.data) return -1;
+        const af = a.data >= hoje, bf = b.data >= hoje;
+        if (af && bf) return a.data.localeCompare(b.data);
+        if (!af && !bf) return b.data.localeCompare(a.data);
+        return af ? -1 : 1;
+      });
+
+      seminarios = docs;
+      document.getElementById('cont-t').textContent = seminarios.length;
+      render();
+    }
+
+    // ── Monta o link personalizado do Roteiro do Facilitador ──
+    function linkRoteiro(s) {
+      const u = new URL('roteiro-facilitador.html', location.href);
+      const q = u.searchParams;
+      if (s.igrejaNome) q.set('ig', s.igrejaNome);
+      if (s.data)       q.set('dt', s.data.split('-').reverse().join('/'));
+      if (s.horario)    q.set('hr', s.horario);
+      (s.blocos || []).forEach((b, i) => {
+        if (b && b.ministradorNome) q.set('m' + (i + 1), b.ministradorNome);
+      });
+      return u.href;
+    }
+
+    function render() {
+      const q  = document.getElementById('busca').value.toLowerCase().trim();
+      const st = document.getElementById('status').value;
+
+      const lista = seminarios.filter(s => {
+        if (st && (s.status || 'A Agendar') !== st) return false;
+        if (q) {
+          const alvo = [s.igrejaNome, s.pastor1Nome, s.pastor2Nome, s.pastorTitularNome,
+            ...((s.blocos || []).map(b => b && b.ministradorNome))].join(' ').toLowerCase();
+          if (!alvo.includes(q)) return false;
+        }
+        return true;
+      });
+
+      document.getElementById('cont-f').textContent = lista.length;
+      const grid = document.getElementById('grid');
+
+      if (!lista.length) {
+        grid.innerHTML = '<div class="estado" style="grid-column:1/-1"><p style="font-weight:700">Nenhum seminário encontrado.</p></div>';
+        return;
+      }
+
+      grid.innerHTML = lista.map((s, idx) => {
+        const status = s.status || 'A Agendar';
+        const stKey = status === 'Agendado' ? 'agendado' : (status === 'Realizado' ? 'realizado' : 'agendar');
+        const dataFmt = s.data ? s.data.split('-').reverse().join('/') : 'Data a definir';
+        const horaFmt = s.horario || 'Horário a definir';
+
+        const blocos = (s.blocos && s.blocos.length) ? s.blocos.map(b => {
+          const nome = (b && b.ministradorNome) ? esc(b.ministradorNome) : '— a definir';
+          const cls  = (b && b.ministradorNome) ? '' : ' vazio';
+          return '<div class="brow"><span class="bn">' + (b.bloco) + '. ' + esc(b.nome || '') + '</span>' +
+                 '<span class="bm' + cls + '">' + nome + '</span></div>';
+        }).join('') : '<div class="brow"><span class="bm vazio">Programação não preenchida</span></div>';
+
+        const link = linkRoteiro(s);
+
+        return '' +
+          '<div class="card">' +
+            '<div class="card-stripe ' + stKey + '"></div>' +
+            '<div class="card-head">' +
+              '<div class="card-igreja">' + esc(s.igrejaNome || 'Igreja sem nome') + '</div>' +
+              '<div class="card-titular">Pastor titular: ' + esc(s.pastorTitularNome || 'não cadastrado') + '</div>' +
+              '<div class="card-meta">' +
+                '<span class="chip">📅 ' + dataFmt + '</span>' +
+                '<span class="chip">🕒 ' + horaFmt + '</span>' +
+                '<span class="badge ' + stKey + '">' + esc(status) + '</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="blocos">' +
+              '<div class="blocos-label">Facilitadores por bloco</div>' +
+              blocos +
+            '</div>' +
+            '<div class="acoes">' +
+              '<a class="btn btn-open" href="' + esc(link) + '" target="_blank" rel="noopener">🎤 Abrir Roteiro</a>' +
+              '<button class="btn btn-copy" data-link="' + esc(link) + '" onclick="copiar(this)">🔗 Copiar link</button>' +
+            '</div>' +
+          '</div>';
+      }).join('');
+    }
+
+    window.copiar = function (btn) {
+      const link = btn.getAttribute('data-link');
+      navigator.clipboard.writeText(link).then(() => {
+        btn.classList.add('ok');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copiado!';
+        toast('Link copiado para a área de transferência');
+        setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('ok'); }, 2000);
+      }).catch(() => toast('Não foi possível copiar'));
+    };
+
+    let toastTimer;
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    document.getElementById('busca').addEventListener('input', render);
+    document.getElementById('status').addEventListener('change', render);
+    carregar();
+  </script>
+
+</body>
+</html>

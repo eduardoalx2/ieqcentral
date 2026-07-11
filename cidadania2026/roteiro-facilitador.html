@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Os 5 Pães da Transformação — Roteiro do Facilitador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ── Design system Cidadania 2026 ── */
+    --navy:#1E3A5F;
+    --gold:#C8A951;
+    --gold-bg:#f7f4ec;
+    --blue-mid:#2E6DA4;
+    --blue-light:#BDD7EE;
+    --bg:#EEF2F7;
+    --white:#fff;
+
+    /* aliases herdados (mapeados pro novo sistema) */
+    --cream:#EEF2F7;
+    --cream-2:#E4ECF5;
+    --ink:#1E3A5F;
+    --ink-soft:#5b6572;
+    --line:#dde4ef;
+
+    /* acentos por bloco — família navy/joia, coesa com o dourado */
+    --c-intro:#3E5266;
+    --c-p1:#1E3A5F;
+    --c-p2:#2E6DA4;
+    --c-p3:#50557E;
+    --c-p4:#2F6E57;
+    --c-p5:#8A4C5A;
+    --c-din:#A9772F;
+    --c-fim:#1E3A5F;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:#111;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.6;
+    font-size:17px;
+    padding-bottom:150px;
+  }
+
+  /* ===== HEADER ===== */
+  header.top{
+    background:var(--navy);
+    color:var(--white);
+    padding:26px 18px 28px;
+    text-align:center;
+    border-bottom:3px solid var(--gold);
+  }
+  header.top h1{
+    font-size:clamp(23px,5.4vw,34px);
+    font-weight:900;
+    margin:6px 0;
+    letter-spacing:.2px;
+    line-height:1.12;
+  }
+  header.top .sub{
+    font-size:clamp(10px,2.8vw,12px);
+    font-weight:800;
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:2.2px;
+  }
+  header.top .meta{
+    font-size:13px;
+    color:var(--blue-light);
+    margin-top:10px;
+  }
+  header.top .lema{
+    font-style:italic;
+    color:var(--gold);
+    font-size:15px;
+    margin-top:16px;
+    max-width:520px;
+    margin-left:auto;
+    margin-right:auto;
+    line-height:1.5;
+  }
+
+  #device-badge{
+    display:inline-block;
+    margin-top:14px;
+    font-size:11px;
+    background:var(--gold);
+    color:var(--navy);
+    padding:4px 12px;
+    border-radius:100px;
+    font-weight:800;
+    letter-spacing:.5px;
+  }
+
+  /* ===== CRONOGRAMA TABLE ===== */
+  .cronograma-wrap{padding:26px 16px 6px; max-width:900px; margin:0 auto;}
+  .cronograma-wrap h2{
+    color:var(--navy);
+    font-size:20px;
+    font-weight:900;
+    border-bottom:3px solid var(--gold);
+    padding-bottom:8px;
+  }
+  table.cron{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    font-size:14.5px;
+    margin-bottom:10px;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 2px 14px rgba(30,58,95,.08);
+  }
+  table.cron th{
+    background:var(--navy);
+    color:var(--white);
+    font-weight:700;
+    padding:10px 12px;
+    text-align:left;
+  }
+  table.cron td{
+    padding:10px 12px;
+    border-bottom:1px solid var(--line);
+    background:var(--white);
+  }
+  table.cron tr:nth-child(even) td{background:#F4F7FB;}
+  table.cron tr:last-child td{border-bottom:none;}
+  table.cron td.dur{white-space:nowrap; font-weight:800; color:var(--gold);}
+
+  .notas{
+    max-width:900px;margin:14px auto 30px;padding:18px 20px;
+    background:var(--white); border-left:6px solid var(--gold);
+    border-radius:0 12px 12px 0;
+    box-shadow:0 2px 14px rgba(0,0,0,.06);
+  }
+  .notas h3{margin-top:0;font-size:16px;font-weight:800;color:var(--navy);}
+  .notas ul{padding-left:22px;margin:10px 0 0;}
+  .notas li{margin-bottom:9px;}
+
+  /* ===== CALLOUTS ===== */
+  .callout{
+    margin:16px 0;
+    padding:15px 17px;
+    border-radius:12px;
+    font-size:14.5px;
+  }
+  .callout-check{
+    background:var(--gold-bg);
+    border:2px dashed var(--gold);
+    color:var(--navy);
+  }
+  .callout-atencao{
+    background:#FBEFEF;
+    border:2px solid #B3596A;
+    color:#6b2f3b;
+  }
+  .callout-atencao strong{color:#a2455a;}
+  .callout-responsavel{
+    background:#EAF2ED;
+    border-left:6px solid #2F6E57;
+    border-radius:0 12px 12px 0;
+  }
+  .callout-oracao{
+    background:#F1ECF4;
+    border-left:6px solid #6B4C7A;
+    border-radius:0 12px 12px 0;
+    font-style:italic;
+  }
+  .callout b.tag{
+    display:inline-block;
+    background:var(--navy);
+    color:#fff;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.6px;
+    text-transform:uppercase;
+    padding:3px 9px;
+    border-radius:100px;
+    margin-bottom:9px;
+  }
+
+  /* ===== SECTIONS ===== */
+  .bloco{
+    max-width:900px;
+    margin:26px auto;
+    padding:0 16px;
+  }
+  .bloco-head{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    background:var(--accent);
+    color:#fff;
+    padding:16px 20px;
+    border-radius:16px 16px 0 0;
+  }
+  .bloco-head h2{
+    font-size:clamp(18px,4.5vw,24px);
+    font-weight:900;
+    margin:0;
+  }
+  .bloco-head .foco{
+    font-style:italic;
+    font-size:13.5px;
+    opacity:.95;
+    width:100%;
+  }
+  .bloco-head .janela{
+    font-size:12px;
+    font-weight:700;
+    background:rgba(0,0,0,.22);
+    padding:4px 12px;
+    border-radius:100px;
+  }
+  .bloco-body{
+    border:2px solid var(--accent);
+    border-top:none;
+    border-radius:0 0 16px 16px;
+    padding:20px 20px 24px;
+    background:#fff;
+    box-shadow:0 4px 20px rgba(30,58,95,.07);
+  }
+  /* quando o bloco termina com versículo-chave, o corpo perde o rodapé
+     arredondado para o versículo se acoplar como rodapé do bloco */
+  .bloco-body:has(+ .versiculo-chave){
+    border-bottom:none;
+    border-radius:0;
+    padding-bottom:16px;
+  }
+
+  .start-btn{
+    font-size:12.5px;
+    font-weight:800;
+    background:#fff;
+    color:var(--accent);
+    border:none;
+    padding:7px 14px;
+    border-radius:100px;
+    cursor:pointer;
+    box-shadow:0 1px 4px rgba(0,0,0,.25);
+    transition:transform .12s;
+  }
+  .start-btn:active{transform:scale(.96);}
+
+  .intro-leitura{
+    background:var(--gold-bg);
+    border:1px solid #ece3cd;
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:18px;
+    font-size:15.5px;
+  }
+
+  .item{
+    margin-bottom:20px;
+    padding-bottom:16px;
+    border-bottom:1px dashed var(--line);
+    transition:background .4s;
+  }
+  .item:last-child{border-bottom:none;}
+  .item-title{
+    font-weight:800;
+    font-size:16px;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+  }
+  .tempo-chip{
+    font-size:11.5px;
+    font-weight:600;
+    background:#eef2f7;
+    color:var(--ink-soft);
+    padding:3px 10px;
+    border-radius:100px;
+    border:1px solid var(--line);
+  }
+  .live-badge{
+    font-size:11.5px;
+    font-weight:800;
+    padding:3px 10px;
+    border-radius:100px;
+    background:#eef2f7;
+    color:var(--ink-soft);
+    border:1px solid var(--line);
+  }
+  .live-badge.ativo{
+    background:#FCE79A;
+    color:#7a4a1c;
+    border-color:#e0a83f;
+  }
+  .live-badge.feito{
+    background:#DDEBD9;
+    color:#274d33;
+    border-color:#4C7A5E;
+  }
+
+  .slide-tag{
+    display:inline-block;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    background:var(--navy);
+    color:#fff;
+    padding:3px 10px;
+    border-radius:100px;
+    margin-bottom:8px;
+  }
+
+  .oquefazer{
+    font-weight:800;
+    text-decoration:underline;
+    text-decoration-color:var(--accent);
+    text-underline-offset:3px;
+  }
+  .oquedizer{
+    font-weight:800;
+    color:var(--accent);
+  }
+
+  mark.fala{
+    background:#FCE79A;
+    color:#3a2e04;
+    padding:1px 4px;
+    border-radius:3px;
+    font-style:italic;
+    box-decoration-break:clone;
+    -webkit-box-decoration-break:clone;
+  }
+  /* Fala que ocupa o parágrafo inteiro → painel creme com barra dourada */
+  .fala-bloco{margin:14px 0;}
+  .fala-bloco mark.fala{
+    display:block;
+    background:var(--gold-bg);
+    border-left:4px solid var(--gold);
+    border-radius:0 10px 10px 0;
+    padding:14px 18px;
+    color:#3a3527;
+    font-style:italic;
+    line-height:1.6;
+  }
+  mark.chave{
+    background:#DDEBD9;
+    color:#274d33;
+    padding:1px 4px;
+    border-radius:3px;
+    font-weight:700;
+  }
+  .versiculo-texto{
+    font-style:italic;
+    color:var(--ink-soft);
+    border-left:4px solid var(--gold);
+    padding-left:14px;
+    margin:12px 0;
+  }
+  .versiculo-chave{
+    max-width:900px;
+    margin:0 auto;
+    padding:15px 20px;
+    background:var(--navy);
+    color:var(--blue-light);
+    border:2px solid var(--accent);
+    border-top:3px solid var(--gold);
+    border-radius:0 0 16px 16px;
+    box-shadow:0 6px 20px rgba(30,58,95,.10);
+    font-size:14px;
+  }
+  .versiculo-chave b{color:var(--gold);}
+  ol.pontos{padding-left:22px;}
+  ol.pontos li{margin-bottom:10px;}
+  .pausa{
+    color:#a2455a;
+    font-weight:800;
+    font-size:14px;
+  }
+  .frase-chave{
+    text-align:center;
+    font-size:20px;
+    font-weight:800;
+    font-style:italic;
+    color:var(--gold);
+    margin:18px 0;
+    padding:16px;
+    border-top:2px solid var(--gold);
+    border-bottom:2px solid var(--gold);
+    line-height:1.4;
+  }
+
+  /* ===== FLOATING TOOLBAR ===== */
+  #toolbar{
+    position:fixed;
+    bottom:16px;
+    right:16px;
+    left:16px;
+    max-width:420px;
+    margin:0 auto;
+    background:var(--navy);
+    color:var(--blue-light);
+    border-radius:18px;
+    box-shadow:0 8px 28px rgba(0,0,0,.35);
+    z-index:999;
+    border:2px solid var(--gold);
+  }
+  #toolbar .row1{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 16px;
+    gap:10px;
+  }
+  #toolbar .label{
+    font-size:12px;
+    color:var(--blue-light);
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    flex:1;
+  }
+  #toolbar .clock{
+    font-size:27px;
+    font-weight:800;
+    font-variant-numeric:tabular-nums;
+    color:var(--gold);
+  }
+  #tb-aviso-msg{
+    display:none;
+    font-size:12px;
+    color:#e0a83f;
+    font-weight:800;
+    padding:0 16px 8px;
+    margin-top:-4px;
+  }
+  #toolbar.aviso{border-color:#e0a83f;}
+  #toolbar.aviso .clock{color:#e0a83f;}
+  #toolbar.aviso #tb-aviso-msg{display:block;}
+
+  #toolbar.alerta .clock{color:#e05b5b; animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+  #toolbar .controls{
+    display:flex;
+    gap:8px;
+    padding:0 16px 14px;
+  }
+  #toolbar button{
+    flex:1;
+    font-family:inherit;
+    font-size:13px;
+    font-weight:800;
+    padding:9px 6px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+  }
+  #btn-play{background:var(--gold);color:var(--navy);}
+  #btn-reset{background:#3a4d64;color:#fff;}
+  #btn-print{background:transparent;color:var(--blue-light);border:1px solid var(--blue-light) !important;}
+
+  footer.rodape{
+    text-align:center;
+    background:var(--navy);
+    border-top:3px solid var(--gold);
+    font-size:12px;
+    color:var(--blue-light);
+    padding:22px 20px;
+    line-height:1.7;
+  }
+
+  /* ===== RESPONSIVO ===== */
+  @media (min-width:640px){
+    body{font-size:17px;}
+  }
+  @media (min-width:1024px){
+    body{font-size:16.5px;}
+    #toolbar{left:auto; right:24px; bottom:24px; max-width:300px;}
+  }
+
+  /* ===== IMPRESSÃO A4 ===== */
+  @media print{
+    * {-webkit-print-color-adjust:exact !important; print-color-adjust:exact !important;}
+    body{font-size:11.5pt; padding-bottom:0; background:#fff;}
+    #toolbar, #device-badge{display:none !important;}
+    header.top{border-radius:0;}
+    .bloco{
+      max-width:100%;
+      margin:0 auto;
+      page-break-inside:avoid;
+      padding:0 6mm;
+    }
+    .item{page-break-inside:avoid;}
+    @page{size:A4; margin:14mm;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="sub">Região Eclesiástica 655 · Londrina, PR · IEQ</div>
+  <h1>Os 5 Pães da Transformação</h1>
+  <div class="meta">Material do Facilitador — Roteiro Detalhado do Seminário · Duração: 80 minutos</div>
+  <div class="lema">"O que você tem nas mãos pode alimentar muitos, se entregue ao propósito certo."</div>
+  <div id="device-badge">detectando dispositivo…</div>
+</header>
+
+<div class="cronograma-wrap">
+  <h2>⏱️ Cronograma geral (80 minutos)</h2>
+  <table class="cron">
+    <tr><th>Bloco</th><th>Duração</th><th>Janela</th></tr>
+    <tr><td>Introdução</td><td class="dur">10 min</td><td>00:00–00:10</td></tr>
+    <tr><td>1º Pão · Identidade</td><td class="dur">10 min</td><td>00:10–00:20</td></tr>
+    <tr><td>2º Pão · Responsabilidade</td><td class="dur">10 min</td><td>00:20–00:30</td></tr>
+    <tr><td>3º Pão · Influência</td><td class="dur">10 min</td><td>00:30–00:40</td></tr>
+    <tr><td>4º Pão · Integridade</td><td class="dur">10 min</td><td>00:40–00:50</td></tr>
+    <tr><td>5º Pão · Multiplicação</td><td class="dur">10 min</td><td>00:50–01:00</td></tr>
+    <tr><td>Projeto 5x5</td><td class="dur">15 min</td><td>01:00–01:15</td></tr>
+    <tr><td>Conclusão e Desafio</td><td class="dur">5 min</td><td>01:15–01:20</td></tr>
+  </table>
+  <div class="notas">
+    <h3>⚙️ Como usar o cronômetro flutuante</h3>
+    <ul>
+      <li>Toque apenas no botão <b>▶</b> que fica no <u>cabeçalho de cada bloco</u>. Ele dispara a contagem regressiva do bloco inteiro no painel flutuante.</li>
+      <li>Os sub-trechos de dentro do bloco avançam sozinhos, em sequência, mostrando ao lado de cada um se está <span class="live-badge">⏳</span> pendente, <span class="live-badge ativo">🔴 em andamento</span> ou <span class="live-badge feito">✔</span> concluído.</li>
+      <li>Faltando <b>2 minutos</b> para o fim do bloco, o painel flutuante muda sutilmente para um aviso âmbar.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== INTRODUÇÃO ========== -->
+<section class="bloco" style="--accent:var(--c-intro)">
+  <div class="bloco-head">
+    <h2>Introdução</h2>
+    <span class="janela">00:00 – 00:10</span>
+    <button class="start-btn" onclick="iniciarBloco(this,10,'Introdução (10 min)')">▶ Iniciar bloco · 10 min</button>
+  </div>
+  <div class="bloco-body">
+
+    <div class="item" data-dur="120">
+      <div class="item-title">1. Boas-vindas e Oração
+        <span class="tempo-chip">2 min · 00:00–00:02</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p><span class="oquefazer">O que fazer:</span></p>
+      <ul>
+        <li>Cumprimente os líderes presentes com entusiasmo e energia</li>
+        <li>Agradeça pela disponibilidade de estarem ali</li>
+        <li>Contextualize: <mark class="chave">"Estamos aqui para aprender sobre cidadania cristã"</mark></li>
+      </ul>
+      <p><span class="oquedizer">O que dizer (sugestão):</span></p>
+      <p class="fala-bloco"><mark class="fala">"Bom dia/Boa tarde, líderes! É uma alegria estar com vocês hoje. Obrigado por separarem 80 minutos para este momento importante. Hoje vamos falar sobre como você, como líder, pode transformar nossa cidade através da cidadania consciente. Vamos orar?"</mark></p>
+      <p><strong>Oração (breve, 30 segundos):</strong></p>
+      <ul>
+        <li>Peça direção de Deus para o seminário</li>
+        <li>Ore pela cidade de Londrina</li>
+        <li>Peça sabedoria aos líderes presentes</li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="180">
+      <div class="item-title">2. História dos 5 pães e 2 peixes
+        <span class="tempo-chip">3 min · 00:02–00:05</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p><span class="oquefazer">O que fazer:</span> leia <span class="versiculo-tag">João 6:1-13</span> (multiplicação dos pães)</p>
+      <div class="versiculo-texto">
+        <p>¹ Algum tempo depois, Jesus foi à outra margem do mar da Galileia, ou seja, o mar de Tiberíades, ² e grande multidão continuava a segui-lo, porque vira os sinais milagrosos que ele tinha realizado ao curar os doentes. ³ Então, Jesus subiu ao monte e sentou-se com os seus discípulos. ⁴ Estava próxima a festa judaica da Páscoa.</p>
+        <p>⁵ Levantando os olhos e vendo uma grande multidão que se aproximava, Jesus disse a Filipe: — Onde compraremos pães para este povo comer? ⁶ Ele fez essa pergunta apenas para pô-lo à prova, pois já tinha em mente o que ia fazer. ⁷ Filipe lhe respondeu: — Duzentos denários não comprariam pães suficientes para que cada um recebesse um pedaço!</p>
+        <p>⁸ Outro discípulo, André, irmão de Simão Pedro, tomou a palavra: ⁹ — Aqui está um rapaz com cinco pães de cevada e dois peixinhos, mas o que é isto para tanta gente? ¹⁰ Jesus disse: — Mandem o povo se sentar. Havia muita grama naquele lugar, e todos se sentaram. Eram cerca de cinco mil homens.</p>
+        <p>¹¹ Então, Jesus tomou os pães, deu graças e os repartiu entre os que estavam sentados, tanto quanto queriam. O mesmo fez com os peixes. ¹² Depois que todos receberam o suficiente para comer, disse aos seus discípulos: — Ajuntem os pedaços que sobraram. Que nada seja desperdiçado. ¹³ Então, eles os ajuntaram e encheram doze cestos com os pedaços dos cinco pães de cevada deixados por aqueles que tinham comido.</p>
+      </div>
+      <ul>
+        <li>Enfatize o <mark class="chave">MENINO</mark> que ofereceu o pouco que tinha</li>
+        <li>Mostre como Jesus <mark class="chave">MULTIPLICOU</mark> aquilo</li>
+      </ul>
+      <p><span class="oquedizer">Pontos-chave a destacar:</span></p>
+      <ol class="pontos">
+        <li>Um menino trouxe 5 pães e 2 peixes (o pouco dele)</li>
+        <li>Jesus pegou, abençoou e multiplicou</li>
+        <li>Alimentou 5 mil pessoas com aquele pouco</li>
+        <li>Ainda <u>SOBROU</u> 12 cestos</li>
+      </ol>
+      <div class="frase-chave">"O que você tem nas mãos pode alimentar muitos, se entregue ao propósito certo."<br><span style="font-size:12px;font-family:Helvetica,Arial,sans-serif;font-style:normal;color:var(--ink-soft);">(repita 2x para fixar)</span></div>
+    </div>
+
+    <div class="item" data-dur="300">
+      <div class="item-title">3. Pergunta Central: "O que VOCÊ tem nas mãos?"
+        <span class="tempo-chip">5 min · 00:05–00:10</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p><span class="oquedizer">O que dizer (passo a passo):</span></p>
+      <p><strong>Passo 1 — Faça a pergunta ao público:</strong></p>
+      <p class="fala-bloco"><mark class="fala">"E você, o que TEM nas mãos hoje?"</mark> <span class="pausa">(pause 3 segundos. Deixe a pergunta pesar)</span></p>
+      <p><strong>Passo 2 — Responda você mesmo:</strong></p>
+      <p><mark class="fala">"Você tem INFLUÊNCIA. Pessoas confiam em você."<br>"Você tem RELACIONAMENTOS. Uma rede de contatos."<br>"Você tem CREDIBILIDADE. Sua palavra tem peso."</mark></p>
+      <p><strong>Passo 3 — Desafie:</strong></p>
+      <p class="fala-bloco"><mark class="fala">"Assim como aquele menino, você pode ENTREGAR isso para Deus." "E Deus pode MULTIPLICAR para transformar vidas e cidades."</mark></p>
+      <p><strong>Passo 4 — Transição para os 5 Pães:</strong></p>
+      <p class="fala-bloco"><mark class="fala">"Hoje vamos ver os 5 PÃES que você precisa oferecer." "São 5 áreas da sua vida de líder que Deus quer multiplicar." "Vamos lá!"</mark></p>
+    </div>
+
+    <div class="callout callout-check">
+      <b class="tag">◼◼ Checkpoint de tempo</b>
+      <p>Ao terminar a introdução, você <strong>DEVE</strong> estar em <u>00:10 minutos</u> no cronômetro. Se passou de 12 minutos, <strong>ACELERE</strong> os próximos blocos. Se está em 8 min, respire!</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== 1º PÃO — IDENTIDADE ========== -->
+<section class="bloco" style="--accent:var(--c-p1)">
+  <div class="bloco-head">
+    <h2>1º Pão da Identidade</h2>
+    <span class="janela">00:10 – 00:20</span>
+    <button class="start-btn" onclick="iniciarBloco(this,10,'1º Pão · Identidade (10 min)')">▶ Iniciar bloco · 10 min</button>
+    <div class="foco">Quem sou eu como líder e cidadão? · Conceito: Propósito, valores, vocação</div>
+  </div>
+  <div class="bloco-body">
+
+    <div class="intro-leitura">
+      <span class="slide-tag">SLIDE · 1º PÃO: IDENTIDADE</span>
+      <p><span class="oquefazer">Introdução — o que fazer:</span> mostre a projeção/slide do 1º Pão (se tiver) e leia em voz alta <span class="versiculo-tag">Mateus 5:13-16</span>. Conecte com a identidade de líder cristão.</p>
+      <div class="versiculo-texto">
+        <p>13 — Vocês são o sal da terra. Mas, se o sal perder o seu sabor, como restaurá-lo? Não servirá para nada, exceto para ser jogado fora e pisado pelos homens. 14 — Vocês são a luz do mundo. Não se pode esconder uma cidade construída sobre um monte. 15 Ninguém acende uma lâmpada e a coloca debaixo de uma vasilha. Ao contrário, coloca-a no lugar apropriado e, assim, ilumina todos os que estão na casa. 16 Da mesma forma, brilhe a luz de vocês diante dos homens, para que vejam as suas boas obras e glorifiquem a seu Pai, que está nos céus.</p>
+      </div>
+    </div>
+
+    <div class="item" data-dur="180">
+      <div class="item-title">Ponto 1 — Você é SAL e LUZ
+        <span class="tempo-chip">3 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Explique: <mark class="chave">o sal preserva, dá sabor, é essencial</mark></li>
+        <li>Explique: <mark class="chave">a luz ilumina, direciona, expõe</mark></li>
+        <li>Diga: <mark class="fala">"Você NÃO é sal e luz só no púlpito."</mark></li>
+        <li>Diga: <mark class="fala">"Você é sal e luz na CIDADE INTEIRA."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="180">
+      <div class="item-title">Ponto 2 — Identidade vai além do púlpito
+        <span class="tempo-chip">3 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Diga: <mark class="fala">"Você é pastor/líder/cristão E é cidadão."</mark></li>
+        <li>Diga: <mark class="fala">"Deus te deu influência em dois mundos."</mark></li>
+        <li>Diga: <mark class="fala">"Liderança cristã INCLUI responsabilidade pública."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">Ponto 3 — Não é politicagem, é cidadania bíblica
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Esclareça: <mark class="fala">"Não estamos fazendo política partidária."</mark></li>
+        <li>Esclareça: <mark class="fala">"Estamos exercendo cidadania como cristãos."</mark></li>
+        <li>Esclareça: <mark class="fala">"Omissão não é neutralidade, é escolha."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">Aplicação — Pergunta de reflexão
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p>Faça ao público: <mark class="fala">"Você se vê como alguém que transforma a cidade?"</mark> <span class="pausa">(pause 5 segundos)</span></p>
+      <p>Diga: <mark class="fala">"A partir de hoje, você VAI se ver assim."</mark></p>
+    </div>
+
+  </div>
+  <div class="versiculo-chave">📖 <b>Versículo-chave:</b> Mateus 5:13-14 — "Vocês são o sal da terra... a luz do mundo"</div>
+</section>
+
+<!-- ========== 2º PÃO — RESPONSABILIDADE ========== -->
+<section class="bloco" style="--accent:var(--c-p2)">
+  <div class="bloco-head">
+    <h2>2º Pão da Responsabilidade</h2>
+    <span class="janela">00:20 – 00:30</span>
+    <button class="start-btn" onclick="iniciarBloco(this,10,'2º Pão · Responsabilidade (10 min)')">▶ Iniciar bloco · 10 min</button>
+    <div class="foco">Meus direitos e deveres na sociedade · Conceito: Direitos e deveres como cidadão cristão</div>
+  </div>
+  <div class="bloco-body">
+
+    <div class="intro-leitura">
+      <span class="slide-tag">SLIDE · 2º PÃO: RESPONSABILIDADE</span>
+      <p><span class="oquefazer">Introdução — o que fazer:</span> mostre o slide do 2º Pão e leia <span class="versiculo-tag">Romanos 13:1-7</span>. Conecte o tema de autoridades com o dever de voto consciente do cristão.</p>
+      <div class="versiculo-texto">
+        <p>Este texto diz que toda autoridade governamental foi estabelecida por Deus, de modo que a rebeldia contra ela atrai condenação. Os governantes atuam como servos divinos para punir o mal e honrar o bem, tornando a submissão necessária tanto pelo medo da punição quanto pela consciência. Por isso, deve-se pagar todos os impostos, tributos, temor e honra a quem de direito, já que as autoridades dedicam-se a esse trabalho a serviço de Deus.</p>
+      </div>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">Ponto 1 — Submissão às autoridades
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Diga: <mark class="fala">"A Bíblia nos ensina a respeitar autoridades."</mark></li>
+        <li>Diga: <mark class="fala">"Isso não é opcional, é mandamento."</mark></li>
+        <li>MAS adicione: <mark class="chave">"Autoridades existem para o BEM COMUM."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="240">
+      <div class="item-title">Ponto 2 — Nosso dever: escolher bem
+        <span class="tempo-chip">4 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Diga: <mark class="fala">"Se autoridades vêm de Deus..."</mark></li>
+        <li>Diga: <mark class="fala">"...então QUEM escolhemos importa!"</mark></li>
+        <li>Diga: <mark class="fala">"Votar não é direito, é DEVER cristão."</mark></li>
+        <li>Diga: <mark class="fala">"Escolher mal é colocar pessoas erradas em posições de autoridade."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">Ponto 3 — Omissão também é escolha
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Diga: <mark class="fala">"Não votar é deixar outros decidirem por você."</mark></li>
+        <li>Diga: <mark class="fala">"Votar em qualquer um é irresponsabilidade."</mark></li>
+        <li>Diga: <mark class="fala">"Você SERÁ cobrado por Deus sobre isso."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">Aplicação — Pergunta de reflexão
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p>Faça: <mark class="fala">"Você exerce seu direito de voto conscientemente?"</mark></p>
+      <p>Faça: <mark class="fala">"Você ORA antes de votar?"</mark></p>
+      <p>Diga: <mark class="fala">"A partir de hoje, você vai votar com propósito."</mark></p>
+    </div>
+
+  </div>
+  <div class="versiculo-chave">📖 <b>Versículo-chave:</b> Romanos 13:1 — "Todos devem sujeitar-se às autoridades..."</div>
+</section>
+
+<!-- ========== 3º PÃO — INFLUÊNCIA ========== -->
+<section class="bloco" style="--accent:var(--c-p3)">
+  <div class="bloco-head">
+    <h2>3º Pão da Influência</h2>
+    <span class="janela">00:30 – 00:40</span>
+    <button class="start-btn" onclick="iniciarBloco(this,10,'3º Pão · Influência (10 min)')">▶ Iniciar bloco · 10 min</button>
+    <div class="foco">Como minha liderança transforma o entorno · Conceito: Família, bairro, cidade</div>
+  </div>
+  <div class="bloco-body">
+
+    <div class="intro-leitura">
+      <span class="slide-tag">SLIDE · 3º PÃO: INFLUÊNCIA</span>
+      <p><span class="oquefazer">Introdução — o que fazer:</span> mostre o slide do 3º Pão e leia <span class="versiculo-tag">João 17:18</span>. Conecte liderança com influência relacional.</p>
+      <div class="versiculo-texto">
+        <p>"Como me enviaste ao mundo, assim eu os enviei ao mundo."</p>
+      </div>
+    </div>
+
+    <div class="item" data-dur="180">
+      <div class="item-title">Ponto 1 — Você influencia uma REDE
+        <span class="tempo-chip">3 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Diga: <mark class="fala">"Você não lidera sozinho."</mark></li>
+        <li>Diga: <mark class="fala">"Você tem família, amigos, colegas, membros."</mark></li>
+        <li>Diga: <mark class="fala">"Essas pessoas CONFIAM em você."</mark></li>
+        <li>Diga: <mark class="fala">"O que você diz tem PESO na vida delas."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="180">
+      <div class="item-title">Ponto 2 — Influência ≠ Manipulação
+        <span class="tempo-chip">3 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Esclareça: <mark class="chave">"Não é convencer, é compartilhar valores."</mark></li>
+        <li>Esclareça: <mark class="chave">"Não é forçar, é inspirar."</mark></li>
+        <li>Esclareça: <mark class="chave">"É relacionamento VERDADEIRO, não interesse."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">Ponto 3 — Transformação começa em casa
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Diga: <mark class="fala">"Se você não influencia sua casa, não influenciará a cidade."</mark></li>
+        <li>Diga: <mark class="fala">"Comece com quem está PERTO."</mark></li>
+        <li>Diga: <mark class="fala">"Depois expande para o bairro, depois para a cidade."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">Aplicação — Pergunta de reflexão
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p>Faça: <mark class="fala">"Quantas pessoas confiam na sua opinião?"</mark></p>
+      <p>Faça: <mark class="fala">"Você usa essa influência para o Reino?"</mark></p>
+      <p>Diga: <mark class="fala">"A partir de hoje, você vai influenciar com PROPÓSITO."</mark></p>
+    </div>
+
+  </div>
+  <div class="versiculo-chave">📖 <b>Versículo-chave:</b> João 17:18 — "Como enviaste-me ao mundo, eu os enviei..."</div>
+</section>
+
+<!-- ========== 4º PÃO — INTEGRIDADE ========== -->
+<section class="bloco" style="--accent:var(--c-p4)">
+  <div class="bloco-head">
+    <h2>4º Pão da Integridade</h2>
+    <span class="janela">00:40 – 00:50</span>
+    <button class="start-btn" onclick="iniciarBloco(this,10,'4º Pão · Integridade (10 min)')">▶ Iniciar bloco · 10 min</button>
+    <div class="foco">Ética, transparência e coerência · Conceito: Fé e prática andam juntas</div>
+  </div>
+  <div class="bloco-body">
+
+    <div class="intro-leitura">
+      <span class="slide-tag">SLIDE · 4º PÃO: INTEGRIDADE</span>
+      <p><span class="oquefazer">Introdução — o que fazer:</span> mostre o slide do 4º Pão, leia <span class="versiculo-tag">Provérbios 20:7</span> e aborde a importância da coerência.</p>
+      <div class="versiculo-texto">
+        <p>"O homem justo leva uma vida íntegra; como são bem-aventurados os seus filhos!"</p>
+      </div>
+    </div>
+
+    <div class="item" data-dur="180">
+      <div class="item-title">Ponto 1 — Viver os valores que prega
+        <span class="tempo-chip">3 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Diga: <mark class="fala">"Não basta FALAR de honestidade."</mark></li>
+        <li>Diga: <mark class="fala">"Tem que SER honesto."</mark></li>
+        <li>Diga: <mark class="fala">"As pessoas observam se você pratica o que prega."</mark></li>
+        <li>Diga: <mark class="fala">"Hipocrisia destrói testemunho."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="180">
+      <div class="item-title">Ponto 2 — Transparência: sem jeitinhos
+        <span class="tempo-chip">3 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Diga: <mark class="fala">"Cristão não dá jeitinho."</mark></li>
+        <li>Diga: <mark class="fala">"Cristão não compra voto."</mark></li>
+        <li>Diga: <mark class="fala">"Cristão não aceita corrupção."</mark></li>
+        <li>Diga: <mark class="fala">"Mesmo que todo mundo faça, VOCÊ não faz."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">Ponto 3 — Púlpito = Rua
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Diga: <mark class="fala">"O que você prega no domingo, você vive na segunda."</mark></li>
+        <li>Diga: <mark class="fala">"Seu voto reflete seus valores?"</mark></li>
+        <li>Diga: <mark class="fala">"Ou você vota pensando só no seu bolso?"</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">Aplicação — Pergunta de reflexão
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p>Faça: <mark class="fala">"Você vota em quem compartilha seus valores cristãos?"</mark></p>
+      <p>Faça: <mark class="fala">"Ou vota em quem promete mais benefícios?"</mark></p>
+      <p>Diga: <mark class="fala">"Integridade custa. Mas vale a pena."</mark></p>
+    </div>
+
+  </div>
+  <div class="versiculo-chave">📖 <b>Versículo-chave:</b> Provérbios 20:7 — "O justo anda em sua integridade"</div>
+</section>
+
+<!-- ========== 5º PÃO — MULTIPLICAÇÃO ========== -->
+<section class="bloco" style="--accent:var(--c-p5)">
+  <div class="bloco-head">
+    <h2>5º Pão da Multiplicação</h2>
+    <span class="janela">00:50 – 01:00</span>
+    <button class="start-btn" onclick="iniciarBloco(this,10,'5º Pão · Multiplicação (10 min)')">▶ Iniciar bloco · 10 min</button>
+    <div class="foco">Formar novos líderes cidadãos · Conceito: Reproduzir aquilo que acredita</div>
+  </div>
+  <div class="bloco-body">
+
+    <div class="intro-leitura">
+      <span class="slide-tag">SLIDE · 5º PÃO: MULTIPLICAÇÃO</span>
+      <p><span class="oquefazer">Introdução — o que fazer:</span> mostre o slide do 5º Pão, leia <span class="versiculo-tag">Mateus 28:19</span> e prepare o terreno para o Projeto 5x5.</p>
+      <div class="versiculo-texto">
+        <p>"Portanto, vão e façam discípulos de todas as nações, batizando-os em nome do Pai, do Filho e do Espírito Santo..."</p>
+      </div>
+    </div>
+
+    <div class="item" data-dur="180">
+      <div class="item-title">Ponto 1 — Jesus multiplicou, não apenas alimentou
+        <span class="tempo-chip">3 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Volte à história dos 5 pães</li>
+        <li>Diga: <mark class="fala">"Jesus não deu comida e pronto."</mark></li>
+        <li>Diga: <mark class="fala">"Ele MULTIPLICOU."</mark></li>
+        <li>Diga: <mark class="fala">"Esse é o padrão do Reino: MULTIPLICAÇÃO."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="180">
+      <div class="item-title">Ponto 2 — Líder forma outros líderes
+        <span class="tempo-chip">3 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Diga: <mark class="fala">"Líder verdadeiro não acumula poder."</mark></li>
+        <li>Diga: <mark class="fala">"Líder verdadeiro FORMA outros líderes."</mark></li>
+        <li>Diga: <mark class="fala">"Se você é o único que faz, algo está errado."</mark></li>
+        <li>Diga: <mark class="fala">"Cidadania se multiplica quando TODOS assumem papel."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">Ponto 3 — Não é "eu faço tudo"
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <ul>
+        <li>Diga: <mark class="fala">"Não é você fazer campanha sozinho."</mark></li>
+        <li>Diga: <mark class="fala">"É você ENSINAR todos a fazerem."</mark></li>
+        <li>Diga: <mark class="fala">"É você MULTIPLICAR essa consciência."</mark></li>
+        <li>Transição: <mark class="fala">"E é exatamente isso que faremos agora..."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">Aplicação — Pergunta de reflexão
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p>Diga: <mark class="fala">"Você está formando outros líderes cidadãos?"</mark></p>
+      <p>Diga: <mark class="fala">"A partir de AGORA você vai fazer isso."</mark></p>
+      <p>Diga: <mark class="fala">"Apresento a vocês: o PROJETO 5x5!"</mark></p>
+    </div>
+
+  </div>
+  <div class="versiculo-chave">📖 <b>Versículo-chave:</b> Mateus 28:19 — "Ide e fazei discípulos..."</div>
+</section>
+
+<!-- ========== PROJETO 5X5 ========== -->
+<section class="bloco" style="--accent:var(--c-din)">
+  <div class="bloco-head">
+    <h2>Projeto 5x5</h2>
+    <span class="janela">01:00 – 01:15</span>
+    <button class="start-btn" onclick="iniciarBloco(this,15,'Projeto 5x5 (15 min)')">▶ Iniciar bloco · 15 min</button>
+  </div>
+  <div class="bloco-body">
+
+    <div class="item" data-dur="180">
+      <div class="item-title">1. O que é o Projeto 5x5?
+        <span class="tempo-chip">3 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p><span class="oquedizer">O que dizer:</span></p>
+      <p class="fala-bloco"><mark class="fala">"Agora chegou o momento mais importante do seminário."</mark></p>
+      <p class="fala-bloco"><mark class="fala">"Você já viu os 5 Pães. Agora é hora de multiplicar."</mark></p>
+      <p class="fala-bloco"><mark class="fala">"O Projeto 5x5 é simples: você vai escolher 5 pessoas, pessoas próximas (família, amigos, colegas de trabalho) ou pessoas da igreja que ainda não estão tão perto de você, e vai ter, com cada uma delas, pelo menos uma conversa sobre cidadania consciente."</mark></p>
+      <p class="fala-bloco"><mark class="fala">"Não é campanha de boca de urna. Não é discurso. É relacionamento intencional."</mark></p>
+      <p class="fala-bloco"><mark class="fala">"Pensa assim: que cidade seus filhos e netos vão herdar? Esse legado está nas suas mãos agora."</mark></p>
+    </div>
+
+    <div class="item" data-dur="180">
+      <div class="item-title">2. Como conduzir a conversa
+        <span class="tempo-chip">3 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p><span class="oquefazer">O que fazer:</span> ensine o roteiro de 4 passos abaixo, com um exemplo rápido de cada. Peça que anotem os 4 passos no material.</p>
+      <p><span class="oquedizer">O que dizer:</span> <mark class="fala">"Vou te ensinar um caminho simples pra essa conversa. São 4 passos: Abrir, Ouvir, Compartilhar e Convidar."</mark></p>
+      <ol class="pontos">
+        <li><mark class="chave">ABRIR</mark> — Puxe o assunto com naturalidade, sem parecer campanha. Exemplo: <mark class="fala">"Você tem pensado na eleição desse ano?"</mark></li>
+        <li><mark class="chave">OUVIR</mark> — Antes de dar sua opinião, pergunte o que a pessoa pensa. Exemplo: <mark class="fala">"O que você acha que a gente mais precisa?"</mark></li>
+        <li><mark class="chave">COMPARTILHAR</mark> — Fale do seu próprio processo, sem doutrinar. Exemplo: <mark class="fala">"Eu tenho pensado muito nisso, e Deus tem me mostrado que..."</mark></li>
+        <li><mark class="chave">CONVIDAR</mark> — Pergunte se a pessoa topa continuar a conversa depois. Exemplo: <mark class="fala">"Posso te chamar de novo pra gente continuar esse papo?"</mark></li>
+      </ol>
+      <p class="fala-bloco"><mark class="fala">"Você não precisa fazer os 4 passos numa conversa só. Pode ser aos poucos, em conversas diferentes, ao longo das próximas semanas."</mark></p>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">3. Entrega do Material
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p><span class="oquefazer">O que fazer:</span></p>
+      <ul>
+        <li>Distribua o material "Meu Projeto 5x5" para TODOS</li>
+        <li>Explique cada campo: Nome, Contato, Observação</li>
+        <li>Diga: <mark class="fala">"Vocês vão preencher AGORA os 5 nomes."</mark></li>
+      </ul>
+    </div>
+
+    <div class="item" data-dur="300">
+      <div class="item-title">4. Preenchimento
+        <span class="tempo-chip">5 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <div class="callout callout-atencao">
+        <b class="tag">◼◼ Atenção — momento crítico</b>
+        <p><strong>NÃO avance</strong> para a conclusão até que TODOS tenham preenchido. Circule pela sala. Ajude quem estiver com dúvida.</p>
+        <p>Se alguém não conseguir pensar em 5 nomes, sugira: <u>família, trabalho, vizinhos</u>.</p>
+        <p><strong>Este é o CORAÇÃO do seminário. Não tenha pressa aqui!</strong></p>
+      </div>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">5. Como vamos acompanhar isso
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p><span class="oquedizer">O que dizer:</span></p>
+      <p class="fala-bloco"><mark class="fala">"Compromisso sem acompanhamento vira papel guardado na gaveta. Então vamos combinar duas coisas simples, bem leves:"</mark></p>
+      <p class="fala-bloco"><mark class="fala">"Primeiro: o líder de cidadania da nossa igreja vai abrir, de vez em quando, um espaço rápido nas reuniões pra quem quiser compartilhar uma conversa que teve dentro do Projeto 5x5. Sem cobrança, sem expor ninguém, só testemunho."</mark></p>
+      <p class="fala-bloco"><mark class="fala">"Segundo: em alguns momentos, ele vai mandar uma pergunta rápida e anônima pelo WhatsApp: quantas dessas conversas você já teve. Não é fiscalização, é só um jeito de manter o compromisso vivo, até a gente poder comemorar junto o que Deus fez através de cada um de vocês."</mark></p>
+      <div class="callout callout-responsavel">
+        <b class="tag">◼◼ Responsável pelo acompanhamento</b>
+        <p>Quem sustenta esse processo na igreja local é o <strong>líder de cidadania</strong>, com o apoio do pastor. O pastor dá o peso espiritual no início (é ele quem conduz a oração de compromisso); o líder de cidadania mantém o acompanhamento vivo nas semanas seguintes.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== CONCLUSÃO E DESAFIO ========== -->
+<section class="bloco" style="--accent:var(--c-fim)">
+  <div class="bloco-head">
+    <h2>Conclusão e Desafio</h2>
+    <span class="janela">01:15 – 01:20</span>
+    <button class="start-btn" onclick="iniciarBloco(this,5,'Conclusão e Desafio (5 min)')">▶ Iniciar bloco · 5 min</button>
+  </div>
+  <div class="bloco-body">
+
+    <div class="item" data-dur="60">
+      <div class="item-title">1. Recapitulação
+        <span class="tempo-chip">1 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p class="fala-bloco"><mark class="fala">"Hoje vimos os 5 Pães da Transformação:"</mark></p>
+      <ol class="pontos">
+        <li><mark class="chave">1º — Identidade:</mark> quem você é como líder cidadão</li>
+        <li><mark class="chave">2º — Responsabilidade:</mark> seus direitos e deveres</li>
+        <li><mark class="chave">3º — Influência:</mark> como você transforma o entorno</li>
+        <li><mark class="chave">4º — Integridade:</mark> coerência entre fé e prática</li>
+        <li><mark class="chave">5º — Multiplicação:</mark> formar novos líderes</li>
+      </ol>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">2. Ensaio Geral: o Gran Finale
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p><span class="oquefazer">O que fazer:</span></p>
+      <ul>
+        <li>Peça que todos peguem o cartão do Projeto 5x5 preenchido e segurem nas mãos</li>
+        <li>Explique o link com o momento de cidadania/oração pelo país que já existe nos cultos</li>
+      </ul>
+      <p><span class="oquedizer">O que dizer:</span></p>
+      <p class="fala-bloco"><mark class="fala">"O que vamos fazer agora não é algo que acontece só hoje e acaba. Isso é um ensaio."</mark></p>
+      <p class="fala-bloco"><mark class="fala">"Vocês já têm, no culto, um momento de oração pelo país. A partir de hoje, toda vez que esse momento acontecer, eu quero que vocês tragam esse cartão com os 5 nomes e orem especificamente por eles ali, junto com a igreja."</mark></p>
+      <p class="fala-bloco"><mark class="fala">"Guarda esse cartão na Bíblia, na carteira, onde for. Ele não é pra ficar exposto em lugar nenhum. Ele só precisa estar com você na próxima vez que a igreja abrir esse momento de oração, porque, a partir de agora, esse momento também é seu."</mark></p>
+    </div>
+
+    <div class="item" data-dur="120">
+      <div class="item-title">3. Oração de Compromisso
+        <span class="tempo-chip">2 min</span>
+        <span class="live-badge">⏳</span>
+      </div>
+      <p><span class="oquefazer">Conduza assim:</span></p>
+      <ol class="pontos">
+        <li>"Segura o cartão. Ore pelos 5 nomes que estão nos cartões." <span class="pausa">(30 segundos em silêncio)</span></li>
+        <li>Ore em voz alta pelo grupo todo:</li>
+      </ol>
+      <div class="callout callout-oracao">
+        <b class="tag" style="background:#6B4C6B;">◼◼ Oração sugerida</b>
+        <p>"Senhor, vamos fazer agora, juntos, o que cada um vai repetir sozinho daqui pra frente. Que essas conversas aconteçam, e que através delas, essa cidade seja transformada. Amém."</p>
+      </div>
+    </div>
+
+    <div class="callout callout-check" style="border-color:var(--gold);">
+      <b class="tag">Palavra de encerramento</b>
+      <p class="fala-bloco"><mark class="fala">"Obrigado por terem separado esse tempo de vocês hoje. Vocês não são só líderes de igreja, vocês são líderes de cidade, e o que vocês fizeram aqui, entregando esses 5 nomes, é um passo pequeno que Deus pode transformar em algo enorme."</mark></p>
+      <p style="text-align:center;font-weight:bold;font-style:italic;font-size:18px;color:var(--gold);">"Que sejamos como sal e luz."</p>
+      <p style="text-align:center;"><strong>Benção final.</strong></p>
+    </div>
+
+  </div>
+</section>
+
+<footer class="rodape">Região Eclesiástica 655 · IEQ Londrina, PR — Material de uso interno do facilitador</footer>
+
+<!-- ========== TOOLBAR FLUTUANTE ========== -->
+<div id="toolbar">
+  <div class="row1">
+    <span class="label" id="tb-label">Selecione um bloco para iniciar</span>
+    <span class="clock" id="tb-clock">00:00</span>
+  </div>
+  <div id="tb-aviso-msg">⚠️ Faltam 2 minutos para o fim deste bloco</div>
+  <div class="controls">
+    <button id="btn-play" onclick="togglePlay()">▶ Iniciar</button>
+    <button id="btn-reset" onclick="resetCron()">↺ Zerar</button>
+    <button id="btn-print" onclick="window.print()">🖨 Imprimir A4</button>
+  </div>
+</div>
+
+<script>
+  // ----- Detecção de dispositivo -----
+  function detectarDispositivo(){
+    var w = window.innerWidth;
+    var device = w < 640 ? 'Celular' : (w < 1024 ? 'Tablet' : 'Computador');
+    document.getElementById('device-badge').textContent = '📱 Visualizando em: ' + device;
+    document.body.setAttribute('data-device', device);
+  }
+  window.addEventListener('resize', detectarDispositivo);
+  detectarDispositivo();
+
+  // ----- Cronômetro por bloco (com sub-itens automáticos) -----
+  var blockInterval = null;
+  var blockElapsed = 0;
+  var blockTotalSec = 0;
+  var blockItems = [];
+  var blockRunning = false;
+
+  function formatar(s){
+    if(s < 0) s = 0;
+    var m = Math.floor(s/60);
+    var ss = s % 60;
+    return (m<10?'0':'')+m+':'+(ss<10?'0':'')+ss;
+  }
+
+  function iniciarBloco(btn, totalMinutos, label){
+    var section = btn.closest('section.bloco');
+    if(blockInterval){ clearInterval(blockInterval); }
+
+    // reset visual de todos os badges (de todo o documento)
+    document.querySelectorAll('.live-badge').forEach(function(b){
+      b.textContent = '⏳';
+      b.classList.remove('ativo','feito');
+    });
+
+    var itemEls = section.querySelectorAll('.item[data-dur]');
+    var cum = 0;
+    blockItems = [];
+    itemEls.forEach(function(el){
+      var dur = parseInt(el.getAttribute('data-dur'), 10);
+      var badge = el.querySelector('.live-badge');
+      blockItems.push({el:el, dur:dur, start:cum, end:cum+dur, badge:badge});
+      cum += dur;
+    });
+
+    blockTotalSec = totalMinutos*60;
+    blockElapsed = 0;
+    document.getElementById('tb-label').textContent = label;
+    document.getElementById('toolbar').classList.remove('alerta','aviso');
+    atualizarFloating();
+    blockRunning = true;
+    document.getElementById('btn-play').textContent = '⏸ Pausar';
+    blockInterval = setInterval(tickBloco, 1000);
+  }
+
+  function atualizarFloating(){
+    var restante = blockTotalSec - blockElapsed;
+    document.getElementById('tb-clock').textContent = formatar(restante);
+  }
+
+  function tickBloco(){
+    var toolbar = document.getElementById('toolbar');
+
+    if(blockElapsed >= blockTotalSec){
+      clearInterval(blockInterval);
+      blockRunning = false;
+      toolbar.classList.remove('aviso');
+      toolbar.classList.add('alerta');
+      document.getElementById('btn-play').textContent = '▶ Iniciar';
+      blockItems.forEach(function(it){
+        if(it.badge){ it.badge.textContent = '✔'; it.badge.classList.remove('ativo'); it.badge.classList.add('feito'); }
+      });
+      return;
+    }
+
+    blockElapsed++;
+    var restante = blockTotalSec - blockElapsed;
+    atualizarFloating();
+
+    if(restante <= 120 && restante > 0){
+      toolbar.classList.add('aviso');
+    } else {
+      toolbar.classList.remove('aviso');
+    }
+
+    blockItems.forEach(function(it){
+      if(!it.badge) return;
+      if(blockElapsed < it.start){
+        it.badge.textContent = '⏳';
+        it.badge.classList.remove('ativo','feito');
+      } else if(blockElapsed >= it.start && blockElapsed < it.end){
+        var rem = it.end - blockElapsed;
+        it.badge.textContent = '🔴 ' + formatar(rem);
+        it.badge.classList.add('ativo');
+        it.badge.classList.remove('feito');
+      } else {
+        it.badge.textContent = '✔';
+        it.badge.classList.remove('ativo');
+        it.badge.classList.add('feito');
+      }
+    });
+  }
+
+  function togglePlay(){
+    if(blockTotalSec === 0){ return; }
+    if(blockRunning){
+      clearInterval(blockInterval);
+      blockRunning = false;
+      document.getElementById('btn-play').textContent = '▶ Continuar';
+    } else {
+      blockRunning = true;
+      document.getElementById('btn-play').textContent = '⏸ Pausar';
+      blockInterval = setInterval(tickBloco, 1000);
+    }
+  }
+
+  function resetCron(){
+    clearInterval(blockInterval);
+    blockRunning = false;
+    blockElapsed = 0;
+    document.getElementById('toolbar').classList.remove('alerta','aviso');
+    document.getElementById('btn-play').textContent = '▶ Iniciar';
+    atualizarFloating();
+    blockItems.forEach(function(it){
+      if(it.badge){ it.badge.textContent = '⏳'; it.badge.classList.remove('ativo','feito'); }
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -215,6 +215,20 @@
     }
     .badge-open { background: #E6F4EA; color: #2E7D32; }
     .badge-lock { background: #FFF3E0; color: #E65100; }
+    .badge-star { background: rgba(200,169,81,.2); color: var(--gold); }
+
+    /* ── CARD DESTACADO ── */
+    .card.card-destaque {
+      background: var(--navy);
+      border: 2px solid var(--gold);
+      box-shadow: 0 6px 26px rgba(30,58,95,0.30);
+    }
+    .card-destaque .card-icon.gold-icon { background: rgba(200,169,81,.18); }
+    .card-destaque .card-tag { color: var(--gold); }
+    .card-destaque .card-title { color: #fff; }
+    .card-destaque .card-desc { color: var(--blue-light); }
+    .card-destaque .card-arrow { color: rgba(255,255,255,.5); }
+    .card-destaque:hover { box-shadow: 0 10px 34px rgba(30,58,95,0.42); }
 
     .card-arrow {
       color: #ccc;
@@ -284,6 +298,19 @@
 
     <!-- Materiais -->
     <div class="section-label">Materiais</div>
+
+    <a href="roteiro-facilitador.html" class="card card-destaque">
+      <div class="card-body">
+        <div class="card-icon gold-icon">🍞</div>
+        <div class="card-info">
+          <div class="card-tag">Seminário de Cidadania · Os 5 Pães</div>
+          <div class="card-title">Material do Facilitador</div>
+          <div class="card-desc">Roteiro completo do seminário (80 min): cronômetro por bloco, falas sugeridas, versículos e o Projeto 5x5. Para quem vai conduzir.</div>
+          <span class="badge badge-star">⭐ Material destacado</span>
+        </div>
+        <div class="card-arrow">›</div>
+      </div>
+    </a>
 
     <a href="resumo.html" class="card">
       <div class="card-stripe gold"></div>

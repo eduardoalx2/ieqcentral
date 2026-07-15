@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscrições — Congresso de Jovens</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@0.300.0"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0f0b1e; /* Fundo escuro roxo */
+      color: #e0def4;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #18132e;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #4c1d95;
+      border-radius: 3px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #6d28d9;
+    }
+    .glass-card {
+      background: rgba(30, 23, 58, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(109, 40, 217, 0.2);
+    }
+    .input-dark {
+      background: #140e2d;
+      border: 1px solid rgba(109, 40, 217, 0.4);
+      color: #f3f4f6;
+    }
+    .input-dark:focus {
+      border-color: #a78bfa;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.2);
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-12">
+
+  <!-- Cabeçalho -->
+  <header class="bg-gradient-to-r from-violet-950 via-indigo-900 to-violet-950 border-b border-violet-900/60 sticky top-0 z-40 shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-violet-300 hover:text-violet-100 transition-colors flex items-center gap-1 font-semibold text-sm">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i> Painel
+        </a>
+        <span class="text-violet-700">|</span>
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🔥</span>
+          <div>
+            <h1 class="font-bold text-lg text-white leading-none">Inscrições de Jovens</h1>
+            <p class="text-[10px] text-violet-400 mt-1 uppercase tracking-wider font-semibold">Congresso Estadual de Jovens 2026</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="exportarCSV()" class="bg-violet-900/40 hover:bg-violet-900/70 border border-violet-700/50 text-violet-200 text-xs font-semibold px-3 py-2 rounded-xl transition-all flex items-center gap-1">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar
+        </button>
+        <button onclick="window.print()" class="bg-violet-900/40 hover:bg-violet-900/70 border border-violet-700/50 text-violet-200 text-xs font-semibold px-3 py-2 rounded-xl transition-all flex items-center gap-1">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i> Imprimir
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 mt-6">
+
+    <!-- Mini Cards de Estatísticas -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="glass-card rounded-2xl p-4 shadow-sm text-center">
+        <p class="text-3xl font-extrabold text-white" id="stat-total">0</p>
+        <p class="text-[10px] text-violet-400 mt-1 font-bold uppercase tracking-wide">Total Geral</p>
+      </div>
+      <div class="glass-card rounded-2xl p-4 shadow-sm text-center">
+        <p class="text-3xl font-extrabold text-emerald-400" id="stat-masc">0</p>
+        <p class="text-[10px] text-violet-400 mt-1 font-bold uppercase tracking-wide">Masculino</p>
+      </div>
+      <div class="glass-card rounded-2xl p-4 shadow-sm text-center">
+        <p class="text-3xl font-extrabold text-pink-400" id="stat-fem">0</p>
+        <p class="text-[10px] text-violet-400 mt-1 font-bold uppercase tracking-wide">Feminino</p>
+      </div>
+      <div class="glass-card rounded-2xl p-4 shadow-sm text-center">
+        <p class="text-3xl font-extrabold text-violet-400" id="stat-igrejas">0</p>
+        <p class="text-[10px] text-violet-400 mt-1 font-bold uppercase tracking-wide">Igrejas Ativas</p>
+      </div>
+    </div>
+
+    <!-- Barra de Filtros e Busca -->
+    <div class="glass-card rounded-2xl p-4 mb-6">
+      <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
+        <div class="flex-1 relative">
+          <i data-lucide="search" class="w-4 h-4 text-violet-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="filtro-busca" oninput="aplicarFiltros()" placeholder="Buscar por nome, CPF ou e-mail..." 
+            class="w-full input-dark pl-10 pr-4 py-2.5 rounded-xl text-sm" />
+        </div>
+        <div class="w-full md:w-56">
+          <select id="filtro-igreja" onchange="aplicarFiltros()" class="w-full input-dark px-4 py-2.5 rounded-xl text-sm">
+            <option value="">Todas as Igrejas</option>
+          </select>
+        </div>
+        <div class="w-full md:w-44">
+          <select id="filtro-sexo" onchange="aplicarFiltros()" class="w-full input-dark px-4 py-2.5 rounded-xl text-sm">
+            <option value="">Todos os Sexos</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+          </select>
+        </div>
+        <button onclick="abrirModalInscricao()" class="bg-violet-600 hover:bg-violet-500 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all shadow-md hover:shadow-violet-600/25 flex items-center justify-center gap-1.5 whitespace-nowrap">
+          <i data-lucide="plus" class="w-4 h-4"></i> Nova Inscrição
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabela / Listagem -->
+    <div class="glass-card rounded-2xl overflow-hidden shadow-md">
+      <div class="overflow-x-auto custom-scrollbar">
+        <table class="w-full text-left border-collapse table-auto">
+          <thead>
+            <tr class="border-b border-violet-900/60 bg-violet-950/40 text-violet-300 font-semibold text-xs uppercase tracking-wider">
+              <th class="px-5 py-3.5">Nome Completo</th>
+              <th class="px-5 py-3.5">CPF</th>
+              <th class="px-5 py-3.5 hidden md:table-cell">Nascimento</th>
+              <th class="px-5 py-3.5">Sexo</th>
+              <th class="px-5 py-3.5 hidden lg:table-cell">E-mail</th>
+              <th class="px-5 py-3.5">Igreja</th>
+              <th class="px-5 py-3.5 text-center w-28">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-inscritos" class="divide-y divide-violet-950/40 text-sm">
+            <tr>
+              <td colspan="7" class="text-center py-10 text-violet-400">
+                <div class="flex flex-col items-center gap-2">
+                  <i data-lucide="loader" class="w-6 h-6 animate-spin text-violet-500"></i>
+                  <span>Carregando inscrições...</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Modal Formulário de Inscrição -->
+  <div id="modal-inscricao" class="hidden fixed inset-0 bg-black/70 z-50 items-center justify-center p-4">
+    <div class="glass-card bg-[#140f29] rounded-2xl shadow-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto custom-scrollbar border border-violet-700/40">
+      <div class="flex justify-between items-center mb-5 border-b border-violet-900/60 pb-3">
+        <h2 class="font-bold text-white text-lg flex items-center gap-2" id="modal-titulo">
+          <i data-lucide="user-plus" class="w-5 h-5 text-violet-400"></i> Nova Inscrição de Jovem
+        </h2>
+        <button onclick="fecharModalInscricao()" class="text-violet-400 hover:text-violet-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <input type="hidden" id="field-id" />
+
+      <form id="form-inscricao" onsubmit="salvarInscricao(event)" class="space-y-4">
+        <div>
+          <label class="text-xs font-semibold text-violet-300 block mb-1">Igreja Vinculada *</label>
+          <select id="field-igreja" required class="w-full input-dark px-4 py-2.5 rounded-xl text-sm">
+            <option value="">Selecione a igreja...</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-violet-300 block mb-1">Nome Completo *</label>
+          <input id="field-nome" type="text" placeholder="Nome completo do jovem" required
+            class="w-full input-dark px-4 py-2.5 rounded-xl text-sm" />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-semibold text-violet-300 block mb-1">CPF *</label>
+            <input id="field-cpf" type="text" placeholder="000.000.000-00" required maxlength="14" oninput="mascaraCPF(this)"
+              class="w-full input-dark px-4 py-2.5 rounded-xl text-sm font-mono" />
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-violet-300 block mb-1">Data de Nascimento *</label>
+            <input id="field-nascimento" type="date" required
+              class="w-full input-dark px-4 py-2.5 rounded-xl text-sm" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-semibold text-violet-300 block mb-1">Sexo *</label>
+            <div class="flex gap-2">
+              <label class="flex-1 flex items-center justify-center gap-2 border border-violet-800/40 rounded-xl px-4 py-2.5 cursor-pointer hover:border-violet-500 transition-colors" id="label-masc">
+                <input type="radio" name="sexo" value="Masculino" required class="accent-violet-600" /> <span class="text-sm font-medium">Masculino</span>
+              </label>
+              <label class="flex-1 flex items-center justify-center gap-2 border border-violet-800/40 rounded-xl px-4 py-2.5 cursor-pointer hover:border-violet-500 transition-colors" id="label-fem">
+                <input type="radio" name="sexo" value="Feminino" required class="accent-violet-600" /> <span class="text-sm font-medium">Feminino</span>
+              </label>
+            </div>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-violet-300 block mb-1">E-mail *</label>
+            <input id="field-email" type="email" placeholder="email@dominio.com" required
+              class="w-full input-dark px-4 py-2.5 rounded-xl text-sm" />
+          </div>
+        </div>
+
+        <div class="flex gap-3 pt-4 border-t border-violet-900/60 mt-6">
+          <button type="button" onclick="fecharModalInscricao()" class="flex-1 border border-violet-800/60 text-violet-300 font-semibold py-2.5 rounded-xl hover:bg-violet-900/30 transition-colors text-sm">Cancelar</button>
+          <button type="submit" id="btn-submit" class="flex-1 bg-violet-600 hover:bg-violet-500 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm">Confirmar Inscrição</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { apiGet, apiPost, showToast, checkAdminSession, formatBRL } from './js/config.js';
+
+    // Proteção básica por senha no carregamento
+    if (!checkAdminSession()) {
+      showToast('Sessão expirada ou não autorizada!', 'error');
+      window.location.replace('index.html');
+    }
+
+    let inscritos = [];
+    let igrejas = [];
+
+    // Carregar dados e inicializar
+    async function inicializar() {
+      try {
+        [igrejas, inscritos] = await Promise.all([
+          apiGet('getIgrejas'),
+          apiGet('getInscritos')
+        ]);
+
+        // Preencher select de igrejas do formulário e filtro
+        const selectFiltro = document.getElementById('filtro-igreja');
+        const selectForm = document.getElementById('field-igreja');
+        
+        // Ordenar igrejas por nome
+        igrejas.sort((a,b) => a.nome.localeCompare(b.nome));
+
+        selectFiltro.innerHTML = '<option value="">Todas as Igrejas</option>' + 
+          igrejas.map(ig => `<option value="${ig.id}">${ig.nome}</option>`).join('');
+
+        selectForm.innerHTML = '<option value="">Selecione a igreja...</option>' + 
+          igrejas.map(ig => `<option value="${ig.id}">${ig.nome}</option>`).join('');
+
+        renderizarEstatisticas();
+        renderizarTabela(inscritos);
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    function renderizarEstatisticas(lista = inscritos) {
+      document.getElementById('stat-total').textContent = lista.length;
+      document.getElementById('stat-masc').textContent = lista.filter(x => x.sexo === 'Masculino').length;
+      document.getElementById('stat-fem').textContent = lista.filter(x => x.sexo === 'Feminino').length;
+      
+      const igrejasAtivas = [...new Set(lista.map(x => x.igrejaId))].length;
+      document.getElementById('stat-igrejas').textContent = igrejasAtivas;
+    }
+
+    function renderizarTabela(lista) {
+      const tbody = document.getElementById('tabela-inscritos');
+      
+      if (lista.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center py-12 text-violet-400/60">
+              <i data-lucide="users-2" class="w-8 h-8 mx-auto mb-2 text-violet-500/50"></i>
+              <p class="font-medium">Nenhum jovem inscrito encontrado.</p>
+            </td>
+          </tr>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      tbody.innerHTML = lista.map(ins => `
+        <tr class="hover:bg-violet-950/20 border-b border-violet-950/30 transition-colors">
+          <td class="px-5 py-3 font-semibold text-white">${ins.nomeCompleto}</td>
+          <td class="px-5 py-3 font-mono text-xs text-violet-300">${ins.cpf}</td>
+          <td class="px-5 py-3 hidden md:table-cell">${ins.dataNascimento}</td>
+          <td class="px-5 py-3">
+            <span class="text-xs px-2 py-0.5 rounded-full font-semibold ${ins.sexo === 'Masculino' ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-900' : 'bg-pink-950/60 text-pink-300 border border-pink-900'}">${ins.sexo}</span>
+          </td>
+          <td class="px-5 py-3 hidden lg:table-cell text-violet-300">${ins.email}</td>
+          <td class="px-5 py-3 text-violet-200 font-medium">${ins.igrejaNome}</td>
+          <td class="px-5 py-3 text-center">
+            <div class="flex items-center justify-center gap-3">
+              <button onclick="window.editarInscricao('${ins.id}')" class="text-violet-400 hover:text-violet-200" title="Editar">
+                <i data-lucide="edit-3" class="w-4 h-4"></i>
+              </button>
+              <button onclick="window.excluirInscricao('${ins.id}')" class="text-rose-400 hover:text-rose-200" title="Excluir">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+      
+      lucide.createIcons();
+    }
+
+    // Filtros
+    window.aplicarFiltros = function() {
+      const busca = document.getElementById('filtro-busca').value.toLowerCase().trim();
+      const igrejaId = document.getElementById('filtro-igreja').value;
+      const sexo = document.getElementById('filtro-sexo').value;
+
+      let filtrados = inscritos;
+
+      if (busca) {
+        filtrados = filtrados.filter(x => 
+          x.nomeCompleto.toLowerCase().includes(busca) || 
+          x.cpf.includes(busca) || 
+          x.email.toLowerCase().includes(busca)
+        );
+      }
+
+      if (igrejaId) {
+        filtrados = filtrados.filter(x => x.igrejaId === igrejaId);
+      }
+
+      if (sexo) {
+        filtrados = filtrados.filter(x => x.sexo === sexo);
+      }
+
+      renderizarTabela(filtrados);
+      renderizarEstatisticas(filtrados);
+    };
+
+    // Modal Inscrição
+    window.abrirModalInscricao = function() {
+      document.getElementById('field-id').value = '';
+      document.getElementById('form-inscricao').reset();
+      document.getElementById('modal-titulo').innerHTML = '<i data-lucide="user-plus" class="w-5 h-5 text-violet-400"></i> Nova Inscrição de Jovem';
+      document.getElementById('modal-inscricao').classList.remove('hidden');
+      document.getElementById('modal-inscricao').classList.add('flex');
+      lucide.createIcons();
+    };
+
+    window.fecharModalInscricao = function() {
+      document.getElementById('modal-inscricao').classList.add('hidden');
+      document.getElementById('modal-inscricao').classList.remove('flex');
+    };
+
+    // Edição
+    window.editarInscricao = function(id) {
+      const ins = inscritos.find(x => x.id === id);
+      if (!ins) return;
+
+      document.getElementById('field-id').value = ins.id;
+      document.getElementById('field-nome').value = ins.nomeCompleto;
+      document.getElementById('field-cpf').value = ins.cpf;
+      
+      // Converte data para input date: dd/mm/aaaa -> yyyy-mm-dd
+      const [d, m, y] = ins.dataNascimento.split('/');
+      document.getElementById('field-nascimento').value = `${y}-${m}-${d}`;
+      
+      document.getElementById('field-email').value = ins.email;
+      document.getElementById('field-igreja').value = ins.igrejaId;
+
+      // Sexo
+      document.querySelectorAll('input[name="sexo"]').forEach(r => {
+        r.checked = r.value === ins.sexo;
+      });
+
+      document.getElementById('modal-titulo').innerHTML = '<i data-lucide="user-cog" class="w-5 h-5 text-violet-400"></i> Editar Inscrição de Jovem';
+      document.getElementById('modal-inscricao').classList.remove('hidden');
+      document.getElementById('modal-inscricao').classList.add('flex');
+      lucide.createIcons();
+    };
+
+    // Exclusão
+    window.excluirInscricao = async function(id) {
+      const ins = inscritos.find(x => x.id === id);
+      if (!ins) return;
+
+      if (confirm(`Tem certeza que deseja excluir a inscrição de ${ins.nomeCompleto}?`)) {
+        try {
+          showToast('Removendo inscrição...', 'info');
+          const res = await apiPost('deleteInscrito', { id });
+          if (res.ok) {
+            showToast('Inscrição removida com sucesso!');
+            // Recarregar
+            inscritos = await apiGet('getInscritos');
+            aplicarFiltros();
+          } else {
+            showToast(res.error || 'Erro ao remover inscrição', 'error');
+          }
+        } catch(e) {
+          showToast(e.message, 'error');
+        }
+      }
+    };
+
+    // Salvar (Insert/Update)
+    window.salvarInscricao = async function(e) {
+      e.preventDefault();
+      
+      const id = document.getElementById('field-id').value;
+      const igrejaId = document.getElementById('field-igreja').value;
+      const nomeCompleto = document.getElementById('field-nome').value.trim();
+      const cpf = document.getElementById('field-cpf').value.trim();
+      
+      // Converte nascimento de yyyy-mm-dd para dd/mm/yyyy
+      const nascRaw = document.getElementById('field-nascimento').value;
+      const [y, m, d] = nascRaw.split('-');
+      const dataNascimento = `${d}/${m}/${y}`;
+      
+      const sexo = document.querySelector('input[name="sexo"]:checked').value;
+      const email = document.getElementById('field-email').value.trim().toLowerCase();
+
+      // Validação CPF
+      if (!validarCPF(cpf)) {
+        showToast('Por favor, informe um CPF válido.', 'error');
+        document.getElementById('field-cpf').focus();
+        return;
+      }
+
+      // Validar Nome Completo
+      if (nomeCompleto.split(' ').filter(x => x.length > 0).length < 2) {
+        showToast('Por favor, digite o nome completo.', 'error');
+        document.getElementById('field-nome').focus();
+        return;
+      }
+
+      const igrejaObj = igrejas.find(x => x.id === igrejaId);
+      const igrejaNome = igrejaObj ? igrejaObj.nome : '';
+
+      const btn = document.getElementById('btn-submit');
+      btn.disabled = true;
+      btn.textContent = 'Salvando...';
+
+      const payload = {
+        id, nomeCompleto, cpf, dataNascimento, sexo, email, igrejaId, igrejaNome
+      };
+
+      try {
+        let res;
+        if (id) {
+          res = await apiPost('editInscrito', { data: payload });
+        } else {
+          res = await apiPost('addInscrito', { data: payload });
+        }
+
+        if (res.ok) {
+          showToast(id ? 'Inscrição atualizada com sucesso!' : 'Inscrição realizada com sucesso!');
+          fecharModalInscricao();
+          // Recarregar
+          inscritos = await apiGet('getInscritos');
+          aplicarFiltros();
+        } else {
+          showToast(res.error || 'Erro ao salvar dados.', 'error');
+        }
+      } catch (err) {
+        showToast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Confirmar Inscrição';
+      }
+    };
+
+    // Máscara de CPF
+    window.mascaraCPF = function(i) {
+      let v = i.value;
+      v = v.replace(/\D/g, "");
+      v = v.replace(/(\d{3})(\d)/, "$1.$2");
+      v = v.replace(/(\d{3})(\d)/, "$1.$2");
+      v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+      i.value = v;
+    };
+
+    // Validador de CPF
+    function validarCPF(cpf) {
+      cpf = cpf.replace(/[^\d]+/g, '');
+      if (cpf === '' || cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+      let add = 0;
+      for (let i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+      let rev = 11 - (add % 11);
+      if (rev === 10 || rev === 11) rev = 0;
+      if (rev !== parseInt(cpf.charAt(9))) return false;
+      add = 0;
+      for (let i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+      rev = 11 - (add % 11);
+      if (rev === 10 || rev === 11) rev = 0;
+      if (rev !== parseInt(cpf.charAt(10))) return false;
+      return true;
+    }
+
+    // Exportar CSV
+    window.exportarCSV = function() {
+      if (inscritos.length === 0) {
+        showToast('Nenhum registro para exportar.', 'warning');
+        return;
+      }
+
+      const headers = ['Nome Completo', 'CPF', 'Data Nascimento', 'Sexo', 'E-mail', 'Igreja', 'Data Inscrição'];
+      const rows = inscritos.map(ins => [
+        ins.nomeCompleto,
+        ins.cpf,
+        ins.dataNascimento,
+        ins.sexo,
+        ins.email,
+        ins.igrejaNome,
+        ins.dataInscricao
+      ]);
+
+      const csvContent = "\uFEFF" + [
+        headers.join(';'),
+        ...rows.map(r => r.map(val => `"${val.replace(/"/g, '""')}"`).join(';'))
+      ].join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `inscritos_jovens_reg655_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+    // Inicialização do Lucide
+    lucide.createIcons();
+    inicializar();
+  </script>
+</body>
+</html>

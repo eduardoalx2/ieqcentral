@@ -233,8 +233,8 @@
       // Oculta filtro de status para rel 1
       document.getElementById('filtro-status-wrap').style.display = n === 1 ? 'none' : '';
       // Relatório 4 (despesas): esconde filtros por igreja/status e mostra o painel de gestão
-      document.getElementById('card-filtros').style.display    = n === 4 ? 'none' : '';
-      document.getElementById('painel-despesas').style.display = n === 4 ? '' : 'none';
+      document.getElementById('card-filtros').classList.toggle('hidden', n === 4);
+      document.getElementById('painel-despesas').classList.toggle('hidden', n !== 4);
       renderizarRelatorio();
     };
 

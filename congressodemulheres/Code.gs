@@ -15,7 +15,8 @@ function inicializarPlanilha() {
   const config = {
     igrejas:    ['id', 'nome', 'qtdVagas'],
     inscritas:  ['id', 'nomeCompleto', 'cpf', 'email', 'dataNascimento', 'whatsapp', 'igrejaId', 'igrejaNome', 'dataInscricao'],
-    pagamentos: ['id', 'igrejaId', 'igrejaNome', 'valor', 'formaPagamento', 'conferido', 'dataLancamento', 'observacao', 'dataDeposito']
+    pagamentos: ['id', 'igrejaId', 'igrejaNome', 'valor', 'formaPagamento', 'conferido', 'dataLancamento', 'observacao', 'dataDeposito'],
+    despesas:   ['id', 'valor', 'data', 'descricao', 'notaFiscal', 'dataLancamento']
   };
   for (const [name, headers] of Object.entries(config)) {
     const sheet = getSheet(name);
@@ -99,6 +100,7 @@ function doGet(e) {
       case 'getIgrejas':    result = sheetToArray('igrejas');    break;
       case 'getInscricoes': result = sheetToArray('inscritas');  break;
       case 'getPagamentos': result = sheetToArray('pagamentos'); break;
+      case 'getDespesas':   result = sheetToArray('despesas');   break;
       case 'init':          inicializarPlanilha(); result = { ok: true }; break;
       default:              result = { error: 'Ação não encontrada: ' + p.action };
     }
@@ -130,6 +132,9 @@ function processPost(body) {
     case 'addPagamento':    return addPagamento(body.data);
     case 'editPagamento':   return editPagamento(body.data);
     case 'deletePagamento': return deleteRow('pagamentos', body.id);
+    case 'addDespesa':      return addDespesa(body.data);
+    case 'editDespesa':     return editDespesa(body.data);
+    case 'deleteDespesa':   return deleteRow('despesas', body.id);
     default:                return { error: 'Ação não encontrada: ' + body.action };
   }
 }
@@ -191,6 +196,37 @@ function editPagamento(data) {
     Number(data.valor), data.formaPagamento, data.conferido || 'nao',
     data.dataLancamento || sheet.getRange(row, 7).getValue(),
     data.observacao || '', data.dataDeposito || ''
+  ]]);
+  return { ok: true };
+}
+
+// ── DESPESAS (SAÍDAS) ────────────────────────────────────────
+function garantirCabecalhoDespesas(sheet) {
+  if (sheet.getLastRow() === 0) {
+    const headers = ['id', 'valor', 'data', 'descricao', 'notaFiscal', 'dataLancamento'];
+    sheet.appendRow(headers);
+    sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#e11d48').setFontColor('#ffffff');
+    sheet.setFrozenRows(1);
+  }
+}
+
+function addDespesa(data) {
+  const id    = gerarId();
+  const now   = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+  const sheet = getSheet('despesas');
+  garantirCabecalhoDespesas(sheet);
+  sheet.appendRow([
+    id, Number(data.valor), data.data || '',
+    data.descricao || '', data.notaFiscal || 'nao', now
+  ]);
+  return { ok: true, id };
+}
+
+function editDespesa(data) {
+  const row = findRowById('despesas', data.id);
+  if (row === -1) return { ok: false, error: 'Despesa não encontrada' };
+  getSheet('despesas').getRange(row, 2, 1, 4).setValues([[
+    Number(data.valor), data.data || '', data.descricao || '', data.notaFiscal || 'nao'
   ]]);
   return { ok: true };
 }

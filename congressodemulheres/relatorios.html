@@ -46,7 +46,7 @@
     <!-- Seletor de relatório -->
     <div class="bg-white rounded-2xl shadow-sm border border-rose-100 p-6 mb-6">
       <h2 class="font-semibold text-slate-800 mb-4">Selecione o Relatório</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <button onclick="setRel(1)" id="btn-rel-1"
           class="p-4 rounded-xl border-2 text-left transition-all border-rose-500 bg-rose-50">
           <div class="text-xl mb-1">🚌</div>
@@ -65,11 +65,17 @@
           <div class="font-semibold text-sm text-slate-800">Situação Financeira</div>
           <div class="text-xs text-slate-500 mt-1">Pagamentos por igreja</div>
         </button>
+        <button onclick="setRel(4)" id="btn-rel-4"
+          class="p-4 rounded-xl border-2 text-left transition-all border-slate-200 hover:border-rose-300">
+          <div class="text-xl mb-1">💸</div>
+          <div class="font-semibold text-sm text-slate-800">Despesas / Caixa</div>
+          <div class="text-xs text-slate-500 mt-1">Saídas e saldo do caixa</div>
+        </button>
       </div>
     </div>
 
     <!-- Filtros -->
-    <div class="bg-white rounded-2xl shadow-sm border border-rose-100 p-6 mb-6">
+    <div id="card-filtros" class="bg-white rounded-2xl shadow-sm border border-rose-100 p-6 mb-6">
       <h2 class="font-semibold text-slate-800 mb-4">Filtros</h2>
       <div class="flex flex-col sm:flex-row gap-4">
         <div class="flex-1">
@@ -90,6 +96,42 @@
           </select>
         </div>
       </div>
+    </div>
+
+    <!-- Gestão de Despesas (só relatório 4) -->
+    <div id="painel-despesas" class="hidden bg-white rounded-2xl shadow-sm border border-rose-100 p-6 mb-6">
+      <h2 class="font-semibold text-slate-800 mb-4" id="desp-form-titulo">Registrar Saída / Despesa</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+        <div>
+          <label class="text-sm font-medium text-slate-700 block mb-1">Valor (R$) *</label>
+          <input id="desp-valor" type="number" min="0" step="0.01" placeholder="0,00"
+            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300" />
+        </div>
+        <div>
+          <label class="text-sm font-medium text-slate-700 block mb-1">Data *</label>
+          <input id="desp-data" type="date"
+            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300" />
+        </div>
+        <div class="sm:col-span-2">
+          <label class="text-sm font-medium text-slate-700 block mb-1">Descrição *</label>
+          <input id="desp-descricao" type="text" placeholder="Ex: Aluguel de som"
+            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300" />
+        </div>
+      </div>
+      <div class="flex items-center justify-between mt-3 flex-wrap gap-3">
+        <label class="flex items-center gap-2 cursor-pointer select-none">
+          <input id="desp-nf" type="checkbox" class="accent-rose-500 w-4 h-4" />
+          <span class="text-sm text-slate-700">Possui nota fiscal</span>
+        </label>
+        <div class="flex gap-2">
+          <button id="desp-cancel" onclick="cancelarEdicaoDespesa()"
+            class="hidden border border-slate-200 text-slate-600 font-semibold px-4 py-2.5 rounded-xl hover:bg-slate-50 transition-colors text-sm">Cancelar edição</button>
+          <button id="desp-salvar" onclick="salvarDespesa()"
+            class="bg-rose-500 hover:bg-rose-600 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm">+ Adicionar despesa</button>
+        </div>
+      </div>
+      <input type="hidden" id="desp-id" />
+      <div id="lista-despesas" class="mt-5 border-t border-slate-100 pt-4"></div>
     </div>
 
     <!-- Botão gerar -->
@@ -113,21 +155,62 @@
     </div>
   </main>
 
+  <!-- Modal de senha (editar / excluir despesa) -->
+  <div id="modal-senha" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center p-4 no-print">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
+      <h2 class="font-bold text-slate-800 text-lg mb-1">Confirmação necessária</h2>
+      <p class="text-sm text-slate-500 mb-5" id="senha-subtitulo"></p>
+      <div>
+        <label class="text-sm font-medium text-slate-700 block mb-1">Senha *</label>
+        <input id="field-senha" type="password" placeholder="Digite a senha"
+          class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300"
+          onkeydown="if(event.key==='Enter') confirmarSenha()" />
+        <p id="erro-senha" class="text-xs text-rose-500 mt-1 hidden">Senha incorreta.</p>
+      </div>
+      <div class="flex gap-3 mt-6">
+        <button onclick="fecharModalSenha()" class="flex-1 border border-slate-200 text-slate-600 font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition-colors text-sm">Cancelar</button>
+        <button onclick="confirmarSenha()" class="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module">
-    import { apiGet, formatBRL, VALOR_INSCRICAO } from './js/config.js';
+    import { apiGet, apiPost, formatBRL, showToast, VALOR_INSCRICAO } from './js/config.js';
+
+    const SENHA = 'admin';
 
     let inscritos  = [];
     let pagamentos = [];
     let igrejas    = [];
+    let despesas   = [];
     let relAtual   = 1;
+    let senhaCallback = null;
 
     const agora = () => new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
 
+    // dd/mm/aaaa a partir de string variada
+    function fmtData(v) {
+      if (!v) return '—';
+      if (/^\d{2}\/\d{2}\/\d{4}/.test(v)) return v.slice(0, 10);
+      const d = new Date(v);
+      if (isNaN(d)) return v;
+      return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+    }
+    // aaaa-mm-dd (para <input type=date>)
+    function toInputDate(v) {
+      if (!v) return '';
+      if (/^\d{2}\/\d{2}\/\d{4}/.test(v)) { const [d,m,y] = v.slice(0,10).split('/'); return `${y}-${m}-${d}`; }
+      const dt = new Date(v);
+      if (isNaN(dt)) return '';
+      return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+    }
+
     async function init() {
-      [inscritos, pagamentos, igrejas] = await Promise.all([
+      [inscritos, pagamentos, igrejas, despesas] = await Promise.all([
         apiGet('getInscricoes'),
         apiGet('getPagamentos'),
-        apiGet('getIgrejas')
+        apiGet('getIgrejas'),
+        apiGet('getDespesas').catch(() => [])  // tolera backend ainda não reimplantado
       ]);
       const sel = document.getElementById('filtro-igreja');
       sel.innerHTML = '<option value="">Todas as igrejas</option>' +
@@ -137,7 +220,7 @@
 
     window.setRel = function(n) {
       relAtual = n;
-      [1,2,3].forEach(i => {
+      [1,2,3,4].forEach(i => {
         const btn = document.getElementById('btn-rel-' + i);
         if (i === n) {
           btn.classList.add('border-rose-500','bg-rose-50');
@@ -149,6 +232,9 @@
       });
       // Oculta filtro de status para rel 1
       document.getElementById('filtro-status-wrap').style.display = n === 1 ? 'none' : '';
+      // Relatório 4 (despesas): esconde filtros por igreja/status e mostra o painel de gestão
+      document.getElementById('card-filtros').style.display    = n === 4 ? 'none' : '';
+      document.getElementById('painel-despesas').style.display = n === 4 ? '' : 'none';
       renderizarRelatorio();
     };
 
@@ -304,10 +390,177 @@
             Pendente: ${formatBRL(totPendente)}
           </div>
         `;
+
+      } else if (relAtual === 4) {
+        // Despesas / Caixa
+        const listaDesp = [...despesas].sort((a,b) =>
+          (toInputDate(a.data) || '').localeCompare(toInputDate(b.data) || ''));
+
+        const totSaidas = despesas.reduce((s,d) => s + Number(d.valor || 0), 0);
+        const entradasCaixa = pagamentos
+          .filter(p => p.formaPagamento === 'Dinheiro' || p.conferido === 'sim')
+          .reduce((s,p) => s + Number(p.valor || 0), 0);
+        const provisorio = pagamentos
+          .filter(p => p.formaPagamento === 'Pix' && p.conferido !== 'sim')
+          .reduce((s,p) => s + Number(p.valor || 0), 0);
+        const saldo = entradasCaixa - totSaidas;
+
+        area.innerHTML = cabecalho + `
+          <h2 style="font-size:12px;font-weight:600;margin-bottom:4px;">Despesas / Saídas do Caixa</h2>
+          <p style="font-size:10px;color:#64748b;margin-bottom:8px;">${listaDesp.length} despesa(s)</p>
+          <table>
+            <thead><tr>
+              <th>#</th><th>Data</th><th>Descrição</th>
+              <th style="text-align:center">Nota Fiscal</th><th style="text-align:right">Valor</th>
+            </tr></thead>
+            <tbody>
+              ${listaDesp.map((d,i) => `
+                <tr>
+                  <td>${i+1}</td>
+                  <td>${fmtData(d.data)}</td>
+                  <td>${d.descricao || '—'}</td>
+                  <td style="text-align:center">${d.notaFiscal === 'sim' ? '✔ Sim' : '—'}</td>
+                  <td style="text-align:right">${formatBRL(d.valor)}</td>
+                </tr>
+              `).join('') || '<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:12px">Nenhuma despesa registrada.</td></tr>'}
+            </tbody>
+          </table>
+          <div class="totais">
+            <strong>Composição atual do caixa:</strong><br>
+            Entradas (confirmadas): ${formatBRL(entradasCaixa)} &nbsp;−&nbsp;
+            Saídas: ${formatBRL(totSaidas)} &nbsp;=&nbsp;
+            <strong style="color:${saldo >= 0 ? '#16a34a' : '#dc2626'}">Saldo em caixa: ${formatBRL(saldo)}</strong>
+            <div style="margin-top:4px;color:#64748b;font-size:9px;">Pix provisório (ainda não confirmado, fora do caixa): ${formatBRL(provisorio)}</div>
+          </div>
+        `;
+
+        renderListaDespesas();
       }
     }
 
-    const nomesRel = ['', 'lista-onibus', 'lista-completa', 'financeiro'];
+    // ── Gestão de Despesas (painel no-print do relatório 4) ──────
+    function renderListaDespesas() {
+      const cont = document.getElementById('lista-despesas');
+      if (!cont) return;
+      if (!despesas.length) {
+        cont.innerHTML = '<p class="text-sm text-slate-400 text-center py-3">Nenhuma despesa registrada ainda.</p>';
+        return;
+      }
+      const lista = [...despesas].sort((a,b) =>
+        (toInputDate(a.data) || '').localeCompare(toInputDate(b.data) || ''));
+      cont.innerHTML = lista.map(d => `
+        <div class="flex items-center gap-3 py-2 border-b border-slate-50 last:border-0 flex-wrap">
+          <span class="text-sm font-semibold text-rose-600 whitespace-nowrap">${formatBRL(d.valor)}</span>
+          <span class="text-xs text-slate-400 whitespace-nowrap">${fmtData(d.data)}</span>
+          <span class="text-sm text-slate-700 flex-1 min-w-0">${d.descricao || '—'}</span>
+          ${d.notaFiscal === 'sim'
+            ? '<span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-700">NF ✔</span>'
+            : '<span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-slate-100 text-slate-500">sem NF</span>'}
+          <button onclick="editarDespesa('${d.id}')" class="text-rose-500 hover:text-rose-700 text-xs font-medium">Editar</button>
+          <button onclick="excluirDespesa('${d.id}')" class="text-rose-400 hover:text-rose-600 text-xs font-medium">Excluir</button>
+        </div>
+      `).join('');
+    }
+
+    async function recarregarDespesas() {
+      despesas = await apiGet('getDespesas');
+      renderizarRelatorio();
+    }
+
+    window.salvarDespesa = async function() {
+      const id         = document.getElementById('desp-id').value;
+      const valor      = parseFloat(document.getElementById('desp-valor').value);
+      const dataRaw    = document.getElementById('desp-data').value;
+      const descricao  = document.getElementById('desp-descricao').value.trim();
+      const notaFiscal = document.getElementById('desp-nf').checked ? 'sim' : 'nao';
+
+      if (!valor || valor <= 0) { showToast('Informe um valor válido.', 'error'); return; }
+      if (!dataRaw)             { showToast('Informe a data.', 'error'); return; }
+      if (!descricao)           { showToast('Informe a descrição.', 'error'); return; }
+
+      const dataFmt = dataRaw.split('-').reverse().join('/'); // dd/mm/aaaa
+      try {
+        if (id) {
+          await apiPost('editDespesa', { data: { id, valor, data: dataFmt, descricao, notaFiscal } });
+          showToast('Despesa atualizada!');
+        } else {
+          await apiPost('addDespesa', { data: { valor, data: dataFmt, descricao, notaFiscal } });
+          showToast('Despesa registrada!');
+        }
+        window.cancelarEdicaoDespesa();
+        await recarregarDespesas();
+      } catch(e) { showToast(e.message, 'error'); }
+    };
+
+    window.cancelarEdicaoDespesa = function() {
+      document.getElementById('desp-id').value        = '';
+      document.getElementById('desp-valor').value     = '';
+      document.getElementById('desp-data').value      = '';
+      document.getElementById('desp-descricao').value = '';
+      document.getElementById('desp-nf').checked      = false;
+      document.getElementById('desp-form-titulo').textContent = 'Registrar Saída / Despesa';
+      document.getElementById('desp-salvar').textContent      = '+ Adicionar despesa';
+      document.getElementById('desp-cancel').classList.add('hidden');
+    };
+
+    window.editarDespesa = function(id) {
+      const d = despesas.find(x => x.id === id);
+      if (!d) return;
+      abrirSenha(`Editar despesa · ${d.descricao || ''} · ${formatBRL(d.valor)}`, () => {
+        document.getElementById('desp-id').value        = d.id;
+        document.getElementById('desp-valor').value     = d.valor;
+        document.getElementById('desp-data').value      = toInputDate(d.data);
+        document.getElementById('desp-descricao').value = d.descricao || '';
+        document.getElementById('desp-nf').checked      = d.notaFiscal === 'sim';
+        document.getElementById('desp-form-titulo').textContent = 'Editar Despesa';
+        document.getElementById('desp-salvar').textContent      = 'Salvar alterações';
+        document.getElementById('desp-cancel').classList.remove('hidden');
+        document.getElementById('desp-valor').focus();
+      });
+    };
+
+    window.excluirDespesa = function(id) {
+      const d = despesas.find(x => x.id === id);
+      if (!d) return;
+      abrirSenha(`Excluir despesa · ${d.descricao || ''} · ${formatBRL(d.valor)}`, async () => {
+        try {
+          await apiPost('deleteDespesa', { id });
+          showToast('Despesa removida.', 'info');
+          await recarregarDespesas();
+        } catch(e) { showToast(e.message, 'error'); }
+      });
+    };
+
+    // ── Modal de senha ───────────────────────────────────────────
+    function abrirSenha(subtitulo, onConfirm) {
+      senhaCallback = onConfirm;
+      document.getElementById('senha-subtitulo').textContent = subtitulo;
+      document.getElementById('field-senha').value = '';
+      document.getElementById('erro-senha').classList.add('hidden');
+      document.getElementById('modal-senha').classList.remove('hidden');
+      document.getElementById('modal-senha').classList.add('flex');
+      setTimeout(() => document.getElementById('field-senha').focus(), 100);
+    }
+    window.fecharModalSenha = function() {
+      senhaCallback = null;
+      document.getElementById('modal-senha').classList.add('hidden');
+      document.getElementById('modal-senha').classList.remove('flex');
+    };
+    window.confirmarSenha = async function() {
+      const senha = document.getElementById('field-senha').value;
+      if (senha !== SENHA) {
+        document.getElementById('erro-senha').classList.remove('hidden');
+        document.getElementById('field-senha').value = '';
+        document.getElementById('field-senha').focus();
+        return;
+      }
+      const fn = senhaCallback;
+      senhaCallback = null;
+      window.fecharModalSenha();
+      if (fn) await fn();
+    };
+
+    const nomesRel = ['', 'lista-onibus', 'lista-completa', 'financeiro', 'despesas-caixa'];
 
     window.gerarPDF = function() {
       const el  = document.getElementById('area-pdf');

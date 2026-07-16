@@ -23,6 +23,7 @@
     #area-pdf th { background:#e11d48; color:#fff; padding:6px 8px; text-align:left; font-size:10px; }
     #area-pdf td { padding:5px 8px; border-bottom:1px solid #e2e8f0; font-size:10px; }
     #area-pdf tr:nth-child(even) td { background:#fdf2f4; }
+    #area-pdf tr.conferido td { background:#dcfce7 !important; color:#94a3b8; text-decoration:line-through; }
     #area-pdf .totais { margin-top:12px; padding:8px; background:#fdf2f4; border-radius:4px; font-size:10px; }
     #area-pdf .status-q { color:#16a34a; font-weight:600; }
     #area-pdf .status-p { color:#d97706; font-weight:600; }
@@ -318,11 +319,12 @@
           <p style="font-size:10px;color:#64748b;margin-bottom:8px;">${lista.length} inscrita(s)</p>
           <table>
             <thead><tr>
-              <th>#</th><th>Nome Completo</th><th>CPF</th><th>Data de Nascimento</th><th>E-mail</th><th>Igreja</th>
+              <th style="width:28px;text-align:center;">✓</th><th>#</th><th>Nome Completo</th><th>CPF</th><th>Data de Nascimento</th><th>E-mail</th><th>Igreja</th>
             </tr></thead>
             <tbody>
               ${lista.map((ins, i) => `
                 <tr>
+                  <td style="text-align:center;"><input type="checkbox" onclick="this.closest('tr').classList.toggle('conferido', this.checked)"></td>
                   <td>${i+1}</td>
                   <td>${ins.nomeCompleto}</td>
                   <td>${ins.cpf || '—'}</td>

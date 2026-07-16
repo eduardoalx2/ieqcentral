@@ -383,9 +383,47 @@
       }
     }
 
+    function parseData(dStr) {
+      if (!dStr) return new Date(0);
+      if (dStr.indexOf('/') === -1) {
+        const d = new Date(dStr);
+        return isNaN(d) ? new Date(0) : d;
+      }
+      const cleanStr = dStr.replace(',', '').trim();
+      const parts = cleanStr.split(' ');
+      const datePart = parts[0];
+      const timePart = parts[1] || '00:00:00';
+      const [d, m, y] = datePart.split('/');
+      const dObj = new Date(`${y}-${m}-${d}T${timePart}`);
+      return isNaN(dObj) ? new Date(0) : dObj;
+    }
+
     function renderizarPainel() {
-      // Ordenar igrejas pelo nome
-      igrejas.sort((a,b) => a.nome.localeCompare(b.nome));
+      // Ordenar igrejas pelo último contato feito (mais recente no topo)
+      igrejas.sort((a, b) => {
+        const anotacoesA = anotacoes.filter(x => x.igrejaId === a.id);
+        const anotacoesB = anotacoes.filter(x => x.igrejaId === b.id);
+        
+        let maxDateA = 0;
+        anotacoesA.forEach(an => {
+          const d = parseData(an.data).getTime();
+          if (d > maxDateA) maxDateA = d;
+        });
+        
+        let maxDateB = 0;
+        anotacoesB.forEach(an => {
+          const d = parseData(an.data).getTime();
+          if (d > maxDateB) maxDateB = d;
+        });
+        
+        // Se ambos têm a mesma data (por exemplo, ambos sem contato = 0)
+        if (maxDateA === maxDateB) {
+          return a.nome.localeCompare(b.nome);
+        }
+        
+        // Mais recente primeiro (decrescente)
+        return maxDateB - maxDateA;
+      });
 
       // Estatísticas
       const totalInscritos = inscritos.length;
@@ -426,6 +464,30 @@
 
         const isGoalMet = meusInscritos >= meta && meta > 0;
         
+        // Buscar última conversa/nota da igreja
+        const minhasAnotacoes = anotacoes.filter(x => x.igrejaId === ig.id);
+        let ultimaNotaTexto = '';
+        if (minhasAnotacoes.length > 0) {
+          let maxDate = new Date(0);
+          minhasAnotacoes.forEach(an => {
+            const d = parseData(an.data);
+            if (d > maxDate) {
+              maxDate = d;
+            }
+          });
+          if (maxDate.getTime() > 0) {
+            const dia = String(maxDate.getDate()).padStart(2, '0');
+            const mes = String(maxDate.getMonth() + 1).padStart(2, '0');
+            const hora = String(maxDate.getHours()).padStart(2, '0');
+            const min = String(maxDate.getMinutes()).padStart(2, '0');
+            ultimaNotaTexto = `<span class="text-[10px] text-violet-400 mt-1 block font-medium">Conversa: ${dia}/${mes} ${hora}:${min}</span>`;
+          } else {
+            ultimaNotaTexto = `<span class="text-[10px] text-violet-500/60 mt-1 block italic font-medium">Sem conversas</span>`;
+          }
+        } else {
+          ultimaNotaTexto = `<span class="text-[10px] text-violet-500/60 mt-1 block italic font-medium">Sem conversas</span>`;
+        }
+
         return `
           <tr class="hover:bg-violet-950/20 border-b border-violet-950/25 transition-colors">
             <td class="px-5 py-4 font-semibold text-white">${ig.nome}</td>
@@ -446,15 +508,18 @@
             </td>
             <td class="px-5 py-4">${lideresHtml}</td>
             <td class="px-5 py-4 text-center">
-              <div class="flex items-center justify-center gap-2">
-                <button onclick="window.abrirLideres('${ig.id}', '${ig.nome.replace(/'/g, "\\'")}')" 
-                  class="bg-violet-950 hover:bg-violet-900 text-violet-300 border border-violet-800/60 text-xs font-semibold px-2.5 py-1.5 rounded-xl transition-all flex items-center gap-1">
-                  <i data-lucide="crown" class="w-3 h-3"></i> Líderes
-                </button>
-                <button onclick="window.abrirAnotacoes('${ig.id}', '${ig.nome.replace(/'/g, "\\'")}')" 
-                  class="bg-violet-950 hover:bg-violet-900 text-violet-300 border border-violet-800/60 text-xs font-semibold px-2.5 py-1.5 rounded-xl transition-all flex items-center gap-1">
-                  <i data-lucide="message-square" class="w-3 h-3"></i> Notas
-                </button>
+              <div class="flex flex-col items-center justify-center gap-1.5">
+                <div class="flex items-center justify-center gap-2">
+                  <button onclick="window.abrirLideres('${ig.id}', '${ig.nome.replace(/'/g, "\\'")}')" 
+                    class="bg-violet-950 hover:bg-violet-900 text-violet-300 border border-violet-800/60 text-xs font-semibold px-2.5 py-1.5 rounded-xl transition-all flex items-center gap-1">
+                    <i data-lucide="crown" class="w-3 h-3"></i> Líderes
+                  </button>
+                  <button onclick="window.abrirAnotacoes('${ig.id}', '${ig.nome.replace(/'/g, "\\'")}')" 
+                    class="bg-violet-950 hover:bg-violet-900 text-violet-300 border border-violet-800/60 text-xs font-semibold px-2.5 py-1.5 rounded-xl transition-all flex items-center gap-1">
+                    <i data-lucide="message-square" class="w-3 h-3"></i> Notas
+                  </button>
+                </div>
+                ${ultimaNotaTexto}
               </div>
             </td>
           </tr>
@@ -662,6 +727,7 @@
           // Recarregar
           anotacoes = await apiGet('getAnotacoes');
           renderizarTimelineAnotacoes(igrejaId);
+          renderizarPainel(); // Atualizar painel para re-ordenar e atualizar última conversa
         } else {
           showToast(res.error || 'Erro ao registrar conversa', 'error');
         }
@@ -681,6 +747,7 @@
             // Recarregar
             anotacoes = await apiGet('getAnotacoes');
             renderizarTimelineAnotacoes(igrejaId);
+            renderizarPainel(); // Atualizar painel para re-ordenar e atualizar última conversa
           } else {
             showToast(res.error || 'Erro ao apagar', 'error');
           }

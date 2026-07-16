@@ -678,14 +678,7 @@
       // Filtra e ordena cronologicamente (mais novos em cima)
       const list = anotacoes.filter(x => x.igrejaId === igrejaId);
       
-      list.sort((a,b) => {
-        const parseDate = (dStr) => {
-          const [d, m, yH] = dStr.split('/');
-          const [y, h] = yH.split(' ');
-          return new Date(`${y}-${m}-${d}T${h || '00:00:00'}`);
-        };
-        return parseDate(b.data) - parseDate(a.data);
-      });
+      list.sort((a,b) => parseData(b.data) - parseData(a.data));
 
       if (list.length === 0) {
         timeline.innerHTML = `<p class="text-xs text-violet-400/60 text-center py-8">Nenhuma anotação de conversa registrada.</p>`;

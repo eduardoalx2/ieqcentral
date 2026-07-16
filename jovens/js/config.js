@@ -9,83 +9,71 @@ export const API_URL = 'https://script.google.com/macros/s/AKfycbwL4rklo6SthsP5r
 // Senha de acesso administrativo ao painel
 export const SENHA_ADMIN = 'admin';
 
-// ── Chamadas à API (JSONP para contornar CORS no GitHub Pages) ────────────────
-export function apiGet(action, tentativas = 3) {
-  function umaTentativa(timeoutMs) {
-    return new Promise((resolve, reject) => {
-      if (API_URL === 'COLE_AQUI_A_URL_DO_WEB_APP') {
-        reject(new Error('A URL da API não foi configurada no arquivo js/config.js'));
-        return;
-      }
-      const cbName = '_cb_' + Math.random().toString(36).slice(2);
-      const script = document.createElement('script');
-      const timeout = setTimeout(() => {
-        cleanup();
-        reject(new Error('Timeout na requisição da API (Apps Script dormindo?)'));
-      }, timeoutMs);
-
-      window[cbName] = function(data) {
-        cleanup();
-        if (data && data.error) reject(new Error(data.error));
-        else resolve(data);
-      };
-
-      function cleanup() {
-        clearTimeout(timeout);
-        delete window[cbName];
-        if (script.parentNode) script.parentNode.removeChild(script);
-      }
-
-      script.onerror = () => { cleanup(); reject(new Error('Erro ao conectar com a API do Google Sheets')); };
-      script.src = `${API_URL}?action=${action}&callback=${cbName}`;
-      document.head.appendChild(script);
-    });
+// ── Chamadas à API (CORS com fetch sem credenciais para evitar conflitos de login) ──
+export async function apiGet(action, tentativas = 3) {
+  if (API_URL === 'COLE_AQUI_A_URL_DO_WEB_APP') {
+    throw new Error('A URL da API não foi configurada no arquivo js/config.js');
   }
 
-  function tentar(restantes, timeoutMs) {
-    return umaTentativa(timeoutMs).catch(err => {
-      if (restantes <= 1) throw err;
-      // Espera 800ms antes de tentar novamente, dando mais timeout na próxima tentativa
-      return new Promise(r => setTimeout(r, 800))
-        .then(() => tentar(restantes - 1, Math.min(timeoutMs + 6000, 25000)));
-    });
-  }
+  const url = `${API_URL}?action=${action}`;
 
-  return tentar(tentativas, 12000);
+  for (let i = 0; i < tentativas; i++) {
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'omit' // Evita enviar cookies do Google, contornando o erro de login múltiplo
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data && data.error) {
+        throw new Error(data.error);
+      }
+      return data;
+    } catch (err) {
+      if (i === tentativas - 1) {
+        console.error('Erro na requisição da API:', err);
+        throw new Error('Erro ao conectar com a API do Google Sheets');
+      }
+      // Espera antes de tentar novamente (backoff)
+      await new Promise(r => setTimeout(r, 800 * (i + 1)));
+    }
+  }
 }
 
 export async function apiPost(action, payload) {
-  return new Promise((resolve, reject) => {
-    if (API_URL === 'COLE_AQUI_A_URL_DO_WEB_APP') {
-      reject(new Error('A URL da API não foi configurada no arquivo js/config.js'));
-      return;
-    }
-    const body = JSON.stringify({ action, ...payload });
-    const url  = `${API_URL}?method=POST&body=${encodeURIComponent(body)}`;
-    
-    const cbName = '_cb_' + Math.random().toString(36).slice(2);
-    const script = document.createElement('script');
-    const timeout = setTimeout(() => {
-      cleanup();
-      reject(new Error('Timeout no envio dos dados (Apps Script dormindo?)'));
-    }, 18000);
+  if (API_URL === 'COLE_AQUI_A_URL_DO_WEB_APP') {
+    throw new Error('A URL da API não foi configurada no arquivo js/config.js');
+  }
 
-    window[cbName] = function(data) {
-      cleanup();
-      if (data && data.error) reject(new Error(data.error));
-      else resolve(data);
-    };
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'omit', // Evita enviar cookies do Google
+      headers: {
+        'Content-Type': 'text/plain' // Usamos text/plain para evitar o preflight OPTIONS
+      },
+      body: JSON.stringify({ action, ...payload })
+    });
 
-    function cleanup() {
-      clearTimeout(timeout);
-      delete window[cbName];
-      if (script.parentNode) script.parentNode.removeChild(script);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    script.onerror = () => { cleanup(); reject(new Error('Erro ao conectar com a API do Google Sheets ao enviar dados')); };
-    script.src = `${url}&callback=${cbName}`;
-    document.head.appendChild(script);
-  });
+    const data = await response.json();
+    if (data && data.error) {
+      throw new Error(data.error);
+    }
+    return data;
+  } catch (err) {
+    console.error('Erro no envio da API:', err);
+    throw new Error('Erro ao conectar com a API do Google Sheets ao enviar dados');
+  }
 }
 
 // ── Verificação de Sessão (Login Administrativo) ─────────────────────────────

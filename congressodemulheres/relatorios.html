@@ -286,7 +286,7 @@
                   <td>${i+1}</td>
                   <td>${ins.nomeCompleto}</td>
                   <td>${ins.cpf || '—'}</td>
-                  <td>${ins.dataNascimento || '—'}</td>
+                  <td>${fmtData(ins.dataNascimento)}</td>
                   <td>${ins.whatsapp || '—'}</td>
                 </tr>
               `).join('')}

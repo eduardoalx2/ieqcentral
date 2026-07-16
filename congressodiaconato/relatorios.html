@@ -288,7 +288,7 @@
                   <td>${ins.nomeCompleto}</td>
                   <td>${ins.cpf || '—'}</td>
                   <td>${ins.rg  || '—'}</td>
-                  <td>${ins.dataNascimento || '—'}</td>
+                  <td>${fmtData(ins.dataNascimento)}</td>
                 </tr>
               `).join('')}
             </tbody>

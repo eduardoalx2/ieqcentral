@@ -104,11 +104,17 @@ export function formatDate(str) {
   return str;
 }
 
-// Formata data do formato de banco para formato de visualização amigável
+// Formata data do formato de banco para formato de visualização amigável (DD/MM/AAAA)
 export function fmtData(v) {
   if (!v) return '';
+  v = String(v).trim();
   if (/^\d{2}\/\d{2}\/\d{4}/.test(v)) return v.slice(0, 10);
-  const d = new Date(v);
+  if (/^\d{4}-\d{2}-\d{2}/.test(v)) {
+    const [y, m, d] = v.slice(0, 10).split('-');
+    return `${d}/${m}/${y}`;
+  }
+  const limpo = v.replace(/\s*\(.*\)$/, '');
+  const d = new Date(limpo);
   if (isNaN(d)) return v;
   return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
 }
@@ -116,11 +122,14 @@ export function fmtData(v) {
 // Converte data para o input HTML (yyyy-MM-dd)
 export function toInputDate(v) {
   if (!v) return '';
+  v = String(v).trim();
   if (/^\d{2}\/\d{2}\/\d{4}/.test(v)) { 
     const [d,m,y] = v.slice(0,10).split('/'); 
     return `${y}-${m}-${d}`; 
   }
-  const dt = new Date(v);
+  if (/^\d{4}-\d{2}-\d{2}/.test(v)) return v.slice(0, 10);
+  const limpo = v.replace(/\s*\(.*\)$/, '');
+  const dt = new Date(limpo);
   if (isNaN(dt)) return '';
   return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
 }

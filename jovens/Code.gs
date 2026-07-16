@@ -57,7 +57,7 @@ function sheetToArray(sheetName) {
     const obj = {};
     headers.forEach((h, i) => {
       let v = row[i];
-      if (v instanceof Date) {
+      if (v && (v instanceof Date || Object.prototype.toString.call(v) === '[object Date]' || typeof v.getMonth === 'function')) {
         const semHora = v.getHours() === 0 && v.getMinutes() === 0 && v.getSeconds() === 0;
         v = Utilities.formatDate(v, 'America/Sao_Paulo', semHora ? 'dd/MM/yyyy' : 'dd/MM/yyyy HH:mm');
       }

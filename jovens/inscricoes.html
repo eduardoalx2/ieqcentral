@@ -221,7 +221,7 @@
   </div>
 
   <script type="module">
-    import { apiGet, apiPost, showToast, checkAdminSession, formatBRL } from './js/config.js';
+    import { apiGet, apiPost, showToast, checkAdminSession, formatBRL, fmtData, toInputDate } from './js/config.js';
 
     // Proteção básica por senha no carregamento
     if (!checkAdminSession()) {
@@ -289,7 +289,7 @@
         <tr class="hover:bg-violet-950/20 border-b border-violet-950/30 transition-colors">
           <td class="px-5 py-3 font-semibold text-white">${ins.nomeCompleto}</td>
           <td class="px-5 py-3 font-mono text-xs text-violet-300">${ins.cpf}</td>
-          <td class="px-5 py-3 hidden md:table-cell">${ins.dataNascimento}</td>
+          <td class="px-5 py-3 hidden md:table-cell">${fmtData(ins.dataNascimento)}</td>
           <td class="px-5 py-3">
             <span class="text-xs px-2 py-0.5 rounded-full font-semibold ${ins.sexo === 'Masculino' ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-900' : 'bg-pink-950/60 text-pink-300 border border-pink-900'}">${ins.sexo}</span>
           </td>
@@ -363,9 +363,8 @@
       document.getElementById('field-nome').value = ins.nomeCompleto;
       document.getElementById('field-cpf').value = ins.cpf;
       
-      // Converte data para input date: dd/mm/aaaa -> yyyy-mm-dd
-      const [d, m, y] = ins.dataNascimento.split('/');
-      document.getElementById('field-nascimento').value = `${y}-${m}-${d}`;
+      // Converte data para input date (yyyy-MM-dd)
+      document.getElementById('field-nascimento').value = toInputDate(ins.dataNascimento);
       
       document.getElementById('field-email').value = ins.email;
       document.getElementById('field-igreja').value = ins.igrejaId;

@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missão Reforma — Quiz Oficial | Central UP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #050811;
+            --bg-surface: rgba(13, 20, 38, 0.78);
+            --bg-card: rgba(16, 25, 48, 0.85);
+            --border-glow: rgba(56, 189, 248, 0.25);
+            --border-purple: rgba(139, 92, 246, 0.35);
+            --cyan: #00f0ff;
+            --cyan-dim: #38bdf8;
+            --purple: #a855f7;
+            --purple-neon: #8b5cf6;
+            --amber: #fbbf24;
+            --ouro: #fde047;
+            --fire: #f97316;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-darker: #64748b;
+            --verde-glow: #10b981;
+            --vermelho-glow: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            position: relative;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.16) 0%, transparent 40%),
+                radial-gradient(circle at 90% 15%, rgba(0, 240, 255, 0.14) 0%, transparent 45%),
+                radial-gradient(circle at 50% 85%, rgba(249, 115, 22, 0.1) 0%, transparent 50%),
+                linear-gradient(to bottom, #050811 0%, #080e1d 50%, #050811 100%);
+            background-attachment: fixed;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .ambient-topbar {
+            height: 4px;
+            background: linear-gradient(90deg, #00f0ff, #8b5cf6, #fbbf24, #f97316);
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+        }
+
+        .header-nav {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px 20px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--cyan-dim);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 8px 16px;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.25s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: var(--cyan);
+            color: #fff;
+            transform: translateX(-3px);
+            box-shadow: 0 0 16px rgba(0, 240, 255, 0.3);
+        }
+
+        .header-tag {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--purple);
+        }
+
+        header {
+            text-align: center;
+            padding: 24px 20px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .simbolo {
+            font-size: 32px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.5));
+            letter-spacing: 6px;
+        }
+
+        header h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(28px, 6vw, 48px);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffffff 30%, #a855f7 70%, #00f0ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            width: min(860px, 94%);
+            margin: auto;
+            padding-bottom: 60px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-purple);
+            border-radius: 24px;
+            padding: clamp(24px, 5vw, 44px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 35px rgba(139, 92, 246, 0.15);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cyan), var(--purple), var(--amber));
+        }
+
+        /* INTRO */
+        .intro { text-align: center; }
+
+        .intro h2 {
+            font-family: 'Archivo Black', sans-serif;
+            color: #fff;
+            font-size: clamp(24px, 4vw, 32px);
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .intro p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #cbd5e1;
+            margin-bottom: 12px;
+        }
+
+        .intro p strong {
+            color: #fff;
+        }
+
+        .pista {
+            margin: 26px 0;
+            padding: 24px;
+            border: 1px dashed rgba(251, 191, 36, 0.4);
+            border-radius: 16px;
+            background: rgba(251, 191, 36, 0.05);
+            backdrop-filter: blur(10px);
+            text-align: left;
+            position: relative;
+        }
+
+        .pista .titulo {
+            color: var(--amber);
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pista p {
+            font-style: italic;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .pista p:last-child {
+            margin-bottom: 0;
+        }
+
+        .nome-box {
+            max-width: 480px;
+            margin: 28px auto;
+            text-align: left;
+        }
+
+        .nome-box label {
+            display: block;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 10px;
+        }
+
+        .nome-box input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(7, 12, 24, 0.85);
+            border: 1.5px solid rgba(56, 189, 248, 0.3);
+            border-radius: 14px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            color: #fff;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .nome-box input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+            background: rgba(10, 18, 36, 0.95);
+        }
+
+        /* BUTTONS */
+        button {
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%);
+            color: #050811;
+            border: none;
+            border-radius: 14px;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            box-shadow: 0 6px 20px rgba(0, 240, 255, 0.35);
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.45);
+            background: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+            color: #fff;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-centro {
+            display: block;
+            margin: 25px auto 5px;
+            min-width: 220px;
+        }
+
+        /* QUIZ SECTION */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .progresso {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--cyan-dim);
+        }
+
+        .pontuacao {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            color: #e9d5ff;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 800;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .barra {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 28px;
+        }
+
+        .barra div {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--cyan), var(--purple), var(--fire));
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+            transition: width 0.35s ease;
+        }
+
+        .pergunta-numero {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 8px;
+        }
+
+        .pergunta {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(20px, 3.5vw, 26px);
+            line-height: 1.35;
+            color: #fff;
+            margin-bottom: 24px;
+            letter-spacing: -0.3px;
+        }
+
+        .opcoes {
+            display: grid;
+            gap: 12px;
+        }
+
+        .opcao {
+            background: rgba(10, 16, 32, 0.7);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 20px;
+            border-radius: 14px;
+            color: #e2e8f0;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: left;
+            transition: all 0.2s ease;
+            position: relative;
+            line-height: 1.45;
+        }
+
+        .opcao:hover:not(:disabled) {
+            background: rgba(56, 189, 248, 0.12);
+            border-color: var(--cyan);
+            color: #fff;
+            transform: translateX(4px);
+            box-shadow: 0 0 18px rgba(0, 240, 255, 0.25);
+        }
+
+        .opcao.certa {
+            background: rgba(16, 185, 129, 0.22) !important;
+            border-color: var(--verde-glow) !important;
+            color: #a7f3d0 !important;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4) !important;
+        }
+
+        .opcao.errada {
+            background: rgba(239, 68, 68, 0.22) !important;
+            border-color: var(--vermelho-glow) !important;
+            color: #fca5a5 !important;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4) !important;
+        }
+
+        .opcao:disabled {
+            cursor: default;
+        }
+
+        .explicacao {
+            display: none;
+            margin-top: 22px;
+            padding: 18px 22px;
+            background: rgba(251, 191, 36, 0.08);
+            border: 1px solid rgba(251, 191, 36, 0.35);
+            border-left: 4px solid var(--amber);
+            border-radius: 12px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #fef08a;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .navegacao {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 12px;
+        }
+
+        #btnAnterior {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #cbd5e1;
+            box-shadow: none;
+        }
+
+        #btnAnterior:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        /* RESULTADO */
+        .resultado {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .resultado h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(26px, 5vw, 38px);
+            letter-spacing: -0.5px;
+            color: #fff;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #00f0ff 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #nomeResultado {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        #nomeResultado strong {
+            color: #fff;
+        }
+
+        .numero-final {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(64px, 12vw, 92px);
+            line-height: 1;
+            color: var(--ouro);
+            text-shadow: 0 0 30px rgba(253, 224, 71, 0.5);
+            margin-bottom: 6px;
+        }
+
+        .pontos-rotulo {
+            font-size: 15px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+        }
+
+        .mensagem-final {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #cbd5e1;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .premio {
+            margin: 28px 0;
+            padding: 28px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(16, 26, 54, 0.95), rgba(29, 16, 54, 0.95));
+            color: white;
+            border: 1.5px solid var(--amber);
+            box-shadow: 0 0 35px rgba(251, 191, 36, 0.25);
+            text-align: center;
+        }
+
+        .premio h3 {
+            font-family: 'Archivo Black', sans-serif;
+            color: var(--ouro);
+            font-size: 22px;
+            margin-bottom: 10px;
+            letter-spacing: -0.3px;
+        }
+
+        .moeda {
+            font-size: 52px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 15px rgba(253, 224, 71, 0.6));
+        }
+
+        .premio p {
+            line-height: 1.7;
+            color: #e2e8f0;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .pista-final {
+            color: var(--ouro);
+            font-weight: 800;
+        }
+
+        #semPremio {
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+        }
+
+        #semPremio h3 {
+            color: #c084fc;
+        }
+
+        .whatsapp-section {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .whatsapp {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            transition: all 0.25s ease;
+            margin-top: 14px;
+        }
+
+        .whatsapp:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6);
+            color: #fff;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-darker);
+            font-size: 13px;
+            margin-top: 30px;
+            line-height: 1.8;
+        }
+
+        footer strong {
+            color: var(--text-muted);
+        }
+
+        @media(max-width: 600px) {
+            .card { padding: 22px 18px; }
+            .pergunta { font-size: 20px; }
+            .numero-final { font-size: 64px; }
+            .opcao { font-size: 15px; padding: 14px 16px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ambient-topbar"></div>
+
+    <div class="header-nav">
+        <a href="reforma.html" class="back-link">
+            <span>←</span> Voltar à Reforma
+        </a>
+        <div class="header-tag">Arquivo 1517 // Missão Interativa</div>
+    </div>
+
+    <header>
+        <div class="simbolo">⚔️ 📜 ✝️</div>
+        <h1>Missão Reforma</h1>
+        <p>O Quiz Oficial da Reforma Protestante · Central UP</p>
+    </header>
+
+    <div class="container">
+
+        <div class="card">
+
+            <!-- ================= INTRO ================= -->
+            <section id="inicio" class="intro">
+
+                <h2>🕯️ Pronto para a missão?</h2>
+
+                <p>
+                    Você voltou para o ano de <strong>1517</strong>.
+                </p>
+
+                <p>
+                    Agora é hora de descobrir se você realmente prestou atenção na história de
+                    <strong>Martinho Lutero e da Reforma!</strong>
+                </p>
+
+                <div class="pista">
+                    <div class="titulo">
+                        🗝️ UMA PISTA SOBRE O PRÊMIO...
+                    </div>
+                    <p>
+                        Quem conseguir uma boa pontuação poderá desbloquear uma misteriosa
+                        <strong>MOEDA DE OURO...</strong>
+                    </p>
+                    <p>
+                        E tem uma coisa estranha:
+                        <strong>ela é deliciosa.</strong> 🤔
+                    </p>
+                    <p>
+                        O resto... você vai ter que descobrir.
+                    </p>
+                </div>
+
+                <div class="nome-box">
+                    <label for="nome">
+                        Primeiro, diga seu nome:
+                    </label>
+                    <input
+                        id="nome"
+                        type="text"
+                        placeholder="Digite seu nome"
+                    >
+                </div>
+
+                <button
+                    class="btn btn-centro"
+                    onclick="iniciarQuiz()"
+                >
+                    <span>⚔️ COMEÇAR A MISSÃO</span>
+                </button>
+
+            </section>
+
+
+            <!-- ================= QUIZ ================= -->
+            <section id="quiz" style="display:none;">
+
+                <div class="quiz-header">
+                    <div class="progresso" id="progresso">
+                        Pergunta 1 de 20
+                    </div>
+                    <div class="pontuacao" id="pontuacao">
+                        ⭐ 0 pontos
+                    </div>
+                </div>
+
+                <div class="barra">
+                    <div id="barraProgresso"></div>
+                </div>
+
+                <div
+                    class="pergunta-numero"
+                    id="numeroPergunta">
+                </div>
+
+                <div
+                    class="pergunta"
+                    id="textoPergunta">
+                </div>
+
+                <div
+                    class="opcoes"
+                    id="opcoes">
+                </div>
+
+                <div
+                    class="explicacao"
+                    id="explicacao">
+                </div>
+
+                <div class="navegacao">
+                    <button
+                        class="btn"
+                        id="btnAnterior"
+                        onclick="anterior()"
+                        style="display:none;"
+                    >
+                        ← Voltar
+                    </button>
+
+                    <button
+                        class="btn"
+                        id="btnProximo"
+                        onclick="proxima()"
+                    >
+                        Próxima →
+                    </button>
+                </div>
+
+            </section>
+
+
+            <!-- ================= RESULTADO ================= -->
+            <section id="resultado" class="resultado">
+
+                <h2>📜 MISSÃO CONCLUÍDA!</h2>
+
+                <p id="nomeResultado"></p>
+
+                <div
+                    class="numero-final"
+                    id="pontuacaoFinal">
+                    0
+                </div>
+
+                <p class="pontos-rotulo">
+                    pontos de <strong>20</strong>
+                </p>
+
+                <div
+                    class="mensagem-final"
+                    id="mensagemFinal">
+                </div>
+
+                <!-- PRÊMIO -->
+                <div
+                    id="premio"
+                    class="premio"
+                    style="display:none;"
+                >
+                    <div class="moeda">🪙</div>
+                    <h3>🏆 PRÊMIO DESBLOQUEADO!</h3>
+                    <p>
+                        Você conseguiu pelo menos <strong>16 pontos!</strong>
+                    </p>
+                    <p class="pista-final">
+                        Existe uma misteriosa moeda de ouro esperando por você...
+                    </p>
+                    <p>
+                        E dizem que ela é... <strong>DELICIOSA!</strong> 🤫
+                    </p>
+                    <p>
+                        O segredo será revelado pessoalmente.
+                    </p>
+                </div>
+
+                <!-- SEM PRÊMIO -->
+                <div
+                    id="semPremio"
+                    class="premio"
+                    style="display:none;"
+                >
+                    <div class="moeda">🔐</div>
+                    <h3>O SEGREDO CONTINUA TRANCADO...</h3>
+                    <p>
+                        Você fez menos de 16 pontos.
+                    </p>
+                    <p>
+                        Mas calma! A Reforma não termina aqui. 📖
+                    </p>
+                    <p>
+                        Continue estudando porque ainda temos muito para descobrir!
+                    </p>
+                </div>
+
+                <div class="whatsapp-section">
+                    <p style="color: #cbd5e1; font-size: 15px; margin-bottom: 6px;">
+                        <strong>Agora mande seu resultado para o professor:</strong>
+                    </p>
+                    <a
+                        id="whatsapp"
+                        class="whatsapp"
+                        target="_blank"
+                    >
+                        <span>📱 ENVIAR RESULTADO NO WHATSAPP</span>
+                    </a>
+                </div>
+
+            </section>
+
+        </div>
+
+        <footer>
+            Missão Reforma • Episódio 1<br>
+            <em>"O justo viverá por fé."</em><br>
+            <strong>Central UP</strong> — IEQ Central Londrina
+        </footer>
+
+    </div>
+
+    <script>
+    /* ==========================================
+       20 PERGUNTAS PRESERVADAS
+    ========================================== */
+    const perguntas = [
+    {
+        pergunta:"Em que ano aconteceu o episódio que marcou o início da Reforma?",
+        opcoes:["1200","1492","1517","1600"],
+        correta:2,
+        explicacao:"1517 é o ano tradicionalmente associado ao início da Reforma Protestante."
+    },
+    {
+        pergunta:"Quem é o personagem principal da nossa história?",
+        opcoes:["João Calvino","Martinho Lutero","Johann Tetzel","Pedro"],
+        correta:1,
+        explicacao:"Martinho Lutero foi uma das principais figuras da Reforma."
+    },
+    {
+        pergunta:"O que eram as indulgências?",
+        opcoes:[
+            "Livros de histórias",
+            "Moedas dos reis",
+            "Documentos relacionados à remissão de penas relacionadas ao pecado",
+            "Cartas de Lutero"
+        ],
+        correta:2,
+        explicacao:"As indulgências estavam relacionadas à remissão de penas temporais associadas ao pecado."
+    },
+    {
+        pergunta:"Quem ficou conhecido por vender indulgências na região onde Lutero estava?",
+        opcoes:[
+            "Johann Tetzel",
+            "João Batista",
+            "Martinho Lutero",
+            "Constantino"
+        ],
+        correta:0,
+        explicacao:"Johann Tetzel ficou conhecido por sua atuação na venda de indulgências."
+    },
+    {
+        pergunta:"Qual era um dos grandes medos das pessoas naquela época?",
+        opcoes:[
+            "Ficar sem internet 😅",
+            "O purgatório e o destino após a morte",
+            "Perder o celular",
+            "Não ter dinheiro para viajar"
+        ],
+        correta:1,
+        explicacao:"O destino após a morte era uma questão de grande importância e medo para muitas pessoas."
+    },
+    {
+        pergunta:"Qual livro da Bíblia foi muito importante para Lutero?",
+        opcoes:[
+            "Gênesis",
+            "Salmos",
+            "Romanos",
+            "Apocalipse"
+        ],
+        correta:2,
+        explicacao:"Romanos teve papel importante na compreensão de Lutero sobre a justificação pela fé."
+    },
+    {
+        pergunta:"Qual frase marcou profundamente Lutero?",
+        opcoes:[
+            "Tudo posso naquele que me fortalece.",
+            "O justo viverá por fé.",
+            "Amai-vos uns aos outros.",
+            "Ide por todo o mundo."
+        ],
+        correta:1,
+        explicacao:"Romanos 1:17: 'O justo viverá por fé.'"
+    },
+    {
+        pergunta:"Quantas teses Lutero apresentou?",
+        opcoes:["10","50","75","95"],
+        correta:3,
+        explicacao:"A tradição associa Lutero às 95 Teses."
+    },
+    {
+        pergunta:"Onde as 95 Teses ficaram tradicionalmente associadas à publicação?",
+        opcoes:[
+            "Na Catedral de Roma",
+            "Na porta da Igreja do Castelo de Wittenberg",
+            "No palácio do imperador",
+            "Em Paris"
+        ],
+        correta:1,
+        explicacao:"A tradição conta que Lutero afixou as 95 Teses na porta da Igreja do Castelo de Wittenberg."
+    },
+    {
+        pergunta:"O que ajudou as ideias da Reforma a se espalharem rapidamente?",
+        opcoes:[
+            "Televisão",
+            "Internet",
+            "Imprensa",
+            "Rádio"
+        ],
+        correta:2,
+        explicacao:"A imprensa tornou possível reproduzir e espalhar textos em grande escala."
+    },
+    {
+        pergunta:"Martinho Lutero era um monge.",
+        opcoes:["Verdadeiro","Falso"],
+        correta:0,
+        explicacao:"Verdadeiro. Lutero era um monge agostiniano."
+    },
+    {
+        pergunta:"A religião tinha pouca influência na sociedade de 1517.",
+        opcoes:["Verdadeiro","Falso"],
+        correta:1,
+        explicacao:"Falso. A religião tinha enorme influência na sociedade europeia."
+    },
+    {
+        pergunta:"Lutero defendia a ideia de que a salvação poderia ser comprada.",
+        opcoes:["Verdadeiro","Falso"],
+        correta:1,
+        explicacao:"Falso. Ele criticava justamente a comercialização relacionada ao perdão e à salvação."
+    },
+    {
+        pergunta:"As 95 Teses questionavam principalmente a prática das indulgências.",
+        opcoes:["Verdadeiro","Falso"],
+        correta:0,
+        explicacao:"Verdadeiro."
+    },
+    {
+        pergunta:"A imprensa ajudou a espalhar as ideias da Reforma.",
+        opcoes:["Verdadeiro","Falso"],
+        correta:0,
+        explicacao:"Verdadeiro."
+    },
+    {
+        pergunta:"Complete: 'O justo viverá por ______.'",
+        opcoes:["obras","fé","dinheiro","medo"],
+        correta:1,
+        explicacao:"FÉ! Romanos 1:17."
+    },
+    {
+        pergunta:"Complete: Lutero apresentou as ______ Teses.",
+        opcoes:["10","50","75","95"],
+        correta:3,
+        explicacao:"95 Teses."
+    },
+    {
+        pergunta:"Quem era Johann Tetzel?",
+        opcoes:[
+            "Um rei",
+            "Um pregador associado à venda de indulgências",
+            "Um discípulo de Jesus",
+            "Um inventor da imprensa"
+        ],
+        correta:1,
+        explicacao:"Tetzel ficou conhecido por sua atuação na campanha de indulgências."
+    },
+    {
+        pergunta:"Por que Lutero criticava as indulgências?",
+        opcoes:[
+            "Porque eram caras demais para os reis",
+            "Porque entendia que questões relacionadas à salvação não deveriam ser comercializadas",
+            "Porque eram proibidas pelo imperador",
+            "Porque eram livros difíceis de ler"
+        ],
+        correta:1,
+        explicacao:"Lutero questionava a comercialização relacionada ao perdão e à salvação."
+    },
+    {
+        pergunta:"Último desafio! O que melhor resume a descoberta de Lutero?",
+        opcoes:[
+            "Que era possível comprar o perdão de Deus.",
+            "Que somente pessoas importantes poderiam ser salvas.",
+            "Que a salvação não poderia ser comprada pelo ser humano e estava relacionada à fé e à graça de Deus.",
+            "Que a Bíblia não era importante."
+        ],
+        correta:2,
+        explicacao:"Essa é a grande ideia que fecha nossa primeira missão."
+    }
+    ];
+
+    /* ==========================================
+       VARIÁVEIS
+    ========================================== */
+    let atual = 0;
+    let pontos = 0;
+    let respostas = [];
+
+    /* ==========================================
+       INICIAR
+    ========================================== */
+    function iniciarQuiz() {
+        const nome = document.getElementById("nome").value.trim();
+
+        if (!nome) {
+            alert("Ei! Primeiro escreva seu nome 😄");
+            return;
+        }
+
+        document.getElementById("inicio").style.display = "none";
+        document.getElementById("quiz").style.display = "block";
+
+        mostrarPergunta();
+    }
+
+    /* ==========================================
+       MOSTRAR PERGUNTA
+    ========================================== */
+    function mostrarPergunta() {
+        const p = perguntas[atual];
+
+        document.getElementById("progresso").textContent =
+            `Pergunta ${atual + 1} de ${perguntas.length}`;
+
+        document.getElementById("numeroPergunta").textContent =
+            `DESAFIO ${atual + 1}`;
+
+        document.getElementById("textoPergunta").textContent =
+            p.pergunta;
+
+        document.getElementById("pontuacao").textContent =
+            `⭐ ${pontos} pontos`;
+
+        document.getElementById("barraProgresso").style.width =
+            `${((atual + 1) / perguntas.length) * 100}%`;
+
+        const opcoes = document.getElementById("opcoes");
+        opcoes.innerHTML = "";
+
+        p.opcoes.forEach((opcao, i) => {
+            const botao = document.createElement("button");
+            botao.className = "opcao";
+            botao.textContent = String.fromCharCode(65 + i) + ") " + opcao;
+            botao.onclick = () => selecionar(i);
+            opcoes.appendChild(botao);
+        });
+
+        document.getElementById("explicacao").style.display = "none";
+
+        document.getElementById("btnAnterior").style.display =
+            atual > 0 ? "inline-flex" : "none";
+
+        document.getElementById("btnProximo").textContent =
+            atual === perguntas.length - 1
+            ? "🏆 FINALIZAR"
+            : "Próxima →";
+
+        if (respostas[atual] !== undefined) {
+            bloquearPergunta(respostas[atual]);
+        }
+    }
+
+    /* ==========================================
+       SELECIONAR RESPOSTA
+    ========================================== */
+    function selecionar(indice) {
+        if (respostas[atual] !== undefined) return;
+
+        respostas[atual] = indice;
+        const correta = perguntas[atual].correta;
+        const botoes = document.querySelectorAll(".opcao");
+
+        botoes.forEach((botao, i) => {
+            botao.disabled = true;
+            if (i === correta) {
+                botao.classList.add("certa");
+            }
+            if (i === indice && i !== correta) {
+                botao.classList.add("errada");
+            }
+        });
+
+        if (indice === correta) {
+            pontos++;
+            document.getElementById("pontuacao").textContent =
+                `⭐ ${pontos} pontos`;
+        }
+
+        const explicacao = document.getElementById("explicacao");
+        explicacao.innerHTML =
+            "<strong>📖 Curiosidade:</strong><br>" +
+            perguntas[atual].explicacao;
+        explicacao.style.display = "block";
+    }
+
+    /* ==========================================
+       BLOQUEAR PERGUNTA JÁ RESPONDIDA
+    ========================================== */
+    function bloquearPergunta(indice) {
+        const correta = perguntas[atual].correta;
+        const botoes = document.querySelectorAll(".opcao");
+
+        botoes.forEach((botao, i) => {
+            botao.disabled = true;
+            if (i === correta) {
+                botao.classList.add("certa");
+            }
+            if (i === indice && i !== correta) {
+                botao.classList.add("errada");
+            }
+        });
+
+        const explicacao = document.getElementById("explicacao");
+        explicacao.innerHTML =
+            "<strong>📖 Curiosidade:</strong><br>" +
+            perguntas[atual].explicacao;
+        explicacao.style.display = "block";
+    }
+
+    /* ==========================================
+       PRÓXIMA PERGUNTA
+    ========================================== */
+    function proxima() {
+        if (respostas[atual] === undefined) {
+            alert("Escolha uma resposta primeiro! 😉");
+            return;
+        }
+
+        if (atual === perguntas.length - 1) {
+            finalizar();
+            return;
+        }
+
+        atual++;
+        mostrarPergunta();
+    }
+
+    /* ==========================================
+       PERGUNTA ANTERIOR
+    ========================================== */
+    function anterior() {
+        if (atual > 0) {
+            atual--;
+            mostrarPergunta();
+        }
+    }
+
+    /* ==========================================
+       FINALIZAR E MONTAR RESULTADOS
+    ========================================== */
+    function finalizar() {
+        document.getElementById("quiz").style.display = "none";
+        document.getElementById("resultado").style.display = "block";
+
+        const nome = document.getElementById("nome").value.trim();
+
+        document.getElementById("nomeResultado").innerHTML =
+            `<strong>${nome}</strong>, missão encerrada!`;
+
+        document.getElementById("pontuacaoFinal").textContent =
+            pontos;
+
+        const mensagem = document.getElementById("mensagemFinal");
+        const premio = document.getElementById("premio");
+        const semPremio = document.getElementById("semPremio");
+
+        if (pontos >= 16) {
+            mensagem.innerHTML = `
+                🔥 <strong>VOCÊ DESBLOQUEOU O SEGREDO!</strong>
+                <br><br>
+                Você fez <strong>${pontos} pontos</strong>!
+                <br><br>
+                Agora existe uma pequena surpresa esperando por você...
+            `;
+            premio.style.display = "block";
+            semPremio.style.display = "none";
+        } else {
+            mensagem.innerHTML = `
+                📖 Você fez <strong>${pontos} pontos</strong>.
+                <br><br>
+                Faltou pouco para abrir o segredo!
+                <br><br>
+                Continue ligado porque nossa história ainda está só começando.
+            `;
+            premio.style.display = "none";
+            semPremio.style.display = "block";
+        }
+
+        /* WHATSAPP LINK */
+        const telefone = "5543991131226";
+        const texto =
+            `📜 *MISSÃO REFORMA — RESULTADO*%0A%0A` +
+            `👤 *Aluno:* ${encodeURIComponent(nome)}%0A` +
+            `⭐ *Pontuação:* ${pontos}/20%0A` +
+            `🏆 *Prêmio desbloqueado:* ${
+                pontos >= 16 ? "SIM 🎉" : "NÃO"
+            }%0A%0A` +
+            `📖 Quiz da Reforma Protestante — Episódio 1`;
+
+        document.getElementById("whatsapp").href =
+            `https://wa.me/${telefone}?text=${texto}`;
+    }
+    </script>
+
+</body>
+</html>

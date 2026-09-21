@@ -60,9 +60,11 @@
         .scard:nth-child(3) { animation: fadeUp 0.5s 0.7s ease forwards; }
         .scard:nth-child(4) { animation: fadeUp 0.5s 0.85s ease forwards; }
         .scard:nth-child(5) { animation: fadeUp 0.5s 1.0s ease forwards; }
+        .scard:nth-child(6) { animation: fadeUp 0.5s 1.15s ease forwards; }
         .scard:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.15); }
 
         .scard-bar { height: 5px; }
+        .reforma-bar { background: linear-gradient(90deg, #00f0ff, #8b5cf6, #fbbf24, #f97316); }
         .pascoa-bar  { background: linear-gradient(90deg, #3b0764, #6b21a8, #d4a843); }
         .rute-bar    { background: linear-gradient(90deg, #8b4513, #c17f3a, #d4a843); }
         .elias-bar   { background: linear-gradient(90deg, #ff3cac, #ff914d, #ffde59); }
@@ -73,6 +75,7 @@
         .scard-season { font-size: 10px; font-weight: 900; letter-spacing: 2.5px; text-transform: uppercase; color: #555; margin-bottom: 12px; }
         .scard-icon { font-size: 36px; display: block; margin-bottom: 10px; }
         .scard-name { font-family: 'Archivo Black', sans-serif; font-size: 28px; line-height: 1; margin-bottom: 2px; letter-spacing: -0.5px; }
+        .reforma-name { color: #38bdf8; }
         .pascoa-name  { color: #9333ea; }
         .rute-name    { color: #d4a843; }
         .elias-name   { color: #ff914d; }
@@ -162,6 +165,21 @@
         </div>
 
         <div class="seasons">
+
+            <a href="reforma/reforma.html" class="scard reforma-card">
+                <div class="scard-bar reforma-bar"></div>
+                <div class="scard-body">
+                    <div class="scard-season" style="color:#a855f7;">Arquivo 1517 · Nova Série</div>
+                    <span class="scard-icon">📜</span>
+                    <div class="scard-name reforma-name">Reforma</div>
+                    <p class="scard-sub">O Grande Conflito & A Verdade</p>
+                    <p class="scard-desc">Wittenberg, 1517. Um monge atormentado, 95 teses na porta e a faísca que incendiou o mundo.</p>
+                    <div class="scard-foot">
+                        <span class="done-tag" style="color:#00f0ff;border-color:#00f0ff;">Novo 🔥</span>
+                        <span class="go-tag">ver série →</span>
+                    </div>
+                </div>
+            </a>
 
             <a href="pascoa/pascoa_dia1.html" class="scard pascoa-card">
                 <div class="scard-bar pascoa-bar"></div>

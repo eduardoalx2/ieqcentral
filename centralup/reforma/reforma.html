@@ -496,23 +496,206 @@
             line-height: 1.6;
         }
 
-        .page-footer {
-            text-align: center;
-            padding: 30px 20px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            color: var(--text-darker);
-            font-size: 13px;
-            line-height: 1.8;
+        /* AULA 01 INTERACTIVE RECAP */
+        .aula-section {
+            margin: 45px 0 55px;
+            background: rgba(10, 16, 32, 0.9);
+            border: 1.5px solid rgba(139, 92, 246, 0.4);
+            border-radius: 26px;
+            padding: clamp(24px, 4vw, 42px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(20px);
+            position: relative;
         }
 
-        .page-footer strong {
+        .aula-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(90deg, #00f0ff, #8b5cf6);
+            color: #050811;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 30px;
+            margin-bottom: 12px;
+        }
+
+        .aula-main-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(24px, 4.5vw, 38px);
+            color: #fff;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .aula-main-sub {
             color: var(--text-muted);
+            font-size: 15px;
+            margin-bottom: 26px;
+            line-height: 1.5;
+        }
+
+        /* Nav Pills */
+        .aula-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 18px;
+        }
+
+        .aula-nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #cbd5e1;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .aula-nav-btn:hover {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: var(--cyan);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .aula-nav-btn.active {
+            background: linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%);
+            border-color: transparent;
+            color: #050811;
+            font-weight: 800;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+        }
+
+        /* Tab Content */
+        .aula-tab {
+            display: none;
+            animation: fadeInTab 0.35s ease forwards;
+        }
+
+        .aula-tab.active {
+            display: block;
+        }
+
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-tagline {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 8px;
+        }
+
+        .tab-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(22px, 3.5vw, 32px);
+            color: #fff;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .action-trigger-btn {
+            background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+            color: #050811;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 26px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 18px rgba(251, 191, 36, 0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .action-trigger-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.5);
+        }
+
+        .action-trigger-btn.cyan-btn {
+            background: linear-gradient(135deg, #00f0ff 0%, #8b5cf6 100%);
+            color: #050811;
+            box-shadow: 0 6px 18px rgba(0, 240, 255, 0.35);
+        }
+
+        .action-trigger-btn.purple-btn {
+            background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(168, 85, 247, 0.35);
+        }
+
+        .revealed-box {
+            display: none;
+            margin-top: 20px;
+            padding: 22px 24px;
+            border-radius: 16px;
+            animation: fadeInTab 0.35s ease forwards;
+        }
+
+        .quote-box {
+            background: rgba(251, 191, 36, 0.08);
+            border: 1.5px solid var(--amber);
+            border-left: 5px solid var(--amber);
+            color: #fef08a;
+        }
+
+        .verse-box {
+            background: rgba(139, 92, 246, 0.12);
+            border: 1.5px solid var(--purple);
+            border-left: 5px solid var(--purple-neon);
+            color: #e9d5ff;
+        }
+
+        .hammer-counter-box {
+            background: rgba(249, 115, 22, 0.12);
+            border: 1.5px solid var(--fire);
+            color: #fed7aa;
+        }
+
+        .secret-box {
+            background: rgba(0, 240, 255, 0.08);
+            border: 1.5px solid var(--cyan);
+            border-left: 5px solid var(--cyan);
+            color: #e0f2fe;
+        }
+
+        .interactive-compare-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 18px;
         }
 
         @media (max-width: 768px) {
             .cards-grid { grid-template-columns: 1fr; }
+            .interactive-compare-grid { grid-template-columns: 1fr; }
             .quiz-banner { padding: 28px 22px; }
             .hero { padding: 30px 10px 40px; }
+            .aula-nav { justify-content: center; }
         }
     </style>
 </head>
@@ -574,76 +757,256 @@
             </div>
         </a>
 
-        <!-- CAPÍTULOS & CONCEITOS (CARDS GLASSMORPHISM) -->
-        <div class="section-header">
-            <span class="section-tag">Arquivo Histórico // Capítulos</span>
-            <div class="section-line"></div>
-        </div>
+        <!-- RESUMO INTERATIVO DA AULA 01 -->
+        <section class="aula-section" id="recap-aula01">
+            <div class="aula-badge">⚡ AULA 01 · RESUMO INTERATIVO</div>
+            <h2 class="aula-main-title">O Que Aprendemos na Semana 01</h2>
+            <p class="aula-main-sub">Uma história de coragem, mistério e uma faísca que mudou o mundo. Clique nas abas e explore os acontecimentos que marcaram 1517.</p>
 
-        <div class="cards-grid">
+            <!-- NAVEGAÇÃO ENTRE AS CENAS DA AULA -->
+            <div class="aula-nav">
+                <button class="aula-nav-btn active" onclick="trocarAba(0)">
+                    <span>📱</span> 1517 vs Século XXI
+                </button>
+                <button class="aula-nav-btn" onclick="trocarAba(1)">
+                    <span>🪙</span> O Negócio das Indulgências
+                </button>
+                <button class="aula-nav-btn" onclick="trocarAba(2)">
+                    <span>📖</span> O Monge Atormentado
+                </button>
+                <button class="aula-nav-btn" onclick="trocarAba(3)">
+                    <span>🔨</span> 31 de Outubro de 1517
+                </button>
+                <button class="aula-nav-btn" onclick="trocarAba(4)">
+                    <span>🔒</span> Próximos Episódios
+                </button>
+            </div>
 
-            <div class="cine-card">
-                <div class="card-ep">Capítulo 01 · Roma & Wittenberg</div>
-                <span class="card-icon">🪙</span>
-                <h3 class="card-title amber">O Negócio das Indulgências</h3>
-                <p class="card-desc">
-                    Caixas de moedas, pergaminhos com selos papais e a promessa de comprar o perdão divino. O comércio que financiou basílicas e revoltou a consciência cristã.
+            <!-- ABA 1: O CENÁRIO DE 1517 -->
+            <div class="aula-tab active" id="tab-0">
+                <div class="tab-tagline">Uma história que ainda fala hoje</div>
+                <h3 class="tab-title">Esqueça o século XXI... Estamos em 1517.</h3>
+                <p style="color:#cbd5e1;font-size:15px;line-height:1.6;margin-bottom:16px;">
+                    Para entender a revolução que aconteceu, você precisa viajar no tempo e sentir na pele a realidade daquela época:
                 </p>
+
+                <div class="interactive-compare-grid">
+                    <div class="cine-card" style="margin:0;">
+                        <span class="card-icon">📱</span>
+                        <h4 class="card-title cyan">Zero Tecnologia</h4>
+                        <p class="card-desc">Sem internet, sem carros, sem celulares. Apenas vilas escuras, cavalos, estradas de lama e notícias que demoravam meses para circular.</p>
+                    </div>
+
+                    <div class="cine-card" style="margin:0;">
+                        <span class="card-icon">🏰</span>
+                        <h4 class="card-title purple">Castelos e Poder</h4>
+                        <p class="card-desc">A religião controlava absolutamente tudo: a contagem do tempo, os impostos, a nomeação dos reis e o destino após a morte.</p>
+                    </div>
+
+                    <div class="cine-card" style="margin:0;">
+                        <span class="card-icon">🔥</span>
+                        <h4 class="card-title fire">O Pânico do Purgatório</h4>
+                        <p class="card-desc">As pessoas viviam aterrorizadas com o tormento e o sofrimento após a morte. O medo do castigo divino dominava o dia a dia.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top:20px;text-align:center;">
+                    <button class="action-trigger-btn cyan-btn" onclick="toggleModoEpoca()">
+                        <span>⚡ Alternar Curiosidade Histórica</span>
+                    </button>
+                    <div id="box-epoca" class="revealed-box secret-box" style="text-align:left;max-width:650px;margin:18px auto 0;">
+                        <strong>💡 Você sabia?</strong> Em 1517, a esmagadora maioria da população não sabia ler e nunca tinha visto uma Bíblia. Os cultos eram falados em latim, uma língua que o povo simples não entendia!
+                    </div>
+                </div>
             </div>
 
-            <div class="cine-card">
-                <div class="card-ep">Capítulo 02 · 31 de Outubro de 1517</div>
-                <span class="card-icon">📜</span>
-                <h3 class="card-title cyan">O Martelo & As 95 Teses</h3>
-                <p class="card-desc">
-                    Uma porta de madeira na igreja do castelo. O eco das marteladas de Martinho Lutero convocando a universidade para um debate que ninguém conseguiu conter.
-                </p>
+            <!-- ABA 2: O NEGÓCIO DAS INDULGÊNCIAS -->
+            <div class="aula-tab" id="tab-1">
+                <div class="tab-tagline">Quando a fé virou negócio · O passado ensina o presente</div>
+                <h3 class="tab-title">O Negócio das Indulgências</h3>
+                
+                <div class="cine-card" style="margin-bottom:20px;">
+                    <div class="card-ep">Comércio & Poder</div>
+                    <span class="card-icon">🪙</span>
+                    <h4 class="card-title amber">A Caixa de Ferro</h4>
+                    <p class="card-desc">
+                        Vendedores ambulantes viajavam pelas vilas e cidades com caixas de ferro reforçadas, recolhendo as moedas suadas dos camponeses em troca de papéis prometendo perdão dos pecados.
+                    </p>
+                    <div style="display:inline-block;margin-top:10px;padding:5px 12px;background:rgba(251,191,36,0.12);border:1px solid var(--amber);border-radius:20px;font-size:12px;font-weight:800;color:var(--amber);">
+                        🪙 DINHEIRO HOJE, PERDÃO AMANHÃ?
+                    </div>
+                </div>
+
+                <div class="sim-card" style="text-align:center;background:rgba(13,20,38,0.7);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:22px;">
+                    <h4 style="font-family:'Archivo Black',sans-serif;color:#fff;font-size:18px;margin-bottom:8px;">
+                        Simulador: A Campanha de Johann Tetzel
+                    </h4>
+                    <p style="color:#cbd5e1;font-size:14px;max-width:550px;margin:0 auto 14px;">
+                        Clique para simular o som de uma moeda caindo no baú de ferro do frade dominicano:
+                    </p>
+                    <button class="action-trigger-btn" onclick="jogarMoeda()">
+                        <span>🪙 Jogar Moeda na Caixa de Ferro</span>
+                    </button>
+
+                    <div id="box-tetzel" class="revealed-box quote-box" style="text-align:left;max-width:680px;margin:20px auto 0;">
+                        <div style="font-size:12px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);margin-bottom:6px;">
+                            📢 A Frase Escandalosa:
+                        </div>
+                        <p style="font-size:18px;font-weight:700;color:#fff;line-height:1.4;margin-bottom:10px;">
+                            “Assim que a moeda cair na caixa, a alma escapa direto para o paraíso!”
+                        </p>
+                        <div style="font-size:13px;color:#fde68a;">
+                            — <strong>Johann Tetzel</strong>, vendedor oficial de indulgências.
+                        </div>
+                        <p style="font-size:13px;color:#cbd5e1;margin-top:12px;border-top:1px solid rgba(251,191,36,0.2);padding-top:10px;">
+                            ⚠️ <strong>A Farsa Revelada:</strong> O dinheiro arrecadado não garantia salvação nenhuma — financiava construções monumentais em Roma e a dívida de arcebispos poderosos.
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <div class="cine-card">
-                <div class="card-ep">Capítulo 03 · Tecnologia & Expansão</div>
-                <span class="card-icon">🔥</span>
-                <h3 class="card-title fire">Fogo em Palha Seca</h3>
-                <p class="card-desc">
-                    Graças à recém-inventada prensa de tipos móveis de Gutenberg, as teses foram traduzidas e se espalharam por toda a Europa em questão de semanas.
-                </p>
+            <!-- ABA 3: O MONGE ATORMENTADO -->
+            <div class="aula-tab" id="tab-2">
+                <div class="tab-tagline">Buscava a perfeição, mas encontrou a graça</div>
+                <h3 class="tab-title">O Monge Atormentado</h3>
+
+                <div class="cine-card" style="margin-bottom:20px;">
+                    <div class="card-ep">Conflito de Consciência</div>
+                    <span class="card-icon">📖</span>
+                    <h4 class="card-title purple">Martinho Lutero</h4>
+                    <p class="card-desc">
+                        Estudava de madrugada, jejuava, confessava seus erros durante horas a fio e sentia no fundo da alma que nunca alcançava a perfeição que o Deus da lei exigia. Ele tinha pavor da ira de Deus.
+                    </p>
+                </div>
+
+                <div class="sim-card" style="text-align:center;background:rgba(13,20,38,0.7);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:22px;">
+                    <h4 style="font-family:'Archivo Black',sans-serif;color:#fff;font-size:18px;margin-bottom:8px;">
+                        A Descoberta que Explodiu Sua Mente
+                    </h4>
+                    <p style="color:#cbd5e1;font-size:14px;max-width:550px;margin:0 auto 14px;">
+                        Em uma torre fria, debruçado sobre as cartas de Paulo na escuridão da noite, Lutero fez uma descoberta:
+                    </p>
+                    <button class="action-trigger-btn purple-btn" onclick="abrirBibliaLutero()">
+                        <span>📖 Abrir a Carta aos Romanos</span>
+                    </button>
+
+                    <div id="box-lutero" class="revealed-box verse-box" style="text-align:left;max-width:680px;margin:20px auto 0;">
+                        <div style="font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#d8b4fe;margin-bottom:6px;">
+                            ✨ A Frase Que Mudou Tudo:
+                        </div>
+                        <p style="font-family:'Archivo Black',sans-serif;font-size:clamp(22px,4vw,32px);color:#fff;line-height:1.2;margin-bottom:8px;">
+                            “O justo viverá por fé.”
+                        </p>
+                        <div style="font-size:14px;font-weight:800;color:var(--amber);margin-bottom:12px;">
+                            Romanos 1:17 — A frase que explodiu sua mente.
+                        </div>
+                        <p style="font-size:14px;color:#cbd5e1;line-height:1.6;">
+                            Lutero compreendeu finalmente: a justiça de Deus não é um castigo que esmaga o homem, mas um presente gratuito (a Graça) recebido unicamente por meio da Fé em Jesus Cristo. Ninguém precisa comprar o que já foi pago na cruz!
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <div class="cine-card">
-                <div class="card-ep">Capítulo 04 · O Retorno à Essência</div>
-                <span class="card-icon">📖</span>
-                <h3 class="card-title purple">A Palavra Acima de Tudo</h3>
-                <p class="card-desc">
-                    Traduzir as Escrituras para a língua do povo comum. Tirar o véu do latim para que qualquer camponês pudesse ouvir a voz de Deus sem intermediários.
-                </p>
+            <!-- ABA 4: 31 DE OUTUBRO DE 1517 -->
+            <div class="aula-tab" id="tab-3">
+                <div class="tab-tagline">Ideias que transformaram o mundo · Uma fé que ainda faz diferença</div>
+                <h3 class="tab-title">31 de Outubro de 1517</h3>
+
+                <div class="sim-card" style="text-align:center;margin-bottom:24px;background:rgba(13,20,38,0.7);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:22px;">
+                    <h4 style="font-family:'Archivo Black',sans-serif;color:#fff;font-size:18px;margin-bottom:8px;">
+                        A Porta da Igreja do Castelo de Wittenberg
+                    </h4>
+                    <p style="color:#cbd5e1;font-size:14px;max-width:550px;margin:0 auto 14px;">
+                        Dê as 3 marteladas na porta da igreja para afixar as teses e liberar as ideias pelo mundo:
+                    </p>
+                    <button class="action-trigger-btn" id="btn-martelo" onclick="darMartelada()">
+                        <span>🔨 Bater o Martelo na Porta</span>
+                    </button>
+
+                    <div id="box-martelada" class="revealed-box hammer-counter-box" style="text-align:center;max-width:500px;margin:18px auto 0;">
+                        <div id="martelada-texto" style="font-family:'Archivo Black',sans-serif;font-size:24px;color:#fff;margin-bottom:6px;">
+                            POC! 🔨
+                        </div>
+                        <p id="martelada-desc" style="font-size:14px;color:#fed7aa;">
+                            O som do martelo ecoou pela praça da igreja...
+                        </p>
+                    </div>
+                </div>
+
+                <div id="grid-teses" class="interactive-compare-grid" style="display:none;">
+                    <div class="cine-card" style="margin:0;">
+                        <span class="card-icon">📜</span>
+                        <h4 class="card-title cyan">95 Teses</h4>
+                        <p class="card-desc">Frases corajosas e explosivas desafiando o comércio das indulgências, os abusos de autoridade e convocando um debate público.</p>
+                    </div>
+
+                    <div class="cine-card" style="margin:0;">
+                        <span class="card-icon">🔨</span>
+                        <h4 class="card-title amber">Poc! Poc! Poc!</h4>
+                        <p class="card-desc">As marteladas de Lutero na porta da igreja do castelo de Wittenberg não ficaram restritas à cidade: ecoaram pelo mundo inteiro.</p>
+                    </div>
+
+                    <div class="cine-card" style="margin:0;">
+                        <span class="card-icon">🔥</span>
+                        <h4 class="card-title fire">Fogo em Palha Seca</h4>
+                        <p class="card-desc">Graças à prensa de tipos móveis (a grande tecnologia da época), as teses foram impressas, traduzidas e se espalharam em velocidade recorde, abalando impérios.</p>
+                    </div>
+                </div>
             </div>
 
-        </div>
+            <!-- ABA 5: PRÓXIMOS EPISÓDIOS -->
+            <div class="aula-tab" id="tab-4">
+                <div class="tab-tagline">História que ainda nos ensina · Mesmo séculos depois, as perguntas continuam</div>
+                <h3 class="tab-title">Os Cinco Solas & O Grande Conflito</h3>
 
-        <!-- OS CINCO SOLAS -->
-        <div class="solas-box">
-            <div class="solas-header">
-                <h3 class="solas-title">Os Cinco Pilares (Solas)</h3>
-                <p class="solas-sub">O alicerce teológico redescoberto pelos reformadores</p>
-            </div>
-            <div class="solas-pills">
-                <div class="sola-pill">📖 Sola Scriptura <span>(Somente a Escritura)</span></div>
-                <div class="sola-pill">✨ Sola Gratia <span>(Somente a Graça)</span></div>
-                <div class="sola-pill">🛡️ Sola Fide <span>(Somente a Fé)</span></div>
-                <div class="sola-pill">✝️ Solus Christus <span>(Somente Cristo)</span></div>
-                <div class="sola-pill">👑 Soli Deo Gloria <span>(Glória Somente a Deus)</span></div>
-            </div>
-        </div>
+                <div class="sim-card" style="text-align:center;background:rgba(13,20,38,0.7);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:22px;">
+                    <div style="font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:8px;">
+                        Suspense & Conflito Histórico
+                    </div>
+                    <p style="font-family:'Archivo Black',sans-serif;font-size:clamp(18px,3vw,26px);color:#fff;line-height:1.3;max-width:650px;margin:0 auto 16px;">
+                        “O que você faria se o homem mais poderoso do mundo estivesse caçando você?”
+                    </p>
+                    <p style="color:var(--text-muted);font-size:14px;max-width:550px;margin:0 auto 18px;">
+                        Depois de desafiar o Papa e o comércio de indulgências, o império se voltou contra o monge. A morte na fogueira era o destino comum dos acusados.
+                    </p>
 
-        <!-- GANCHO DE CONTINUIDADE -->
+                    <button class="action-trigger-btn cyan-btn" id="btn-segredo" onclick="destrancarSegredo()">
+                        <span>🔒 Destrancar Arquivo Confidencial</span>
+                    </button>
+
+                    <div id="box-segredo" class="revealed-box secret-box" style="text-align:left;max-width:680px;margin:20px auto 0;">
+                        <div style="font-family:'Archivo Black',sans-serif;font-size:18px;color:#fff;margin-bottom:8px;">
+                            🔓 ISSO NÓS VAMOS DESCOBRIR NO PRÓXIMO EPISÓDIO...
+                        </div>
+                        <p style="font-size:14px;color:#cbd5e1;line-height:1.6;margin-bottom:14px;">
+                            Martinho Lutero precisará comparecer perante imperadores e reis para responder se revoga suas palavras ou se sustenta sua fé custe o que custar.
+                        </p>
+                        <div style="font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;">
+                            Os Cinco Pilares Redescobertos:
+                        </div>
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                            <span class="sola-pill" style="font-size:11px;padding:5px 12px;">📖 Sola Scriptura</span>
+                            <span class="sola-pill" style="font-size:11px;padding:5px 12px;">✨ Sola Gratia</span>
+                            <span class="sola-pill" style="font-size:11px;padding:5px 12px;">🛡️ Sola Fide</span>
+                            <span class="sola-pill" style="font-size:11px;padding:5px 12px;">✝️ Solus Christus</span>
+                            <span class="sola-pill" style="font-size:11px;padding:5px 12px;">👑 Soli Deo Gloria</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- CTA FINAL VALENDO PRÊMIO -->
         <div class="hook-box">
-            <div class="hook-tag">Arquivo Confidencial · Próximo Passo</div>
-            <h4 class="hook-title">"Aqui estou, não posso recuar..."</h4>
+            <div class="hook-tag">Missão Valendo Pontos · Hora do Desafio</div>
+            <h4 class="hook-title">Pronto para colocar seu nome no ranking?</h4>
             <p class="hook-desc">
-                Confrontado diante do imperador Carlos V e dos nobres em Worms, o monge precisava escolher entre revogar tudo ou arriscar a própria vida na fogueira.
+                Agora que você explorou todos os pontos da Aula 01, responda ao Quiz Oficial de 20 perguntas e desbloqueie a Moeda de Ouro Misteriosa!
             </p>
-            <a href="quiz.html" style="color:var(--cyan);font-size:13px;font-weight:700;text-decoration:none;">
-                Pronto para testar sua mente? Inicie o Quiz →
+            <a href="quiz.html" class="quiz-cta-btn" style="text-decoration:none;display:inline-flex;margin-top:8px;">
+                <span>🔥 Iniciar Quiz da Aula 01</span>
+                <span>→</span>
             </a>
         </div>
 
@@ -655,6 +1018,65 @@
             Série Especial: <strong>Reforma Protestante (Arquivo 1517)</strong>
         </p>
     </footer>
+
+    <script>
+        function trocarAba(indice) {
+            var botoes = document.querySelectorAll('.aula-nav-btn');
+            var abas = document.querySelectorAll('.aula-tab');
+            botoes.forEach(function(btn, i) {
+                btn.classList.toggle('active', i === indice);
+            });
+            abas.forEach(function(aba, i) {
+                aba.classList.toggle('active', i === indice);
+            });
+        }
+
+        function toggleModoEpoca() {
+            var box = document.getElementById('box-epoca');
+            box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function jogarMoeda() {
+            var box = document.getElementById('box-tetzel');
+            box.style.display = 'block';
+            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function abrirBibliaLutero() {
+            var box = document.getElementById('box-lutero');
+            box.style.display = 'block';
+            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        var marteladas = 0;
+        function darMartelada() {
+            marteladas++;
+            var box = document.getElementById('box-martelada');
+            var txt = document.getElementById('martelada-texto');
+            var desc = document.getElementById('martelada-desc');
+            var grid = document.getElementById('grid-teses');
+            box.style.display = 'block';
+            if (marteladas === 1) {
+                txt.textContent = 'POC! 🔨';
+                desc.textContent = 'A primeira batida ecoou na porta de madeira da igreja...';
+            } else if (marteladas === 2) {
+                txt.textContent = 'POC! POC! 🔨🔨';
+                desc.textContent = 'O prego entrou firme, afixando o pergaminho!';
+            } else {
+                txt.textContent = 'POC! POC! POC! 🔥 AS 95 TESES ESTÃO NA PORTA!';
+                desc.textContent = 'A faísca foi acesa. Graças à imprensa, as ideias se espalharam!';
+                grid.style.display = 'grid';
+            }
+            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function destrancarSegredo() {
+            var box = document.getElementById('box-segredo');
+            box.style.display = 'block';
+            document.getElementById('btn-segredo').innerHTML = '<span>🔓 Arquivo Desbloqueado</span>';
+            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
 
 </body>
 </html>

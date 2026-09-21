@@ -178,6 +178,28 @@
             font-weight: 700;
         }
 
+        .hero-poster-box {
+            max-width: 320px;
+            margin: 0 auto 28px;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 16px 45px rgba(0,0,0,0.7), 0 0 35px rgba(139,92,246,0.35);
+            border: 1.5px solid rgba(168,85,247,0.4);
+            position: relative;
+        }
+
+        .hero-poster-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-poster-box:hover .hero-poster-img {
+            transform: scale(1.03);
+        }
+
         .dossier-box {
             max-width: 720px;
             margin: 0 auto 45px;
@@ -514,13 +536,17 @@
                 Arquivo 1517 · Wittenberg
             </div>
 
+            <div class="hero-poster-box">
+                <img src="capa_reforma.jpg" alt="Série A Reforma" class="hero-poster-img">
+            </div>
+
             <h1 class="hero-title">
                 Reforma
                 <span class="highlight-purple">Protestante</span>
             </h1>
 
             <p class="hero-sub">
-                O Monge Atormentado, o Martelo e a <em>Faísca</em> que Incendiou o Mundo.
+                Conhecer a História, Viver a Verdade. O Monge Atormentado, o Martelo e a <em>Faísca</em> que Incendiou o Mundo.
             </p>
 
             <div class="dossier-box">

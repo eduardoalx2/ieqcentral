@@ -65,6 +65,7 @@
 
         .scard-bar { height: 5px; }
         .reforma-bar { background: linear-gradient(90deg, #00f0ff, #8b5cf6, #fbbf24, #f97316); }
+        .espirito-bar { background: linear-gradient(90deg, #0d1b2e, #1a3a5c, #e85d2a); }
         .pascoa-bar  { background: linear-gradient(90deg, #3b0764, #6b21a8, #d4a843); }
         .rute-bar    { background: linear-gradient(90deg, #8b4513, #c17f3a, #d4a843); }
         .elias-bar   { background: linear-gradient(90deg, #ff3cac, #ff914d, #ffde59); }
@@ -76,6 +77,7 @@
         .scard-icon { font-size: 36px; display: block; margin-bottom: 10px; }
         .scard-name { font-family: 'Archivo Black', sans-serif; font-size: 28px; line-height: 1; margin-bottom: 2px; letter-spacing: -0.5px; }
         .reforma-name { color: #38bdf8; }
+        .espirito-name { color: #e85d2a; }
         .pascoa-name  { color: #9333ea; }
         .rute-name    { color: #d4a843; }
         .elias-name   { color: #ff914d; }
@@ -90,6 +92,13 @@
         .go-tag { font-size: 12px; color: #555; font-weight: 700; }
         .scard:hover .go-tag { color: #aaa; }
 
+        /* REFORMA FEATURED LAYOUT */
+        .feat-reforma-layout { display: grid; grid-template-columns: 1fr 280px; gap: 28px; align-items: center; }
+        .feat-poster-wrap { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 16px 45px rgba(0,0,0,0.65), 0 0 35px rgba(139,92,246,0.35); border: 1.5px solid rgba(168,85,247,0.35); }
+        .feat-poster { width: 100%; height: auto; display: block; border-radius: 19px; transition: transform 0.3s ease; }
+        .featured:hover .feat-poster { transform: scale(1.03); }
+        .reforma-featured:hover { box-shadow: 0 25px 65px rgba(139,92,246,0.35), 0 0 40px rgba(0,240,255,0.25); border-color: rgba(0,240,255,0.35); }
+
         .pg-footer { text-align: center; padding: 24px 20px 40px; border-top: 1px solid rgba(255,255,255,0.05); }
         .pg-footer p { font-size: 12px; color: #444; line-height: 2; }
         .pg-footer strong { color: #666; }
@@ -99,6 +108,8 @@
 
         @media (max-width: 600px) {
             .feat-body { padding: 22px 18px 20px; }
+            .feat-reforma-layout { grid-template-columns: 1fr; gap: 20px; }
+            .feat-poster-wrap { max-width: 260px; margin: 10px auto 0; }
             .seasons { grid-template-columns: 1fr 1fr; }
             .extras  { grid-template-columns: 1fr; }
         }
@@ -124,36 +135,37 @@
             <div class="sh-line"></div>
         </div>
 
-        <a href="espirito/espirito.html" class="featured">
-            <div class="feat-topbar" style="background:linear-gradient(90deg,#0d1b2e,#1a3a5c,#e85d2a);"></div>
-            <div class="feat-body">
-                <div class="live-badge" style="background:rgba(212,168,67,0.12);border-color:rgba(212,168,67,0.5);color:#d4a843;">
-                    <div class="live-dot" style="background:#d4a843;"></div> Série Especial · Semana 2 ao vivo
+        <a href="reforma/reforma.html" class="featured reforma-featured">
+            <div class="feat-topbar" style="background:linear-gradient(90deg, #00f0ff, #8b5cf6, #fbbf24, #f97316);"></div>
+            <div class="feat-body feat-reforma-layout">
+                <div class="feat-content">
+                    <div class="live-badge" style="background:rgba(0,240,255,0.12);border-color:rgba(0,240,255,0.5);color:#00f0ff;">
+                        <div class="live-dot" style="background:#00f0ff;"></div> Série Especial · No Ar
+                    </div>
+                    <div class="feat-season" style="color:#a855f7;">🔥 ARQUIVO 1517 — CENTRAL UP</div>
+                    <div class="feat-title">A REFORMA</div>
+                    <p class="feat-verse">Conhecer a História, Viver a Verdade</p>
+                    <p class="feat-desc">Wittenberg, 1517. O monge atormentado, o martelo e a faísca que incendiou o mundo. Conheça a história que transformou a fé e teste seus conhecimentos no Quiz Oficial valendo prêmio!</p>
+                    <div class="extras">
+                        <span class="xbtn" style="border-color:rgba(0,240,255,0.25);background:rgba(0,240,255,0.06);color:#fff;">
+                            <span class="xbtn-icon">📜</span>
+                            <div>
+                                <span class="xbtn-label">Dossiê & Capítulos</span>
+                                <span class="xbtn-desc" style="color:#94a3b8;">História, mistério e os 5 Solas</span>
+                            </div>
+                        </span>
+                        <span class="xbtn" style="border-color:rgba(168,85,247,0.35);background:rgba(168,85,247,0.1);color:#fff;">
+                            <span class="xbtn-icon">⚡</span>
+                            <div>
+                                <span class="xbtn-label">Quiz Oficial de 1517</span>
+                                <span class="xbtn-desc" style="color:#c084fc;">20 desafios valendo prêmio</span>
+                            </div>
+                        </span>
+                    </div>
                 </div>
-                <div class="feat-season" style="color:#e85d2a;">🔥 série especial — central up</div>
-                <div class="feat-title">O LIVRO INACABADO</div>
-                <p class="feat-verse">O Espírito Santo e o Livro Inacabado</p>
-                <p class="feat-desc">A história de Levi, um menino de 12 anos carregador de água em Jerusalém. Ele viu demais. E não conseguia mais parar de pensar. 💧🔥</p>
-                <div style="font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:8px;">💧 Semana 1</div>
-                <div class="dias" id="dias-espirito">
-                    <a href="espirito/espirito_dia1.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-06">Dia 1 · 06/04</a>
-                    <a href="espirito/espirito_dia2.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-07">Dia 2 · 07/04</a>
-                    <a href="espirito/espirito_dia3.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-08">Dia 3 · 08/04</a>
-                    <a href="espirito/espirito_dia4.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-09">Dia 4 · 09/04</a>
-                    <a href="espirito/espirito_dia5.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-10">Dia 5 · 10/04</a>
-                    <a href="espirito/espirito_dia6.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-11">Dia 6 · 11/04</a>
+                <div class="feat-poster-wrap">
+                    <img src="reforma/capa_reforma.jpg" alt="Série A Reforma" class="feat-poster">
                 </div>
-                <div style="font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#8b6410;margin:12px 0 8px;">📖 Semana 2</div>
-                <div class="dias" id="dias-atos">
-                    <a href="atos/atos_dia1.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-18" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 1 · 18/04</a>
-                    <a href="atos/atos_dia2.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-19" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 2 · 19/04</a>
-                    <a href="atos/atos_dia3.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-20" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 3 · 20/04</a>
-                    <a href="atos/atos_dia4.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-21" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 4 · 21/04</a>
-                    <a href="atos/atos_dia5.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-22" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 5 · 22/04</a>
-                    <a href="atos/atos_dia6.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-23" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 6 · 23/04</a>
-                    <a href="atos/atos_dia7.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-24" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 7 · 24/04</a>
-                    <a href="atos/atos_dia8.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-25" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 8 · 25/04</a>
-                    <a href="atos/atos_dia9.html" class="dc" onclick="event.stopPropagation()" data-date="2026-04-26" style="border-color:rgba(212,168,67,0.3);color:rgba(212,168,67,0.8);">Dia 9 · 26/04</a>
             </div>
         </a>
 
@@ -166,16 +178,16 @@
 
         <div class="seasons">
 
-            <a href="reforma/reforma.html" class="scard reforma-card">
-                <div class="scard-bar reforma-bar"></div>
+            <a href="espirito/espirito.html" class="scard espirito-card">
+                <div class="scard-bar espirito-bar"></div>
                 <div class="scard-body">
-                    <div class="scard-season" style="color:#a855f7;">Arquivo 1517 · Nova Série</div>
-                    <span class="scard-icon">📜</span>
-                    <div class="scard-name reforma-name">Reforma</div>
-                    <p class="scard-sub">O Grande Conflito & A Verdade</p>
-                    <p class="scard-desc">Wittenberg, 1517. Um monge atormentado, 95 teses na porta e a faísca que incendiou o mundo.</p>
+                    <div class="scard-season" style="color:#e85d2a;">Série Especial</div>
+                    <span class="scard-icon">💧</span>
+                    <div class="scard-name espirito-name">O Livro Inacabado</div>
+                    <p class="scard-sub">O Espírito Santo e o Livro Inacabado</p>
+                    <p class="scard-desc">A história de Levi, carregador de água em Jerusalém. Ele viu demais. E não conseguia mais parar de pensar. 💧🔥</p>
                     <div class="scard-foot">
-                        <span class="done-tag" style="color:#00f0ff;border-color:#00f0ff;">Novo 🔥</span>
+                        <span class="done-tag">Concluído</span>
                         <span class="go-tag">ver série →</span>
                     </div>
                 </div>
@@ -267,6 +279,7 @@
     <script>
         (function() {
             var chips = document.querySelectorAll('#dias-espirito .dc, #dias-atos .dc');
+            if (!chips || chips.length === 0) return;
             var now = new Date();
             var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             var libS1 = new Date(2026, 3, 12); // 12/04

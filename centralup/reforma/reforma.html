@@ -690,6 +690,179 @@
             margin-top: 18px;
         }
 
+        /* VÍDEO & HINO DA REFORMA */
+        .video-hymn-section {
+            margin: 45px 0 50px;
+            background: rgba(10, 16, 32, 0.92);
+            border: 1.5px solid rgba(251, 191, 36, 0.35);
+            border-radius: 26px;
+            padding: clamp(24px, 4vw, 42px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(251, 191, 36, 0.15);
+            backdrop-filter: blur(20px);
+            position: relative;
+        }
+
+        .video-frame-wrap {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 14px 45px rgba(0, 0, 0, 0.75), 0 0 30px rgba(0, 240, 255, 0.2);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            margin: 22px 0 34px;
+            background: #000;
+        }
+
+        .video-frame-wrap iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .letra-container {
+            background: rgba(17, 26, 48, 0.75);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 20px;
+            padding: clamp(22px, 3.5vw, 36px);
+            position: relative;
+        }
+
+        .letra-header {
+            text-align: center;
+            margin-bottom: 26px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+        }
+
+        .letra-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(251, 191, 36, 0.12);
+            border: 1px solid rgba(251, 191, 36, 0.35);
+            color: var(--amber);
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 25px;
+            margin-bottom: 12px;
+        }
+
+        .letra-titulo-principal {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(26px, 5vw, 38px);
+            color: #fff;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffffff 0%, #fbbf24 60%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .letra-subtitulo {
+            font-style: italic;
+            color: var(--cyan-dim);
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .letra-autor {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-muted);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .letra-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .estrofe-card {
+            background: rgba(13, 20, 38, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 18px 22px;
+            line-height: 1.7;
+            font-size: 15px;
+            color: #e2e8f0;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .estrofe-card:hover {
+            border-color: rgba(251, 191, 36, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .estrofe-num {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: var(--amber);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .estrofe-destaque {
+            font-weight: 800;
+            color: #fbbf24;
+            display: inline-block;
+        }
+
+        .estrofe-coro {
+            grid-column: 1 / -1;
+            background: rgba(249, 115, 22, 0.08);
+            border: 1.5px dashed rgba(249, 115, 22, 0.45);
+            text-align: center;
+            font-size: 16px;
+            padding: 22px 24px;
+        }
+
+        .estrofe-coro .resp {
+            color: var(--cyan);
+            font-style: italic;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .copy-lyrics-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--cyan-dim);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 14px;
+        }
+
+        .copy-lyrics-btn:hover {
+            background: rgba(0, 240, 255, 0.15);
+            border-color: var(--cyan);
+            color: #fff;
+        }
+
         @media (max-width: 768px) {
             .cards-grid { grid-template-columns: 1fr; }
             .interactive-compare-grid { grid-template-columns: 1fr; }
@@ -982,6 +1155,120 @@
 
         </section>
 
+        <!-- SESSÃO VÍDEO & HINO DA REFORMA -->
+        <section class="video-hymn-section" id="hino-castelo-forte">
+            <div style="text-align: center;">
+                <div class="letra-badge">
+                    <span>🛡️ Trilha Sonora Histórica</span>
+                </div>
+                <h2 style="font-family:'Archivo Black',sans-serif;font-size:clamp(24px, 4.5vw, 38px);color:#fff;margin-bottom:8px;letter-spacing:-0.5px;">
+                    O Hino da Reforma
+                </h2>
+                <p style="color:var(--text-muted);font-size:15px;max-width:680px;margin:0 auto 10px;line-height:1.6;">
+                    Assista à versão musical de <strong style="color:var(--amber);">“Castelo Forte”</strong> e acompanhe a letra completa logo abaixo.
+                </p>
+            </div>
+
+            <!-- EMBED DO VÍDEO DO YOUTUBE -->
+            <div class="video-frame-wrap">
+                <iframe 
+                    src="https://www.youtube.com/embed/LOhzWcgfBFc" 
+                    title="Castelo Forte - Hino da Reforma" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <!-- LETRA DA MÚSICA -->
+            <div class="letra-container">
+                <div class="letra-header">
+                    <div class="letra-badge">
+                        <span>📜 Letra Oficial</span>
+                    </div>
+                    <h3 class="letra-titulo-principal">Castelo Forte</h3>
+                    <div class="letra-subtitulo">(Ein' feste Burg ist unser Gott)</div>
+                    <div class="letra-autor">Martinho Lutero</div>
+                    <div>
+                        <button class="copy-lyrics-btn" onclick="copiarLetra()">
+                            <span id="btn-copiar-icon">📋</span> <span id="btn-copiar-texto">Copiar Letra</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="letra-grid">
+                    <div class="estrofe-card">
+                        <span class="estrofe-num">Estrofe I</span>
+                        <p>
+                            Castelo forte é o nosso Deus<br>
+                            Escudo e boa espada<br>
+                            Com Seu poder defende os Seus<br>
+                            <strong class="estrofe-destaque">A Sua Igreja amada</strong>
+                        </p>
+                    </div>
+
+                    <div class="estrofe-card">
+                        <span class="estrofe-num">Estrofe II</span>
+                        <p>
+                            Com força e com furor, nos prova o tentador<br>
+                            Com artimanhas tais e astúcias infernais<br>
+                            <strong class="estrofe-destaque">Iguais não há na Terra</strong>
+                        </p>
+                    </div>
+
+                    <div class="estrofe-card">
+                        <span class="estrofe-num">Estrofe III</span>
+                        <p>
+                            A nossa força nada faz<br>
+                            Estamos nós perdidos<br>
+                            Mas nosso Deus socorro traz<br>
+                            <strong class="estrofe-destaque">E somos protegidos</strong>
+                        </p>
+                    </div>
+
+                    <div class="estrofe-card">
+                        <span class="estrofe-num">Estrofe IV</span>
+                        <p>
+                            Defende-nos, Jesus<br>
+                            O que venceu na cruz<br>
+                            Senhor dos altos céus<br>
+                            Que, sendo o próprio Deus<br>
+                            <strong class="estrofe-destaque">Triunfa na batalha</strong>
+                        </p>
+                    </div>
+
+                    <div class="estrofe-card">
+                        <span class="estrofe-num">Estrofe V</span>
+                        <p>
+                            Sim que a palavra ficará<br>
+                            Sabemos com certeza<br>
+                            Pois ela nos ajudará<br>
+                            <strong class="estrofe-destaque">Com armas de defesa</strong>
+                        </p>
+                    </div>
+
+                    <div class="estrofe-card">
+                        <span class="estrofe-num">Estrofe VI</span>
+                        <p>
+                            Se temos de perder família, bens, poder<br>
+                            E, embora a vida vá, por nós Jesus está<br>
+                            <strong class="estrofe-destaque">E nos dará seu reino</strong>
+                        </p>
+                    </div>
+
+                    <div class="estrofe-card estrofe-coro">
+                        <span class="estrofe-num" style="color:var(--cyan);">Final / Coro</span>
+                        <p style="margin-top:6px;line-height:1.9;">
+                            Castelo forte é o nosso Deus <span class="resp">(castelo forte é o nosso Deus)</span><br>
+                            Castelo forte é o nosso Deus <span class="resp">(castelo forte é o nosso Deus)</span><br>
+                            Castelo forte é o nosso Deus <span class="resp">(castelo forte é o nosso Deus)</span><br>
+                            Castelo forte é o nosso Deus
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- NA SEQUÊNCIA: QUIZ INTERATIVO -->
         <a href="quiz.html" class="quiz-banner" style="margin-top: 20px;">
             <div class="quiz-banner-content">
@@ -1062,6 +1349,68 @@
             box.style.display = 'block';
             document.getElementById('btn-segredo').innerHTML = '<span>🔓 Arquivo Desbloqueado</span>';
             box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function copiarLetra() {
+            var letraTexto = `*CASTELO FORTE*
+(Ein' feste Burg ist unser Gott)
+Martinho Lutero
+
+Castelo forte é o nosso Deus
+Escudo e boa espada
+Com Seu poder defende os Seus
+A Sua Igreja amada
+
+Com força e com furor, nos prova o tentador
+Com artimanhas tais e astúcias infernais
+Iguais não há na Terra
+
+A nossa força nada faz
+Estamos nós perdidos
+Mas nosso Deus socorro traz
+E somos protegidos
+
+Defende-nos, Jesus
+O que venceu na cruz
+Senhor dos altos céus
+Que, sendo o próprio Deus
+Triunfa na batalha
+
+Sim que a palavra ficará
+Sabemos com certeza
+Pois ela nos ajudará
+Com armas de defesa
+
+Se temos de perder família, bens, poder
+E, embora a vida vá, por nós Jesus está
+E nos dará seu reino
+
+Castelo forte é o nosso Deus 
+(castelo forte é o nosso Deus)
+Castelo forte é o nosso Deus 
+(castelo forte é o nosso Deus)
+Castelo forte é o nosso Deus 
+(castelo forte é o nosso Deus)
+Castelo forte é o nosso Deus`;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(letraTexto).then(function() {
+                    var icon = document.getElementById('btn-copiar-icon');
+                    var txt = document.getElementById('btn-copiar-texto');
+                    if (icon && txt) {
+                        icon.textContent = '✅';
+                        txt.textContent = 'Letra Copiada!';
+                        setTimeout(function() {
+                            icon.textContent = '📋';
+                            txt.textContent = 'Copiar Letra';
+                        }, 2500);
+                    }
+                }).catch(function() {
+                    prompt('Copie a letra abaixo:', letraTexto);
+                });
+            } else {
+                prompt('Copie a letra abaixo:', letraTexto);
+            }
         }
     </script>
 

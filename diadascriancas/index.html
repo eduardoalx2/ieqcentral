@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição - Festa Dia das Crianças | IEQ Central Londrina</title>
+    <meta name="description" content="Inscrição para a Festa do Dia das Crianças na IEQ Central Londrina. 03 de Outubro às 14h.">
+    <link rel="icon" type="image/png" href="../mini.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #f8f6f0;
+            --card-bg: #ffffff;
+            --ink: #181a20;
+            --ink-soft: #383c47;
+            --muted: #6b7280;
+            --line: #e5e0d3;
+            --line-soft: #ede8dc;
+            
+            --yellow: #f8b32b;
+            --yellow-light: #fff8e8;
+            --red: #ef4444;
+            --red-light: #fef2f2;
+            --blue: #2596be;
+            --blue-light: #eef7fc;
+            --green: #10b981;
+            --green-light: #ecfdf5;
+            --purple: #8b5cf6;
+            --purple-light: #f5f3ff;
+            
+            --primary: #ef4444;
+            --primary-hover: #dc2626;
+            --shadow: 0 10px 30px rgba(0,0,0,0.06);
+            --shadow-lg: 0 20px 45px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ─── TOP BAR ─── */
+        .top-nav {
+            width: 100%;
+            max-width: 520px;
+            padding: 1rem 1.25rem 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink-soft);
+            background: rgba(255,255,255,0.7);
+            border: 1px solid var(--line);
+            padding: 6px 13px;
+            border-radius: 999px;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
+        }
+        .back-btn:hover {
+            background: #fff;
+            transform: translateX(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .admin-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid var(--line);
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
+        }
+        .admin-btn:hover {
+            background: #fff;
+            color: var(--ink);
+            border-color: var(--ink-soft);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .admin-btn svg { width: 14px; height: 14px; }
+
+        /* ─── CONTAINER ─── */
+        .page-container {
+            width: 100%;
+            max-width: 520px;
+            padding: 0.5rem 1.25rem 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        /* ─── BANNER CARD ─── */
+        .banner-card {
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--line-soft);
+            position: relative;
+        }
+        .banner-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* ─── FORM CARD ─── */
+        .main-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            border: 1px solid var(--line-soft);
+            box-shadow: var(--shadow);
+            padding: 1.75rem 1.5rem;
+            position: relative;
+        }
+
+        .card-header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--yellow-light);
+            border: 1px solid rgba(248,179,43,0.35);
+            color: #b45309;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 999px;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-family: 'Fredoka', 'Inter', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+        .card-desc {
+            font-size: 13.5px;
+            color: var(--muted);
+            margin-top: 0.4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ─── FORM FIELDS ─── */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink-soft);
+            margin-bottom: 0.4rem;
+        }
+        .form-label span.req {
+            color: var(--red);
+            font-weight: 700;
+            margin-left: 2px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            border: 1.5px solid var(--line);
+            background: #faf9f6;
+            font-family: inherit;
+            font-size: 14.5px;
+            color: var(--ink);
+            transition: all 0.2s ease;
+            outline: none;
+        }
+        .form-input:focus {
+            border-color: var(--blue);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(37,150,190,0.12);
+        }
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+
+        /* ─── EVENT DETAILS FOOTER INSIDE CARD ─── */
+        .event-info-box {
+            background: linear-gradient(135deg, #fff9f0 0%, #f0f7ff 100%);
+            border: 1.5px dashed #e2d9c8;
+            border-radius: 16px;
+            padding: 1.15rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .event-info-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #b45309;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .event-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+        .event-info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 12.5px;
+            color: var(--ink-soft);
+        }
+        .event-info-item svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: var(--blue);
+        }
+        .event-info-item.full {
+            grid-column: 1 / -1;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+        .event-info-item strong {
+            display: block;
+            font-size: 13px;
+            color: var(--ink);
+        }
+
+        /* ─── SUBMIT BUTTON ─── */
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            padding: 1rem;
+            font-family: 'Fredoka', 'Inter', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(239,68,68,0.3);
+            transition: all 0.2s cubic-bezier(.4,0,.2,1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(239,68,68,0.4);
+        }
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ─── SUCCESS MODAL / CARD ─── */
+        .success-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(12,13,16,0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        .success-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .success-modal {
+            background: #fff;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 24px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.92);
+            transition: transform 0.25s cubic-bezier(.4,0,.2,1);
+        }
+        .success-overlay.active .success-modal {
+            transform: scale(1);
+        }
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--green-light);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green);
+            margin-bottom: 1rem;
+        }
+        .success-icon svg { width: 38px; height: 38px; }
+        .success-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 0.4rem;
+        }
+        .success-text {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+        .success-details {
+            background: var(--bg);
+            border-radius: 14px;
+            padding: 1rem;
+            text-align: left;
+            margin-bottom: 1.5rem;
+            font-size: 13px;
+        }
+        .success-details p {
+            margin-bottom: 0.35rem;
+            color: var(--ink-soft);
+        }
+        .success-details p:last-child { margin-bottom: 0; }
+        .success-details strong { color: var(--ink); }
+
+        .btn-new-reg {
+            width: 100%;
+            background: var(--blue);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 0.85rem;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-new-reg:hover { background: #1e7d9e; }
+
+        /* ─── ADMIN LOGIN MODAL ─── */
+        .admin-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(12,13,16,0.65);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+            z-index: 150;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        .admin-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .admin-modal {
+            background: #fff;
+            width: 100%;
+            max-width: 380px;
+            border-radius: 20px;
+            padding: 1.75rem 1.5rem;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+        .admin-close {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        /* ─── ADMIN DASHBOARD ─── */
+        .dashboard-view {
+            display: none;
+            width: 100%;
+            max-width: 780px;
+            padding: 1rem 1.25rem 3rem;
+        }
+        .dashboard-view.active {
+            display: block;
+        }
+        .dash-header {
+            background: #fff;
+            border-radius: 20px;
+            padding: 1.25rem 1.5rem;
+            border: 1px solid var(--line-soft);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.25rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .dash-title-group h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        .dash-title-group span {
+            font-size: 12.5px;
+            color: var(--muted);
+        }
+        .dash-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .dash-btn {
+            padding: 7px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: var(--bg);
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--ink-soft);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        .dash-btn:hover {
+            background: #fff;
+            border-color: var(--ink-soft);
+        }
+        .dash-btn.primary {
+            background: var(--blue);
+            color: #fff;
+            border-color: var(--blue);
+        }
+        .dash-btn.danger {
+            background: var(--red-light);
+            color: var(--red);
+            border-color: rgba(239,68,68,0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 1.1rem;
+            border: 1px solid var(--line-soft);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .stat-icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .stat-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .search-bar {
+            width: 100%;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: #fff;
+            font-size: 13.5px;
+            outline: none;
+        }
+        .search-icon {
+            position: absolute;
+            left: 0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            width: 16px; height: 16px;
+        }
+
+        .table-wrap {
+            background: #fff;
+            border-radius: 20px;
+            border: 1px solid var(--line-soft);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .inscritos-list {
+            display: flex;
+            flex-direction: column;
+        }
+        .inscrito-item {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--line-soft);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            transition: background 0.15s;
+        }
+        .inscrito-item:last-child { border-bottom: none; }
+        .inscrito-item:hover { background: #faf8f5; }
+        .inscrito-info {
+            flex: 1;
+            min-width: 200px;
+        }
+        .inscrito-nome {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .inscrito-meta {
+            font-size: 12.5px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+        .inscrito-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .action-btn {
+            background: #fff;
+            border: 1px solid var(--line);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s;
+            text-decoration: none;
+        }
+        .action-btn:hover {
+            border-color: var(--ink-soft);
+        }
+        .action-btn.del {
+            color: var(--red);
+            border-color: rgba(239,68,68,0.25);
+            background: var(--red-light);
+        }
+        .action-btn.del:hover {
+            background: var(--red);
+            color: #fff;
+        }
+        .action-btn.wa {
+            color: #059669;
+            background: var(--green-light);
+            border-color: rgba(16,185,129,0.3);
+        }
+
+        /* ─── EDIT MODAL ─── */
+        .edit-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(12,13,16,0.65);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+            z-index: 160;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        .edit-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .edit-modal {
+            background: #fff;
+            width: 100%;
+            max-width: 440px;
+            border-radius: 20px;
+            padding: 1.75rem 1.5rem;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        /* ─── TOAST ─── */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--ink);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+            z-index: 200;
+            pointer-events: none;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .event-info-grid { grid-template-columns: 1fr; }
+            .card-title { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP NAVIGATION -->
+    <nav class="top-nav" id="topNav">
+        <a href="../" class="back-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
+            Voltar
+        </a>
+        <button class="admin-btn" onclick="abrirAdminModal()" title="Acesso do Gestor">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span id="adminBtnText">Gestor</span>
+        </button>
+    </nav>
+
+    <!-- USER FORM VIEW -->
+    <main class="page-container" id="publicView">
+
+        <!-- BANNER IMAGE -->
+        <div class="banner-card">
+            <img src="banner.jpg" alt="Festa Dia das Crianças IEQ Central" class="banner-img">
+        </div>
+
+        <!-- REGISTRATION FORM CARD -->
+        <div class="main-card">
+            <div class="card-header-badge">
+                🎈 Inscrição Gratuita
+            </div>
+            <h1 class="card-title">Ficha de Inscrição</h1>
+            <p class="card-desc">Preencha os dados abaixo para garantir a participação da criança nesta tarde especial e inesquecível!</p>
+
+            <form id="formInscricao" onsubmit="handleInscricao(event)">
+                
+                <div class="form-group">
+                    <label class="form-label" for="nomeCrianca">
+                        Nome da Criança <span class="req">*</span>
+                    </label>
+                    <input type="text" id="nomeCrianca" class="form-input" placeholder="Ex: Samuel Silva" required autocomplete="name">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="idadeCrianca">
+                        Idade da Criança <span class="req">*</span>
+                    </label>
+                    <input type="number" id="idadeCrianca" class="form-input" placeholder="Ex: 7" min="0" max="15" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="nomeResponsavel">
+                        Nome do Responsável <span class="req">*</span>
+                    </label>
+                    <input type="text" id="nomeResponsavel" class="form-input" placeholder="Ex: Maria dos Santos (Pai/Mãe)" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="telefoneContato">
+                        Telefone / WhatsApp de Contato <span class="req">*</span>
+                    </label>
+                    <input type="tel" id="telefoneContato" class="form-input" placeholder="(43) 99999-9999" required autocomplete="tel" maxlength="15">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="observacoes">
+                        Observações ou Alergias <span style="font-weight:400; color:var(--muted); font-size:11px;">(opcional)</span>
+                    </label>
+                    <input type="text" id="observacoes" class="form-input" placeholder="Ex: Alergia a amendoim, restrição alimentar...">
+                </div>
+
+                <!-- EVENT INFO BOX -->
+                <div class="event-info-box">
+                    <div class="event-info-title">
+                        🎉 Informações do Evento
+                    </div>
+                    <div class="event-info-grid">
+                        <div class="event-info-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <div>
+                                <strong>Data</strong>
+                                Dia 03 de Outubro
+                            </div>
+                        </div>
+                        <div class="event-info-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <div>
+                                <strong>Horário</strong>
+                                Às 14h
+                            </div>
+                        </div>
+                        <div class="event-info-item full">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <div>
+                                <strong>Local: IEQ Central</strong>
+                                Travessa Belo Horizonte, 90 · Centro · Londrina/PR
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="btnSubmit" class="btn-submit">
+                    <span>Confirmar Inscrição</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- DASHBOARD VIEW (ADMIN GESTOR) -->
+    <div class="dashboard-view" id="adminView">
+        <div class="dash-header">
+            <div class="dash-title-group">
+                <h2>Painel do Gestor</h2>
+                <span>Inscrições da Festa Dia das Crianças</span>
+            </div>
+            <div class="dash-actions">
+                <button class="dash-btn" onclick="exportarCSV()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Exportar CSV
+                </button>
+                <button class="dash-btn" onclick="window.print()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    Imprimir
+                </button>
+                <button class="dash-btn primary" onclick="alternarModoPublico()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    Ver Formulário
+                </button>
+                <button class="dash-btn danger" onclick="fazerLogoutAdmin()">
+                    Sair
+                </button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background:var(--yellow-light); color:#b45309;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div>
+                    <div class="stat-num" id="statTotal">0</div>
+                    <div class="stat-label">Crianças Inscritas</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:var(--blue-light); color:var(--blue);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div>
+                    <div class="stat-num" id="statUltima">--</div>
+                    <div class="stat-label">Última Inscrição</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="filtroBusca" class="search-input" placeholder="Buscar por criança, responsável ou telefone..." oninput="renderizarListaAdmin()">
+        </div>
+
+        <div class="table-wrap">
+            <div id="listaInscritos" class="inscritos-list">
+                <div style="padding: 2.5rem; text-align: center; color: var(--muted); font-size: 14px;">
+                    Carregando inscrições do banco de dados...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-modal">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h2 class="success-title">Inscrição Confirmada!</h2>
+            <p class="success-text">A vaga da criança está garantida para a Festa do Dia das Crianças!</p>
+            
+            <div class="success-details" id="successDetails"></div>
+
+            <button class="btn-new-reg" onclick="fecharSucesso()">
+                Realizar Outra Inscrição
+            </button>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div class="admin-overlay" id="adminOverlay">
+        <div class="admin-modal">
+            <button class="admin-close" onclick="fecharAdminModal()">✕</button>
+            <div style="text-align: center; margin-bottom: 1.25rem;">
+                <div style="width:48px;height:48px;background:var(--blue-light);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--blue);margin-bottom:0.5rem;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <h3 style="font-family:'Fredoka',sans-serif;font-size:1.3rem;">Acesso do Gestor</h3>
+                <p style="font-size:13px;color:var(--muted);margin-top:2px;">Digite a senha de administrador</p>
+            </div>
+
+            <form onsubmit="handleAdminLogin(event)">
+                <div class="form-group">
+                    <input type="password" id="adminPassword" class="form-input" placeholder="Senha do gestor..." required autocomplete="current-password">
+                </div>
+                <div id="adminLoginError" style="display:none;color:var(--red);font-size:12px;margin-bottom:0.75rem;text-align:center;font-weight:600;">
+                    Senha incorreta. Tente novamente.
+                </div>
+                <button type="submit" class="btn-submit" style="font-size:1rem;padding:0.8rem;">
+                    Entrar no Painel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div class="edit-overlay" id="editOverlay">
+        <div class="edit-modal">
+            <button class="admin-close" onclick="fecharEditModal()">✕</button>
+            <h3 style="font-family:'Fredoka',sans-serif;font-size:1.3rem;margin-bottom:1rem;">Editar Cadastro</h3>
+            <form onsubmit="salvarEdicao(event)">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label class="form-label">Nome da Criança</label>
+                    <input type="text" id="editNome" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Idade da Criança</label>
+                    <input type="number" id="editIdade" class="form-input" min="0" max="15" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nome do Responsável</label>
+                    <input type="text" id="editResp" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Telefone / WhatsApp</label>
+                    <input type="tel" id="editTel" class="form-input" required maxlength="15">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Observações / Alergias</label>
+                    <input type="text" id="editObs" class="form-input">
+                </div>
+                <button type="submit" id="btnSalvarEdit" class="btn-submit" style="font-size:1rem;padding:0.8rem;">
+                    Salvar Alterações
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast"></div>
+
+    <!-- FIREBASE MODULE SCRIPT -->
+    <script type="module">
+        import { db } from '../firebase-config.js';
+        import { 
+            collection, 
+            addDoc, 
+            getDocs, 
+            doc, 
+            updateDoc, 
+            deleteDoc, 
+            query, 
+            orderBy, 
+            serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+        const COLLECTION_NAME = "diadascriancas_inscricoes";
+        let inscritosList = [];
+        let isAdminLoggedIn = false;
+
+        // Auto Phone Mask
+        const telInput = document.getElementById('telefoneContato');
+        const editTelInput = document.getElementById('editTel');
+
+        function maskPhone(input) {
+            input.addEventListener('input', (e) => {
+                let v = e.target.value.replace(/\D/g, '');
+                if (v.length > 11) v = v.slice(0, 11);
+                if (v.length > 6) {
+                    v = `(${v.slice(0, 2)}) ${v.slice(2, 7)}-${v.slice(7)}`;
+                } else if (v.length > 2) {
+                    v = `(${v.slice(0, 2)}) ${v.slice(2)}`;
+                } else if (v.length > 0) {
+                    v = `(${v}`;
+                }
+                e.target.value = v;
+            });
+        }
+        maskPhone(telInput);
+        maskPhone(editTelInput);
+
+        // Toast Helper
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // Public Form Submit
+        window.handleInscricao = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSubmit');
+            btn.disabled = true;
+            btn.innerHTML = '<span>Salvando inscrição...</span>';
+
+            const nome = document.getElementById('nomeCrianca').value.trim();
+            const idade = document.getElementById('idadeCrianca').value.trim();
+            const responsavel = document.getElementById('nomeResponsavel').value.trim();
+            const telefone = document.getElementById('telefoneContato').value.trim();
+            const observacoes = document.getElementById('observacoes').value.trim();
+
+            try {
+                const docRef = await addDoc(collection(db, COLLECTION_NAME), {
+                    nomeCrianca: nome,
+                    idadeCrianca: Number(idade),
+                    nomeResponsavel: responsavel,
+                    telefoneContato: telefone,
+                    observacoes: observacoes,
+                    criadoEm: serverTimestamp(),
+                    dataCriacaoTexto: new Date().toLocaleString('pt-BR')
+                });
+
+                document.getElementById('successDetails').innerHTML = `
+                    <p><strong>Criança:</strong> ${escapeHtml(nome)} (${idade} anos)</p>
+                    <p><strong>Responsável:</strong> ${escapeHtml(responsavel)}</p>
+                    <p><strong>Telefone:</strong> ${escapeHtml(telefone)}</p>
+                    ${observacoes ? `<p><strong>Obs:</strong> ${escapeHtml(observacoes)}</p>` : ''}
+                    <p style="margin-top:8px;font-size:11.5px;color:var(--muted);">📅 03 de Outubro às 14h · IEQ Central</p>
+                `;
+
+                document.getElementById('successOverlay').classList.add('active');
+                document.getElementById('formInscricao').reset();
+
+                if (isAdminLoggedIn) {
+                    carregarInscritosAdmin();
+                }
+            } catch (err) {
+                console.error("Erro ao salvar inscrição:", err);
+                alert("Ocorreu um erro ao salvar a inscrição. Por favor, verifique sua conexão e tente novamente.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>Confirmar Inscrição</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+            }
+        };
+
+        window.fecharSucesso = function() {
+            document.getElementById('successOverlay').classList.remove('active');
+        };
+
+        // Admin Auth Flow
+        window.abrirAdminModal = function() {
+            if (isAdminLoggedIn) {
+                alternarModoAdmin();
+                return;
+            }
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('adminLoginError').style.display = 'none';
+            document.getElementById('adminOverlay').classList.add('active');
+            setTimeout(() => document.getElementById('adminPassword').focus(), 150);
+        };
+
+        window.fecharAdminModal = function() {
+            document.getElementById('adminOverlay').classList.remove('active');
+        };
+
+        window.handleAdminLogin = function(e) {
+            e.preventDefault();
+            const pass = document.getElementById('adminPassword').value;
+            if (pass === 'admin') {
+                isAdminLoggedIn = true;
+                sessionStorage.setItem('ieq_kids_admin', 'true');
+                fecharAdminModal();
+                document.getElementById('adminBtnText').textContent = 'Painel Gestor';
+                alternarModoAdmin();
+                carregarInscritosAdmin();
+                showToast('Acesso concedido como Gestor!');
+            } else {
+                document.getElementById('adminLoginError').style.display = 'block';
+                document.getElementById('adminPassword').focus();
+            }
+        };
+
+        window.fazerLogoutAdmin = function() {
+            isAdminLoggedIn = false;
+            sessionStorage.removeItem('ieq_kids_admin');
+            document.getElementById('adminBtnText').textContent = 'Gestor';
+            alternarModoPublico();
+            showToast('Você saiu do painel de gestor.');
+        };
+
+        // Check persistent session
+        if (sessionStorage.getItem('ieq_kids_admin') === 'true') {
+            isAdminLoggedIn = true;
+            document.getElementById('adminBtnText').textContent = 'Painel Gestor';
+        }
+
+        window.alternarModoAdmin = function() {
+            document.getElementById('publicView').style.display = 'none';
+            document.getElementById('adminView').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            carregarInscritosAdmin();
+        };
+
+        window.alternarModoPublico = function() {
+            document.getElementById('adminView').classList.remove('active');
+            document.getElementById('publicView').style.display = 'flex';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        // Load Admin Data from Firestore
+        async function carregarInscritosAdmin() {
+            const listEl = document.getElementById('listaInscritos');
+            try {
+                const snap = await getDocs(query(collection(db, COLLECTION_NAME), orderBy('criadoEm', 'desc')));
+                inscritosList = [];
+                snap.forEach(docSnap => {
+                    inscritosList.push({ id: docSnap.id, ...docSnap.data() });
+                });
+
+                document.getElementById('statTotal').textContent = inscritosList.length;
+                if (inscritosList.length > 0) {
+                    const ult = inscritosList[0].dataCriacaoTexto || 'Hoje';
+                    document.getElementById('statUltima').textContent = ult.split(',')[0] || ult;
+                } else {
+                    document.getElementById('statUltima').textContent = '--';
+                }
+
+                renderizarListaAdmin();
+            } catch (err) {
+                console.error("Erro ao carregar lista de inscritos:", err);
+                listEl.innerHTML = `<div style="padding:2rem;text-align:center;color:var(--red);font-size:13px;">Erro ao conectar com Firebase: ${err.message}</div>`;
+            }
+        }
+
+        window.renderizarListaAdmin = function() {
+            const listEl = document.getElementById('listaInscritos');
+            const termo = (document.getElementById('filtroBusca').value || '').toLowerCase().trim();
+
+            const filtrados = inscritosList.filter(item => {
+                const n = (item.nomeCrianca || '').toLowerCase();
+                const r = (item.nomeResponsavel || '').toLowerCase();
+                const t = (item.telefoneContato || '').toLowerCase();
+                const o = (item.observacoes || '').toLowerCase();
+                return n.includes(termo) || r.includes(termo) || t.includes(termo) || o.includes(termo);
+            });
+
+            if (filtrados.length === 0) {
+                listEl.innerHTML = `
+                    <div style="padding:3rem 1.5rem;text-align:center;color:var(--muted);">
+                        <div style="font-size:2rem;margin-bottom:0.5rem;">🎈</div>
+                        <div style="font-weight:600;font-size:15px;color:var(--ink);">Nenhuma inscrição encontrada</div>
+                        <div style="font-size:13px;">${termo ? 'Tente buscar com outro termo.' : 'As novas inscrições aparecerão aqui em tempo real.'}</div>
+                    </div>
+                `;
+                return;
+            }
+
+            listEl.innerHTML = filtrados.map(item => {
+                const telClean = (item.telefoneContato || '').replace(/\D/g, '');
+                const waMsg = encodeURIComponent(`Olá ${item.nomeResponsavel}! Confirmamos a inscrição de ${item.nomeCrianca} na Festa do Dia das Crianças da IEQ Central Londrina! 🎉 Dia 03 de Outubro às 14h na Travessa Belo Horizonte, 90 Centro.`);
+                const waLink = `https://wa.me/55${telClean}?text=${waMsg}`;
+
+                return `
+                    <div class="inscrito-item" id="doc-${item.id}">
+                        <div class="inscrito-info">
+                            <div class="inscrito-nome">
+                                <span>${escapeHtml(item.nomeCrianca || 'Sem nome')}</span>
+                                <span style="font-size:11px;font-weight:600;background:var(--yellow-light);color:#b45309;padding:2px 7px;border-radius:99px;">
+                                    ${item.idadeCrianca !== undefined ? `${item.idadeCrianca} anos` : ''}
+                                </span>
+                            </div>
+                            <div class="inscrito-meta">
+                                👤 <strong>Resp:</strong> ${escapeHtml(item.nomeResponsavel || '--')} &nbsp;·&nbsp; 
+                                📞 <strong>Tel:</strong> ${escapeHtml(item.telefoneContato || '--')}
+                            </div>
+                            ${item.observacoes ? `<div style="font-size:12px;color:#d97706;margin-top:3px;">⚠️ <strong>Obs:</strong> ${escapeHtml(item.observacoes)}</div>` : ''}
+                            <div style="font-size:11px;color:var(--muted);margin-top:2px;">
+                                🕒 ${item.dataCriacaoTexto || ''}
+                            </div>
+                        </div>
+                        <div class="inscrito-actions">
+                            ${telClean ? `
+                                <a href="${waLink}" target="_blank" class="action-btn wa" title="Enviar confirmação no WhatsApp">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.761.465 3.413 1.276 4.852L2 22l5.228-1.258A9.955 9.955 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+                                    WhatsApp
+                                </a>
+                            ` : ''}
+                            <button class="action-btn" onclick="abrirEdicao('${item.id}')">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                                Editar
+                            </button>
+                            <button class="action-btn del" onclick="deletarInscrito('${item.id}', '${escapeJs(item.nomeCrianca)}')">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                Excluir
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        // Edit Functionality
+        window.abrirEdicao = function(id) {
+            const item = inscritosList.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('editId').value = id;
+            document.getElementById('editNome').value = item.nomeCrianca || '';
+            document.getElementById('editIdade').value = item.idadeCrianca !== undefined ? item.idadeCrianca : '';
+            document.getElementById('editResp').value = item.nomeResponsavel || '';
+            document.getElementById('editTel').value = item.telefoneContato || '';
+            document.getElementById('editObs').value = item.observacoes || '';
+
+            document.getElementById('editOverlay').classList.add('active');
+        };
+
+        window.fecharEditModal = function() {
+            document.getElementById('editOverlay').classList.remove('active');
+        };
+
+        window.salvarEdicao = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSalvarEdit');
+            btn.disabled = true;
+            btn.textContent = 'Salvando...';
+
+            const id = document.getElementById('editId').value;
+            const nome = document.getElementById('editNome').value.trim();
+            const idade = Number(document.getElementById('editIdade').value.trim());
+            const resp = document.getElementById('editResp').value.trim();
+            const tel = document.getElementById('editTel').value.trim();
+            const obs = document.getElementById('editObs').value.trim();
+
+            try {
+                await updateDoc(doc(db, COLLECTION_NAME, id), {
+                    nomeCrianca: nome,
+                    idadeCrianca: idade,
+                    nomeResponsavel: resp,
+                    telefoneContato: tel,
+                    observacoes: obs,
+                    atualizadoEm: serverTimestamp()
+                });
+
+                // Update local array
+                const idx = inscritosList.findIndex(i => i.id === id);
+                if (idx !== -1) {
+                    inscritosList[idx].nomeCrianca = nome;
+                    inscritosList[idx].idadeCrianca = idade;
+                    inscritosList[idx].nomeResponsavel = resp;
+                    inscritosList[idx].telefoneContato = tel;
+                    inscritosList[idx].observacoes = obs;
+                }
+
+                renderizarListaAdmin();
+                fecharEditModal();
+                showToast('Cadastro atualizado com sucesso!');
+            } catch (err) {
+                console.error("Erro ao atualizar:", err);
+                alert("Erro ao atualizar o cadastro: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Salvar Alterações';
+            }
+        };
+
+        // Delete Functionality
+        window.deletarInscrito = async function(id, nome) {
+            if (!confirm(`Tem certeza que deseja excluir a inscrição de "${nome}"?`)) {
+                return;
+            }
+
+            try {
+                await deleteDoc(doc(db, COLLECTION_NAME, id));
+                inscritosList = inscritosList.filter(i => i.id !== id);
+                document.getElementById('statTotal').textContent = inscritosList.length;
+                renderizarListaAdmin();
+                showToast(`Inscrição de ${nome} excluída.`);
+            } catch (err) {
+                console.error("Erro ao excluir:", err);
+                alert("Erro ao excluir cadastro: " + err.message);
+            }
+        };
+
+        // Export CSV
+        window.exportarCSV = function() {
+            if (inscritosList.length === 0) {
+                alert('Não há inscrições para exportar.');
+                return;
+            }
+
+            const header = ['Nome da Criança', 'Idade', 'Responsável', 'Telefone', 'Observações', 'Data Inscrição'];
+            const rows = inscritosList.map(i => [
+                `"${(i.nomeCrianca || '').replace(/"/g, '""')}"`,
+                i.idadeCrianca !== undefined ? i.idadeCrianca : '',
+                `"${(i.nomeResponsavel || '').replace(/"/g, '""')}"`,
+                `"${(i.telefoneContato || '').replace(/"/g, '""')}"`,
+                `"${(i.observacoes || '').replace(/"/g, '""')}"`,
+                `"${(i.dataCriacaoTexto || '').replace(/"/g, '""')}"`
+            ]);
+
+            const csvContent = '\uFEFF' + [header.join(';'), ...rows.map(r => r.join(';'))].join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `inscricoes_dia_das_criancas_${new Date().toISOString().slice(0,10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        };
+
+        // Escape Helpers
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+        function escapeJs(str) {
+            if (!str) return '';
+            return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+        }
+    </script>
+</body>
+</html>

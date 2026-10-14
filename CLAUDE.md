@@ -5,6 +5,7 @@ Site estático da IEQ Central Londrina + sistemas auxiliares. Repositório Git c
 
 ## Estrutura
 - `index.html` — página principal (links da igreja, contribua/PIX, card "Mês do Avivamento")
+- `estacaodanovavida/` — campanha "A Estação da Nova Vida" (roteiros de ministração das quartas às 20h)
 - `mesdoavivamento/` — devocional diário "Mês do Avivamento" (libera 1 dia por dia, com vídeos)
 - `congressodemulheres/` — sistema de inscrições (Google Sheets backend) — paleta rosa, R$210
 - `congressodiaconato/` — sistema de inscrições (Google Sheets backend) — paleta índigo, R$150

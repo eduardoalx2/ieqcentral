@@ -527,6 +527,112 @@
         .r.d8 { transition-delay: 0.48s; }
         .r.d9 { transition-delay: 0.54s; }
         .r.d10 { transition-delay: 0.60s; }
+    
+        /* ─── MODAL SENHA CAMPANHA ─── */
+        .campanha-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(12, 13, 16, 0.65);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+            animation: fadeInModal 0.2s ease-out;
+        }
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        .campanha-modal-card {
+            background: #fff;
+            border-radius: 20px;
+            max-width: 380px;
+            width: 100%;
+            padding: 1.75rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            border: 1px solid var(--line-soft);
+            animation: popUpModal 0.25s cubic-bezier(.34,1.56,.64,1);
+        }
+        @keyframes popUpModal {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .campanha-modal-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            background: #EAF3FA;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+        .campanha-modal-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.35rem;
+            color: var(--ink);
+            margin-bottom: 0.35rem;
+            font-weight: 500;
+        }
+        .campanha-modal-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+        }
+        .campanha-input {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 10px;
+            border: 1.5px solid var(--line);
+            font-family: inherit;
+            font-size: 15px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+        }
+        .campanha-input:focus {
+            border-color: #1E3A5F;
+            box-shadow: 0 0 0 3px rgba(30,58,95,0.15);
+        }
+        .campanha-error-msg {
+            display: none;
+            color: #e03838;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 6px;
+            text-align: center;
+        }
+        .campanha-modal-actions {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 1.25rem;
+        }
+        .campanha-btn-cancel,
+        .campanha-btn-submit {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .campanha-btn-cancel {
+            background: var(--bg-warm);
+            color: var(--ink-soft);
+        }
+        .campanha-btn-cancel:hover { background: var(--line-soft); }
+        .campanha-btn-submit {
+            background: #1E3A5F;
+            color: #fff;
+        }
+        .campanha-btn-submit:hover { background: #2E5C8A; }
+
     </style>
 </head>
 <body>
@@ -595,51 +701,8 @@
 
     <div class="hub-links">
 
-        <!-- CAMPANHA - A ESTAÇÃO DA NOVA VIDA -->
-        <details class="hub-accordion r d6" open>
-            <summary class="hub-accordion-header">
-                <div class="hub-link-icon" style="background:linear-gradient(135deg, #1E3A5F 0%, #2E5C8A 55%, #C8A951 100%); box-shadow:0 4px 14px rgba(30,58,95,0.25);">
-                    <svg viewBox="0 0 24 24" stroke="#fff" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 10a6 6 0 0 0-6-6H3v2a6 6 0 0 0 6 6h3"/>
-                        <path d="M12 14a6 6 0 0 1 6-6h3v2a6 6 0 0 1-6 6h-3"/>
-                        <path d="M12 22V10"/>
-                    </svg>
-                </div>
-                <div class="hub-link-text">
-                    <div class="hub-link-title" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                        Campanha — A Estação da Nova Vida
-                        <span style="font-size:10px;font-weight:700;color:#1E3A5F;background:#EAF3FA;border:1px solid rgba(30,58,95,0.2);padding:1px 6px;border-radius:99px;text-transform:uppercase;">Quartas 20h</span>
-                    </div>
-                    <div class="hub-link-sub">Roteiros de ministração dos cultos</div>
-                </div>
-                <span class="hub-link-arrow">›</span>
-            </summary>
-            <div class="hub-accordion-body">
-                <a href="estacaodanovavida/sermao1.html" class="hub-link hub-sublink">
-                    <div class="hub-link-icon" style="background:#1E3A5F;color:#fff;font-weight:900;font-size:13px;letter-spacing:-0.5px;">
-                        01
-                    </div>
-                    <div class="hub-link-text">
-                        <div class="hub-link-title">Sermão 1 · O fim do inverno: A Semente</div>
-                        <div class="hub-link-sub">14/10/2026 · Quarta-feira às 20h</div>
-                    </div>
-                    <span class="hub-link-arrow">→</span>
-                </a>
-                <a href="estacaodanovavida/sermao2.html" class="hub-link hub-sublink">
-                    <div class="hub-link-icon" style="background:#C8A951;color:#1E3A5F;font-weight:900;font-size:13px;letter-spacing:-0.5px;">
-                        02
-                    </div>
-                    <div class="hub-link-text">
-                        <div class="hub-link-title">Sermão 2 · A chuva passou: O Lenço</div>
-                        <div class="hub-link-sub">21/10/2026 · Quarta-feira às 20h</div>
-                    </div>
-                    <span class="hub-link-arrow">→</span>
-                </a>
-            </div>
-        </details>
-
         <a href="agenda_publicaieq.html"
-           class="hub-link r d7">
+           class="hub-link r d6">
             <div class="hub-link-icon" style="background:var(--blue);">
                 <svg viewBox="0 0 24 24" stroke="#fff" fill="none" stroke-width="1.8">
                     <rect x="3" y="4" width="18" height="18" rx="2"/>
@@ -854,6 +917,55 @@
 
     </div>
 
+
+    <!-- CAMPANHA (ACESSO COM SENHA) -->
+    <div class="r">
+        <span class="hub-section-label">Campanha</span>
+    </div>
+
+    <div class="hub-links">
+        <details id="campanha-accordion" class="hub-accordion r">
+            <summary class="hub-accordion-header" id="campanha-summary" onclick="handleCampanhaClick(event)">
+                <div class="hub-link-icon" id="campanha-icon" style="background:linear-gradient(135deg, #1E3A5F 0%, #2E5C8A 55%, #C8A951 100%); box-shadow:0 4px 14px rgba(30,58,95,0.25);">
+                    <svg id="campanha-icon-svg" viewBox="0 0 24 24" stroke="#fff" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                </div>
+                <div class="hub-link-text">
+                    <div class="hub-link-title" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                        Campanha — A Estação da Nova Vida
+                        <span id="campanha-lock-badge" style="font-size:10px;font-weight:700;color:#1E3A5F;background:#EAF3FA;border:1px solid rgba(30,58,95,0.2);padding:1px 6px;border-radius:99px;text-transform:uppercase;">🔒 Senha</span>
+                    </div>
+                    <div class="hub-link-sub" id="campanha-sub">Roteiros de ministração · Toque para liberar</div>
+                </div>
+                <span class="hub-link-arrow">›</span>
+            </summary>
+            <div class="hub-accordion-body" id="campanha-body">
+                <a href="estacaodanovavida/sermao1.html" class="hub-link hub-sublink">
+                    <div class="hub-link-icon" style="background:#1E3A5F;color:#fff;font-weight:900;font-size:13px;letter-spacing:-0.5px;">
+                        01
+                    </div>
+                    <div class="hub-link-text">
+                        <div class="hub-link-title">Sermão 1 · O fim do inverno: A Semente</div>
+                        <div class="hub-link-sub">14/10/2026 · Quarta-feira às 20h</div>
+                    </div>
+                    <span class="hub-link-arrow">→</span>
+                </a>
+                <a href="estacaodanovavida/sermao2.html" class="hub-link hub-sublink">
+                    <div class="hub-link-icon" style="background:#C8A951;color:#1E3A5F;font-weight:900;font-size:13px;letter-spacing:-0.5px;">
+                        02
+                    </div>
+                    <div class="hub-link-text">
+                        <div class="hub-link-title">Sermão 2 · A chuva passou: O Lenço</div>
+                        <div class="hub-link-sub">21/10/2026 · Quarta-feira às 20h</div>
+                    </div>
+                    <span class="hub-link-arrow">→</span>
+                </a>
+            </div>
+        </details>
+    </div>
+
 </main>
 
 <!-- ─── FOOTER ─── -->
@@ -907,7 +1019,109 @@ function copyPix() {
         }, 2500);
     });
 }
+
+function isCampanhaUnlocked() {
+    return sessionStorage.getItem('campanha_unlocked') === '1';
+}
+
+function updateCampanhaUI() {
+    const acc = document.getElementById('campanha-accordion');
+    const badge = document.getElementById('campanha-lock-badge');
+    const sub = document.getElementById('campanha-sub');
+    const iconSvg = document.getElementById('campanha-icon-svg');
+    if (!acc) return;
+
+    if (isCampanhaUnlocked()) {
+        acc.open = true;
+        if (badge) {
+            badge.textContent = 'Liberado';
+            badge.style.color = '#2E7D32';
+            badge.style.background = '#E8F5E9';
+            badge.style.borderColor = 'rgba(46,125,50,0.2)';
+        }
+        if (sub) sub.textContent = 'Roteiros de ministração das quartas às 20h';
+        if (iconSvg) {
+            iconSvg.innerHTML = '<path d="M12 10a6 6 0 0 0-6-6H3v2a6 6 0 0 0 6 6h3"/><path d="M12 14a6 6 0 0 1 6-6h3v2a6 6 0 0 1-6 6h-3"/><path d="M12 22V10"/>';
+        }
+    }
+}
+
+function handleCampanhaClick(e) {
+    const acc = document.getElementById('campanha-accordion');
+    if (!isCampanhaUnlocked()) {
+        e.preventDefault();
+        abrirModalCampanha();
+        return false;
+    }
+}
+
+function abrirModalCampanha() {
+    const m = document.getElementById('campanha-modal');
+    const inp = document.getElementById('campanha-pwd-input');
+    const err = document.getElementById('campanha-pwd-error');
+    if (m) m.style.display = 'flex';
+    if (err) err.style.display = 'none';
+    if (inp) {
+        inp.value = '';
+        inp.style.borderColor = '';
+        setTimeout(() => inp.focus(), 120);
+    }
+}
+
+function fecharModalCampanha() {
+    const m = document.getElementById('campanha-modal');
+    if (m) m.style.display = 'none';
+}
+
+function validarSenhaCampanha(e) {
+    e.preventDefault();
+    const inp = document.getElementById('campanha-pwd-input');
+    const err = document.getElementById('campanha-pwd-error');
+    const val = inp ? inp.value.trim().toLowerCase() : '';
+    if (val === 'campanha') {
+        sessionStorage.setItem('campanha_unlocked', '1');
+        fecharModalCampanha();
+        updateCampanhaUI();
+        const acc = document.getElementById('campanha-accordion');
+        if (acc) {
+            acc.open = true;
+            acc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    } else {
+        if (err) err.style.display = 'block';
+        if (inp) {
+            inp.style.borderColor = '#e03838';
+            inp.focus();
+            inp.select();
+        }
+    }
+}
+
+window.addEventListener('DOMContentLoaded', updateCampanhaUI);
 </script>
+
+
+<!-- MODAL SENHA CAMPANHA -->
+<div id="campanha-modal" class="campanha-modal-backdrop" style="display:none;" onclick="if(event.target===this) fecharModalCampanha();">
+    <div class="campanha-modal-card">
+        <div class="campanha-modal-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" stroke="#1E3A5F" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+        </div>
+        <h3 class="campanha-modal-title">Acesso Restrito</h3>
+        <p class="campanha-modal-desc">Digite a senha para acessar os roteiros de ministração da campanha <strong>A Estação da Nova Vida</strong>.</p>
+        <form id="campanha-pwd-form" onsubmit="validarSenhaCampanha(event)">
+            <input type="password" id="campanha-pwd-input" class="campanha-input" placeholder="Digite a senha" autocomplete="off" />
+            <div id="campanha-pwd-error" class="campanha-error-msg">Senha incorreta. Tente novamente.</div>
+            <div class="campanha-modal-actions">
+                <button type="button" class="campanha-btn-cancel" onclick="fecharModalCampanha()">Cancelar</button>
+                <button type="submit" class="campanha-btn-submit">Acessar</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

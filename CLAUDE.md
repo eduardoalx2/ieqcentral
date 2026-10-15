@@ -9,6 +9,7 @@ Site estático da IEQ Central Londrina + sistemas auxiliares. Repositório Git c
 - `mesdoavivamento/` — devocional diário "Mês do Avivamento" (libera 1 dia por dia, com vídeos)
 - `congressodemulheres/` — sistema de inscrições (Google Sheets backend) — paleta rosa, R$210
 - `congressodiaconato/` — sistema de inscrições (Google Sheets backend) — paleta índigo, R$150
+- `CONTINUIDADE.md` — memória técnica e guia de continuidade em novas conversas
 - `CNAME` — domínio do GitHub Pages (não remover)
 
 ## Publicação

@@ -633,6 +633,12 @@
         }
         .campanha-btn-submit:hover { background: #2E5C8A; }
 
+
+        .link-cantata:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 34px rgba(66, 10, 18, 0.35) !important;
+            border-color: rgba(245, 208, 97, 0.7) !important;
+        }
     </style>
 </head>
 <body>
@@ -701,7 +707,29 @@
 
     <div class="hub-links">
 
-        <a href="agenda_publicaieq.html"
+        <!-- CANTATA DE NATAL -->
+        <a href="cantatadenatal/"
+           id="card-cantata-natal"
+           class="hub-link link-cantata r d6"
+           onclick="handleCantataClick(event)"
+           style="background: linear-gradient(135deg, #420A12 0%, #750F21 55%, #12392A 100%); border: 1.5px solid rgba(212, 175, 55, 0.45); box-shadow: 0 8px 24px rgba(66, 10, 18, 0.25);">
+            <div class="hub-link-icon" style="background: linear-gradient(135deg, #D4AF37 0%, #F5D061 100%); color: #420A12; box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35); border: none;">
+                <!-- Estrela Natalina de Belém -->
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#420A12">
+                    <path d="M12 2L13.8 8.5L20 7L15.5 11.5L20.5 16L14 14.8L12 22L10 14.8L3.5 16L8.5 11.5L4 7L10.2 8.5L12 2Z"/>
+                </svg>
+            </div>
+            <div class="hub-link-text">
+                <div class="hub-link-title" style="color: #fff; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    Cantata de Natal IEQ Central
+                    <span id="cantata-lock-badge" style="font-size: 10px; font-weight: 700; color: #F5D061; background: rgba(245, 208, 97, 0.2); border: 1px solid rgba(245, 208, 97, 0.4); padding: 1px 7px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.05em;">🔒 Senha</span>
+                </div>
+                <div class="hub-link-sub" style="color: rgba(255,255,255,0.82);">Portal de Ensaios · Musical &amp; Teatro</div>
+            </div>
+            <span class="hub-link-arrow" style="color: #F5D061;">→</span>
+        </a>
+
+        <a href="agenda_publicaieq.html" 
            class="hub-link r d6">
             <div class="hub-link-icon" style="background:var(--blue);">
                 <svg viewBox="0 0 24 24" stroke="#fff" fill="none" stroke-width="1.8">
@@ -1097,7 +1125,73 @@ function validarSenhaCampanha(e) {
     }
 }
 
-window.addEventListener('DOMContentLoaded', updateCampanhaUI);
+
+function isCantataUnlocked() {
+    return sessionStorage.getItem('cantata_natal_unlocked') === '1' ||
+           localStorage.getItem('cantata_natal_unlocked') === '1';
+}
+
+function updateCantataUI() {
+    const badge = document.getElementById('cantata-lock-badge');
+    if (badge && isCantataUnlocked()) {
+        badge.textContent = 'Liberado ✨';
+        badge.style.color = '#74D99F';
+        badge.style.background = 'rgba(116, 217, 159, 0.2)';
+        badge.style.borderColor = 'rgba(116, 217, 159, 0.4)';
+    }
+}
+
+function handleCantataClick(e) {
+    if (!isCantataUnlocked()) {
+        e.preventDefault();
+        abrirModalCantata();
+        return false;
+    }
+}
+
+function abrirModalCantata() {
+    const m = document.getElementById('cantata-modal');
+    const inp = document.getElementById('cantata-pwd-input');
+    const err = document.getElementById('cantata-pwd-error');
+    if (m) m.style.display = 'flex';
+    if (err) err.style.display = 'none';
+    if (inp) {
+        inp.value = '';
+        inp.style.borderColor = '';
+        setTimeout(() => inp.focus(), 120);
+    }
+}
+
+function fecharModalCantata() {
+    const m = document.getElementById('cantata-modal');
+    if (m) m.style.display = 'none';
+}
+
+function validarSenhaCantata(e) {
+    e.preventDefault();
+    const inp = document.getElementById('cantata-pwd-input');
+    const err = document.getElementById('cantata-pwd-error');
+    const val = inp ? inp.value.trim().toLowerCase() : '';
+    if (val === 'natal') {
+        sessionStorage.setItem('cantata_natal_unlocked', '1');
+        localStorage.setItem('cantata_natal_unlocked', '1');
+        fecharModalCantata();
+        updateCantataUI();
+        window.location.href = 'cantatadenatal/';
+    } else {
+        if (err) err.style.display = 'block';
+        if (inp) {
+            inp.style.borderColor = '#e03838';
+            inp.focus();
+            inp.select();
+        }
+    }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    updateCampanhaUI();
+    updateCantataUI();
+});
 </script>
 
 
@@ -1118,6 +1212,29 @@ window.addEventListener('DOMContentLoaded', updateCampanhaUI);
             <div class="campanha-modal-actions">
                 <button type="button" class="campanha-btn-cancel" onclick="fecharModalCampanha()">Cancelar</button>
                 <button type="submit" class="campanha-btn-submit">Acessar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- MODAL SENHA CANTATA DE NATAL -->
+<div id="cantata-modal" class="campanha-modal-backdrop" style="display:none;" onclick="if(event.target===this) fecharModalCantata();">
+    <div class="campanha-modal-card" style="border: 1px solid rgba(212, 175, 55, 0.4); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #7B1123, #D4AF37, #153E2D);"></div>
+        <div class="campanha-modal-icon" style="background: linear-gradient(135deg, #7B1123 0%, #4A0E17 100%); color: #F5D061; box-shadow: 0 6px 18px rgba(123, 17, 35, 0.3);">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                <path d="M12 2L13.8 8.5L20 7L15.5 11.5L20.5 16L14 14.8L12 22L10 14.8L3.5 16L8.5 11.5L4 7L10.2 8.5L12 2Z"/>
+            </svg>
+        </div>
+        <h3 class="campanha-modal-title" style="color: #4A0E17;">Cantata de Natal</h3>
+        <p class="campanha-modal-desc">Portal de ensaios e preparação da equipe. Digite a senha para acessar o material:</p>
+        <form id="cantata-pwd-form" onsubmit="validarSenhaCantata(event)">
+            <input type="password" id="cantata-pwd-input" class="campanha-input" placeholder="Digite a senha" autocomplete="off" />
+            <div id="cantata-pwd-error" class="campanha-error-msg">Senha incorreta. Tente novamente.</div>
+            <div class="campanha-modal-actions">
+                <button type="button" class="campanha-btn-cancel" onclick="fecharModalCantata()">Cancelar</button>
+                <button type="submit" class="campanha-btn-submit" style="background: linear-gradient(135deg, #7B1123 0%, #4A0E17 100%);">Entrar</button>
             </div>
         </form>
     </div>

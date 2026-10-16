@@ -158,3 +158,36 @@ Por favor, leia o arquivo CONTINUIDADE.md e CLAUDE.md para entender a estrutura 
 
 Quero que você me ajude a: [ESCREVA SUA TAREFA AQUI, EX: adicionar o sermão 3]
 ```
+
+---
+
+## 5. Cantata de Natal IEQ Central ("Cantata de Natal Kids & Teens")
+
+Portal criado para os ensaios e preparação da equipe da cantata em casa.
+
+### A. Estrutura e Recursos:
+- **Página Principal do Portal:** `cantatadenatal/index.html` (com redirect automático a partir de `Cantata de Natal Kids/index.html`).
+- **Arquivos de Mídia:** armazenados em `Cantata de Natal Kids/`:
+  - 6 Canções (12 arquivos de áudio MP3, com versão Voz Cantada e versão Playback Instrumental).
+  - 6 PDFs individuais com letras e partituras de cada canção.
+  - `ENCENACAO_comp.pdf` (Roteiro Completo de Encenação Teatral, 14 páginas).
+  - `MAPA_Ensaios_completo.pdf` (Cronograma detalhado dos ensaios).
+  - `MAPA_Mapa das Musicas.pdf` (Estrutura e dinâmica musical).
+  - `Caderno de Letras.pdf` e `Caderno de Letras - Livreto.pdf` (Cadernos completos de letras).
+- **Player de Áudio Sticky Interativo:**
+  - Alternância instantânea no mesmo segundo entre **Voz** e **Playback (PB)**.
+  - Controle de velocidade (0.75x para aprender trechos difíceis, 1.0x normal, 1.25x).
+  - Pular +/- 5 segundos, barra de progresso com scrubbing e autoplay contínuo.
+- **Visualizador Modal de PDF Integrado:**
+  - Permite leitura direta de partituras e do roteiro teatral sem sair da página, com botões para tela cheia e download.
+- **4 Abas de Navegação:**
+  - 🎵 *Músicas & Playbacks*
+  - 🎭 *Teatro & Encenação*
+  - 📑 *Cronograma & Mapas*
+  - 💡 *Dicas de Ensaio em Casa* (15 min/dia, técnicas vocais para crianças, orientações aos pais).
+
+### B. Proteção por Senha:
+- **Senha:** `natal` (case-insensitive, sem espaços).
+- **Como funciona:**
+  - **No `index.html`:** Card em destaque sob a seção *Eventos & Projetos*. Ao clicar, abre modal elegante natalino solicitando a senha. Ao acertar, salva em `sessionStorage` e `localStorage` (`cantata_natal_unlocked = '1'`), atualiza o badge para `Liberado ✨` e redireciona para `cantatadenatal/`.
+  - **Em `cantatadenatal/index.html`:** Possui tela de bloqueio (Gate) nativa. Se o usuário acessar o link direto sem ter desbloqueado antes, digita `natal` para liberar o portal. Botão "🔒 Trancar" no topo permite deslogar e testar novamente.

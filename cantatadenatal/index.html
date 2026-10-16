@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cantata de Natal IEQ Central — Portal de Ensaios</title>
+    <meta name="description" content="Portal oficial de ensaios e preparação para a Cantata de Natal IEQ Central Londrina. Músicas, playbacks, letras e roteiro de teatro.">
+    <link rel="icon" type="image/png" href="../mini.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --crimson-dark: #3E0B13;
+            --crimson:      #6A0F1E;
+            --crimson-light:#8E162A;
+            --pine-dark:    #0C251C;
+            --pine:         #154030;
+            --pine-light:   #1F5C46;
+            --gold:         #D4AF37;
+            --gold-light:   #F5D061;
+            --gold-soft:    #FFF4D1;
+            --bg:           #FBF8F3;
+            --bg-warm:      #F2EBE0;
+            --card-bg:      #FFFFFF;
+            --ink:          #16171B;
+            --ink-soft:     #2D3039;
+            --muted:        #666B78;
+            --line:         #E5DDD0;
+            --line-light:   #EFE9DF;
+            --success:      #1F8A4C;
+            --radius-lg:    18px;
+            --radius-md:    12px;
+            --radius-sm:    8px;
+            --shadow-subtle:0 4px 20px rgba(62, 11, 19, 0.06);
+            --shadow-card:  0 8px 30px rgba(62, 11, 19, 0.08);
+            --shadow-hover: 0 14px 40px rgba(62, 11, 19, 0.14);
+        }
+
+        html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.55;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            padding-bottom: 120px;
+        }
+
+        /* ─── FESTIVE TOP RIBBON ─── */
+        .festive-ribbon {
+            width: 100%;
+            background: linear-gradient(90deg, var(--crimson-dark) 0%, var(--crimson) 50%, var(--pine-dark) 100%);
+            color: var(--gold-light);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            z-index: 50;
+        }
+        .ribbon-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        .ribbon-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .ribbon-btn {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-family: inherit;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .ribbon-btn:hover {
+            background: var(--gold);
+            color: var(--crimson-dark);
+            border-color: var(--gold);
+        }
+
+        /* ─── HERO HEADER ─── */
+        .hero {
+            width: 100%;
+            max-width: 900px;
+            padding: 2.5rem 1.25rem 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .hero-badge {
+            background: linear-gradient(135deg, var(--crimson) 0%, var(--pine) 100%);
+            color: var(--gold-light);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(106, 15, 30, 0.18);
+            margin-bottom: 1.2rem;
+        }
+        .hero-title {
+            font-family: 'Cinzel', 'Fraunces', serif;
+            font-size: clamp(28px, 6vw, 44px);
+            font-weight: 700;
+            color: var(--crimson-dark);
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.6rem;
+            text-shadow: 0 2px 10px rgba(62, 11, 19, 0.06);
+        }
+        .hero-title span {
+            color: var(--gold);
+            font-style: italic;
+        }
+        .hero-sub {
+            font-size: clamp(14px, 2.8vw, 16.5px);
+            color: var(--muted);
+            max-width: 620px;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        .hero-verse {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--gold);
+            border-radius: var(--radius-md);
+            padding: 12px 18px;
+            max-width: 600px;
+            text-align: left;
+            font-family: 'Fraunces', serif;
+            font-size: 14px;
+            color: var(--ink-soft);
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 1.75rem;
+        }
+        .hero-verse strong {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--crimson);
+            margin-bottom: 3px;
+        }
+
+        /* ─── STATS PILLS ─── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+            width: 100%;
+            max-width: 720px;
+            margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            text-align: center;
+            box-shadow: var(--shadow-subtle);
+            transition: transform 0.2s;
+        }
+        .stat-card:hover { transform: translateY(-2px); }
+        .stat-val {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--crimson);
+            line-height: 1.1;
+        }
+        .stat-lbl {
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 500;
+            margin-top: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ─── TAB NAVIGATION ─── */
+        .tab-bar-wrap {
+            width: 100%;
+            max-width: 820px;
+            padding: 0 1.25rem;
+            margin-bottom: 1.75rem;
+            position: sticky;
+            top: 10px;
+            z-index: 40;
+        }
+        .tab-bar {
+            display: flex;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--line);
+            padding: 6px;
+            border-radius: 999px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .tab-bar::-webkit-scrollbar { display: none; }
+        .tab-btn {
+            flex: 1;
+            white-space: nowrap;
+            padding: 9px 18px;
+            border-radius: 999px;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .tab-btn:hover { color: var(--crimson); background: var(--bg-warm); }
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-dark) 100%);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(106, 15, 30, 0.3);
+        }
+
+        /* ─── CONTENT SECTIONS ─── */
+        .main-container {
+            width: 100%;
+            max-width: 820px;
+            padding: 0 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.25s ease-out;
+        }
+        .tab-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ─── SECTION HEADERS ─── */
+        .section-header {
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .section-title {
+            font-family: 'Cinzel', 'Fraunces', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--crimson-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-sub {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* ─── QUICK BANNER PROMPT ─── */
+        .info-banner {
+            background: linear-gradient(135deg, #FFF9EA 0%, #FFF3D6 100%);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            font-size: 13.5px;
+            color: #634B0B;
+            line-height: 1.5;
+        }
+        .info-banner-icon { font-size: 20px; flex-shrink: 0; }
+
+        /* ─── MUSIC CARDS ─── */
+        .music-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+        }
+        .music-card {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.4rem;
+            box-shadow: var(--shadow-card);
+            transition: all 0.25s cubic-bezier(.4,0,.2,1);
+            position: relative;
+            overflow: hidden;
+        }
+        .music-card:hover {
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(212, 175, 55, 0.6);
+            transform: translateY(-2px);
+        }
+        .music-card.is-playing {
+            border-color: var(--gold);
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFFDF7 100%);
+            box-shadow: 0 10px 32px rgba(212, 175, 55, 0.22);
+        }
+        .music-card.is-playing::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--crimson), var(--gold), var(--pine));
+        }
+
+        .music-card-top {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .track-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--crimson-dark) 0%, var(--crimson) 100%);
+            color: var(--gold-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', monospace;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(106, 15, 30, 0.25);
+        }
+        .track-badge .num { font-size: 18px; line-height: 1; }
+        .track-badge .lbl { font-size: 8px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.9; }
+
+        .music-info { flex: 1; min-width: 0; }
+        .music-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .music-title {
+            font-family: 'Fraunces', serif;
+            font-size: 18.5px;
+            font-weight: 600;
+            color: var(--ink);
+            line-height: 1.25;
+            margin-top: 1px;
+        }
+        .music-desc {
+            font-size: 12.5px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* ─── AUDIO BUTTONS GRID ─── */
+        .audio-buttons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 0.9rem;
+        }
+        @media (max-width: 540px) {
+            .audio-buttons-grid { grid-template-columns: 1fr; }
+        }
+
+        .btn-play-version {
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            border: 1.5px solid var(--line);
+            background: var(--bg);
+            color: var(--ink-soft);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: left;
+        }
+        .btn-play-version:hover {
+            border-color: var(--crimson);
+            background: #fff;
+            transform: translateY(-1px);
+        }
+        .btn-play-version.active-btn {
+            background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-dark) 100%);
+            color: #fff;
+            border-color: var(--crimson-dark);
+            box-shadow: 0 4px 14px rgba(106, 15, 30, 0.25);
+        }
+        .btn-play-version.active-btn svg { fill: #fff; }
+
+        .btn-play-pb {
+            border-color: rgba(21, 64, 48, 0.3);
+        }
+        .btn-play-pb:hover {
+            border-color: var(--pine);
+        }
+        .btn-play-pb.active-btn {
+            background: linear-gradient(135deg, var(--pine) 0%, var(--pine-dark) 100%);
+            border-color: var(--pine-dark);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(21, 64, 48, 0.25);
+        }
+
+        /* ─── ACTION BAR (PDF / DOWNLOADS) ─── */
+        .music-action-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--line-light);
+        }
+        .music-action-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .btn-pdf {
+            background: #fff;
+            border: 1px solid var(--line);
+            color: var(--crimson);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .btn-pdf:hover {
+            background: #FFF5F6;
+            border-color: var(--crimson);
+        }
+        .btn-download-sm {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--muted);
+            font-size: 11.5px;
+            padding: 5px 8px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-download-sm:hover {
+            background: var(--bg-warm);
+            color: var(--ink);
+            border-color: var(--line);
+        }
+
+        /* ─── THEATRE SECTION ─── */
+        .theatre-hero-card {
+            background: linear-gradient(135deg, var(--pine-dark) 0%, #153A2E 60%, var(--crimson-dark) 100%);
+            color: #fff;
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            box-shadow: 0 12px 36px rgba(12, 37, 28, 0.25);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 1.5rem;
+        }
+        .theatre-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--gold-light);
+            background: rgba(212, 175, 55, 0.18);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            padding: 3px 10px;
+            border-radius: 999px;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+        }
+        .theatre-title {
+            font-family: 'Cinzel', 'Fraunces', serif;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 0.6rem;
+        }
+        .theatre-desc {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.82);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+            max-width: 650px;
+        }
+        .theatre-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-theatre-main {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: var(--crimson-dark);
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 700;
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+        .btn-theatre-main:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(245, 208, 97, 0.35);
+        }
+        .btn-theatre-sub {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-theatre-sub:hover { background: rgba(255, 255, 255, 0.25); }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+        .tip-card {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-subtle);
+        }
+        .tip-icon {
+            font-size: 24px;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+        .tip-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--crimson-dark);
+            margin-bottom: 4px;
+        }
+        .tip-text {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        /* ─── SCHEDULE & MAPS SECTION ─── */
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 14px;
+        }
+        .material-card {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            padding: 1.3rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+        .material-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        .material-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+        .material-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .mat-red { background: #FFF0F2; color: var(--crimson); border: 1px solid #FFCCD2; }
+        .mat-green { background: #EBF8F2; color: var(--pine); border: 1px solid #BEEADB; }
+        .mat-gold { background: #FFF9E6; color: #8A6D14; border: 1px solid #FFE7A3; }
+
+        .material-info h4 {
+            font-family: 'Fraunces', serif;
+            font-size: 16.5px;
+            color: var(--ink);
+            line-height: 1.25;
+            margin-bottom: 3px;
+        }
+        .material-info p {
+            font-size: 12.5px;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+        .material-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--line-light);
+        }
+
+        /* ─── STICKY BOTTOM PLAYER ─── */
+        .bottom-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(18, 20, 24, 0.96);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(212, 175, 55, 0.35);
+            padding: 10px 16px;
+            z-index: 100;
+            color: #fff;
+            box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s cubic-bezier(.2,.8,.2,1);
+        }
+        .player-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .player-row-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .player-track-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            flex: 1;
+        }
+        .player-art {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, var(--crimson) 0%, var(--gold) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .player-title-col { min-width: 0; }
+        .player-title {
+            font-size: 13.5px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2;
+        }
+        .player-sub {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.65);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .player-mode-badge {
+            font-size: 9.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 1px 6px;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+        }
+        .badge-voz { background: rgba(212, 175, 55, 0.25); color: var(--gold-light); }
+        .badge-pb { background: rgba(31, 138, 76, 0.3); color: #75DE9E; }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .ctrl-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.15s;
+        }
+        .ctrl-btn:hover { background: rgba(255, 255, 255, 0.12); }
+        .ctrl-btn:active { transform: scale(0.92); }
+        .ctrl-play {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: var(--crimson-dark);
+            box-shadow: 0 4px 14px rgba(212, 175, 55, 0.4);
+        }
+        .ctrl-play:hover { background: #fff; color: var(--crimson-dark); }
+
+        .player-switch-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 999px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+        .player-switch-btn:hover {
+            background: var(--gold);
+            color: var(--crimson-dark);
+            border-color: var(--gold);
+        }
+
+        .speed-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .speed-btn:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
+
+        /* ─── PROGRESS BAR ROW ─── */
+        .player-row-bottom {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .progress-bar-wrap {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 999px;
+            cursor: pointer;
+            position: relative;
+            touch-action: none;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+            border-radius: 999px;
+            width: 0%;
+            position: relative;
+        }
+        .progress-bar-fill::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: -3px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+        }
+
+        /* ─── MODAL PDF VIEWER ─── */
+        .pdf-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(12, 13, 16, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            animation: fadeIn 0.2s ease-out;
+        }
+        .pdf-modal-card {
+            background: #fff;
+            width: 100%;
+            max-width: 950px;
+            height: 90vh;
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+            border: 1px solid var(--line);
+        }
+        .pdf-modal-header {
+            padding: 12px 18px;
+            background: var(--bg-warm);
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .pdf-modal-title {
+            font-family: 'Fraunces', serif;
+            font-size: 16px;
+            color: var(--ink);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 600;
+        }
+        .pdf-modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .pdf-modal-body {
+            flex: 1;
+            background: #474747;
+            position: relative;
+        }
+        .pdf-modal-body iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ─── GATE DE SENHA ─── */
+        .gate-backdrop {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #2C080E 0%, #0F0204 100%);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .gate-card {
+            background: #fff;
+            border-radius: 24px;
+            max-width: 400px;
+            width: 100%;
+            padding: 2.2rem 1.75rem;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .gate-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--crimson), var(--gold), var(--pine));
+        }
+        .gate-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-dark) 100%);
+            color: var(--gold-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            box-shadow: 0 8px 24px rgba(106, 15, 30, 0.35);
+        }
+        .gate-title {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            color: var(--crimson-dark);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .gate-desc {
+            font-size: 13.5px;
+            color: var(--muted);
+            line-height: 1.55;
+            margin-bottom: 1.5rem;
+        }
+        .gate-input {
+            width: 100%;
+            padding: 13px 16px;
+            border-radius: 12px;
+            border: 2px solid var(--line);
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+            transition: all 0.2s;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .gate-input:focus {
+            border-color: var(--crimson);
+            box-shadow: 0 0 0 4px rgba(106, 15, 30, 0.12);
+        }
+        .gate-error {
+            color: #E03838;
+            font-size: 12px;
+            font-weight: 600;
+            display: none;
+            margin-top: 8px;
+        }
+        .gate-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 1.25rem;
+        }
+        .gate-btn-back {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            background: var(--bg-warm);
+            color: var(--ink-soft);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .gate-btn-back:hover { background: var(--line); }
+        .gate-btn-submit {
+            flex: 1.2;
+            padding: 12px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-dark) 100%);
+            color: #fff;
+            border: none;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(106, 15, 30, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .gate-btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(106, 15, 30, 0.4);
+        }
+
+        /* ─── FOOTER ─── */
+        .page-footer {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--muted);
+            font-size: 12.5px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── GATE DE SENHA ─── -->
+    <div id="gate-cantata" class="gate-backdrop">
+        <div class="gate-card">
+            <div class="gate-icon">
+                <!-- Estrela Natalina -->
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+                    <path d="M12 2L13.8 8.5L20 7L15.5 11.5L20.5 16L14 14.8L12 22L10 14.8L3.5 16L8.5 11.5L4 7L10.2 8.5L12 2Z"/>
+                </svg>
+            </div>
+            <h2 class="gate-title">Cantata de Natal</h2>
+            <p class="gate-desc">Portal exclusivo para os ensaios e preparação da equipe. Digite a senha para acessar:</p>
+            <form onsubmit="verificarSenhaGate(event)">
+                <input type="password" id="gate-pwd" class="gate-input" placeholder="Digite a senha" autocomplete="off" autofocus />
+                <div id="gate-err" class="gate-error">Senha incorreta. Tente novamente.</div>
+                <div class="gate-actions">
+                    <a href="../" class="gate-btn-back">← Início</a>
+                    <button type="submit" class="gate-btn-submit">Entrar no Portal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ─── FESTIVE TOP RIBBON ─── -->
+    <div class="festive-ribbon">
+        <div class="ribbon-left">
+            <span>⭐ IEQ Central Londrina</span>
+            <span style="opacity:0.4;">|</span>
+            <span>Cantata de Natal Kids &amp; Teens</span>
+        </div>
+        <div class="ribbon-right">
+            <a href="../" class="ribbon-btn">← Voltar ao Hub</a>
+            <button onclick="trancarAcesso()" class="ribbon-btn" title="Bloquear acesso e limpar senha">🔒 Trancar</button>
+        </div>
+    </div>
+
+    <!-- ─── HERO ─── -->
+    <header class="hero">
+        <div class="hero-badge">
+            <span>✨ Edição Especial 2026</span>
+            <span style="opacity:0.5;">·</span>
+            <span>Música &amp; Teatro</span>
+        </div>
+        <h1 class="hero-title">Cantata de Natal <span>IEQ Central</span></h1>
+        <p class="hero-sub">Portal interativo com todas as músicas, playbacks instrumentais, roteiro do teatro e materiais para que você e sua família possam ensaiar em casa com excelência.</p>
+
+        <div class="hero-verse">
+            <strong>Lucas 2:14</strong>
+            “Glória a Deus nas maiores alturas, e paz na terra entre os homens a quem ele quer bem.”
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-val">06</div>
+                <div class="stat-lbl">Canções</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val">12</div>
+                <div class="stat-lbl">Áudios (Voz &amp; PB)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val">14 pág</div>
+                <div class="stat-lbl">Roteiro Teatro</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val">100%</div>
+                <div class="stat-lbl">Ensaio em Casa</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ─── STICKY TAB NAVIGATION ─── -->
+    <div class="tab-bar-wrap">
+        <nav class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('tab-musicas')">
+                <span>🎵</span> Músicas &amp; Playbacks
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-teatro')">
+                <span>🎭</span> Teatro &amp; Encenação
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-mapas')">
+                <span>📑</span> Cronograma &amp; Mapas
+            </button>
+            <button class="tab-btn" onclick="switchTab('tab-dicas')">
+                <span>💡</span> Dicas de Ensaio
+            </button>
+        </nav>
+    </div>
+
+    <!-- ─── MAIN CONTAINER ─── -->
+    <main class="main-container">
+
+        <!-- ═══════════════════════════════════════════════════
+             ABA 1: MÚSICAS & PLAYBACKS
+             ═══════════════════════════════════════════════════ -->
+        <section id="tab-musicas" class="tab-panel active">
+            
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Repertório Musical</h2>
+                    <p class="section-sub">Ouça a versão com voz para aprender e use o playback para ensaiar cantando.</p>
+                </div>
+                <a href="../Cantata de Natal Kids/Caderno de Letras.pdf" target="_blank" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/Caderno%20de%20Letras.pdf', 'Caderno Geral de Letras'); return false;">
+                    📖 Caderno Completo de Letras
+                </a>
+            </div>
+
+            <div class="info-banner">
+                <span class="info-banner-icon">💡</span>
+                <div>
+                    <strong>Dica de ensaio no player:</strong> Enquanto a música toca, use o botão <strong>Alternar Versão</strong> no player inferior para trocar entre <em>Voz cantada</em> e <em>Playback instrumental</em> no exato segundo da música! Você também pode alterar a velocidade (0.75x para aprender partes difíceis).
+                </div>
+            </div>
+
+            <div class="music-list">
+
+                <!-- ─── FAIXA 01 ─── -->
+                <article class="music-card" id="card-track-1">
+                    <div class="music-card-top">
+                        <div class="track-badge">
+                            <span class="num">01</span>
+                            <span class="lbl">Faixa</span>
+                        </div>
+                        <div class="music-info">
+                            <span class="music-tag">Abertura</span>
+                            <h3 class="music-title">Mistérios do Natal</h3>
+                            <p class="music-desc">Canção de introdução · Tom alegre e contagiante · Marcação do início da história</p>
+                        </div>
+                    </div>
+                    <div class="audio-buttons-grid">
+                        <button class="btn-play-version btn-play-voz" onclick="tocarFaixa(1, 'voz')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zm5 9a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg>
+                            Ouvir com Voz (Cantado)
+                        </button>
+                        <button class="btn-play-version btn-play-pb" onclick="tocarFaixa(1, 'pb')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                            Ensaiar com Playback (PB)
+                        </button>
+                    </div>
+                    <div class="music-action-bar">
+                        <div class="music-action-left">
+                            <a href="../Cantata de Natal Kids/PDF_01_Misterios do Natal.pdf" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_01_Misterios%20do%20Natal.pdf', '01. Mistérios do Natal — Letra e Partitura'); return false;">
+                                📄 Letra &amp; Partitura (PDF)
+                            </a>
+                        </div>
+                        <div class="music-action-left">
+                            <a href="../Cantata de Natal Kids/01_Misterios do Natal_VOZ.mp3" download class="btn-download-sm" title="Baixar MP3 Cantado">⬇ Voz</a>
+                            <a href="../Cantata de Natal Kids/01_Misterios do Natal_PB.mp3" download class="btn-download-sm" title="Baixar MP3 Instrumental">⬇ Playback</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ─── FAIXA 02 ─── -->
+                <article class="music-card" id="card-track-2">
+                    <div class="music-card-top">
+                        <div class="track-badge">
+                            <span class="num">02</span>
+                            <span class="lbl">Faixa</span>
+                        </div>
+                        <div class="music-info">
+                            <span class="music-tag">Narrativa</span>
+                            <h3 class="music-title">História Estranha</h3>
+                            <p class="music-desc">Dinâmica teatral · Expressão e curiosidade · A profecia que ninguém esperava</p>
+                        </div>
+                    </div>
+                    <div class="audio-buttons-grid">
+                        <button class="btn-play-version btn-play-voz" onclick="tocarFaixa(2, 'voz')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zm5 9a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg>
+                            Ouvir com Voz (Cantado)
+                        </button>
+                        <button class="btn-play-version btn-play-pb" onclick="tocarFaixa(2, 'pb')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                            Ensaiar com Playback (PB)
+                        </button>
+                    </div>
+                    <div class="music-action-bar">
+                        <div class="music-action-left">
+                            <a href="../Cantata de Natal Kids/PDF_02_Historia Estranha.pdf" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_02_Historia%20Estranha.pdf', '02. História Estranha — Letra e Partitura'); return false;">
+                                📄 Letra &amp; Partitura (PDF)
+                            </a>
+                        </div>
+                        <div class="music-action-left">
+                            <a href="../Cantata de Natal Kids/02_Historia Estranha_VOZ.mp3" download class="btn-download-sm">⬇ Voz</a>
+                            <a href="../Cantata de Natal Kids/02_Historia Estranha_PB.mp3" download class="btn-download-sm">⬇ Playback</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ─── FAIXA 03 ─── -->
+                <article class="music-card" id="card-track-3">
+                    <div class="music-card-top">
+                        <div class="track-badge">
+                            <span class="num">03</span>
+                            <span class="lbl">Faixa</span>
+                        </div>
+                        <div class="music-info">
+                            <span class="music-tag">Jornada</span>
+                            <h3 class="music-title">Tenda no Deserto</h3>
+                            <p class="music-desc">Caminhada e esperança · Melodia envolvente · Coro das crianças e solo</p>
+                        </div>
+                    </div>
+                    <div class="audio-buttons-grid">
+                        <button class="btn-play-version btn-play-voz" onclick="tocarFaixa(3, 'voz')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zm5 9a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg>
+                            Ouvir com Voz (Cantado)
+                        </button>
+                        <button class="btn-play-version btn-play-pb" onclick="tocarFaixa(3, 'pb')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                            Ensaiar com Playback (PB)
+                        </button>
+                    </div>
+                    <div class="music-action-bar">
+                        <div class="music-action-left">
+                            <a href="../Cantata de Natal Kids/PDF_03_Tenda no Deserto.pdf" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_03_Tenda%20no%20Deserto.pdf', '03. Tenda no Deserto — Letra e Partitura'); return false;">
+                                📄 Letra &amp; Partitura (PDF)
+                            </a>
+                        </div>
+                        <div class="music-action-left">
+                            <a href="../Cantata de Natal Kids/03_Tenda no Deserto_VOZ.mp3" download class="btn-download-sm">⬇ Voz</a>
+                            <a href="../Cantata de Natal Kids/03_Tenda no Deserto_PB.mp3" download class="btn-download-sm">⬇ Playback</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ─── FAIXA 04 ─── -->
+                <article class="music-card" id="card-track-4">
+                    <div class="music-card-top">
+                        <div class="track-badge">
+                            <span class="num">04</span>
+                            <span class="lbl">Faixa</span>
+                        </div>
+                        <div class="music-info">
+                            <span class="music-tag">Celebração</span>
+                            <h3 class="music-title">Ele Vem</h3>
+                            <p class="music-desc">Anúncio profético vibrante · Entusiasmo e palmas · O Rei está chegando</p>
+                        </div>
+                    </div>
+                    <div class="audio-buttons-grid">
+                        <button class="btn-play-version btn-play-voz" onclick="tocarFaixa(4, 'voz')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zm5 9a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg>
+                            Ouvir com Voz (Cantado)
+                        </button>
+                        <button class="btn-play-version btn-play-pb" onclick="tocarFaixa(4, 'pb')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                            Ensaiar com Playback (PB)
+                        </button>
+                    </div>
+                    <div class="music-action-bar">
+                        <div class="music-action-left">
+                            <a href="../Cantata de Natal Kids/PDF_04_Ele Vem.pdf" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_04_Ele%20Vem.pdf', '04. Ele Vem — Letra e Partitura'); return false;">
+                                📄 Letra &amp; Partitura (PDF)
+                            </a>
+                        </div>
+                        <div class="music-action-left">
+                            <a href="../Cantata de Natal Kids/04_Ele vem_VOZ.mp3" download class="btn-download-sm">⬇ Voz</a>
+                            <a href="../Cantata de Natal Kids/04_Ele vem_PB.mp3" download class="btn-download-sm">⬇ Playback</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ─── FAIXA 05 ─── -->
+                <article class="music-card" id="card-track-5">
+                    <div class="music-card-top">
+                        <div class="track-badge">
+                            <span class="num">05</span>
+                            <span class="lbl">Faixa</span>
+                        </div>
+                        <div class="music-info">
+                            <span class="music-tag">Adoração &amp; Paz</span>
+                            <h3 class="music-title">Silêncio</h3>
+                            <p class="music-desc">A noite de Belém · Suavidade, emoção e reverência no nascimento de Jesus</p>
+                        </div>
+                    </div>
+                    <div class="audio-buttons-grid">
+                        <button class="btn-play-version btn-play-voz" onclick="tocarFaixa(5, 'voz')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zm5 9a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg>
+                            Ouvir com Voz (Cantado)
+                        </button>
+                        <button class="btn-play-version btn-play-pb" onclick="tocarFaixa(5, 'pb')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                            Ensaiar com Playback (PB)
+                        </button>
+                    </div>
+                    <div class="music-action-bar">
+                        <div class="music-action-left">
+                            <a href="../Cantata de Natal Kids/PDF_05_Silencio.pdf" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_05_Silencio.pdf', '05. Silêncio — Letra e Partitura'); return false;">
+                                📄 Letra &amp; Partitura (PDF)
+                            </a>
+                        </div>
+                        <div class="music-action-left">
+                            <a href="../Cantata de Natal Kids/05_Silencio_VOZ.mp3" download class="btn-download-sm">⬇ Voz</a>
+                            <a href="../Cantata de Natal Kids/05_Silencio_PB.mp3" download class="btn-download-sm">⬇ Playback</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ─── FAIXA 06 ─── -->
+                <article class="music-card" id="card-track-6">
+                    <div class="music-card-top">
+                        <div class="track-badge">
+                            <span class="num">06</span>
+                            <span class="lbl">Faixa</span>
+                        </div>
+                        <div class="music-info">
+                            <span class="music-tag">Clímax &amp; Final</span>
+                            <h3 class="music-title">Emanuel</h3>
+                            <p class="music-desc">Deus conosco · Celebração gloriosa · Coral completo e encerramento triunfal</p>
+                        </div>
+                    </div>
+                    <div class="audio-buttons-grid">
+                        <button class="btn-play-version btn-play-voz" onclick="tocarFaixa(6, 'voz')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zm5 9a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg>
+                            Ouvir com Voz (Cantado)
+                        </button>
+                        <button class="btn-play-version btn-play-pb" onclick="tocarFaixa(6, 'pb')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                            Ensaiar com Playback (PB)
+                        </button>
+                    </div>
+                    <div class="music-action-bar">
+                        <div class="music-action-left">
+                            <a href="../Cantata de Natal Kids/PDF_06_Emanuel.pdf" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_06_Emanuel.pdf', '06. Emanuel — Letra e Partitura'); return false;">
+                                📄 Letra &amp; Partitura (PDF)
+                            </a>
+                        </div>
+                        <div class="music-action-left">
+                            <a href="../Cantata de Natal Kids/06_Emanuel_VOZ.mp3" download class="btn-download-sm">⬇ Voz</a>
+                            <a href="../Cantata de Natal Kids/06_Emanuel_PB.mp3" download class="btn-download-sm">⬇ Playback</a>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════
+             ABA 2: TEATRO & ENCENAÇÃO
+             ═══════════════════════════════════════════════════ -->
+        <section id="tab-teatro" class="tab-panel">
+            
+            <div class="theatre-hero-card">
+                <span class="theatre-badge">🎭 Roteiro Oficial Completo</span>
+                <h2 class="theatre-title">Encenação &amp; Diálogos da Cantata</h2>
+                <p class="theatre-desc">Documento completo de 14 páginas contendo todas as cenas, falas dos personagens, marcações de palco, entradas dos coros e transições de cena.</p>
+                <div class="theatre-actions">
+                    <button onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/ENCENACAO_comp.pdf', 'Roteiro Completo de Encenação Teatral')" class="btn-theatre-main">
+                        <span>📖</span> Abrir Roteiro no Leitor Integrado
+                    </button>
+                    <a href="../Cantata de Natal Kids/ENCENACAO_comp.pdf" download class="btn-theatre-sub">
+                        <span>⬇</span> Baixar Roteiro em PDF (3.4 MB)
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title">Orientações para os Atores &amp; Famílias</h3>
+                    <p class="section-sub">Práticas recomendadas para memorizar falas e se portar com segurança no altar/palco.</p>
+                </div>
+            </div>
+
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <span class="tip-icon">🗣️</span>
+                    <h4 class="tip-title">Voz Firme e Projeção</h4>
+                    <p class="tip-text">Fale pensando na última fileira da igreja. Fale com calma e pause nas pontuações para que a igreja compreenda cada palavra da mensagem.</p>
+                </div>
+
+                <div class="tip-card">
+                    <span class="tip-icon">🔁</span>
+                    <h4 class="tip-title">Técnica das "Deixas" em Casa</h4>
+                    <p class="tip-text">Peça para os pais ou irmãos lerem a fala do personagem anterior. Assim você treina o momento exato em que deve entrar falando.</p>
+                </div>
+
+                <div class="tip-card">
+                    <span class="tip-icon">👀</span>
+                    <h4 class="tip-title">Postura e Olhar</h4>
+                    <p class="tip-text">Nunca dê as costas para o público enquanto estiver falando. Mantenha os ombros relaxados, coluna ereta e sorriso acolhedor no rosto.</p>
+                </div>
+
+                <div class="tip-card">
+                    <span class="tip-icon">💧</span>
+                    <h4 class="tip-title">Checklist dos Ensaios</h4>
+                    <p class="tip-text">Leve sempre garrafinha com água, roupa confortável para os movimentos e o roteiro com suas falas marcadas com caneta marca-texto.</p>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════
+             ABA 3: CRONOGRAMA & MAPAS
+             ═══════════════════════════════════════════════════ -->
+        <section id="tab-mapas" class="tab-panel">
+            
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Mapas e Documentos Gerais</h2>
+                    <p class="section-sub">Tenha em mãos o cronograma de ensaios e os mapas das apresentações.</p>
+                </div>
+            </div>
+
+            <div class="materials-grid">
+                
+                <!-- MAPA DE ENSAIOS -->
+                <div class="material-card">
+                    <div>
+                        <div class="material-header">
+                            <div class="material-icon mat-red">📅</div>
+                            <div class="material-info">
+                                <h4>Mapa Completo de Ensaios</h4>
+                                <p>7 páginas com o cronograma detalhado, datas dos ensaios de voz, teatro e ensaios gerais com banda.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="material-actions">
+                        <button onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/MAPA_Ensaios_completo.pdf', 'Mapa Completo de Ensaios')" class="btn-pdf" style="flex:1; justify-content:center;">
+                            Visualizar
+                        </button>
+                        <a href="../Cantata de Natal Kids/MAPA_Ensaios_completo.pdf" download class="btn-download-sm">
+                            Baixar PDF
+                        </a>
+                    </div>
+                </div>
+
+                <!-- MAPA DAS MÚSICAS -->
+                <div class="material-card">
+                    <div>
+                        <div class="material-header">
+                            <div class="material-icon mat-green">🎼</div>
+                            <div class="material-info">
+                                <h4>Mapa Geral das Músicas</h4>
+                                <p>Estrutura, dinâmica musical, momentos de solo, entradas de vozes e transições de louvor.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="material-actions">
+                        <button onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/MAPA_Mapa das Musicas.pdf', 'Mapa Geral das Músicas')" class="btn-pdf" style="flex:1; justify-content:center;">
+                            Visualizar
+                        </button>
+                        <a href="../Cantata de Natal Kids/MAPA_Mapa das Musicas.pdf" download class="btn-download-sm">
+                            Baixar PDF
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CADERNO DE LETRAS A4 -->
+                <div class="material-card">
+                    <div>
+                        <div class="material-header">
+                            <div class="material-icon mat-gold">📜</div>
+                            <div class="material-info">
+                                <h4>Caderno de Letras (A4)</h4>
+                                <p>Todas as 6 letras completas diagramadas em páginas para estudo individual e acompanhamento dos pais.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="material-actions">
+                        <button onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/Caderno de Letras.pdf', 'Caderno de Letras Completo')" class="btn-pdf" style="flex:1; justify-content:center;">
+                            Visualizar
+                        </button>
+                        <a href="../Cantata de Natal Kids/Caderno de Letras.pdf" download class="btn-download-sm">
+                            Baixar PDF
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CADERNO DE LETRAS LIVRETO -->
+                <div class="material-card">
+                    <div>
+                        <div class="material-header">
+                            <div class="material-icon mat-gold">📘</div>
+                            <div class="material-info">
+                                <h4>Caderno de Letras (Livreto)</h4>
+                                <p>Diagramação especial para impressão frente e verso em formato livreto de bolso dobrável.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="material-actions">
+                        <button onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/Caderno de Letras - Livreto.pdf', 'Caderno de Letras — Versão Livreto')" class="btn-pdf" style="flex:1; justify-content:center;">
+                            Visualizar
+                        </button>
+                        <a href="../Cantata de Natal Kids/Caderno de Letras - Livreto.pdf" download class="btn-download-sm">
+                            Baixar PDF
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════
+             ABA 4: DICAS DE ENSAIO EM CASA
+             ═══════════════════════════════════════════════════ -->
+        <section id="tab-dicas" class="tab-panel">
+            
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Como Ensaiar com Sucesso em Casa</h2>
+                    <p class="section-sub">Pequenas rotinas diárias que constroem confiança e excelência para as crianças.</p>
+                </div>
+            </div>
+
+            <div class="tips-grid" style="margin-bottom: 2rem;">
+                <div class="tip-card">
+                    <span class="tip-icon">⏰</span>
+                    <h4 class="tip-title">15 Minutos por Dia</h4>
+                    <p class="tip-text">Cantar e revisar falas por 15 minutos diariamente é muito mais eficaz do que ensaiar 2 horas seguidas apenas no final de semana. A mente fixa melhor enquanto descansamos.</p>
+                </div>
+
+                <div class="tip-card">
+                    <span class="tip-icon">🎙️</span>
+                    <h4 class="tip-title">Primeiro a Voz, depois o Playback</h4>
+                    <p class="tip-text">Escute a faixa cantada com atenção para aprender a melodia e as notas. Depois que estiver seguro, passe a ensaiar apenas com o playback instrumental.</p>
+                </div>
+
+                <div class="tip-card">
+                    <span class="tip-icon">🏎️</span>
+                    <h4 class="tip-title">Uso da Velocidade Reduzida</h4>
+                    <p class="tip-text">Se uma parte da letra estiver rápida ou difícil de pronunciar, mude a velocidade no player para 0.75x. Aprenda devagar e depois volte para a velocidade normal (1.0x).</p>
+                </div>
+
+                <div class="tip-card">
+                    <span class="tip-icon">❤️</span>
+                    <h4 class="tip-title">Incentivo Positivo dos Pais</h4>
+                    <p class="tip-text">Comemore cada avanço e elogie o esforço das crianças. Lembre-se: o objetivo principal é adorar ao Senhor com amor e alegria no coração!</p>
+                </div>
+            </div>
+
+            <div class="info-banner" style="background:#FFF0F2; border-color:#FFCCD2; color:#5E0B19;">
+                <span class="info-banner-icon">✝️</span>
+                <div>
+                    <strong>Mensagem da Liderança da IEQ Central:</strong> “Cada ensaio em casa é um momento de semear a Palavra de Deus no coração dos nossos filhos. Obrigado aos pais, regentes e voluntários que tornam esta celebração de Natal inesquecível!”
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ─── FOOTER ─── -->
+    <footer class="page-footer">
+        <p><strong>Cantata de Natal IEQ Central</strong> · Igreja do Evangelho Quadrangular Central Londrina</p>
+        <p>Travessa Belo Horizonte, 90 · Centro · Londrina, PR</p>
+        <p style="margin-top: 6px; font-size: 11px; opacity: 0.7;">Material de uso exclusivo para membros e equipe dos ensaios da cantata.</p>
+    </footer>
+
+    <!-- ─── STICKY BOTTOM AUDIO PLAYER ─── -->
+    <div id="bottom-player" class="bottom-player" style="display:none;">
+        <div class="player-inner">
+            <div class="player-row-top">
+                <div class="player-track-info">
+                    <div id="player-art" class="player-art">01</div>
+                    <div class="player-title-col">
+                        <div id="player-title" class="player-title">Mistérios do Natal</div>
+                        <div class="player-sub">
+                            <span id="player-mode-badge" class="player-mode-badge badge-voz">🎙️ Voz</span>
+                            <span id="player-track-num" style="opacity:0.6;">Faixa 1 de 6</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-controls">
+                    <button class="player-switch-btn" onclick="alternarVersaoPlayer()" id="btn-toggle-version" title="Alternar entre Voz e Playback">
+                        ⇄ Alternar Versão
+                    </button>
+                    <button class="ctrl-btn" onclick="pularTempo(-5)" title="Voltar 5 segundos">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg>
+                    </button>
+                    <button class="ctrl-btn ctrl-play" id="btn-main-play" onclick="togglePlayPause()" title="Tocar / Pausar">
+                        <svg id="svg-play" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        <svg id="svg-pause" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                    <button class="ctrl-btn" onclick="pularTempo(5)" title="Avançar 5 segundos">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>
+                    </button>
+                    <button class="speed-btn" onclick="mudarVelocidade()" id="btn-speed" title="Alterar velocidade">1.0x</button>
+                </div>
+            </div>
+
+            <div class="player-row-bottom">
+                <span id="player-current-time">0:00</span>
+                <div class="progress-bar-wrap" id="progress-wrap" onclick="seekAudio(event)">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+                <span id="player-duration">0:00</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden audio element -->
+    <audio id="global-audio" preload="metadata"></audio>
+
+    <!-- ─── MODAL PDF VIEWER ─── -->
+    <div id="pdf-modal" class="pdf-modal-backdrop" onclick="if(event.target===this) fecharPdfModal();">
+        <div class="pdf-modal-card">
+            <div class="pdf-modal-header">
+                <h3 id="pdf-modal-title" class="pdf-modal-title">Visualizador de Documento</h3>
+                <div class="pdf-modal-actions">
+                    <a id="pdf-modal-newtab" href="#" target="_blank" class="btn-pdf" title="Abrir em tela cheia / nova aba">
+                        ↗ Nova Aba
+                    </a>
+                    <a id="pdf-modal-download" href="#" download class="btn-pdf" title="Baixar arquivo PDF">
+                        ⬇ Baixar
+                    </a>
+                    <button onclick="fecharPdfModal()" class="ctrl-btn" style="color:var(--ink);" title="Fechar">
+                        ✕
+                    </button>
+                </div>
+            </div>
+            <div class="pdf-modal-body">
+                <iframe id="pdf-frame" src="about:blank"></iframe>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ─── JAVASCRIPT LOGIC ─── -->
+    <script>
+        /* ═══════════════════════════════════════════════════
+           CATÁLOGO DE DADOS DAS FAIXAS
+           ═══════════════════════════════════════════════════ */
+        const FAIXAS = {
+            1: {
+                titulo: "Mistérios do Natal",
+                voz: "../Cantata%20de%20Natal%20Kids/01_Misterios%20do%20Natal_VOZ.mp3",
+                pb:  "../Cantata%20de%20Natal%20Kids/01_Misterios%20do%20Natal_PB.mp3",
+                pdf: "../Cantata%20de%20Natal%20Kids/PDF_01_Misterios%20do%20Natal.pdf"
+            },
+            2: {
+                titulo: "História Estranha",
+                voz: "../Cantata%20de%20Natal%20Kids/02_Historia%20Estranha_VOZ.mp3",
+                pb:  "../Cantata%20de%20Natal%20Kids/02_Historia%20Estranha_PB.mp3",
+                pdf: "../Cantata%20de%20Natal%20Kids/PDF_02_Historia%20Estranha.pdf"
+            },
+            3: {
+                titulo: "Tenda no Deserto",
+                voz: "../Cantata%20de%20Natal%20Kids/03_Tenda%20no%20Deserto_VOZ.mp3",
+                pb:  "../Cantata%20de%20Natal%20Kids/03_Tenda%20no%20Deserto_PB.mp3",
+                pdf: "../Cantata%20de%20Natal%20Kids/PDF_03_Tenda%20no%20Deserto.pdf"
+            },
+            4: {
+                titulo: "Ele Vem",
+                voz: "../Cantata%20de%20Natal%20Kids/04_Ele%20vem_VOZ.mp3",
+                pb:  "../Cantata%20de%20Natal%20Kids/04_Ele%20vem_PB.mp3",
+                pdf: "../Cantata%20de%20Natal%20Kids/PDF_04_Ele%20Vem.pdf"
+            },
+            5: {
+                titulo: "Silêncio",
+                voz: "../Cantata%20de%20Natal%20Kids/05_Silencio_VOZ.mp3",
+                pb:  "../Cantata%20de%20Natal%20Kids/05_Silencio_PB.mp3",
+                pdf: "../Cantata%20de%20Natal%20Kids/PDF_05_Silencio.pdf"
+            },
+            6: {
+                titulo: "Emanuel",
+                voz: "../Cantata%20de%20Natal%20Kids/06_Emanuel_VOZ.mp3",
+                pb:  "../Cantata%20de%20Natal%20Kids/06_Emanuel_PB.mp3",
+                pdf: "../Cantata%20de%20Natal%20Kids/PDF_06_Emanuel.pdf"
+            }
+        };
+
+        let currentTrackNum = 1;
+        let currentMode = 'voz';
+        let currentSpeed = 1.0;
+        const SPEEDS = [0.75, 1.0, 1.25];
+
+        const audio = document.getElementById('global-audio');
+
+        /* ─── GATE DE SENHA ─── */
+        function isUnlocked() {
+            return sessionStorage.getItem('cantata_natal_unlocked') === '1' ||
+                   localStorage.getItem('cantata_natal_unlocked') === '1';
+        }
+
+        function checkGate() {
+            const gate = document.getElementById('gate-cantata');
+            if (isUnlocked()) {
+                if (gate) gate.style.display = 'none';
+            } else {
+                if (gate) gate.style.display = 'flex';
+                setTimeout(() => {
+                    const inp = document.getElementById('gate-pwd');
+                    if (inp) inp.focus();
+                }, 100);
+            }
+        }
+
+        function verificarSenhaGate(e) {
+            e.preventDefault();
+            const inp = document.getElementById('gate-pwd');
+            const err = document.getElementById('gate-err');
+            const val = inp ? inp.value.trim().toLowerCase() : '';
+
+            if (val === 'natal') {
+                sessionStorage.setItem('cantata_natal_unlocked', '1');
+                localStorage.setItem('cantata_natal_unlocked', '1');
+                const gate = document.getElementById('gate-cantata');
+                if (gate) {
+                    gate.style.opacity = '0';
+                    gate.style.transition = 'opacity 0.25s ease';
+                    setTimeout(() => gate.style.display = 'none', 250);
+                }
+            } else {
+                if (err) err.style.display = 'block';
+                if (inp) {
+                    inp.style.borderColor = '#e03838';
+                    inp.focus();
+                    inp.select();
+                }
+            }
+        }
+
+        function trancarAcesso() {
+            sessionStorage.removeItem('cantata_natal_unlocked');
+            localStorage.removeItem('cantata_natal_unlocked');
+            window.location.reload();
+        }
+
+        /* ─── TABS ─── */
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+            const targetPanel = document.getElementById(tabId);
+            if (targetPanel) targetPanel.classList.add('active');
+
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        /* ─── AUDIO ENGINE ─── */
+        function tocarFaixa(trackNum, mode, startPlaying = true) {
+            const data = FAIXAS[trackNum];
+            if (!data) return;
+
+            const isSameTrack = (currentTrackNum === trackNum);
+            const prevTime = audio.currentTime;
+
+            currentTrackNum = trackNum;
+            currentMode = mode;
+
+            const fileUrl = (mode === 'voz') ? data.voz : data.pb;
+            const needsSourceChange = (audio.src !== fileUrl && !audio.src.endsWith(fileUrl));
+
+            if (needsSourceChange) {
+                audio.src = fileUrl;
+                audio.playbackRate = currentSpeed;
+                if (isSameTrack && prevTime > 0) {
+                    audio.currentTime = prevTime;
+                }
+            }
+
+            atualizarUIPlayer();
+
+            if (startPlaying) {
+                audio.play().then(() => {
+                    atualizarPlayPauseIcon(true);
+                }).catch(err => {
+                    console.log('Autoplay bloqueado pelo navegador:', err);
+                });
+            }
+
+            const bottomPlayer = document.getElementById('bottom-player');
+            if (bottomPlayer) bottomPlayer.style.display = 'block';
+        }
+
+        function togglePlayPause() {
+            if (!audio.src) {
+                tocarFaixa(1, 'voz', true);
+                return;
+            }
+            if (audio.paused) {
+                audio.play();
+                atualizarPlayPauseIcon(true);
+            } else {
+                audio.pause();
+                atualizarPlayPauseIcon(false);
+            }
+        }
+
+        function alternarVersaoPlayer() {
+            const newMode = (currentMode === 'voz') ? 'pb' : 'voz';
+            tocarFaixa(currentTrackNum, newMode, !audio.paused);
+        }
+
+        function pularTempo(segundos) {
+            if (audio.duration) {
+                audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + segundos));
+            }
+        }
+
+        function mudarVelocidade() {
+            let idx = SPEEDS.indexOf(currentSpeed);
+            idx = (idx + 1) % SPEEDS.length;
+            currentSpeed = SPEEDS[idx];
+            audio.playbackRate = currentSpeed;
+            const btn = document.getElementById('btn-speed');
+            if (btn) btn.textContent = currentSpeed.toFixed(2) + 'x';
+        }
+
+        function seekAudio(e) {
+            const wrap = document.getElementById('progress-wrap');
+            if (!wrap || !audio.duration) return;
+            const rect = wrap.getBoundingClientRect();
+            const clickPos = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = clickPos * audio.duration;
+        }
+
+        function atualizarPlayPauseIcon(isPlaying) {
+            const sp = document.getElementById('svg-play');
+            const pa = document.getElementById('svg-pause');
+            if (sp) sp.style.display = isPlaying ? 'none' : 'block';
+            if (pa) pa.style.display = isPlaying ? 'block' : 'none';
+        }
+
+        function formatarTempo(sec) {
+            if (isNaN(sec) || sec < 0) return '0:00';
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function atualizarUIPlayer() {
+            const data = FAIXAS[currentTrackNum];
+            if (!data) return;
+
+            document.getElementById('player-art').textContent = `0${currentTrackNum}`;
+            document.getElementById('player-title').textContent = data.titulo;
+            document.getElementById('player-track-num').textContent = `Faixa ${currentTrackNum} de 6`;
+
+            const badge = document.getElementById('player-mode-badge');
+            const toggleBtn = document.getElementById('btn-toggle-version');
+            if (currentMode === 'voz') {
+                badge.className = 'player-mode-badge badge-voz';
+                badge.textContent = '🎙️ Voz';
+                if (toggleBtn) toggleBtn.textContent = '⇄ Mudar p/ Playback';
+            } else {
+                badge.className = 'player-mode-badge badge-pb';
+                badge.textContent = '🎹 Playback';
+                if (toggleBtn) toggleBtn.textContent = '⇄ Mudar p/ Voz';
+            }
+
+            document.querySelectorAll('.music-card').forEach(card => card.classList.remove('is-playing'));
+            const currentCard = document.getElementById(`card-track-${currentTrackNum}`);
+            if (currentCard) {
+                currentCard.classList.add('is-playing');
+                currentCard.querySelectorAll('.btn-play-version').forEach(btn => btn.classList.remove('active-btn'));
+                if (currentMode === 'voz') {
+                    const btnVoz = currentCard.querySelector('.btn-play-voz');
+                    if (btnVoz) btnVoz.classList.add('active-btn');
+                } else {
+                    const btnPb = currentCard.querySelector('.btn-play-pb');
+                    if (btnPb) btnPb.classList.add('active-btn');
+                }
+            }
+        }
+
+        /* ─── EVENTOS DE ÁUDIO ─── */
+        audio.addEventListener('timeupdate', () => {
+            const curTimeEl = document.getElementById('player-current-time');
+            const durTimeEl = document.getElementById('player-duration');
+            const fillEl = document.getElementById('progress-fill');
+
+            if (curTimeEl) curTimeEl.textContent = formatarTempo(audio.currentTime);
+            if (durTimeEl && audio.duration) durTimeEl.textContent = formatarTempo(audio.duration);
+
+            if (fillEl && audio.duration) {
+                const pct = (audio.currentTime / audio.duration) * 100;
+                fillEl.style.width = `${pct}%`;
+            }
+        });
+
+        audio.addEventListener('play', () => atualizarPlayPauseIcon(true));
+        audio.addEventListener('pause', () => atualizarPlayPauseIcon(false));
+        audio.addEventListener('ended', () => {
+            atualizarPlayPauseIcon(false);
+            if (currentTrackNum < 6) {
+                tocarFaixa(currentTrackNum + 1, currentMode, true);
+            }
+        });
+
+        /* ─── MODAL PDF ─── */
+        function abrirPdfModal(url, titulo) {
+            const modal = document.getElementById('pdf-modal');
+            const frame = document.getElementById('pdf-frame');
+            const titleEl = document.getElementById('pdf-modal-title');
+            const newTabEl = document.getElementById('pdf-modal-newtab');
+            const downloadEl = document.getElementById('pdf-modal-download');
+
+            if (titleEl) titleEl.textContent = titulo || 'Visualizador de Documento';
+            if (newTabEl) newTabEl.href = url;
+            if (downloadEl) downloadEl.href = url;
+            if (frame) frame.src = url;
+
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function fecharPdfModal() {
+            const modal = document.getElementById('pdf-modal');
+            const frame = document.getElementById('pdf-frame');
+            if (modal) modal.style.display = 'none';
+            if (frame) frame.src = 'about:blank';
+        }
+
+        /* ─── INICIALIZAÇÃO ─── */
+        window.addEventListener('DOMContentLoaded', () => {
+            checkGate();
+        });
+    </script>
+</body>
+</html>

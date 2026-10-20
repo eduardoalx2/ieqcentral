@@ -509,6 +509,230 @@
             border-color: var(--line);
         }
 
+        
+        /* ─── PAINEL DE LETRA INTERATIVO DO CORAL ─── */
+        .btn-toggle-letra {
+            background: linear-gradient(135deg, #FFFDF8 0%, #FFF3D6 100%);
+            border: 1.5px solid var(--gold);
+            color: var(--crimson-dark);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 7px 15px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.25);
+            text-decoration: none;
+        }
+        .btn-toggle-letra:hover {
+            background: var(--gold);
+            color: var(--crimson-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(212, 175, 55, 0.4);
+        }
+        .btn-toggle-letra.active {
+            background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-dark) 100%);
+            border-color: var(--crimson-dark);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(106, 15, 30, 0.3);
+        }
+        .btn-toggle-letra .arrow-ind {
+            display: inline-block;
+            transition: transform 0.25s ease;
+            font-size: 10px;
+        }
+        .btn-toggle-letra.active .arrow-ind {
+            transform: rotate(180deg);
+        }
+
+        .btn-pdf-subtle {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 6px 10px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+        .btn-pdf-subtle:hover {
+            background: #fff;
+            color: var(--crimson);
+            border-color: var(--crimson);
+        }
+
+        .card-letra-panel {
+            margin-top: 1rem;
+            padding: 1.25rem 1.15rem;
+            background: #FCFAF6;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-md);
+            box-shadow: inset 0 2px 8px rgba(62, 11, 19, 0.03);
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        /* BARRA DE LEGENDA DO CORAL */
+        .coral-legend-bar {
+            background: #FFFFFF;
+            border: 1.5px solid rgba(212, 175, 55, 0.45);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 2px 10px rgba(62, 11, 19, 0.04);
+        }
+        .legend-header {
+            margin-bottom: 6px;
+        }
+        .legend-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: var(--crimson-dark);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .legend-items {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 12px;
+        }
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--ink-soft);
+        }
+        .leg-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .dot-solo { background: #16171B; }
+        .dot-coral { background: #980000; }
+        .dot-vozes { background: #980000; border: 1.5px solid #D4AF37; }
+
+        /* CORPO DA LETRA COM TIPOGRAFIA PARA CELULAR */
+        .letra-body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-size: clamp(15.5px, 4.2vw, 17px);
+            line-height: 1.7;
+            color: #16171B;
+            letter-spacing: -0.01em;
+        }
+        .letra-stanza {
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dashed rgba(229, 221, 208, 0.8);
+        }
+        .letra-stanza:last-child {
+            border-bottom: none;
+            margin-bottom: 0.25rem;
+            padding-bottom: 0;
+        }
+        .letra-stanza p {
+            margin: 0;
+            padding: 3px 0;
+        }
+
+        /* CLASSES DE VOZ E DESTAQUE */
+        .l-solo {
+            color: #16171B;
+            font-weight: 400;
+        }
+        .l-bold {
+            color: #16171B;
+            font-weight: 700;
+        }
+        .l-coral {
+            color: #980000;
+            font-weight: 700;
+        }
+        .l-vozes {
+            color: #980000;
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-thickness: 1.5px;
+            text-underline-offset: 3.5px;
+        }
+        .letra-sec-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 800;
+            color: #16171B;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            opacity: 0.85;
+        }
+        .letra-tag-yellow {
+            display: inline-block;
+            background: #FFF176;
+            color: #16171B;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            border: 1px solid rgba(0,0,0,0.12);
+        }
+        .l-ritmo {
+            background: #EBEBEB;
+            color: #16171B;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 0.1em;
+            display: inline-block;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        /* RODAPÉ DO PAINEL DE LETRA */
+        .letra-footer-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 1.25rem;
+            padding-top: 0.9rem;
+            border-top: 1px solid var(--line);
+            flex-wrap: wrap;
+        }
+        .btn-fechar-letra {
+            background: var(--bg-warm);
+            border: 1px solid var(--line);
+            color: var(--ink-soft);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 7px 15px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-fechar-letra:hover {
+            background: #fff;
+            border-color: var(--crimson);
+            color: var(--crimson);
+        }
+
         /* ─── THEATRE SECTION ─── */
         .theatre-hero-card {
             background: linear-gradient(135deg, var(--pine-dark) 0%, #153A2E 60%, var(--crimson-dark) 100%);
@@ -1185,13 +1409,102 @@
                     </div>
                     <div class="music-action-bar">
                         <div class="music-action-left">
-                            <a href="../Cantata de Natal Kids/PDF_01_Misterios do Natal.pdf" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_01_Misterios%20do%20Natal.pdf', '01. Mistérios do Natal — Letra e Partitura'); return false;">
-                                📄 Letra &amp; Partitura (PDF)
+                            <button type="button" class="btn-toggle-letra" onclick="toggleLetra(1)" id="btn-letra-1">
+                                <span>📖</span> Ver Letra do Coral <span class="arrow-ind">▼</span>
+                            </button>
+                            <a href="../Cantata de Natal Kids/PDF_01_Misterios do Natal.pdf" class="btn-pdf-subtle" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_01_Misterios%20do%20Natal.pdf', '01. Mistérios do Natal — Partitura'); return false;" title="Abrir partitura original em PDF">
+                                📄 Partitura
                             </a>
                         </div>
                         <div class="music-action-left">
                             <a href="../Cantata de Natal Kids/01_Misterios do Natal_VOZ.mp3" download class="btn-download-sm" title="Baixar MP3 Cantado">⬇ Voz</a>
                             <a href="../Cantata de Natal Kids/01_Misterios do Natal_PB.mp3" download class="btn-download-sm" title="Baixar MP3 Instrumental">⬇ Playback</a>
+                        </div>
+                    </div>
+
+                    <!-- PAINEL DE LETRA COM MARCAÇÕES DO CORAL -->
+                    <div class="card-letra-panel" id="letra-card-1" style="display:none;">
+                        <div class="coral-legend-bar">
+                            <div class="legend-header">
+                                <span class="legend-title">🎙️ Guia de Vozes do Coral:</span>
+                            </div>
+                            <div class="legend-items">
+                                <span class="legend-item leg-solo"><span class="leg-indicator dot-solo"></span> <strong>Preto:</strong> Solo</span>
+                                <span class="legend-item leg-coral"><span class="leg-indicator dot-coral"></span> <strong>Vinho Negrito:</strong> Coral (Todos)</span>
+                                <span class="legend-item leg-vozes"><span class="leg-indicator dot-vozes"></span> <strong><u>Vinho Sublinhado:</u></strong> Vozes (Harmonia)</span>
+                            </div>
+                        </div>
+
+                        <div class="letra-body">
+                            <div class="letra-stanza">
+                                <p class="l-solo">UM JARDIM GUARDA UM SEGREDO</p>
+                                <p class="l-solo">UMA ÁRVORE, UM PERIGO.</p>
+                                <p class="l-solo">UMA TENDA NO DESERTO</p>
+                                <p class="l-solo">E UM POVO BEM PERDIDO</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <p class="l-solo">UMA VOZ GRITA BEM ALTO,</p>
+                                <p class="l-solo">MAS NINGUÉM QUIS DAR OUVIDOS.</p>
+                                <p class="l-solo">E UM SILÊNCIO TÃO ENORME,</p>
+                                <p class="l-coral">NUNCA ANTES FOI SENTIDO.</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-sec-title">REFRÃO</div>
+                                <p class="l-coral">O NATAL É MUITO MAIS</p>
+                                <p class="l-coral">DO QUE PRESÉPIO E ENCENAÇÃO</p>
+                                <p class="l-coral">HÁ MISTÉRIOS REVELADOS</p>
+                                <p class="l-coral">PRA QUEM BUSCA</p>
+                                <p class="l-coral">SEMPRE UMA RAZÃO</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <p class="l-solo">PEGUE O MAPA, SE APRONTE</p>
+                                <p class="l-solo">MERGULHE FUNDO, NÃO DESISTA,</p>
+                                <p class="l-coral">POIS QUEM BUSCA SEMPRE ENCONTRA</p>
+                                <p class="l-coral">QUEM MERGULHA ENCONTRA PISTAS</p>
+                                <p class="l-solo">PRA COM ELAS DESVENDAR</p>
+                                <p class="l-coral">OS MISTÉRIOS DO NATAL</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <p class="l-coral">UM JARDIM GUARDA UM SEGREDO</p>
+                                <p class="l-coral">UMA ÁRVORE, UM PERIGO.</p>
+                                <p class="l-coral">UMA <span class="l-vozes">TENDA NO DESERTO</span></p>
+                                <p class="l-coral">E UM <span class="l-vozes">POVO BEM PERDIDO</span></p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <p class="l-solo">UMA VOZ GRITA BEM ALTO,</p>
+                                <p class="l-solo">MAS NINGUÉM QUIS DAR OUVIDOS.</p>
+                                <p class="l-solo">E UM SILÊNCIO TÃO ENORME,</p>
+                                <p class="l-coral">NUNCA ANTES FOI SENTIDO.</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-sec-title">REFRÃO (Palmas)</div>
+                                <p class="l-vozes">O NATAL É MUITO MAIS</p>
+                                <p class="l-vozes">DO QUE PRESÉPIO E ENCENAÇÃO</p>
+                                <p class="l-vozes">HÁ MISTÉRIOS REVELADOS</p>
+                                <p class="l-vozes">PRA QUEM BUSCA SEMPRE UMA RAZÃO</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <p><span class="l-solo">PEGUE O MAPA</span> &nbsp; <span class="l-coral">PEGUE O MAPA</span></p>
+                                <p><span class="l-solo">SE APRONTE</span> &nbsp; <span class="l-coral">SE APRONTE</span></p>
+                                <p><span class="l-solo">MERGULHE FUNDO</span> &nbsp; <span class="l-coral">MERGULHE FUNDO</span></p>
+                                <p class="l-solo">NÃO DESISTA,</p>
+                                <p class="l-coral">POIS QUEM BUSCA SEMPRE ENCONTRA</p>
+                                <p class="l-coral">QUEM MERGULHA ENCONTRA PISTAS</p>
+                                <p class="l-solo">PRA COM ELAS DESVENDAR</p>
+                                <p class="l-vozes">OS MISTÉRIOS DO NATAL</p>
+                            </div>
+                        </div>
+
+                        <div class="letra-footer-actions">
+                            <button type="button" class="btn-fechar-letra" onclick="toggleLetra(1)">▲ Fechar Letra</button>
+                            <a href="../Cantata de Natal Kids/PDF_01_Misterios do Natal.pdf" class="btn-pdf-subtle" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_01_Misterios%20do%20Natal.pdf', '01. Mistérios do Natal — Partitura'); return false;">📄 Ver Partitura em PDF</a>
                         </div>
                     </div>
                 </article>
@@ -1221,13 +1534,102 @@
                     </div>
                     <div class="music-action-bar">
                         <div class="music-action-left">
-                            <a href="../Cantata de Natal Kids/PDF_02_Historia Estranha.pdf" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_02_Historia%20Estranha.pdf', '02. História Estranha — Letra e Partitura'); return false;">
-                                📄 Letra &amp; Partitura (PDF)
+                            <button type="button" class="btn-toggle-letra" onclick="toggleLetra(2)" id="btn-letra-2">
+                                <span>📖</span> Ver Letra do Coral <span class="arrow-ind">▼</span>
+                            </button>
+                            <a href="../Cantata de Natal Kids/PDF_02_Historia Estranha.pdf" class="btn-pdf-subtle" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_02_Historia%20Estranha.pdf', '02. História Estranha — Partitura'); return false;" title="Abrir partitura original em PDF">
+                                📄 Partitura
                             </a>
                         </div>
                         <div class="music-action-left">
                             <a href="../Cantata de Natal Kids/02_Historia Estranha_VOZ.mp3" download class="btn-download-sm">⬇ Voz</a>
                             <a href="../Cantata de Natal Kids/02_Historia Estranha_PB.mp3" download class="btn-download-sm">⬇ Playback</a>
+                        </div>
+                    </div>
+
+                    <!-- PAINEL DE LETRA COM MARCAÇÕES DO CORAL -->
+                    <div class="card-letra-panel" id="letra-card-2" style="display:none;">
+                        <div class="coral-legend-bar">
+                            <div class="legend-header">
+                                <span class="legend-title">🎙️ Guia de Vozes do Coral:</span>
+                            </div>
+                            <div class="legend-items">
+                                <span class="legend-item leg-solo"><span class="leg-indicator dot-solo"></span> <strong>Preto:</strong> Solo</span>
+                                <span class="legend-item leg-coral"><span class="leg-indicator dot-coral"></span> <strong>Vinho Negrito:</strong> Coral (Todos)</span>
+                                <span class="legend-item leg-vozes"><span class="leg-indicator dot-vozes"></span> <strong><u>Vinho Sublinhado:</u></strong> Vozes (Harmonia)</span>
+                            </div>
+                        </div>
+
+                        <div class="letra-body">
+                            <div class="letra-stanza">
+                                <div class="letra-sec-title">PRÉ-VERSO</div>
+                                <p class="l-coral">O QUE UM CALCANHAR,</p>
+                                <p class="l-coral">UMA SERPENTE</p>
+                                <p class="l-coral">E UMA ÁRVORE TEM COM O NATAL?</p>
+                                <p class="l-coral">EU VOU TE CONTAR, UMA HISTÓRIA</p>
+                                <p class="l-coral">QUE VAI TE DEIXAR DE CABELO EM PÉ!</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-sec-title">VERSO 01</div>
+                                <p class="l-solo">HAVIA UM JARDIM TÃO BONITO</p>
+                                <p class="l-solo">UMA ÁRVORE E UM PERIGO</p>
+                                <p class="l-solo">O SENHOR AVISOU COM CARINHO</p>
+                                <p class="l-solo">NÃO BRINQUEM COM ESSE LUGAR</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <p class="l-solo">MAS UMA SERPENTE ESPERTA</p>
+                                <p class="l-solo">NA ÁRVORE APARECEU</p>
+                                <p class="l-solo">FALOU SUAS PALAVRAS DE ENGANO</p>
+                                <p class="l-solo">PRA EVA E A CONVENCEU</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-sec-title">REFRÃO</div>
+                                <p class="l-vozes">“SERPENTE VOCÊ JÁ ESTÁ CONDENADA</p>
+                                <p class="l-vozes">TODO MUNDO PODE SER SEU MAL</p>
+                                <p class="l-vozes">O MEU FILHO VAI NASCER HUMANO</p>
+                                <p><span class="l-vozes">PRA ACABAR COM O ENGANO</span> <span class="l-solo">AFINAL</span><strong>”</strong></p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-sec-title">PRÉ-VERSO</div>
+                                <p class="l-vozes">O QUE UM CALCANHAR,</p>
+                                <p class="l-vozes">UMA SERPENTE</p>
+                                <p class="l-vozes">E UMA ÁRVORE TEM COM O NATAL?</p>
+                                <p class="l-vozes">EU VOU TE CONTAR, UMA HISTÓRIA</p>
+                                <p class="l-vozes">QUE VAI TE DEIXAR DE CABELO EM PÉ!</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-sec-title">VERSO 01</div>
+                                <p class="l-solo">PARECE UMA HISTÓRIA ESTRANHA</p>
+                                <p class="l-solo">MAS OUÇA O QUE DEUS VAI FALAR</p>
+                                <p class="l-solo">A SERPENTE ANTES DE MORRER</p>
+                                <p class="l-solo">FERIRIA O SEU CALCANHAR</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <p class="l-solo">E ASSIM O NATAL COMEÇAVA</p>
+                                <p class="l-solo">COM A PROMESSA DE UM SALVADOR</p>
+                                <p class="l-solo">QUE SERIA FERIDO UM DIA</p>
+                                <p class="l-solo">MAS VENCERIA O MAL</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-sec-title">REFRÃO</div>
+                                <p class="l-vozes">“SERPENTE VOCÊ JÁ ESTÁ CONDENADA</p>
+                                <p class="l-vozes">TODO MUNDO PODE SER SEU MAL</p>
+                                <p class="l-vozes">O MEU FILHO VAI NASCER HUMANO</p>
+                                <p class="l-solo">PRA ACABAR</p>
+                                <p class="l-solo">COM O <span class="l-ritmo">EN &nbsp; GA &nbsp; NO</span> &nbsp; &nbsp; <span class="l-ritmo">A &nbsp; FI &nbsp; NAL</span>”</p>
+                            </div>
+                        </div>
+
+                        <div class="letra-footer-actions">
+                            <button type="button" class="btn-fechar-letra" onclick="toggleLetra(2)">▲ Fechar Letra</button>
+                            <a href="../Cantata de Natal Kids/PDF_02_Historia Estranha.pdf" class="btn-pdf-subtle" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_02_Historia%20Estranha.pdf', '02. História Estranha — Partitura'); return false;">📄 Ver Partitura em PDF</a>
                         </div>
                     </div>
                 </article>
@@ -1257,13 +1659,109 @@
                     </div>
                     <div class="music-action-bar">
                         <div class="music-action-left">
-                            <a href="../Cantata de Natal Kids/PDF_03_Tenda no Deserto.pdf" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_03_Tenda%20no%20Deserto.pdf', '03. Tenda no Deserto — Letra e Partitura'); return false;">
-                                📄 Letra &amp; Partitura (PDF)
+                            <button type="button" class="btn-toggle-letra" onclick="toggleLetra(3)" id="btn-letra-3">
+                                <span>📖</span> Ver Letra do Coral <span class="arrow-ind">▼</span>
+                            </button>
+                            <a href="../Cantata de Natal Kids/PDF_03_Tenda no Deserto.pdf" class="btn-pdf-subtle" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_03_Tenda%20no%20Deserto.pdf', '03. Tenda no Deserto — Partitura'); return false;" title="Abrir partitura original em PDF">
+                                📄 Partitura
                             </a>
                         </div>
                         <div class="music-action-left">
                             <a href="../Cantata de Natal Kids/03_Tenda no Deserto_VOZ.mp3" download class="btn-download-sm">⬇ Voz</a>
                             <a href="../Cantata de Natal Kids/03_Tenda no Deserto_PB.mp3" download class="btn-download-sm">⬇ Playback</a>
+                        </div>
+                    </div>
+
+                    <!-- PAINEL DE LETRA COM MARCAÇÕES DO CORAL -->
+                    <div class="card-letra-panel" id="letra-card-3" style="display:none;">
+                        <div class="coral-legend-bar">
+                            <div class="legend-header">
+                                <span class="legend-title">🎙️ Guia de Vozes do Coral:</span>
+                            </div>
+                            <div class="legend-items">
+                                <span class="legend-item leg-solo"><span class="leg-indicator dot-solo"></span> <strong>Preto:</strong> Solo</span>
+                                <span class="legend-item leg-coral"><span class="leg-indicator dot-coral"></span> <strong>Vinho Negrito:</strong> Coral (Todos)</span>
+                                <span class="legend-item leg-vozes"><span class="leg-indicator dot-vozes"></span> <strong><u>Vinho Sublinhado:</u></strong> Vozes (Harmonia)</span>
+                            </div>
+                        </div>
+
+                        <div class="letra-body">
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">VERSO</div>
+                                <p class="l-coral">NO DESERTO O POVO ANDAVA</p>
+                                <p class="l-coral">E PENSAVA ESTAR SOZINHO</p>
+                                <p class="l-coral">MAS DEUS ARMAVA, SUA TENDA</p>
+                                <p class="l-bold">BEM NO MEIO DO DESERTO</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <p class="l-bold">DE DIA A NUVEM GUIAVA</p>
+                                <p><span class="l-coral">À NOITE O FOGO</span> <span class="l-bold">BRILHAVA</span></p>
+                                <p class="l-vozes">DEUS TÃO GRANDE___,</p>
+                                <p class="l-vozes">TÃO PODEROSO____.</p>
+                                <p><span class="l-bold">ESCOLHEU MORAR</span> <span class="l-vozes">COM SEU POVO</span></p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">REFRÃO</div>
+                                <p class="l-vozes">NÃO FOI SÓ NA MANJEDOURA</p>
+                                <p class="l-vozes">QUE DEUS QUIS SE APROXIMAR</p>
+                                <p class="l-vozes">DESDE O ÉDEN ELE ESTAVA</p>
+                                <p class="l-bold">SEMPRE PERTO, SEM SE AFASTAR</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">PONTE</div>
+                                <p class="l-coral">LUZ QUE NUNCA SE APAGA</p>
+                                <p class="l-coral">PÃO QUE NUNCA VAI FALTAR</p>
+                                <p class="l-coral">DEUS NÃO QUER FICAR DISTANTE</p>
+                                <p class="l-coral">QUER DE VOCÊ SE APROXIMAR</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">VERSO</div>
+                                <p class="l-coral">NO DESERTO O POVO ANDAVA</p>
+                                <p class="l-coral">E PENSAVA ESTAR SOZINHO</p>
+                                <p class="l-coral">MAS DEUS ARMAVA, SUA TENDA</p>
+                                <p class="l-bold">BEM NO MEIO DO CAMINHO</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <p class="l-bold">DE DIA A NUVEM GUIAVA</p>
+                                <p><span class="l-coral">À NOITE O FOGO</span> <span class="l-bold">BRILHAVA</span></p>
+                                <p class="l-vozes">DEUS TÃO GRANDE___,</p>
+                                <p class="l-vozes">TÃO PODEROSO____.</p>
+                                <p><span class="l-bold">ESCOLHEU MORAR</span> <span class="l-vozes">COM SEU POVO</span></p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">REFRÃO</div>
+                                <p class="l-vozes">NÃO FOI SÓ NA MANJEDOURA</p>
+                                <p class="l-vozes">QUE DEUS QUIS SE APROXIMAR</p>
+                                <p class="l-vozes">DESDE O ÉDEN ELE ESTAVA</p>
+                                <p class="l-bold">SEMPRE PERTO, SEM SE AFASTAR</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">PONTE</div>
+                                <p class="l-bold">LUZ QUE NUNCA SE APAGA</p>
+                                <p class="l-bold">PÃO QUE NUNCA VAI FALTAR</p>
+                                <p class="l-bold">DEUS NÃO QUER FICAR DISTANTE</p>
+                                <p class="l-vozes">QUER DE VOCÊ SE APROXIMAR</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">REFRÃO COM PALMAS</div>
+                                <p class="l-vozes">NÃO FOI SÓ NA MANJEDOURA</p>
+                                <p class="l-vozes">QUE DEUS QUIS SE APROXIMAR</p>
+                                <p class="l-vozes">DESDE O ÉDEN ELE ESTAVA</p>
+                                <p><span class="l-bold">SEMPRE PERTO,</span> <span class="l-vozes">SEM SE AFASTAR</span></p>
+                            </div>
+                        </div>
+
+                        <div class="letra-footer-actions">
+                            <button type="button" class="btn-fechar-letra" onclick="toggleLetra(3)">▲ Fechar Letra</button>
+                            <a href="../Cantata de Natal Kids/PDF_03_Tenda no Deserto.pdf" class="btn-pdf-subtle" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_03_Tenda no Deserto.pdf', '03. Tenda no Deserto — Partitura'); return false;">📄 Ver Partitura em PDF</a>
                         </div>
                     </div>
                 </article>
@@ -1949,6 +2447,29 @@
             const frame = document.getElementById('pdf-frame');
             if (modal) modal.style.display = 'none';
             if (frame) frame.src = 'about:blank';
+        }
+
+        
+        /* ─── TOGGLE LETRA DIRETO NO CARD ─── */
+        function toggleLetra(trackNum) {
+            const panel = document.getElementById(`letra-card-${trackNum}`);
+            const btn = document.getElementById(`btn-letra-${trackNum}`);
+            if (!panel) return;
+
+            const isHidden = (panel.style.display === 'none' || !panel.style.display);
+            if (isHidden) {
+                panel.style.display = 'block';
+                if (btn) {
+                    btn.classList.add('active');
+                    btn.innerHTML = `<span>📖</span> Fechar Letra <span class="arrow-ind">▲</span>`;
+                }
+            } else {
+                panel.style.display = 'none';
+                if (btn) {
+                    btn.classList.remove('active');
+                    btn.innerHTML = `<span>📖</span> Ver Letra do Coral <span class="arrow-ind">▼</span>`;
+                }
+            }
         }
 
         /* ─── INICIALIZAÇÃO ─── */

@@ -1791,13 +1791,85 @@
                     </div>
                     <div class="music-action-bar">
                         <div class="music-action-left">
-                            <a href="../Cantata de Natal Kids/PDF_04_Ele Vem.pdf" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_04_Ele%20Vem.pdf', '04. Ele Vem — Letra e Partitura'); return false;">
-                                📄 Letra &amp; Partitura (PDF)
+                            <button type="button" class="btn-toggle-letra" onclick="toggleLetra(4)" id="btn-letra-4">
+                                <span>📖</span> Ver Letra do Coral <span class="arrow-ind">▼</span>
+                            </button>
+                            <a href="../Cantata de Natal Kids/PDF_04_Ele Vem.pdf" class="btn-pdf-subtle" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_04_Ele%20Vem.pdf', '04. Ele Vem — Partitura'); return false;" title="Abrir partitura original em PDF">
+                                📄 Partitura
                             </a>
                         </div>
                         <div class="music-action-left">
                             <a href="../Cantata de Natal Kids/04_Ele vem_VOZ.mp3" download class="btn-download-sm">⬇ Voz</a>
                             <a href="../Cantata de Natal Kids/04_Ele vem_PB.mp3" download class="btn-download-sm">⬇ Playback</a>
+                        </div>
+                    </div>
+
+                    <!-- PAINEL DE LETRA COM MARCAÇÕES DO CORAL -->
+                    <div class="card-letra-panel" id="letra-card-4" style="display:none;">
+                        <div class="coral-legend-bar">
+                            <div class="legend-header">
+                                <span class="legend-title">🎙️ Guia de Vozes do Coral:</span>
+                            </div>
+                            <div class="legend-items">
+                                <span class="legend-item leg-solo"><span class="leg-indicator dot-solo"></span> <strong>Preto:</strong> Solo</span>
+                                <span class="legend-item leg-coral"><span class="leg-indicator dot-coral"></span> <strong>Vinho Negrito:</strong> Coral (Todos)</span>
+                                <span class="legend-item leg-vozes"><span class="leg-indicator dot-vozes"></span> <strong><u>Vinho Sublinhado:</u></strong> Vozes (Harmonia)</span>
+                            </div>
+                        </div>
+
+                        <div class="letra-body">
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">VERSO</div>
+                                <p class="l-vozes">ESCUTEM, ESCUTEM</p>
+                                <p class="l-vozes">UMA VOZ NO DESERTO</p>
+                                <p class="l-vozes">GRITANDO BEM ALTO,</p>
+                                <p class="l-vozes">GRITANDO VEM DE PERTO</p>
+                                <p class="l-vozes">PREPAREM O CORAÇÃO,</p>
+                                <p class="l-vozes">TIREM A POEIRA</p>
+                                <p class="l-vozes">TIREM A POEIRA</p>
+                                <p class="l-vozes">QUE COBRE O CORAÇÃO</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">REFRÃO</div>
+                                <p class="l-vozes">ELE VEM.</p>
+                                <p class="l-vozes">ELE VEM</p>
+                                <p class="l-vozes">ABRAM OS SEUS OLHOS,</p>
+                                <p class="l-vozes">ABRAM O CORAÇÃO</p>
+                                <p class="l-vozes">ELE VEM,</p>
+                                <p class="l-vozes">ELE VEM</p>
+                                <p class="l-vozes">PREPAREM O CAMINHO</p>
+                                <p class="l-vozes">ELE JÁ VEM!</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">VERSO 2</div>
+                                <p class="l-coral">QUANTOS PROFETAS</p>
+                                <p class="l-coral">GRITARAM SÓ AO VENTO</p>
+                                <p class="l-coral">AVISANDO O POVO,</p>
+                                <p class="l-coral">MAS NÃO DERAM ATENÇÃO</p>
+                                <p class="l-coral">ELE SEMPRE ESPERAVA</p>
+                                <p class="l-coral">FICAR BEM PERTINHO</p>
+                                <p class="l-coral">MAS O POVO FECHOU</p>
+                                <p class="l-coral">A PORTA E O CORAÇÃO</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">REFRÃO</div>
+                                <p class="l-vozes">ELE VEM.</p>
+                                <p class="l-vozes">ELE VEM</p>
+                                <p class="l-vozes">ABRAM OS OLHOS,</p>
+                                <p class="l-vozes">ABRAM O CORAÇÃO</p>
+                                <p class="l-vozes">ELE VEM,</p>
+                                <p class="l-vozes">ELE VEM</p>
+                                <p class="l-vozes">PREPAREM O CAMINHO</p>
+                                <p class="l-vozes">ELE JÁ VEM!</p>
+                            </div>
+                        </div>
+
+                        <div class="letra-footer-actions">
+                            <button type="button" class="btn-fechar-letra" onclick="toggleLetra(4)">▲ Fechar Letra</button>
+                            <a href="../Cantata de Natal Kids/PDF_04_Ele Vem.pdf" class="btn-pdf-subtle" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_04_Ele%20Vem.pdf', '04. Ele Vem — Partitura'); return false;">📄 Ver Partitura em PDF</a>
                         </div>
                     </div>
                 </article>
@@ -1827,13 +1899,100 @@
                     </div>
                     <div class="music-action-bar">
                         <div class="music-action-left">
-                            <a href="../Cantata de Natal Kids/PDF_05_Silencio.pdf" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_05_Silencio.pdf', '05. Silêncio — Letra e Partitura'); return false;">
-                                📄 Letra &amp; Partitura (PDF)
+                            <button type="button" class="btn-toggle-letra" onclick="toggleLetra(5)" id="btn-letra-5">
+                                <span>📖</span> Ver Letra do Coral <span class="arrow-ind">▼</span>
+                            </button>
+                            <a href="../Cantata de Natal Kids/PDF_05_Silencio.pdf" class="btn-pdf-subtle" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_05_Silencio.pdf', '05. Silêncio — Partitura'); return false;" title="Abrir partitura original em PDF">
+                                📄 Partitura
                             </a>
                         </div>
                         <div class="music-action-left">
                             <a href="../Cantata de Natal Kids/05_Silencio_VOZ.mp3" download class="btn-download-sm">⬇ Voz</a>
                             <a href="../Cantata de Natal Kids/05_Silencio_PB.mp3" download class="btn-download-sm">⬇ Playback</a>
+                        </div>
+                    </div>
+
+                    <!-- PAINEL DE LETRA COM MARCAÇÕES DO CORAL -->
+                    <div class="card-letra-panel" id="letra-card-5" style="display:none;">
+                        <div class="coral-legend-bar">
+                            <div class="legend-header">
+                                <span class="legend-title">🎙️ Guia de Vozes do Coral:</span>
+                            </div>
+                            <div class="legend-items">
+                                <span class="legend-item leg-solo"><span class="leg-indicator dot-solo"></span> <strong>Preto:</strong> Solo</span>
+                                <span class="legend-item leg-coral"><span class="leg-indicator dot-coral"></span> <strong>Vinho Negrito:</strong> Coral (Todos)</span>
+                                <span class="legend-item leg-vozes"><span class="leg-indicator dot-vozes"></span> <strong><u>Vinho Sublinhado:</u></strong> Vozes (Harmonia)</span>
+                            </div>
+                        </div>
+
+                        <div class="letra-body">
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">VERSO</div>
+                                <p class="l-bold">O TEMPO PASSAVA</p>
+                                <p class="l-bold">E NINGUÉM PERCEBIA</p>
+                                <p class="l-bold">QUE A HORA CHEGAVA,</p>
+                                <p class="l-bold">QUE O DIA JÁ VINHA</p>
+                                <p class="l-bold">O POVO ESPERAVA</p>
+                                <p class="l-bold">COM OS OLHOS FECHADOS</p>
+                                <p class="l-bold">UM REI COM ESPADA,</p>
+                                <p class="l-bold">MAS NÃO UM MENINO</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">REFRÃO</div>
+                                <p class="l-vozes">NO SILÊNCIO</p>
+                                <p class="l-vozes">NO SILÊNCIO</p>
+                                <p><span class="l-bold">ALGUÉM AINDA</span> <span class="l-vozes">ESPERAVA</span></p>
+                                <p class="l-bold">ENQUANTO O MUNDO,</p>
+                                <p class="l-bold">TÃO OCUPADO</p>
+                                <p class="l-bold">NEM PERCEBIA</p>
+                                <p class="l-vozes">O QUE SE APROXIMAVA</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">VERSO</div>
+                                <p class="l-bold">O TEMPO PASSAVA</p>
+                                <p class="l-bold">E NINGUÉM PERCEBIA</p>
+                                <p class="l-vozes">QUE A HORA CHEGAVA,</p>
+                                <p class="l-vozes">QUE O DIA JÁ VINHA</p>
+                                <p class="l-vozes">O POVO ESPERAVA</p>
+                                <p class="l-vozes">COM OS OLHOS FECHADOS</p>
+                                <p class="l-vozes">UM REI COM ESPADA,</p>
+                                <p class="l-bold">MAS NÃO UM MENINO</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">REFRÃO</div>
+                                <p class="l-vozes">NO SILÊNCIO</p>
+                                <p class="l-vozes">NO SILÊNCIO</p>
+                                <p><span class="l-bold">ALGUÉM AINDA</span> <span class="l-vozes">ESPERAVA</span></p>
+                                <p class="l-bold">ENQUANTO O MUNDO,</p>
+                                <p class="l-bold">TÃO OCUPADO</p>
+                                <p class="l-bold">NEM PERCEBIA</p>
+                                <p class="l-vozes">O QUE SE APROXIMAVA</p>
+                                <p class="l-vozes">SERÁ QUE VOCÊ</p>
+                                <p class="l-bold">TAMBÉM ESTÁ ESPERANDO</p>
+                                <p class="l-vozes">UM SALVADOR</p>
+                                <p class="l-bold">QUE VOCÊ MESMO CRIOU</p>
+                                <p class="l-bold">NO MEIO DE TANTO BARULHO</p>
+                                <p class="l-vozes">VOCÊ AINDA OUVE A VOZ DO SENHOR?</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">REFRÃO</div>
+                                <p class="l-coral">NO SILÊNCIO</p>
+                                <p class="l-coral">NO SILÊNCIO</p>
+                                <p><span class="l-bold">ALGUÉM AINDA</span> <span class="l-coral">ESPERAVA</span></p>
+                                <p class="l-bold">ENQUANTO O MUNDO,</p>
+                                <p class="l-bold">TÃO OCUPADO</p>
+                                <p class="l-bold">NEM PERCEBIA</p>
+                                <p class="l-coral">O QUE SE APROXIMAVA</p>
+                            </div>
+                        </div>
+
+                        <div class="letra-footer-actions">
+                            <button type="button" class="btn-fechar-letra" onclick="toggleLetra(5)">▲ Fechar Letra</button>
+                            <a href="../Cantata de Natal Kids/PDF_05_Silencio.pdf" class="btn-pdf-subtle" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_05_Silencio.pdf', '05. Silêncio — Partitura'); return false;">📄 Ver Partitura em PDF</a>
                         </div>
                     </div>
                 </article>
@@ -1863,13 +2022,85 @@
                     </div>
                     <div class="music-action-bar">
                         <div class="music-action-left">
-                            <a href="../Cantata de Natal Kids/PDF_06_Emanuel.pdf" class="btn-pdf" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_06_Emanuel.pdf', '06. Emanuel — Letra e Partitura'); return false;">
-                                📄 Letra &amp; Partitura (PDF)
+                            <button type="button" class="btn-toggle-letra" onclick="toggleLetra(6)" id="btn-letra-6">
+                                <span>📖</span> Ver Letra do Coral <span class="arrow-ind">▼</span>
+                            </button>
+                            <a href="../Cantata de Natal Kids/PDF_06_Emanuel.pdf" class="btn-pdf-subtle" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_06_Emanuel.pdf', '06. Emanuel — Partitura'); return false;" title="Abrir partitura original em PDF">
+                                📄 Partitura
                             </a>
                         </div>
                         <div class="music-action-left">
                             <a href="../Cantata de Natal Kids/06_Emanuel_VOZ.mp3" download class="btn-download-sm">⬇ Voz</a>
                             <a href="../Cantata de Natal Kids/06_Emanuel_PB.mp3" download class="btn-download-sm">⬇ Playback</a>
+                        </div>
+                    </div>
+
+                    <!-- PAINEL DE LETRA COM MARCAÇÕES DO CORAL -->
+                    <div class="card-letra-panel" id="letra-card-6" style="display:none;">
+                        <div class="coral-legend-bar">
+                            <div class="legend-header">
+                                <span class="legend-title">🎙️ Guia de Vozes do Coral:</span>
+                            </div>
+                            <div class="legend-items">
+                                <span class="legend-item leg-solo"><span class="leg-indicator dot-solo"></span> <strong>Preto:</strong> Solo</span>
+                                <span class="legend-item leg-coral"><span class="leg-indicator dot-coral"></span> <strong>Vinho Negrito:</strong> Coral (Todos)</span>
+                                <span class="legend-item leg-vozes"><span class="leg-indicator dot-vozes"></span> <strong><u>Vinho Sublinhado:</u></strong> Vozes (Harmonia)</span>
+                            </div>
+                        </div>
+
+                        <div class="letra-body">
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">VERSO</div>
+                                <p class="l-coral">NUMA NOITE ESTRELADA,</p>
+                                <p class="l-coral">OS ANJOS CANTAVAM</p>
+                                <p class="l-coral">OS PASTORES LÁ NO CAMPO</p>
+                                <p class="l-coral">E O BRILHO ANUNCIAVA</p>
+                                <p class="l-bold">NÃO É REI COM ESPADA,</p>
+                                <p class="l-bold">NEM COM TRONO, NEM COM PALÁCIO</p>
+                                <p class="l-coral">É UM MENINO INDEFESO,</p>
+                                <p class="l-coral">SER HUMANO COMO NÓS</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">REFRÃO</div>
+                                <p class="l-vozes">ELE CHEGOU EMANUEL</p>
+                                <p class="l-vozes">DEUS ESTÁ CONOSCO, EMANUEL</p>
+                                <p class="l-vozes">DESCEU LÁ DO CÉU, EMANUEL</p>
+                                <p class="l-vozes">NOSSO IRMÃO DIVINO, EMANUEL</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">VERSO</div>
+                                <p class="l-coral">NUMA NOITE ESTRELADA,</p>
+                                <p class="l-coral">OS ANJOS CANTAVAM</p>
+                                <p class="l-coral">OS PASTORES LÁ NO CAMPO</p>
+                                <p class="l-coral">E O BRILHO ANUNCIAVA</p>
+                                <p class="l-bold">NÃO É REI COM ESPADA,</p>
+                                <p class="l-bold">NEM COM TRONO, NEM COM PALÁCIO</p>
+                                <p class="l-coral">É UM MENINO INDEFESO,</p>
+                                <p class="l-coral">SER HUMANO COMO NÓS</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">REFRÃO - pausas instrumental</div>
+                                <p class="l-vozes">ELE CHEGOU EMANUEL</p>
+                                <p class="l-vozes">DEUS ESTÁ CONOSCO, EMANUEL</p>
+                                <p class="l-vozes">DESCEU LÁ DO CÉU, EMANUEL</p>
+                                <p class="l-vozes">NOSSO IRMÃO DIVINO, EMANUEL</p>
+                            </div>
+
+                            <div class="letra-stanza">
+                                <div class="letra-tag-yellow">REFRÃO - FORTE</div>
+                                <p class="l-vozes">ELE CHEGOU EMANUEL</p>
+                                <p class="l-vozes">DEUS ESTÁ CONOSCO, EMANUEL</p>
+                                <p class="l-vozes">DESCEU LÁ DO CÉU, EMANUEL</p>
+                                <p class="l-vozes">NOSSO IRMÃO DIVINO, <span class="l-ritmo">EMA &nbsp; NU &nbsp; EL</span></p>
+                            </div>
+                        </div>
+
+                        <div class="letra-footer-actions">
+                            <button type="button" class="btn-fechar-letra" onclick="toggleLetra(6)">▲ Fechar Letra</button>
+                            <a href="../Cantata de Natal Kids/PDF_06_Emanuel.pdf" class="btn-pdf-subtle" onclick="abrirPdfModal('../Cantata%20de%20Natal%20Kids/PDF_06_Emanuel.pdf', '06. Emanuel — Partitura'); return false;">📄 Ver Partitura em PDF</a>
                         </div>
                     </div>
                 </article>

@@ -214,19 +214,16 @@ Portal criado para os ensaios e preparação da equipe da cantata em casa.
 
 ## 5. Módulo Gratidão 2026 (Hub & Kit de Ensaio Musical)
 
-- **Acesso Principal:** Card na home (`index.html`) sob a seção *Eventos & Projetos*.
-- **Hub:** `gratidao2026/index.html` (e alias `gratidao2026/`).
-- **Kit de Ensaio:** `gratidao2026/ensaio/index.html`.
-- **Funcionalidades do Kit de Ensaio:**
-  - **Seletor de Voz no Topo:** Soprano, Contralto, Tenor, Playback, Coral Mix, Todas.
-  - **Modo Filtrado:** Destaca imediatamente no topo de cada card de música a faixa da voz escolhida, com play direto e botão para ver as outras faixas.
-  - **Persistência:** Salva a preferência de voz no `localStorage` e aceita query params `?voz=soprano` ou hashes `#soprano`.
-  - **Player Flutuante:** Controle persistente com Play/Pause, busca por clique, +/- 10s, controle de velocidade (0.75x, 1.0x, 1.25x) e download.
-  - **Visualizador Modal de PDF:** Abre as letras e cifras em tela sem sair da página, com opção de download e tela cheia.
-  - **Repertório (Músicas 01 a 06):**
-    1. *Em Seu Nome, ó Cristo* (Mix, Soprano, Contralto, Tenor, Playback, Cifra e Letra PDF)
-    2. *Tenho Vitória em Ti* (Mix, Soprano, Contralto, Tenor, Playback, Letra PDF)
-    3. *Siempre a Tiempo* (Em preparação)
-    4. *Sou Grato por Teu Amor* (Mix, Soprano, Contralto, Tenor, Playback, Referência Get Worship, Letra PDF)
-    5. *Grato Sou (Drops)* (Em preparação)
-    6. *Grato Sou (Elevation)* (Mix, Soprano, Contralto, Tenor, Playback, Referência Get Worship, Letra PDF)
+- **Líder da Equipe:** Eduardo Silva
+- **Endereço Oficial da Igreja:** Travessa Belo Horizonte, 90 · Centro · Londrina/PR
+- **Proteção por Senha:** `gratidao` (normalizada: aceita maiúsculas/minúsculas e com ou sem acento, ex: `gratidão`, `GRATIDÃO`, `Gratidao`).
+- **Acesso Principal:** Card posicionado no final da página (`index.html`) sob a seção *Celebrações & Ensaios* (junto com o card da Cantata de Natal).
+- **Hub:** `gratidao2026/index.html` (com gate de senha).
+- **Kit de Ensaio:** `gratidao2026/ensaio/index.html` (com seletor vocal, player flutuante e gate de senha).
+- **Repertório:**
+  1. *Em Seu Nome, ó Cristo* (Mix, Soprano, Contralto, Tenor, Playback, Cifra e Letra PDF)
+  2. *Tenho Vitória em Ti* (Mix, Soprano, Contralto, Tenor, Playback, Letra PDF)
+  3. *Siempre a Tiempo* (Vídeo de Referência YouTube: `Mo2Dtf5yoyk` - áudios em preparação)
+  4. *Sou Grato por Teu Amor* (Mix, Soprano, Contralto, Tenor, Playback, Referência Get Worship, Letra PDF)
+  5. *Grato Sou (O Canto das Igrejas)* (Vídeo YouTube: `Yo9G3hvl_UI`, Original: `I Thank God - TRIBL / Maverick City`: `LM1qrx0Huds` - áudios em preparação)
+  6. *Grato Sou (Elevation)* (Mix, Soprano, Contralto, Tenor, Playback, Referência Get Worship, Letra PDF)

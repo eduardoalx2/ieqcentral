@@ -125,6 +125,201 @@
         .sermon-badge .lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.85; }
         .b1 { background: var(--navy); }
         .b2 { background: var(--gold); color: var(--navy); }
+        .b3 { background: #2E5C8A; }
+        .b4 { background: #6B4C9A; }
+        .b5 { background: #3E7C59; }
+
+        /* ─── RESUMO DAS SEMANAS ANTERIORES (JORNADA) ─── */
+        .jornada-section {
+            width: 100%;
+            max-width: 540px;
+            margin-bottom: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 1.35rem 1.35rem 1.2rem;
+            box-shadow: 0 4px 18px rgba(30,58,95,0.06);
+        }
+        .jornada-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 0.9rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #eef2f7;
+        }
+        .jornada-title-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .jornada-kicker {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 700;
+            color: var(--navy);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .jornada-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1.25;
+        }
+        .jornada-pill {
+            background: #EAF3FA;
+            color: #1E3A5F;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 99px;
+            border: 1px solid rgba(30,58,95,0.15);
+            white-space: nowrap;
+        }
+        .jornada-corrente {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            margin: 0.6rem 0 1.1rem;
+            padding: 10px 12px;
+            background: #F8FAFC;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            overflow-x: auto;
+        }
+        .jornada-elo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-width: 58px;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #64748B;
+            transition: all 0.2s;
+        }
+        .jornada-elo.passada {
+            color: var(--navy);
+        }
+        .jornada-elo.atual {
+            color: #B8542F;
+        }
+        .jornada-elo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+        }
+        .jornada-elo.passada .jornada-elo-icon {
+            background: #EAF3FA;
+            border: 1.5px solid var(--navy);
+        }
+        .jornada-elo.atual .jornada-elo-icon {
+            background: #FBEFEA;
+            border: 1.5px solid #B8542F;
+            transform: scale(1.08);
+            box-shadow: 0 0 0 3px rgba(184,84,47,0.15);
+        }
+        .jornada-seta {
+            color: #CBD5E1;
+            font-weight: 900;
+            font-size: 13px;
+        }
+        .resumos-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+        .resumo-card {
+            background: #F8FAFC;
+            border-left: 4px solid var(--navy);
+            border-radius: 10px;
+            padding: 12px 14px;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .resumo-card:hover {
+            transform: translateX(2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        .resumo-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .resumo-semana-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .resumo-data-tag {
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+        .resumo-tema {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+        .resumo-texto {
+            font-size: 13px;
+            color: #2D3748;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+        .resumo-ato {
+            font-size: 12px;
+            color: #586170;
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            padding: 5px 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            width: fit-content;
+        }
+        .resumo-ato strong {
+            color: var(--navy);
+        }
+        .proxima-semana-box {
+            margin-top: 0.9rem;
+            padding: 10px 14px;
+            background: #FFFDF5;
+            border: 1px dashed #C8A951;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 12.5px;
+        }
+        .proxima-semana-box strong {
+            color: #8a6d1f;
+        }
+
         .sermon-info { flex: 1; min-width: 0; }
         .sermon-tag {
             font-family: 'JetBrains Mono', monospace;
@@ -231,6 +426,29 @@ function verificarSenhaGate(e){
         </div>
     </header>
 
+    <!-- RESUMO AUTOMÁTICO DAS SEMANAS QUE JÁ SE PASSARAM -->
+    <section class="jornada-section" id="jornada-recap">
+        <div class="jornada-head">
+            <div class="jornada-title-wrap">
+                <span class="jornada-kicker">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    Jornada da Campanha
+                </span>
+                <h2 class="jornada-title">Resumo do Caminho Percorrido</h2>
+            </div>
+            <span class="jornada-pill" id="jornada-status-pill">Atualizando...</span>
+        </div>
+
+        <!-- Linha visual dos símbolos da campanha -->
+        <div class="jornada-corrente" id="jornada-corrente"></div>
+
+        <!-- Lista dinâmica com o resumo das semanas passadas -->
+        <div class="resumos-lista" id="resumos-container"></div>
+
+        <!-- Próxima ministração em destaque -->
+        <div id="proxima-semana-container"></div>
+    </section>
+
     <main class="sermon-list">
         <!-- Sermão 1 -->
         <a href="sermao1.html" class="sermon-card">
@@ -259,9 +477,211 @@ function verificarSenhaGate(e){
             </div>
             <span class="sermon-arrow">→</span>
         </a>
+
+        <!-- Sermão 3 -->
+        <a href="sermao3.html" class="sermon-card">
+            <div class="sermon-badge b3">
+                <span class="num">03</span>
+                <span class="lbl">Semana</span>
+            </div>
+            <div class="sermon-info">
+                <div class="sermon-tag">28/10/2026 · Quarta às 20h</div>
+                <div class="sermon-title">As flores aparecem: A Flor</div>
+                <div class="sermon-date">Roteiro interativo de ministração &amp; cronômetro</div>
+            </div>
+            <span class="sermon-arrow">→</span>
+        </a>
+
+        <!-- Sermão 4 -->
+        <a href="sermao4.html" class="sermon-card">
+            <div class="sermon-badge b4">
+                <span class="num">04</span>
+                <span class="lbl">Semana</span>
+            </div>
+            <div class="sermon-info">
+                <div class="sermon-tag">04/11/2026 · Quarta às 20h</div>
+                <div class="sermon-title">O tempo de cantar chegou: O Sino</div>
+                <div class="sermon-date">Roteiro interativo de ministração &amp; cronômetro</div>
+            </div>
+            <span class="sermon-arrow">→</span>
+        </a>
+
     </main>
 
     <a href="../" class="back-link">← Voltar ao site principal</a>
+
+
+<script>
+// Dados das semanas da Campanha "A Estação da Nova Vida"
+// Primeira semana: 14/10/2026 às 20h. Vira automaticamente a cada 7 dias.
+const CAMPANHA_SEMANAS = [
+    {
+        num: 1,
+        dataStr: '14/10/2026',
+        dataCulto: new Date(2026, 9, 14, 20, 0, 0), // 14/10 às 20h
+        titulo: 'O fim do inverno: A Semente',
+        simbolo: 'A Semente',
+        icone: '🌱',
+        corTema: '#1E3A5F',
+        versiculo: 'Marcos 4:26-29 · Cantares 2:11',
+        resumo: 'O inverno terminou. Plante sua causa diante de Deus com perseverança e confie no crescimento silencioso que o Espírito Santo opera, mesmo sem ver resultados imediatos.',
+        ato: 'Semente guardada na Bíblia (Marcos 4) como compromisso de oração e fé.',
+        link: 'sermao1.html'
+    },
+    {
+        num: 2,
+        dataStr: '21/10/2026',
+        dataCulto: new Date(2026, 9, 21, 20, 0, 0), // 21/10 às 20h
+        titulo: 'A chuva passou: O Lenço',
+        simbolo: 'O Lenço',
+        icone: '🤍',
+        corTema: '#C8A951',
+        versiculo: 'Cantares 2:11-12 · Salmos 126:5-6',
+        resumo: 'A tempestade cessou. Deus não ignora nossas lágrimas e nos convida a entregá-las a Ele com esperança, sabendo que as marcas da estação passada não definem o futuro.',
+        ato: 'Lenço branco guardado junto à Bíblia como memorial de consolação e entrega.',
+        link: 'sermao2.html'
+    },
+    {
+        num: 3,
+        dataStr: '28/10/2026',
+        dataCulto: new Date(2026, 9, 28, 20, 0, 0), // 28/10 às 20h
+        titulo: 'As flores aparecem: A Flor',
+        simbolo: 'A Flor',
+        icone: '🌸',
+        corTema: '#2E5C8A',
+        versiculo: 'Cantares 2:12 · Zacarias 4:10 · Efésios 3:20',
+        resumo: 'Pequenos sinais de vida começam a brotar. Aprenda a reconhecer os humildes começos, a cuidar do que está florescendo na presença de Deus e a continuar esperando no Seu poder sobrenatural.',
+        ato: 'Flor colocada junto ao lenço e à Bíblia para lembrar de agradecer, cultivar e perseverar.',
+        link: 'sermao3.html'
+    },
+    {
+        num: 4,
+        dataStr: '04/11/2026',
+        dataCulto: new Date(2026, 10, 4, 20, 0, 0), // 04/11 às 20h
+        titulo: 'O tempo de cantar chegou: O Sino',
+        simbolo: 'O Sino',
+        icone: '🔔',
+        corTema: '#6B4C9A',
+        versiculo: 'Cantares 2:12 · Romanos 13:11 · Atos 16:25-26',
+        resumo: 'Chegou o tempo de despertar. Ao ouvir o chamado de Deus, responda com obediência prática e volte a cantar e louvar, mesmo antes de todas as circunstâncias estarem resolvidas.',
+        ato: 'Sino guardado como lembrete de chamado, despertamento e prontidão.',
+        link: 'sermao4.html'
+    },
+    {
+        num: 5,
+        dataStr: '11/11/2026',
+        dataCulto: new Date(2026, 10, 11, 20, 0, 0), // 11/11 às 20h
+        titulo: 'A voz que anuncia: A Pena',
+        simbolo: 'A Pena',
+        icone: '🪶',
+        corTema: '#3E7C59',
+        versiculo: 'Cantares 2:12 · Palavra Viva',
+        resumo: 'Discernir a voz que orienta seus passos e firmar cada decisão na verdade inegociável da Palavra de Deus.',
+        ato: 'Pena como símbolo de sensibilidade à direção de Deus e escuta atenta.',
+        link: '#'
+    }
+];
+
+function renderJornadaCampanha() {
+    // Permite teste por querystring ex: ?data=2026-10-29
+    const urlParams = new URLSearchParams(window.location.search);
+    const simular = urlParams.get('data') || urlParams.get('simularData');
+    const agora = simular ? new Date(simular) : new Date();
+
+    const passadas = CAMPANHA_SEMANAS.filter(s => agora >= s.dataCulto);
+    const proxima = CAMPANHA_SEMANAS.find(s => agora < s.dataCulto);
+
+    // 1. Atualizar pill de status
+    const pill = document.getElementById('jornada-status-pill');
+    if (pill) {
+        if (passadas.length === 0) {
+            pill.textContent = 'Inicia em 14/10';
+        } else if (passadas.length === 1) {
+            pill.textContent = '1 semana concluída';
+        } else {
+            pill.textContent = passadas.length + ' semanas ministradas';
+        }
+    }
+
+    // 2. Montar corrente visual dos símbolos
+    const correnteEl = document.getElementById('jornada-corrente');
+    if (correnteEl) {
+        let chainHtml = '';
+        CAMPANHA_SEMANAS.forEach((s, idx) => {
+            const isPassada = agora >= s.dataCulto;
+            const isAtual = proxima && proxima.num === s.num;
+            const cls = isPassada ? 'jornada-elo passada' : (isAtual ? 'jornada-elo atual' : 'jornada-elo');
+            const check = isPassada ? ' ✓' : (isAtual ? ' ⏳' : '');
+
+            chainHtml += `
+                <div class="${cls}" title="Semana ${s.num}: ${s.simbolo}">
+                    <div class="jornada-elo-icon">${s.icone}</div>
+                    <span>Semana ${s.num}${check}</span>
+                </div>
+            `;
+            if (idx < CAMPANHA_SEMANAS.length - 1) {
+                chainHtml += `<span class="jornada-seta">→</span>`;
+            }
+        });
+        correnteEl.innerHTML = chainHtml;
+    }
+
+    // 3. Montar lista de resumos do resumo das semanas passadas
+    const resumosEl = document.getElementById('resumos-container');
+    if (resumosEl) {
+        if (passadas.length === 0) {
+            resumosEl.innerHTML = `
+                <div style="text-align:center;padding:1rem;color:var(--muted);font-size:13px;">
+                    A campanha inicia no dia 14/10/2026 às 20h. Após cada quarta-feira, o resumo da semana aparecerá aqui automaticamente.
+                </div>
+            `;
+        } else {
+            let html = '';
+            passadas.forEach(s => {
+                html += `
+                    <div class="resumo-card" style="border-left-color:${s.corTema};">
+                        <div class="resumo-card-top">
+                            <span class="resumo-semana-tag" style="color:${s.corTema};">
+                                ${s.icone} Semana ${s.num} · ${s.simbolo}
+                            </span>
+                            <span class="resumo-data-tag">${s.dataStr}</span>
+                        </div>
+                        <div class="resumo-tema">${s.titulo}</div>
+                        <div class="resumo-texto">${s.resumo}</div>
+                        <div class="resumo-ato">
+                            <span>📌</span> <span><strong>Ato simbólico:</strong> ${s.ato}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            resumosEl.innerHTML = html;
+        }
+    }
+
+    // 4. Montar bloco da próxima semana
+    const proxEl = document.getElementById('proxima-semana-container');
+    if (proxEl) {
+        if (proxima) {
+            proxEl.innerHTML = `
+                <div class="proxima-semana-box">
+                    <div>
+                        <span>✨</span> <strong>Próximo Culto:</strong> Semana ${proxima.num} (${proxima.dataStr} às 20h) — <em>${proxima.titulo}</em>
+                    </div>
+                    <span style="font-size:18px;">${proxima.icone}</span>
+                </div>
+            `;
+        } else {
+            proxEl.innerHTML = `
+                <div class="proxima-semana-box" style="border-color:#3E7C59;background:#F4FBF7;color:#2E7D32;">
+                    <div>🎉 <strong>Campanha concluída:</strong> Todas as 5 semanas foram ministradas com vitória!</div>
+                </div>
+            `;
+        }
+    }
+}
+
+window.addEventListener('DOMContentLoaded', renderJornadaCampanha);
+</script>
 
 </body>
 </html>

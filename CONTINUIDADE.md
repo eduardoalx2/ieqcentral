@@ -43,18 +43,31 @@ Este documento serve como memória técnica e instruções para qualquer IA ou d
 ### A. Sermões Implementados:
 1. **Sermão 1 (14/10/2026 às 20h):**
    - Arquivos: `estacaodanovavida/sermao1.html` e `estacaodanovavida/semana1.html`
-   - Tema: *O fim do inverno: A Semente*
+   - Tema: *O fim do inverno: A Semente* (🌱 Símbolo: A Semente)
    - Contém: Cronômetro interativo, controle de fonte, versículos bíblicos formatados, botão de voltar ao início e proteção por senha.
 2. **Sermão 2 (21/10/2026 às 20h):**
    - Arquivos: `estacaodanovavida/sermao2.html` e `estacaodanovavida/semana2.html`
-   - Tema: *A chuva passou: O Lenço*
-   - Anuncia no final a **Semana 3**: *"AS FLORES APARECEM: A FLOR"* (prevista para 28/10/2026 às 20h).
+   - Tema: *A chuva passou: O Lenço* (🤍 Símbolo: O Lenço)
+3. **Sermão 3 (28/10/2026 às 20h):**
+   - Arquivos: `estacaodanovavida/sermao3.html` e `estacaodanovavida/semana3.html`
+   - Tema: *As flores aparecem: A Flor* (🌸 Símbolo: A Flor)
+4. **Sermão 4 (04/11/2026 às 20h):**
+   - Arquivos: `estacaodanovavida/sermao4.html` e `estacaodanovavida/semana4.html`
+   - Tema: *O tempo de cantar chegou: O Sino* (🔔 Símbolo: O Sino)
+   - Anuncia no final a **Semana 5**: *"A VOZ QUE ANUNCIA: A PENA"* (prevista para 11/11/2026 às 20h).
 
-### B. Posicionamento do Card na Página Inicial (`index.html`):
+### B. Resumo Dinâmico das Semanas Anteriores (Giro de 7 em 7 dias):
+- Implementado em `estacaodanovavida/index.html` e em `index.html` (no interior do accordion da campanha).
+- **Lógica de automação:** Calcula automaticamente `now >= dataCulto` para cada quarta-feira (14/10, 21/10, 28/10, 04/11, 11/11) às 20h.
+- Sempre de 7 em 7 dias, a nova semana vira automaticamente para o bloco "Resumo das semanas que já se passaram" sem necessidade de deploy manual.
+- Destaca a próxima ministração e a corrente visual dos símbolos (`🌱 Semente` → `🤍 Lenço` → `🌸 Flor` → `🔔 Sino` → `🪶 Pena`).
+- Para testes/simulação de datas futuras no navegador, basta adicionar `?data=AAAA-MM-DD` na URL.
+
+### C. Posicionamento do Card na Página Inicial (`index.html`):
 - O card fica **no final da página**, logo após a seção *Oração* e antes do rodapé.
 - Está sob a seção rotulada `Campanha`.
 
-### C. Proteção por Senha:
+### D. Proteção por Senha:
 - **Senha definida:** `campanha` (case-insensitive, sem espaços).
 - **Como funciona no `index.html`:**
   - O card aparece fechado com badge `🔒 Senha` e ícone de cadeado.

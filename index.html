@@ -528,6 +528,79 @@
         .r.d9 { transition-delay: 0.54s; }
         .r.d10 { transition-delay: 0.60s; }
     
+
+        /* ─── RESUMO CAMPANHA NO ACCORDION ─── */
+        .campanha-recap-box {
+            background: #F8FAFC;
+            border: 1px solid var(--line-soft);
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+        }
+        .campanha-recap-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #eef2f7;
+        }
+        .campanha-chain-mini {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            overflow-x: auto;
+            padding: 6px 0;
+            margin-bottom: 8px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .campanha-chain-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 2px 7px;
+            border-radius: 6px;
+            background: #EAF3FA;
+            color: #1E3A5F;
+            white-space: nowrap;
+        }
+        .campanha-chain-item.passada {
+            background: #EAF3FA;
+            color: #1E3A5F;
+            border: 1px solid rgba(30,58,95,0.2);
+        }
+        .campanha-chain-item.futura {
+            background: #f1f4f8;
+            color: #8a94a6;
+        }
+        .campanha-recap-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .campanha-recap-item {
+            background: #fff;
+            border-left: 3px solid #1E3A5F;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 12.5px;
+            line-height: 1.45;
+        }
+        .campanha-recap-item-title {
+            font-weight: 800;
+            color: #1E3A5F;
+            font-size: 12px;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .campanha-recap-item-text {
+            color: #4B5563;
+            font-size: 11.5px;
+        }
+
         /* ─── MODAL SENHA CAMPANHA ─── */
         .campanha-modal-backdrop {
             position: fixed;
@@ -969,7 +1042,22 @@
                 </div>
                 <span class="hub-link-arrow">›</span>
             </summary>
-            <div class="hub-accordion-body" id="campanha-body">
+                        <div class="hub-accordion-body" id="campanha-body">
+                <!-- RESUMO AUTOMÁTICO DAS SEMANAS MINISTRADAS -->
+                <div class="campanha-recap-box" id="campanha-recap-box">
+                    <div class="campanha-recap-header">
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <span style="font-size:13px;">📖</span>
+                            <span style="font-size:11px;font-weight:800;color:#1E3A5F;letter-spacing:0.04em;text-transform:uppercase;">Resumo da Jornada</span>
+                        </div>
+                        <span id="campanha-recap-counter" style="font-size:10px;font-weight:700;color:#1E3A5F;background:#EAF3FA;padding:1px 6px;border-radius:99px;">Atualizando...</span>
+                    </div>
+                    <div class="campanha-chain-mini" id="campanha-chain-mini"></div>
+                    <div class="campanha-recap-list" id="campanha-recap-list"></div>
+                    <div id="campanha-proxima-mini" style="margin-top:6px;font-size:11px;color:#8a6d1f;background:#FFFDF5;border:1px dashed #C8A951;border-radius:6px;padding:6px 8px;"></div>
+                </div>
+
+                <!-- SERMÕES -->
                 <a href="estacaodanovavida/sermao1.html" class="hub-link hub-sublink">
                     <div class="hub-link-icon" style="background:#1E3A5F;color:#fff;font-weight:900;font-size:13px;letter-spacing:-0.5px;">
                         01
@@ -987,6 +1075,36 @@
                     <div class="hub-link-text">
                         <div class="hub-link-title">Sermão 2 · A chuva passou: O Lenço</div>
                         <div class="hub-link-sub">21/10/2026 · Quarta-feira às 20h</div>
+                    </div>
+                    <span class="hub-link-arrow">→</span>
+                </a>
+                <a href="estacaodanovavida/sermao3.html" class="hub-link hub-sublink">
+                    <div class="hub-link-icon" style="background:#2E5C8A;color:#fff;font-weight:900;font-size:13px;letter-spacing:-0.5px;">
+                        03
+                    </div>
+                    <div class="hub-link-text">
+                        <div class="hub-link-title">Sermão 3 · As flores aparecem: A Flor</div>
+                        <div class="hub-link-sub">28/10/2026 · Quarta-feira às 20h</div>
+                    </div>
+                    <span class="hub-link-arrow">→</span>
+                </a>
+                <a href="estacaodanovavida/sermao4.html" class="hub-link hub-sublink">
+                    <div class="hub-link-icon" style="background:#6B4C9A;color:#fff;font-weight:900;font-size:13px;letter-spacing:-0.5px;">
+                        04
+                    </div>
+                    <div class="hub-link-text">
+                        <div class="hub-link-title">Sermão 4 · O tempo de cantar chegou: O Sino</div>
+                        <div class="hub-link-sub">04/11/2026 · Quarta-feira às 20h</div>
+                    </div>
+                    <span class="hub-link-arrow">→</span>
+                </a>
+                <a href="estacaodanovavida/" class="hub-link hub-sublink" style="border-top:1px dashed var(--line);margin-top:4px;">
+                    <div class="hub-link-icon" style="background:linear-gradient(135deg, #1E3A5F 0%, #C8A951 100%);color:#fff;font-size:13px;font-weight:900;">
+                        ★
+                    </div>
+                    <div class="hub-link-text">
+                        <div class="hub-link-title">Portal da Campanha · Linha do Tempo Completa</div>
+                        <div class="hub-link-sub">Visão geral, resumos e todos os roteiros</div>
                     </div>
                     <span class="hub-link-arrow">→</span>
                 </a>
@@ -1052,6 +1170,128 @@ function isCampanhaUnlocked() {
     return sessionStorage.getItem('campanha_unlocked') === '1';
 }
 
+
+// ─── RESUMO DINÂMICO DA CAMPANHA (VIRA A CADA 7 DIAS) ───
+const CAMPANHA_DATA = [
+    {
+        num: 1,
+        dataStr: '14/10/2026',
+        dataCulto: new Date(2026, 9, 14, 20, 0, 0),
+        titulo: 'O fim do inverno: A Semente',
+        simbolo: 'A Semente',
+        icone: '🌱',
+        cor: '#1E3A5F',
+        resumo: 'Plantar com perseverança e confiar no crescimento invisível que Deus opera.',
+        ato: 'Semente guardada em Marcos 4.'
+    },
+    {
+        num: 2,
+        dataStr: '21/10/2026',
+        dataCulto: new Date(2026, 9, 21, 20, 0, 0),
+        titulo: 'A chuva passou: O Lenço',
+        simbolo: 'O Lenço',
+        icone: '🤍',
+        cor: '#C8A951',
+        resumo: 'Apresentar as lágrimas a Deus; a dor da estação passada não define o futuro.',
+        ato: 'Lenço branco junto à Bíblia.'
+    },
+    {
+        num: 3,
+        dataStr: '28/10/2026',
+        dataCulto: new Date(2026, 9, 28, 20, 0, 0),
+        titulo: 'As flores aparecem: A Flor',
+        simbolo: 'A Flor',
+        icone: '🌸',
+        cor: '#2E5C8A',
+        resumo: 'Reconhecer os pequenos começos de vida e cultivar o que floresce com Deus.',
+        ato: 'Flor junto ao lenço e Bíblia.'
+    },
+    {
+        num: 4,
+        dataStr: '04/11/2026',
+        dataCulto: new Date(2026, 10, 4, 20, 0, 0),
+        titulo: 'O tempo de cantar chegou: O Sino',
+        simbolo: 'O Sino',
+        icone: '🔔',
+        cor: '#6B4C9A',
+        resumo: 'Despertar da passividade, responder com obediência e voltar a cantar louvores.',
+        ato: 'Sino de chamado e adoração.'
+    },
+    {
+        num: 5,
+        dataStr: '11/11/2026',
+        dataCulto: new Date(2026, 10, 11, 20, 0, 0),
+        titulo: 'A voz que anuncia: A Pena',
+        simbolo: 'A Pena',
+        icone: '🪶',
+        cor: '#3E7C59',
+        resumo: 'Discernir a voz que orienta seus passos e firmar-se na Palavra.',
+        ato: 'Pena de escuta atenta.'
+    }
+];
+
+function renderCampanhaHomeRecap() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const simular = urlParams.get('data') || urlParams.get('simularData');
+    const agora = simular ? new Date(simular) : new Date();
+
+    const passadas = CAMPANHA_DATA.filter(s => agora >= s.dataCulto);
+    const proxima = CAMPANHA_DATA.find(s => agora < s.dataCulto);
+
+    const counter = document.getElementById('campanha-recap-counter');
+    if (counter) {
+        counter.textContent = passadas.length + (passadas.length === 1 ? ' semana ministrada' : ' semanas ministradas');
+    }
+
+    const chainEl = document.getElementById('campanha-chain-mini');
+    if (chainEl) {
+        let chainHtml = '';
+        CAMPANHA_DATA.forEach((s, idx) => {
+            const isPassada = agora >= s.dataCulto;
+            const isAtual = proxima && proxima.num === s.num;
+            const cls = isPassada ? 'campanha-chain-item passada' : 'campanha-chain-item futura';
+            const check = isPassada ? ' ✓' : (isAtual ? ' ⏳' : '');
+            chainHtml += `<span class="${cls}">${s.icone} Sem ${s.num}${check}</span>`;
+            if (idx < CAMPANHA_DATA.length - 1) {
+                chainHtml += `<span style="color:#CBD5E1;font-size:10px;">→</span>`;
+            }
+        });
+        chainEl.innerHTML = chainHtml;
+    }
+
+    const listEl = document.getElementById('campanha-recap-list');
+    if (listEl) {
+        if (passadas.length === 0) {
+            listEl.innerHTML = '<div style="font-size:11px;color:#8a94a6;padding:4px 0;">Campanha inicia em 14/10 às 20h.</div>';
+        } else {
+            let html = '';
+            passadas.forEach(s => {
+                html += `
+                    <div class="campanha-recap-item" style="border-left-color:${s.cor};">
+                        <div class="campanha-recap-item-title">
+                            <span>${s.icone} Semana ${s.num} · ${s.simbolo}</span>
+                            <span style="font-size:10.5px;color:#8a94a6;font-weight:600;">${s.dataStr}</span>
+                        </div>
+                        <div class="campanha-recap-item-text">
+                            <strong>${s.titulo}</strong>: ${s.resumo}
+                        </div>
+                    </div>
+                `;
+            });
+            listEl.innerHTML = html;
+        }
+    }
+
+    const proxEl = document.getElementById('campanha-proxima-mini');
+    if (proxEl) {
+        if (proxima) {
+            proxEl.innerHTML = `✨ <strong>Próxima ministração:</strong> Semana ${proxima.num} (${proxima.dataStr} às 20h) · <em>${proxima.titulo}</em>`;
+        } else {
+            proxEl.innerHTML = `🎉 <strong>Campanha concluída:</strong> Todas as 5 semanas foram ministradas com vitória!`;
+        }
+    }
+}
+
 function updateCampanhaUI() {
     const acc = document.getElementById('campanha-accordion');
     const badge = document.getElementById('campanha-lock-badge');
@@ -1061,6 +1301,7 @@ function updateCampanhaUI() {
 
     if (isCampanhaUnlocked()) {
         acc.open = true;
+        renderCampanhaHomeRecap();
         if (badge) {
             badge.textContent = 'Liberado';
             badge.style.color = '#2E7D32';
@@ -1189,6 +1430,7 @@ function validarSenhaCantata(e) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    renderCampanhaHomeRecap();
     updateCampanhaUI();
     updateCantataUI();
 });

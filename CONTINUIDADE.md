@@ -227,3 +227,11 @@ Portal criado para os ensaios e preparação da equipe da cantata em casa.
   4. *Sou Grato por Teu Amor* (Mix, Soprano, Contralto, Tenor, Playback, Referência Get Worship, Letra PDF)
   5. *Grato Sou (O Canto das Igrejas)* (Vídeo YouTube: `LfSwJaT0V9A`, Original: `I Thank God - TRIBL / Maverick City`: `LM1qrx0Huds` - áudios em preparação)
   6. *Grato Sou (Elevation)* (Mix, Soprano, Contralto, Tenor, Playback, Referência Get Worship, Letra PDF)
+
+
+### Atualizações Recentes - Culto Gratidão 2026 (13/12/2026):
+- Título atualizado para **Culto Gratidão 2026** com data oficial: **13 de Dezembro de 2026**.
+- Subtítulo: Hub oficial para a celebração de 13/12/2026 pela Equipe de Louvor IEQ Central Londrina.
+- Removido o badge "Palavra Inspiradora", mantendo o versículo bíblico limpo.
+- Card Destaque: texto ajustado para "Ambiente interativo de estudo para a equipe de louvor".
+- Músicas 03 (Siempre a Tiempo) e 05 (Grato Sou) tornadas ativas e clicáveis diretamente para o YouTube na prévia do Hub.

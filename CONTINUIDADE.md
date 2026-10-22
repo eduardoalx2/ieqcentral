@@ -250,3 +250,5 @@ Portal criado para os ensaios e preparação da equipe da cantata em casa.
   * Controles de acessibilidade para aumentar/diminuir tamanho da fonte (A- e A+).
   * Botão de copiar letra com um clique.
   * Botão direto para baixar/abrir o PDF original oficial.
+
+- Removidas cifras/acordes da música 01 (Em Seu Nome, ó Cristo) e compassos de intro, mantendo a letra limpa e 100% focada nas divisões vocais e dinâmicas.

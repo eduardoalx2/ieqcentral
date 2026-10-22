@@ -23,6 +23,10 @@ Este documento serve como memória técnica e instruções para qualquer IA ou d
 ├── CLAUDE.md                    # Instruções de contexto para agentes de IA
 ├── CONTINUIDADE.md              # Este documento de transição entre conversas
 │
+├── gratidão2026/                # Hub da Celebração Gratidão 2026
+│   ├── index.html               # Hub principal da celebração
+│   ├── ensaio/index.html        # Kit de ensaio musical interativo (Soprano, Contralto, Tenor, Playback)
+│   └── kits de ensaio/          # Áudios MP3 e PDFs das 6 músicas
 ├── estacaodanovavida/           # Campanha "A Estação da Nova Vida" (Quartas às 20h)
 │   ├── index.html               # Hub/landing page da campanha
 │   ├── sermao1.html / semana1.html  # Roteiro Sermão 1 (14/10/2026 - A Semente)
@@ -204,3 +208,25 @@ Portal criado para os ensaios e preparação da equipe da cantata em casa.
 - **Como funciona:**
   - **No `index.html`:** Card em destaque sob a seção *Eventos & Projetos*. Ao clicar, abre modal elegante natalino solicitando a senha. Ao acertar, salva em `sessionStorage` e `localStorage` (`cantata_natal_unlocked = '1'`), atualiza o badge para `Liberado ✨` e redireciona para `cantatadenatal/`.
   - **Em `cantatadenatal/index.html`:** Possui tela de bloqueio (Gate) nativa. Se o usuário acessar o link direto sem ter desbloqueado antes, digita `natal` para liberar o portal. Botão "🔒 Trancar" no topo permite deslogar e testar novamente.
+
+
+---
+
+## 5. Módulo Gratidão 2026 (Hub & Kit de Ensaio Musical)
+
+- **Acesso Principal:** Card na home (`index.html`) sob a seção *Eventos & Projetos*.
+- **Hub:** `gratidão2026/index.html` (e alias `gratidao2026/`).
+- **Kit de Ensaio:** `gratidão2026/ensaio/index.html`.
+- **Funcionalidades do Kit de Ensaio:**
+  - **Seletor de Voz no Topo:** Soprano, Contralto, Tenor, Playback, Coral Mix, Todas.
+  - **Modo Filtrado:** Destaca imediatamente no topo de cada card de música a faixa da voz escolhida, com play direto e botão para ver as outras faixas.
+  - **Persistência:** Salva a preferência de voz no `localStorage` e aceita query params `?voz=soprano` ou hashes `#soprano`.
+  - **Player Flutuante:** Controle persistente com Play/Pause, busca por clique, +/- 10s, controle de velocidade (0.75x, 1.0x, 1.25x) e download.
+  - **Visualizador Modal de PDF:** Abre as letras e cifras em tela sem sair da página, com opção de download e tela cheia.
+  - **Repertório (Músicas 01 a 06):**
+    1. *Em Seu Nome, ó Cristo* (Mix, Soprano, Contralto, Tenor, Playback, Cifra e Letra PDF)
+    2. *Tenho Vitória em Ti* (Mix, Soprano, Contralto, Tenor, Playback, Letra PDF)
+    3. *Siempre a Tiempo* (Em preparação)
+    4. *Sou Grato por Teu Amor* (Mix, Soprano, Contralto, Tenor, Playback, Referência Get Worship, Letra PDF)
+    5. *Grato Sou (Drops)* (Em preparação)
+    6. *Grato Sou (Elevation)* (Mix, Soprano, Contralto, Tenor, Playback, Referência Get Worship, Letra PDF)

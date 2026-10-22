@@ -23,7 +23,7 @@ Este documento serve como memória técnica e instruções para qualquer IA ou d
 ├── CLAUDE.md                    # Instruções de contexto para agentes de IA
 ├── CONTINUIDADE.md              # Este documento de transição entre conversas
 │
-├── gratidão2026/                # Hub da Celebração Gratidão 2026
+├── gratidao2026/                # Hub da Celebração Gratidão 2026
 │   ├── index.html               # Hub principal da celebração
 │   ├── ensaio/index.html        # Kit de ensaio musical interativo (Soprano, Contralto, Tenor, Playback)
 │   └── kits de ensaio/          # Áudios MP3 e PDFs das 6 músicas
@@ -215,8 +215,8 @@ Portal criado para os ensaios e preparação da equipe da cantata em casa.
 ## 5. Módulo Gratidão 2026 (Hub & Kit de Ensaio Musical)
 
 - **Acesso Principal:** Card na home (`index.html`) sob a seção *Eventos & Projetos*.
-- **Hub:** `gratidão2026/index.html` (e alias `gratidao2026/`).
-- **Kit de Ensaio:** `gratidão2026/ensaio/index.html`.
+- **Hub:** `gratidao2026/index.html` (e alias `gratidao2026/`).
+- **Kit de Ensaio:** `gratidao2026/ensaio/index.html`.
 - **Funcionalidades do Kit de Ensaio:**
   - **Seletor de Voz no Topo:** Soprano, Contralto, Tenor, Playback, Coral Mix, Todas.
   - **Modo Filtrado:** Destaca imediatamente no topo de cada card de música a faixa da voz escolhida, com play direto e botão para ver as outras faixas.

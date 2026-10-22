@@ -225,5 +225,5 @@ Portal criado para os ensaios e preparação da equipe da cantata em casa.
   2. *Tenho Vitória em Ti* (Mix, Soprano, Contralto, Tenor, Playback, Letra PDF)
   3. *Siempre a Tiempo* (Vídeo de Referência YouTube: `Mo2Dtf5yoyk` - áudios em preparação)
   4. *Sou Grato por Teu Amor* (Mix, Soprano, Contralto, Tenor, Playback, Referência Get Worship, Letra PDF)
-  5. *Grato Sou (O Canto das Igrejas)* (Vídeo YouTube: `Yo9G3hvl_UI`, Original: `I Thank God - TRIBL / Maverick City`: `LM1qrx0Huds` - áudios em preparação)
+  5. *Grato Sou (O Canto das Igrejas)* (Vídeo YouTube: `LfSwJaT0V9A`, Original: `I Thank God - TRIBL / Maverick City`: `LM1qrx0Huds` - áudios em preparação)
   6. *Grato Sou (Elevation)* (Mix, Soprano, Contralto, Tenor, Playback, Referência Get Worship, Letra PDF)

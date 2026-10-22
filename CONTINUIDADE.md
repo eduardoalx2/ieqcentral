@@ -235,3 +235,5 @@ Portal criado para os ensaios e preparação da equipe da cantata em casa.
 - Removido o badge "Palavra Inspiradora", mantendo o versículo bíblico limpo.
 - Card Destaque: texto ajustado para "Ambiente interativo de estudo para a equipe de louvor".
 - Músicas 03 (Siempre a Tiempo) e 05 (Grato Sou) tornadas ativas e clicáveis diretamente para o YouTube na prévia do Hub.
+
+- Player de áudio movido da base para o TOPO: fixado no topo da tela com deslize animado ao tocar faixas, borda dourada e compensação automática no body e na barra de navegação.

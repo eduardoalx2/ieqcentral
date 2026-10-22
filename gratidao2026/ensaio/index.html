@@ -1013,6 +1013,250 @@
             transition: width 0.1s linear;
         }
 
+        
+        /* ─── MODAL DE LETRA FORMATADA ─── */
+        .lyrics-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .lyrics-modal-card {
+            background: #14131A;
+            border: 1.5px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 760px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+            animation: fadeInModal 0.25s ease;
+        }
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: scale(0.97) translateY(8px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .lyrics-modal-header {
+            padding: 16px 20px;
+            background: linear-gradient(90deg, #1A1412 0%, #221710 100%);
+            border-bottom: 1px solid var(--gold-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .lyrics-modal-title-wrap h3 {
+            font-family: var(--font-title);
+            font-size: 18px;
+            color: #FFFFFF;
+            font-weight: 700;
+        }
+        .lyrics-modal-title-wrap p {
+            font-size: 12px;
+            color: var(--gold-bright);
+            margin-top: 2px;
+        }
+        .lyrics-modal-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-font-size {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--line);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-font-size:hover {
+            background: var(--gold);
+            color: #111;
+        }
+        .btn-copy-lyrics {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid var(--gold-border);
+            color: var(--gold-bright);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-copy-lyrics:hover {
+            background: var(--gold);
+            color: #111;
+        }
+
+        /* Legenda de Vozes */
+        .lyrics-legend {
+            background: rgba(0, 0, 0, 0.45);
+            border-bottom: 1px solid var(--line);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 11.5px;
+        }
+        .lyrics-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #D1D5DB;
+        }
+        .legend-chip {
+            padding: 1px 7px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .legend-unissono {
+            text-decoration: underline;
+            color: #93C5FD;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .legend-harmonia {
+            font-weight: 700;
+            color: #FDE047;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+        .legend-dinamica {
+            color: #FCA5A5;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            font-style: italic;
+        }
+
+        /* Conteudo da Letra */
+        .lyrics-modal-body {
+            padding: 22px 24px;
+            overflow-y: auto;
+            flex: 1;
+            color: #E5E7EB;
+            line-height: 1.7;
+            font-size: 15px;
+            transition: font-size 0.15s ease;
+        }
+        .lyrics-section {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+        }
+        .lyrics-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 10px;
+        }
+        .lyrics-tag-instruction {
+            display: inline-block;
+            background: #F59E0B;
+            color: #111;
+            font-weight: 700;
+            font-size: 11.5px;
+            padding: 2px 9px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .lyrics-tag-inline {
+            background: rgba(245, 158, 11, 0.25);
+            color: #FDE047;
+            font-weight: 600;
+            font-size: 12px;
+            padding: 1px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            margin-left: 4px;
+        }
+        .lyrics-chords {
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #38BDF8;
+            background: rgba(56, 189, 248, 0.06);
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            display: inline-block;
+        }
+        .lyrics-line {
+            margin-bottom: 5px;
+            line-height: 1.65;
+        }
+        .lyrics-line strong {
+            color: #FFFFFF;
+            font-weight: 700;
+            background: rgba(253, 224, 71, 0.08);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        .lyrics-line u {
+            text-decoration: underline;
+            text-decoration-color: #38BDF8;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1.5px;
+        }
+        .lyrics-obs-box {
+            background: rgba(245, 158, 11, 0.08);
+            border-left: 3px solid var(--gold);
+            padding: 12px 16px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-top: 18px;
+            font-size: 13px;
+            color: #FDE047;
+            font-style: italic;
+        }
+        .lyrics-modal-footer {
+            padding: 12px 20px;
+            background: #0D0C10;
+            border-top: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-letra-destaque {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.15) 100%);
+            border: 1.5px solid var(--gold);
+            color: #FDE047;
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .btn-letra-destaque:hover {
+            background: var(--gold);
+            color: #111;
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.4);
+            transform: translateY(-1px);
+        }
+
         /* ─── MODAL PDF VIEWER ─── */
         .pdf-modal-backdrop {
             position: fixed;
@@ -1337,8 +1581,59 @@
     <!-- Hidden Native Audio Element -->
     <audio id="native-audio" preload="metadata"></audio>
 
+        <!-- ─── MODAL DE LETRA FORMATADA INTERATIVA ─── -->
+    <div id="lyrics-modal" class="lyrics-modal-backdrop" onclick="if(event.target===this) fecharLetraModal();">
+        <div class="lyrics-modal-card">
+            <div class="lyrics-modal-header">
+                <div class="lyrics-modal-title-wrap">
+                    <h3 id="lyrics-modal-title">Letra da Música</h3>
+                    <p id="lyrics-modal-sub">Guia Vocal &amp; Cifras</p>
+                </div>
+                <div class="lyrics-modal-controls">
+                    <button class="btn-font-size" onclick="alterarTamanhoFonte(-1)" title="Diminuir tamanho da fonte">A-</button>
+                    <button class="btn-font-size" onclick="alterarTamanhoFonte(1)" title="Aumentar tamanho da fonte">A+</button>
+                    <button class="btn-copy-lyrics" onclick="copiarLetraTexto()" title="Copiar letra para área de transferência">📋 Copiar</button>
+                    <button onclick="fecharLetraModal()" class="ctrl-btn" title="Fechar" style="width:32px;height:32px;">✕</button>
+                </div>
+            </div>
+
+            <!-- Legenda explicativa de vozes -->
+            <div class="lyrics-legend">
+                <div class="lyrics-legend-item">
+                    <span class="legend-chip legend-unissono"><u>Sublinhado</u></span>
+                    <span>Vozes em Uníssono</span>
+                </div>
+                <div class="lyrics-legend-item">
+                    <span class="legend-chip legend-harmonia"><strong>Negrito</strong></span>
+                    <span>Abertura Vocal (Harmonizada)</span>
+                </div>
+                <div class="lyrics-legend-item">
+                    <span class="legend-chip legend-dinamica">Amarelo</span>
+                    <span>Dinâmica / Banda</span>
+                </div>
+                <div class="lyrics-legend-item" style="color:#9CA3AF;">
+                    <span>Normal: Solo / Base</span>
+                </div>
+            </div>
+
+            <!-- Corpo com a letra -->
+            <div id="lyrics-content-body" class="lyrics-modal-body">
+                <!-- Injetado dinamicamente via JS -->
+            </div>
+
+            <div class="lyrics-modal-footer">
+                <span id="lyrics-author-meta" style="font-size:11.5px;color:var(--text-muted);">Compositores: ...</span>
+                <div style="display:flex;gap:8px;">
+                    <a id="lyrics-btn-pdf-link" href="#" target="_blank" class="btn-pdf" style="font-size:11.5px;padding:5px 12px;">
+                        📄 Abrir PDF Original
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ─── MODAL PDF VIEWER ─── -->
-    <div id="pdf-modal" class="pdf-modal-backdrop" onclick="if(event.target===this) fecharPdfModal();">
+    <div id="pdf-modal" class="pdf-modal-backdrop" onclick="if(event.target===this) fecharPdfModal(); fecharLetraModal();">
         <div class="pdf-modal-card">
             <div class="pdf-modal-header">
                 <h3 id="pdf-modal-title" class="pdf-modal-title">Visualizador de Letra &amp; Cifra</h3>
@@ -1380,6 +1675,66 @@
                 pdf: {
                     label: "Cifra e Letra Completa (PDF)",
                     arquivo: "6 - Cifra e Letra - Em seu nome .pdf"
+                },
+                letraFormatada: {
+                    detalhes: "Thalles Roberto e Lakewood Music · 74 bpm · Tom: Lá (A)",
+                    compositores: "Abel Orta Jr., Arthur Ceker, Ramiro Garcia, Tauren Wells",
+                    html: `
+                        <div class="lyrics-section">
+                            <span class="lyrics-tag-instruction">verso 1 - piano e pads....</span><br>
+                            <div class="lyrics-chords">4/4 || A | % | D7M | % | F#m | % | D | % ||</div>
+                            <p class="lyrics-line">Deus forte nas batalhas, e nunca falhará, só nele há vida eterna, poder pra libertar</p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <span class="lyrics-tag-instruction">refrão – piano, pads + violão....suave....</span><br>
+                            <div class="lyrics-chords">|| A A4 | A A4 | D7M | Bm7 |</div>
+                            <p class="lyrics-line">Em seu nome oh Cristo <strong>gigantes são vencidos e toda a montanha moverás...</strong> <span class="lyrics-tag-inline">toda banda, marcação no bumbo...</span></p>
+                            <div class="lyrics-chords">| A A4 | A A4 | D7M | Bm7 || A A4 | A | D9 | Bm7 ||</div>
+                            <p class="lyrics-line">Fiel em suas promessas <strong>termina o que começa, todo poderoso és Tu Jesus</strong> <span class="lyrics-tag-inline">vocalise....</span></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <span class="lyrics-tag-instruction">verso 2...continua banda, marcação no bumbo...</span><br>
+                            <div class="lyrics-chords">|| A | % | D9 | % | F#m | % | D | % ||</div>
+                            <p class="lyrics-line"><u>Vemos poder do céu enchendo esse lugar, somos sua igreja unida cantando em liberdade</u></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <span class="lyrics-tag-instruction">refrão.. batera nos tons...</span><br>
+                            <div class="lyrics-chords">|| A A4 | A A4 | D7M | Bm7 |</div>
+                            <p class="lyrics-line">Em seu nome oh Cristo <strong>gigantes são vencidos e toda a montanha moverás</strong> <span class="lyrics-tag-inline">(abre só 2 vozes - Femi. e Mascu..)</span></p>
+                            <div class="lyrics-chords">| A A4 | A A4 | D7M | Bm7 |</div>
+                            <p class="lyrics-line">Fiel em suas promessas <strong>termina o que começa, todo poderoso és Tu</strong> <span class="lyrics-tag-inline">(banda crescendo...)</span></p>
+                            <div class="lyrics-chords">| A A4 | A ||</div>
+                            <p class="lyrics-line"><strong>Jesus</strong></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <span class="lyrics-tag-instruction">Ponte...toda banda forte...groove completo… (vocal já abre 3 vozes)</span><br>
+                            <div class="lyrics-chords">|| Bm7 | A/C# | D9 | F#m |</div>
+                            <p class="lyrics-line"><strong>Ele é exaltado, Ele é exaltado, grande é o seu nome nosso Rei</strong></p>
+                            <div class="lyrics-chords">| Bm7 | A/C# | D9 | E ||</div>
+                            <p class="lyrics-line"><strong>Ele é exaltado, Ele é exaltado, em adoração me prostrarei</strong></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <span class="lyrics-tag-instruction">Refrão final.. clima continua lá em cima...</span><br>
+                            <div class="lyrics-chords">|| A A4 | A A4 | D7M | Bm7 |</div>
+                            <p class="lyrics-line">Em seu nome oh Cristo <strong>gigantes são vencidos e toda a montanha moverás</strong></p>
+                            <div class="lyrics-chords">| A A4 | A A4 | D7M | Bm7 ||</div>
+                            <p class="lyrics-line">Fiel em suas promessas <strong>termina o que começa, todo poderoso és Tu Jesus</strong></p>
+                            
+                            <div class="lyrics-chords">|| A A4 | A A4 | D7M | Bm7 |</div>
+                            <p class="lyrics-line">Em seu nome oh Cristo <strong>gigantes são vencidos e toda a montanha moverás</strong></p>
+                            <div class="lyrics-chords">| A A4 | A A4 | D7M | Bm7 || <span class="lyrics-tag-inline">pausa...finaliza só voz....</span></div>
+                            <p class="lyrics-line">Fiel em suas promessas <strong>termina o que começa, todo poderoso és Tu Jesus</strong> <span class="lyrics-tag-inline">fermata do solista...</span></p>
+                        </div>
+
+                        <div class="lyrics-obs-box">
+                            ℹ️ Observação do arranjo: nas aberturas vocais o tenor está sempre na base.
+                        </div>
+                    `
                 }
             },
             {
@@ -1398,6 +1753,65 @@
                 pdf: {
                     label: "Letra da Música (PDF)",
                     arquivo: "6 - Letra - Tenho vitoria em Ti.pdf"
+                },
+                letraFormatada: {
+                    detalhes: "Dia de Milagres (Thalles Roberto e Lakewood Music) · 86 bpm · Tom: Ebm",
+                    compositores: "Leslie Garcia, Luis Garcia",
+                    html: `
+                        <div class="lyrics-section">
+                            <p class="lyrics-line">Dizem impossível é, que nunca eu vou vencer</p>
+                            <p class="lyrics-line">Gigantes pensam em ganhar, mas não entendem que escrito está</p>
+                            <p class="lyrics-line">Ante a Ti, tremerão, ao escutar o teu nome cairão</p>
+                            <p class="lyrics-line">Gritarei em alta voz, a salvação vem do nosso Deus</p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><u>Tenho vitória em Ti, tenho vitória em Ti</u></p>
+                            <p class="lyrics-line"><u>Por teu poder em mim, me escutarão dizer,</u> <strong>tenho vitória em Ti (dueto)</strong></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><u>Dizem que nunca haverá, um caminho para a liberdade</u></p>
+                            <p class="lyrics-line">Pensam que vou me render, mas em Cristo está minha fé</p>
+                            <p class="lyrics-line"><strong>Todo o império e nação</strong> <u><strong>se prostrarão ao ouvir sua voz</strong></u></p>
+                            <p class="lyrics-line"><strong>As cadeias quebrou,</strong> <u><strong>a salvação vem do nosso Deus</strong></u></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><u>Tenho vitória em Ti, tenho vitória em Ti</u></p>
+                            <p class="lyrics-line"><u>Por teu poder em mim, me escutarão dizer,</u> <strong>tenho vitória em Ti</strong></p>
+                            <p class="lyrics-line"><u>Tenho vitória em Ti, tenho vitória em Ti</u></p>
+                            <p class="lyrics-line"><u>Por teu poder em mim, me escutarão dizer,</u> <strong>tenho vitória em Ti</strong></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><u>Na,na,na,na,na,na, na,na,na,na,na,na, na, na, na,na,na,na,na,na,</u></p>
+                            <p class="lyrics-line"><u>me escutarão dizer,</u> <strong>tenho vitória em Ti</strong></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><u>Eu não temo, eu não temo, todos os meus inimigos eu venço em seu nome</u></p>
+                            <p class="lyrics-line"><u>Eu não temo, eu não temo, meu Deus luta por mim e sempre me responde</u></p>
+                            <p class="lyrics-line"><strong>Eu não temo, eu não temo, todos os meus inimigos eu venço em seu nome</strong></p>
+                            <p class="lyrics-line"><strong>Eu não temo,</strong> <u><strong>eu não temo,</strong></u> <strong>meu Deus luta por mim e sempre me responde</strong></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><u>Tenho vitória em Ti, tenho vitória em Ti</u></p>
+                            <p class="lyrics-line"><u>Por teu poder em mim, me escutarão dizer,</u> <strong>tenho vitória em Ti</strong></p>
+                            <p class="lyrics-line"><u>Tenho vitória em Ti, tenho vitória em Ti</u></p>
+                            <p class="lyrics-line"><u>Por teu poder em mim, me escutarão dizer,</u> <strong>tenho vitória em Ti</strong></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><u>Na,na,na,na,na,na, na,na,na,na,na,na, na, na, na,na,na,na,na,na,</u></p>
+                            <p class="lyrics-line"><u>me escutarão dizer,</u> <strong>tenho vitória em Ti</strong></p>
+                        </div>
+
+                        <div class="lyrics-obs-box">
+                            ℹ️ Observação do arranjo: sublinhado = vozes em uníssono; negrito = vozes harmonizadas (abertura vocal).
+                        </div>
+                    `
                 }
             },
             {
@@ -1429,6 +1843,58 @@
                 pdf: {
                     label: "Letra da Música (PDF)",
                     arquivo: "6 - Letra - Sou grato por seu amor.pdf"
+                },
+                letraFormatada: {
+                    detalhes: "Sou grato por seu amor (Get Worship) · 72 bpm · Tom: Ré (D)",
+                    compositores: "Steven Furtick, Chandler Moore, Patrick Barrett, Joshua Coleman e Abubakar Baker Shariff-Farr",
+                    html: `
+                        <div class="lyrics-section">
+                            <span class="lyrics-tag-instruction">Intro...</span><br>
+                            <div class="lyrics-chords">4/4 || / / / / | / / / / ||</div>
+                            <p class="lyrics-line"><u>Um caminho Ele abriu no mar, eu dou graças, aleluia</u></p>
+                            <p class="lyrics-line"><u>Mesmo sem eu merecer, meu Deus fez, mesmo sem eu entender, meu Deus fez</u></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><u>Quem sou eu pra me amar tanto assim? Sou grato por Seu amor, sou grato por Seu amor</u></p>
+                            <p class="lyrics-line"><u>É o meu Deus, sempre esteve aqui por mim, sou grato, sou grato por seu amor</u></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><u>Santo, santo, igual não há, toda a glória vou Te entregar</u></p>
+                            <p class="lyrics-line"><u>Mesmo sem eu merecer, meu Deus fez, mesmo sem eu entender, meu Deus fez</u></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><strong>Quem sou eu pra me amar tanto assim?</strong> <u><strong>Sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>É o meu Deus sempre esteve aqui por mim,</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>Quem sou eu pra me amar tanto assim?</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>É o meu Deus sempre esteve aqui por mim,</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><strong>E eu, minhas mãos levantarei, fui perdoado outra vez,</strong> <u><strong>outra vez</strong></u></p>
+                            <p class="lyrics-line"><strong>E eu, todo o meu ser Te darei, fui perdoado outra vez,</strong> <u><strong>outra vez</strong></u></p>
+                            <p class="lyrics-line"><strong>E eu, minhas mãos levantarei, fui perdoado outra vez, outra vez</strong></p>
+                            <p class="lyrics-line"><strong>E eu, todo o meu ser Te darei, fui perdoado outra vez, outra vez</strong></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><strong>Quem sou eu pra me amar tanto assim?</strong> <u><strong>Sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>É o meu Deus sempre esteve aqui por mim,</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>Quem sou eu pra me amar tanto assim?</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>É o meu Deus sempre esteve aqui por mim,</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><strong>Vivo estou e eu vou testemunhar,</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>Não me importo com o que vão pensar,</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                        </div>
+
+                        <div class="lyrics-obs-box">
+                            ℹ️ Observação: sublinhado = vozes em uníssono; negrito = vozes harmonizadas.
+                        </div>
+                    `
                 }
             },
             {
@@ -1463,6 +1929,58 @@
                 pdf: {
                     label: "Letra da Música (PDF)",
                     arquivo: "6 - Letra - Sou grato por seu amor.pdf"
+                },
+                letraFormatada: {
+                    detalhes: "Sou grato por seu amor (Get Worship) · 72 bpm · Tom: Ré (D)",
+                    compositores: "Steven Furtick, Chandler Moore, Patrick Barrett, Joshua Coleman e Abubakar Baker Shariff-Farr",
+                    html: `
+                        <div class="lyrics-section">
+                            <span class="lyrics-tag-instruction">Intro...</span><br>
+                            <div class="lyrics-chords">4/4 || / / / / | / / / / ||</div>
+                            <p class="lyrics-line"><u>Um caminho Ele abriu no mar, eu dou graças, aleluia</u></p>
+                            <p class="lyrics-line"><u>Mesmo sem eu merecer, meu Deus fez, mesmo sem eu entender, meu Deus fez</u></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><u>Quem sou eu pra me amar tanto assim? Sou grato por Seu amor, sou grato por Seu amor</u></p>
+                            <p class="lyrics-line"><u>É o meu Deus, sempre esteve aqui por mim, sou grato, sou grato por seu amor</u></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><u>Santo, santo, igual não há, toda a glória vou Te entregar</u></p>
+                            <p class="lyrics-line"><u>Mesmo sem eu merecer, meu Deus fez, mesmo sem eu entender, meu Deus fez</u></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><strong>Quem sou eu pra me amar tanto assim?</strong> <u><strong>Sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>É o meu Deus sempre esteve aqui por mim,</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>Quem sou eu pra me amar tanto assim?</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>É o meu Deus sempre esteve aqui por mim,</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><strong>E eu, minhas mãos levantarei, fui perdoado outra vez,</strong> <u><strong>outra vez</strong></u></p>
+                            <p class="lyrics-line"><strong>E eu, todo o meu ser Te darei, fui perdoado outra vez,</strong> <u><strong>outra vez</strong></u></p>
+                            <p class="lyrics-line"><strong>E eu, minhas mãos levantarei, fui perdoado outra vez, outra vez</strong></p>
+                            <p class="lyrics-line"><strong>E eu, todo o meu ser Te darei, fui perdoado outra vez, outra vez</strong></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><strong>Quem sou eu pra me amar tanto assim?</strong> <u><strong>Sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>É o meu Deus sempre esteve aqui por mim,</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>Quem sou eu pra me amar tanto assim?</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>É o meu Deus sempre esteve aqui por mim,</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                        </div>
+
+                        <div class="lyrics-section">
+                            <p class="lyrics-line"><strong>Vivo estou e eu vou testemunhar,</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                            <p class="lyrics-line"><strong>Não me importo com o que vão pensar,</strong> <u><strong>sou grato por Seu amor, sou grato por Seu amor</strong></u></p>
+                        </div>
+
+                        <div class="lyrics-obs-box">
+                            ℹ️ Observação: sublinhado = vozes em uníssono; negrito = vozes harmonizadas.
+                        </div>
+                    `
                 }
             }
         ];
@@ -1649,15 +2167,22 @@
 
                 // Música Disponível
                 let pdfButtonHtml = '';
+                if (song.letraFormatada) {
+                    pdfButtonHtml += `
+                        <button class="btn-letra-destaque" onclick="abrirLetraModal('${song.numero}')">
+                            📖 Ver Letra da Música
+                        </button>
+                    `;
+                }
                 if (song.pdf) {
                     const pdfUrl = getTrackUrl(song.pasta, song.pdf.arquivo);
-                    pdfButtonHtml = `
-                        <button class="btn-pdf" onclick="abrirPdfModal('${song.titulo}', '${pdfUrl}')">
+                    pdfButtonHtml += `
+                        <button class="btn-pdf" onclick="abrirPdfModal('${song.titulo}', '${pdfUrl}')" title="Visualizar documento PDF">
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                 <polyline points="14 2 14 8 20 8"></polyline>
                             </svg>
-                            Ver Letra (PDF)
+                            PDF
                         </button>
                     `;
                 }
@@ -1909,6 +2434,69 @@
             renderizarRepertorio();
         });
 
+                /* ═══════════════════════════════════════════════════
+           MODAL DE LETRA FORMATADA
+           ═══════════════════════════════════════════════════ */
+        let currentFontSize = 15;
+        let currentSongLetra = null;
+
+        function abrirLetraModal(songNum) {
+            const song = REPERTORIO.find(s => s.numero === songNum);
+            if (!song || !song.letraFormatada) return;
+
+            currentSongLetra = song;
+            const modal = document.getElementById('lyrics-modal');
+            const titleEl = document.getElementById('lyrics-modal-title');
+            const subEl = document.getElementById('lyrics-modal-sub');
+            const bodyEl = document.getElementById('lyrics-content-body');
+            const metaEl = document.getElementById('lyrics-author-meta');
+            const pdfLinkEl = document.getElementById('lyrics-btn-pdf-link');
+
+            titleEl.textContent = `${song.numero}. ${song.titulo}`;
+            subEl.textContent = song.letraFormatada.detalhes || '';
+            metaEl.textContent = song.letraFormatada.compositores ? `Compositores: ${song.letraFormatada.compositores}` : '';
+            bodyEl.innerHTML = song.letraFormatada.html;
+            bodyEl.style.fontSize = `${currentFontSize}px`;
+
+            if (song.pdf) {
+                const pdfUrl = getTrackUrl(song.pasta, song.pdf.arquivo);
+                pdfLinkEl.href = pdfUrl;
+                pdfLinkEl.style.display = 'inline-flex';
+            } else {
+                pdfLinkEl.style.display = 'none';
+            }
+
+            modal.style.display = 'flex';
+            bodyEl.scrollTop = 0;
+        }
+
+        function fecharLetraModal() {
+            const modal = document.getElementById('lyrics-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function alterarTamanhoFonte(delta) {
+            currentFontSize = Math.max(12, Math.min(26, currentFontSize + delta * 2));
+            const bodyEl = document.getElementById('lyrics-content-body');
+            if (bodyEl) bodyEl.style.fontSize = `${currentFontSize}px`;
+        }
+
+        function copiarLetraTexto() {
+            const bodyEl = document.getElementById('lyrics-content-body');
+            if (!bodyEl) return;
+            const texto = bodyEl.innerText;
+            navigator.clipboard.writeText(texto).then(() => {
+                const btn = document.querySelector('.btn-copy-lyrics');
+                if (btn) {
+                    const original = btn.textContent;
+                    btn.textContent = '✓ Copiado!';
+                    setTimeout(() => btn.textContent = original, 1800);
+                }
+            }).catch(e => {
+                alert('Não foi possível copiar automaticamente.');
+            });
+        }
+
         /* ═══════════════════════════════════════════════════
            MODAL DE PDF
            ═══════════════════════════════════════════════════ */
@@ -1936,7 +2524,7 @@
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                fecharPdfModal();
+                fecharPdfModal(); fecharLetraModal();
             }
         });
 

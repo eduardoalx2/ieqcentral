@@ -237,3 +237,16 @@ Portal criado para os ensaios e preparação da equipe da cantata em casa.
 - Músicas 03 (Siempre a Tiempo) e 05 (Grato Sou) tornadas ativas e clicáveis diretamente para o YouTube na prévia do Hub.
 
 - Player de áudio movido da base para o TOPO: fixado no topo da tela com deslize animado ao tocar faixas, borda dourada e compensação automática no body e na barra de navegação.
+
+### Recurso Adicionado: Letras Formatadas com Guia Vocal
+- Adicionado modal interativo de Letra Formatada em texto responsivo diretamente no Kit de Ensaio.
+- Fidelidade rigorosa aos PDFs:
+  * Sublinhado: vozes cantando em uníssono.
+  * Negrito: aberturas e harmonizações vocais (Soprano, Contralto, Tenor).
+  * Destaques em amarelo: dinâmicas instrumentais da banda (piano, pads, bumbo, crescendo).
+  * Cifras e compassos musicais.
+  * Notas de rodapé e observações técnicas do arranjador preservadas integralmente.
+- Recursos interativos do modal:
+  * Controles de acessibilidade para aumentar/diminuir tamanho da fonte (A- e A+).
+  * Botão de copiar letra com um clique.
+  * Botão direto para baixar/abrir o PDF original oficial.

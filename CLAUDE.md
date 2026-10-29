@@ -4,7 +4,9 @@ Site estático da IEQ Central Londrina + sistemas auxiliares. Repositório Git c
 `github.com/eduardoalx2/ieqcentral`, publicado via **GitHub Pages** em **www.ieqlondrina.com.br**.
 
 ## Estrutura
-- `index.html` — página principal (links da igreja, contribua/PIX, card "Mês do Avivamento")
+- `index.html` — página principal (links da igreja, contribua/PIX, card "Mês do Avivamento", card "Mensagens de Célula")
+- `celulas/` — portal de roteiros de célula e banco com 25 dinâmicas de quebra-gelo
+- `PROMPT_MESTRE_MENSAGENS_CELULA.md` — diretriz canônica e prompt mestre para criação de sermões de célula
 - `estacaodanovavida/` — campanha "A Estação da Nova Vida" (roteiros de ministração das quartas às 20h)
 - `mesdoavivamento/` — devocional diário "Mês do Avivamento" (libera 1 dia por dia, com vídeos)
 - `congressodemulheres/` — sistema de inscrições (Google Sheets backend) — paleta rosa, R$210
@@ -61,3 +63,22 @@ Quando o usuário trouxer um link do YouTube e disser a qual **dia** ele pertenc
 - Template: dentro do `dias.forEach`, `const vid = videos[i];` gera a seção "Assista" com
   `<iframe src="https://www.youtube.com/embed/${vid}" ...>` quando `vid` existe.
 - O calendário: `START = 02/06/2026`; Dia N (índice N-1) desbloqueia em `START + (N-1)` dias.
+
+---
+
+# PADRÃO OBRIGATÓRIO: "criar/adicionar mensagem de célula"
+
+Sempre que o usuário pedir para criar, elaborar ou adicionar uma nova mensagem para as células da IEQ Central:
+1. **Seguir rigorosamente** o padrão em `PROMPT_MESTRE_MENSAGENS_CELULA.md` (e regras em `.agents/rules/ieq-mensagens-celula.md`).
+2. **Duração:** 25 a 30 minutos (referência 28 min).
+3. **Estrutura mandatória:**
+   - Título memorável e pastoral
+   - Texto bíblico completo por extenso versículo por versículo numerado (`.scripture-box`)
+   - Introdução e contextualização com frase de transição
+   - Exatamente **3 pontos principais**, cada um com explicação bíblica, aplicação cotidiana e caixa de destaque `👔 ORIENTAÇÃO AO LÍDER` com "Enfatize"
+   - Três perguntas abertas para o grupo com dica de moderação
+   - Aplicação prática da semana específica e realizável
+   - Oração final e frase de impacto para levar no coração
+4. **Inserção no site:** Adicionar o novo objeto no array `lessons` em `celulas/index.html` e associar ao ID de um quebra-gelo temático recomendado (`suggestedIcebreakerId`).
+5. **Endereço da igreja sempre:** `Travessa Belo Horizonte, 90 · Londrina/PR`.
+

@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Células IEQ Central | Roteiros para Líderes</title>
+<link rel="icon" type="image/png" href="../mini.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #102c4d;
+  --navy-dark: #091d33;
+  --blue: #1c5485;
+  --blue-soft: #276ba7;
+  --gold: #c79b42;
+  --gold-light: #f5df9e;
+  --gold-subtle: #fbf7ee;
+  --ink: #1f2a37;
+  --ink-soft: #4b5563;
+  --muted: #64748b;
+  --paper: #ffffff;
+  --bg: #f4f7fb;
+  --line: #dce4ee;
+  --line-soft: #e8eef6;
+  --pale: #edf4fa;
+  --success: #15803d;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 2px 6px rgba(16, 44, 77, 0.05);
+  --shadow-md: 0 8px 24px rgba(16, 44, 77, 0.08);
+  --shadow-lg: 0 16px 36px rgba(16, 44, 77, 0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font: inherit; cursor: pointer; border: none; background: none; }
+a { color: inherit; text-decoration: none; }
+
+/* ─── TOAST NOTIFICATION ─── */
+#toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #111827;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+}
+#toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── TOPBAR HEADER ─── */
+.topbar {
+  background: linear-gradient(135deg, #091d33 0%, #102c4d 55%, #184873 100%);
+  color: #fff;
+  padding: 24px 20px 38px;
+  border-bottom: 5px solid var(--gold);
+  position: relative;
+  overflow: hidden;
+}
+.topbar::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(199, 155, 66, 0.18) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.wrap { max-width: 1100px; margin: 0 auto; position: relative; }
+
+.topbar-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.back-hub-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #e2edf8;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 6px 14px;
+  border-radius: 999px;
+  transition: background 0.2s, color 0.2s;
+}
+.back-hub-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+.nav-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  background: rgba(199, 155, 66, 0.15);
+  border: 1px solid rgba(199, 155, 66, 0.3);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.brandmark-wrap {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 4px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), 0 0 0 2px rgba(199, 155, 66, 0.6);
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+.brandmark-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.brand-text .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  font-weight: 750;
+  color: var(--gold-light);
+}
+.brand-text .church-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.topbar h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2rem, 4.5vw, 2.85rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 10px 0 14px;
+  max-width: 860px;
+}
+.topbar p {
+  max-width: 760px;
+  color: #d8e5f2;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.quad-bar {
+  display: flex;
+  height: 3px;
+  width: 100%;
+  margin-top: 24px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.quad-bar span:nth-child(1) { background: #dc2626; flex: 1; }
+.quad-bar span:nth-child(2) { background: #eab308; flex: 1; }
+.quad-bar span:nth-child(3) { background: #2563eb; flex: 1; }
+.quad-bar span:nth-child(4) { background: #7c3aed; flex: 1; }
+
+/* ─── MAIN CONTENT ─── */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 20px 60px;
+}
+
+.intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.intro h2 {
+  color: var(--navy);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.intro p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+.pill {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 14px;
+  color: var(--blue);
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ─── CARDS GRID ─── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.theme-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s cubic-bezier(.4,0,.2,1), box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.theme-card:hover {
+  border-color: #a3c1e2;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+.theme-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--gold), var(--blue));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.theme-card:hover::before {
+  opacity: 1;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.num {
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.time-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--blue);
+  background: var(--pale);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.theme-card h3 {
+  color: var(--navy);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 8px;
+}
+.theme-card p {
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  margin-bottom: 14px;
+  flex: 1;
+  line-height: 1.55;
+}
+.meta {
+  font-size: 0.85rem;
+  color: var(--navy);
+  font-weight: 600;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line-soft);
+}
+
+.btn {
+  border: 0;
+  border-radius: 10px;
+  background: var(--blue);
+  color: #fff;
+  padding: 11px 18px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 6px rgba(28, 84, 133, 0.25);
+}
+.btn:hover {
+  background: var(--navy);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 44, 77, 0.25);
+}
+.btn.secondary {
+  background: #ffffff;
+  color: var(--blue);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+.btn.secondary:hover {
+  background: var(--pale);
+  color: var(--navy);
+}
+.btn.whatsapp {
+  background: #25d366;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+}
+.btn.whatsapp:hover {
+  background: #1da851;
+}
+
+/* ─── LEADER ORIENTATION SECTION ─── */
+.orientation-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 26px 28px;
+  margin-top: 24px;
+  border-left: 5px solid var(--gold);
+  box-shadow: var(--shadow-sm);
+}
+.orientation-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.orientation-header-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--gold-subtle);
+  border: 1px solid rgba(199, 155, 66, 0.3);
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+}
+.orientation-card h3 {
+  color: var(--navy);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+.orientation-card p {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin: 8px 0;
+}
+
+/* ─── READER VIEW ─── */
+.hidden { display: none !important; }
+
+.reader-head {
+  background: linear-gradient(135deg, #091d33 0%, #102c4d 60%, #1c5485 100%);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 28px 30px;
+  margin-bottom: 20px;
+  border-bottom: 4px solid var(--gold);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+.reader-head::after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(199, 155, 66, 0.16) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.reader-church-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+.reader-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 3px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+.reader-brand-info .church-sub {
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+}
+.reader-brand-info .church-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.03em;
+}
+
+.reader-head .eyebrow {
+  color: var(--gold-light);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.reader-head h2 {
+  font-family: 'Outfit', sans-serif;
+  margin: 6px 0 10px;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+.reader-head p {
+  color: #dbe7f3;
+  font-size: 1.05rem;
+  max-width: 800px;
+  line-height: 1.55;
+}
+.reader-meta-pills {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.reader-chip {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.reader-chip.gold {
+  background: rgba(199, 155, 66, 0.25);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+.reader-tools {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+/* ─── CONTENT LAYOUT ─── */
+.content-layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+.toc {
+  position: sticky;
+  top: 16px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+.toc h3 {
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+  color: var(--navy);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.toc a {
+  display: block;
+  color: var(--ink-soft);
+  padding: 7px 10px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border-bottom: 1px solid var(--line-soft);
+  transition: background 0.18s, color 0.18s, padding-left 0.18s;
+}
+.toc a:last-child { border-bottom: 0; }
+.toc a:hover {
+  background: var(--pale);
+  color: var(--blue);
+  padding-left: 14px;
+}
+
+.lesson { min-width: 0; }
+.section {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 16px;
+  scroll-margin-top: 18px;
+  box-shadow: var(--shadow-sm);
+}
+.section h3 {
+  color: var(--navy);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.section h4 {
+  margin: 18px 0 6px;
+  color: var(--navy);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.section p {
+  margin: 10px 0;
+  color: var(--ink);
+  line-height: 1.65;
+}
+.section ul, .section ol {
+  padding-left: 24px;
+  margin: 10px 0;
+}
+.section li {
+  margin: 6px 0;
+  color: var(--ink);
+}
+
+.script {
+  background: #f8fafc;
+  border-left: 4px solid var(--gold);
+  padding: 14px 18px;
+  border-radius: 0 10px 10px 0;
+  margin: 14px 0;
+  border: 1px solid var(--line-soft);
+  border-left: 4px solid var(--gold);
+}
+.script strong {
+  display: block;
+  color: var(--navy);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+  font-weight: 800;
+}
+.verse-box {
+  background: linear-gradient(135deg, #fbf7ee 0%, #ffffff 100%);
+  border: 1px solid rgba(199, 155, 66, 0.4);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 14px 0;
+}
+.verse {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.2rem;
+  color: var(--navy);
+  font-weight: 600;
+}
+.note {
+  font-size: 0.88rem;
+  color: var(--muted);
+  font-style: italic;
+}
+.question {
+  padding: 12px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  margin: 10px 0;
+  font-size: 0.96rem;
+  color: var(--ink);
+  line-height: 1.55;
+}
+.question strong {
+  color: var(--blue);
+  margin-right: 4px;
+}
+.time-tag {
+  display: inline-block;
+  background: var(--pale);
+  color: var(--blue);
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-left: 8px;
+}
+
+/* ─── CELL LEADER SIGNATURE FOOTER INSIDE LESSON ─── */
+.lesson-footer-card {
+  background: linear-gradient(135deg, #ffffff 0%, var(--pale) 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.lesson-footer-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+.lesson-footer-text h4 {
+  font-family: 'Outfit', sans-serif;
+  color: var(--navy);
+  font-size: 1.05rem;
+  font-weight: 750;
+  margin: 0;
+}
+.lesson-footer-text p {
+  color: var(--muted);
+  font-size: 0.84rem;
+  margin: 2px 0 0;
+}
+
+/* ─── SITE FOOTER ─── */
+footer {
+  text-align: center;
+  padding: 30px 20px 40px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  border-top: 1px solid var(--line);
+  background: #ffffff;
+}
+.footer-logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.footer-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+  .content-layout { grid-template-columns: 1fr; }
+  .toc { position: static; margin-bottom: 18px; }
+  .intro { flex-direction: column; align-items: flex-start; }
+  .section { padding: 18px; }
+  .reader-head { padding: 22px 20px; }
+  .topbar { padding: 20px 16px 28px; }
+  .topbar h1 { font-size: 1.85rem; }
+  .reader-tools { flex-direction: column; }
+  .reader-tools .btn { width: 100%; }
+}
+
+/* ─── PRINT OPTIMIZATIONS ─── */
+@media print {
+  body { background: #fff !important; font-size: 10.5pt; color: #111; }
+  .topbar, footer, .intro, .grid, .reader-tools, .toc, .back-button, .back-hub-btn, #toast, .orientation-card {
+    display: none !important;
+  }
+  main { padding: 0 !important; max-width: none !important; }
+  .hidden { display: none !important; }
+  #home { display: none !important; }
+  #reader { display: block !important; }
+  .reader-head {
+    background: #fff !important;
+    color: #000 !important;
+    border: 2px solid #222 !important;
+    box-shadow: none !important;
+    padding: 16px !important;
+    margin-bottom: 14px !important;
+  }
+  .reader-head h2 { color: #000 !important; font-size: 1.6rem !important; }
+  .reader-head p { color: #333 !important; }
+  .reader-logo { border: 1px solid #666; }
+  .reader-brand-info .church-name, .reader-brand-info .church-sub { color: #111 !important; }
+  .reader-chip { border: 1px solid #777 !important; color: #111 !important; }
+  .content-layout { display: block !important; }
+  .section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    padding: 14px !important;
+    margin-bottom: 12px !important;
+  }
+  .script {
+    background: #f9f9f9 !important;
+    border-left: 3px solid #333 !important;
+  }
+  .verse-box {
+    border: 1px solid #777 !important;
+    background: #fafafa !important;
+  }
+  .section h3, .section h4, .verse { color: #000 !important; }
+  a { color: #000 !important; text-decoration: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div id="toast">
+  <span style="font-size:1.1rem;">✓</span>
+  <span id="toastMsg">Roteiro copiado com sucesso!</span>
+</div>
+
+<!-- HEADER PRINCIPAL -->
+<header class="topbar">
+  <div class="wrap">
+    <div class="topbar-nav">
+      <a href="../" class="back-hub-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        ieqlondrina.com.br
+      </a>
+      <span class="nav-tag">Ministério de Células</span>
+    </div>
+
+    <div class="brand">
+      <div class="brandmark-wrap">
+        <img src="../imagesieqcentral/logo.png" alt="IEQ Central Londrina" class="brandmark-img">
+      </div>
+      <div class="brand-text">
+        <div class="eyebrow">Igreja do Evangelho Quadrangular</div>
+        <div class="church-title">IEQ CENTRAL · LONDRINA/PR</div>
+      </div>
+    </div>
+
+    <h1>Células que acolhem,<br>fortalecem e multiplicam.</h1>
+    <p>Seis roteiros bíblicos para apoiar cada líder a conduzir uma conversa acolhedora, compartilhar a Palavra de Deus e incentivar passos práticos de fé. Escolha um tema e conduza o roteiro com liberdade no Espírito.</p>
+
+    <div class="quad-bar" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- LISTA DE MENSAGENS (HOME) -->
+<section id="home">
+  <div class="intro">
+    <div>
+      <h2>Escolha a mensagem da célula</h2>
+      <p>Planejada para aproximadamente 25 a 30 minutos em grupo.</p>
+    </div>
+    <span class="pill">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+      6 mensagens · Bíblia NAA
+    </span>
+  </div>
+
+  <div class="grid" id="cards"></div>
+
+  <!-- ORIENTAÇÃO AO LÍDER -->
+  <div class="orientation-card">
+    <div class="orientation-header">
+      <div class="orientation-header-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      </div>
+      <h3>Orientação rápida para o líder</h3>
+    </div>
+    <p>Você não precisa ser um pregador profissional. Leia o texto bíblico, use as frases sugeridas como apoio e faça as perguntas com naturalidade. Dê espaço para as pessoas falarem, sem pressionar ninguém a compartilhar algo íntimo ou constrangedor.</p>
+    <p>O objetivo não é terminar todo o roteiro correndo a qualquer custo: é que o grupo compreenda a Palavra, se conecte em comunhão e saia com um passo prático. Se o tempo estiver curto, priorize o texto bíblico, os pontos principais, uma pergunta e a oração.</p>
+  </div>
+</section>
+
+<!-- LEITOR DA MENSAGEM SELECIONADA -->
+<section id="reader" class="hidden">
+  <div class="reader-head">
+    <div class="reader-church-brand">
+      <img src="../imagesieqcentral/logo.png" alt="IEQ Central Londrina" class="reader-logo">
+      <div class="reader-brand-info">
+        <div class="church-sub">Igreja do Evangelho Quadrangular · IEQ Central Londrina</div>
+        <div class="church-name">Roteiro de Apoio para Célula</div>
+      </div>
+    </div>
+    <div class="eyebrow" id="rNum">MENSAGEM 01</div>
+    <h2 id="rTitle">Título da Mensagem</h2>
+    <p id="rSummary">Resumo da mensagem aqui.</p>
+    <div class="reader-meta-pills" id="rMetaPills"></div>
+  </div>
+
+  <div class="reader-tools">
+    <button class="btn secondary back-button" onclick="goHome()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Todas as mensagens
+    </button>
+    <button class="btn" onclick="window.print()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+        <rect x="6" y="14" width="12" height="8"></rect>
+      </svg>
+      Imprimir / Salvar PDF
+    </button>
+    <button class="btn secondary" onclick="copiarRoteiro()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+      Copiar Roteiro
+    </button>
+    <button class="btn whatsapp" onclick="compartilharWhatsApp()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20.52 3.48A11.93 11.93 0 0 0 12.06 0C5.46 0 .09 5.37.09 11.97c0 2.11.55 4.17 1.6 5.99L0 24l6.21-1.63a11.93 11.93 0 0 0 5.85 1.51h.01c6.6 0 11.97-5.37 11.97-11.97 0-3.2-.1.25-1.25-4.47l-2.27-3.96zm-8.46 18.38h-.01a9.92 9.92 0 0 1-5.06-1.39l-.36-.22-3.76.99 1-3.66-.24-.38a9.93 9.93 0 0 1-1.52-5.23c0-5.48 4.46-9.94 9.95-9.94 2.65 0 5.15 1.03 7.03 2.91a9.88 9.88 0 0 1 2.91 7.03c0 5.48-4.46 9.94-9.95 9.94zm5.45-7.46c-.3-.15-1.77-.87-2.04-.97-.28-.1-.48-.15-.68.15-.2.3-.78.97-.95 1.17-.18.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.52-.08-.15-.68-1.64-.93-2.25-.24-.59-.49-.51-.68-.52h-.58c-.2 0-.52.07-.8.38-.27.3-1.05 1.03-1.05 2.51 0 1.48 1.08 2.91 1.23 3.11.15.2 2.13 3.25 5.16 4.56.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z"/>
+      </svg>
+      Enviar no WhatsApp
+    </button>
+  </div>
+
+  <div class="content-layout">
+    <nav class="toc" aria-label="Índice da mensagem">
+      <h3>Neste roteiro</h3>
+      <div id="tocLinks"></div>
+    </nav>
+    <article class="lesson" id="lessonBody"></article>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="footer-logo-row">
+    <img src="../imagesieqcentral/logo.png" alt="IEQ Central" class="footer-logo">
+    <strong style="color:var(--navy);font-family:'Outfit',sans-serif;">IEQ Central Londrina</strong>
+  </div>
+  <p>Igreja do Evangelho Quadrangular · Rua Benjamin Constant, 1756 · Londrina/PR · (43) 3356-2718</p>
+  <p style="margin-top:4px;font-size:0.8rem;color:#8596ab;">Material de apoio e edificação para líderes de célula · Uma igreja relevante para a nossa cidade</p>
+</footer>
+
+<script>
+const lessons = [
+{
+title: "Há lugar para você",
+summary: "Comunhão, acolhimento e pertencimento ao corpo de Cristo.",
+ref: "Romanos 12:4-5",
+time: "27 minutos",
+opening: "Receba cada pessoa pelo nome, agradeça pela presença e explique que a célula é um lugar para caminhar com Jesus e uns com os outros. Não é preciso ter todas as respostas para fazer parte.",
+aim: "Ajudar o grupo a perceber que Deus nos chama para uma fé vivida em comunidade, na qual cada pessoa tem valor e pode contribuir.",
+reading: "Romanos 12:4-5",
+readingNote: "Peça a alguém para ler o texto na Bíblia NAA. Convide o grupo a observar a comparação que Paulo faz entre o corpo e a igreja.",
+intro: "Pense no corpo humano: olhos, mãos, pés e ouvidos têm funções diferentes, mas nenhum deles foi feito para funcionar isoladamente. Paulo usa essa imagem para ensinar que, em Cristo, somos muitos, mas fazemos parte de um só corpo. A igreja não é apenas um lugar aonde vamos; é uma família espiritual da qual participamos.",
+points: [
+  ["Cada pessoa tem valor", "No corpo, nenhuma parte é inútil. Da mesma forma, ninguém deve pensar que não tem importância na igreja. Há pessoas que ensinam, outras servem, encorajam, escutam, oram ou ajudam de maneiras discretas. Deus pode usar cada pessoa.", "Evite comparar dons ou medir o valor de alguém pelo que aparece. Uma palavra de encorajamento ou uma ajuda prática pode fortalecer muito uma pessoa."],
+  ["Precisamos uns dos outros", "A fé é pessoal, mas não foi planejada para ser solitária. Quando enfrentamos uma dificuldade, alguém pode nos ouvir e orar conosco. Quando estamos fortes, podemos apoiar quem está cansado. A comunhão não elimina todos os problemas, mas nos lembra que não precisamos atravessá-los sozinhos.", "Uma célula saudável não é um grupo perfeito; é um grupo que aprende a acolher, cuidar, perdoar e crescer junto."],
+  ["Pertencer também é participar", "Ser parte do corpo não significa apenas receber. Cada pessoa pode contribuir conforme sua realidade: chegar com disposição, ouvir com atenção, orar, ajudar em uma necessidade ou convidar alguém que precisa de companhia.", "Não espere ser especialista para servir. Comece com o que você tem e com uma atitude simples de amor."]
+],
+questions: [
+  "O que faz uma pessoa se sentir realmente acolhida em um grupo?",
+  "Qual atitude simples pode fortalecer nossa comunhão nesta semana?",
+  "Como podemos perceber alguém que está se afastando ou precisando de cuidado, sem invadir sua privacidade?"
+],
+practice: "Nesta semana, procure uma pessoa da célula com quem você conversou pouco. Mande uma mensagem, pergunte como ela está e escute de verdade. Como grupo, escolham uma forma concreta de cuidar de alguém.",
+prayer: "Ore para que Deus faça da célula um ambiente de acolhimento, unidade e cuidado. Peça que cada pessoa reconheça seu valor em Cristo e encontre maneiras saudáveis de servir.",
+closing: "Reforce: em Cristo, ninguém precisa caminhar sozinho. A célula é uma oportunidade de viver a fé em comunidade e demonstrar o amor de Jesus de maneira prática."
+},
+{
+title: "Floresça onde Deus plantou você",
+summary: "Fé e perseverança para crescer mesmo em estações difíceis.",
+ref: "Salmo 92:12-14",
+time: "28 minutos",
+opening: "Pergunte ao grupo: “Uma planta floresce apenas quando tudo está perfeito?” Ouça algumas respostas e introduza a ideia de que crescimento exige cuidado e perseverança, mesmo quando a estação é difícil.",
+aim: "Encorajar cada pessoa a continuar crescendo em Deus no lugar e na estação em que se encontra, sem esperar que todas as circunstâncias mudem primeiro.",
+reading: "Salmo 92:12-14",
+readingNote: "Leia o texto na Bíblia NAA. Chame atenção para a imagem de árvores plantadas e para a ideia de continuar frutificando mesmo na velhice.",
+intro: "Às vezes pensamos: “Quando minha situação melhorar, vou voltar a servir”; “quando eu tiver menos problemas, vou buscar mais a Deus”; “quando tudo estiver no lugar, vou florescer”. Mas a vida raramente fica perfeita. O salmo retrata pessoas enraizadas em Deus, que continuam frutificando ao longo das estações. Florescer não é fingir que não há dor; é continuar recebendo cuidado de Deus e dando passos de fidelidade em meio à realidade.",
+points: [
+  ["Crie raízes antes de buscar frutos", "Uma árvore firme depende de raízes profundas. Nossa vida espiritual também precisa de raízes: Palavra, oração, comunhão e obediência. Essas práticas não são uma fórmula para evitar dificuldades; são maneiras de permanecer perto de Deus durante elas.", "Não compare sua estação com a de outra pessoa. Invista hoje em um hábito pequeno e consistente de comunhão com Deus."],
+  ["Não confunda estação difícil com fim da história", "Há fases de espera, perda, mudança e cansaço. Elas são reais, e não precisamos escondê-las. Porém, uma fase difícil não define todo o futuro. Deus pode sustentar, amadurecer e conduzir seus filhos mesmo quando o progresso parece lento.", "Se você está cansado, procure apoio. Descansar, pedir ajuda e conversar com alguém maduro na fé também podem fazer parte da perseverança."],
+  ["Florescer também é frutificar para alguém", "Fruto não é apenas conquista visível. Pode ser paciência em casa, reconciliação, generosidade, fidelidade, serviço e uma palavra que levanta alguém. Deus trabalha em nós e, por meio de nós, alcança outras pessoas.", "Pergunte não apenas “o que quero receber?”, mas também “que fruto de amor posso oferecer hoje?”."]
+],
+questions: [
+  "Em que área você tem esperado as condições perfeitas para dar um próximo passo?",
+  "Que prática simples ajuda você a criar raízes em Deus?",
+  "Que tipo de fruto alguém ao seu redor precisa receber nesta semana?"
+],
+practice: "Escolha um passo realista para os próximos sete dias: separar dez minutos para ler a Bíblia e orar, pedir ajuda em uma dificuldade ou praticar uma atitude de serviço. Compartilhe com alguém do grupo como foi.",
+prayer: "Ore por quem está atravessando uma estação difícil. Peça raízes profundas, força para perseverar e sensibilidade para reconhecer os frutos que Deus pode produzir no cotidiano.",
+closing: "Florescer não significa que nunca haverá inverno. Significa permanecer enraizado em Deus e continuar dando passos de fé na estação presente."
+},
+{
+title: "Um passo de cada vez com Jesus",
+summary: "Confiar em Deus nas decisões e nos desafios cotidianos.",
+ref: "Provérbios 3:5-6",
+time: "27 minutos",
+opening: "Pergunte: “Você já tentou resolver tudo de uma vez e acabou mais ansioso?” Diga que a mensagem de hoje é sobre confiar em Deus e dar o próximo passo com sabedoria.",
+aim: "Ajudar o grupo a distinguir confiança em Deus de passividade, reconhecendo a importância da oração, da Palavra, do conselho sábio e de decisões responsáveis.",
+reading: "Provérbios 3:5-6",
+readingNote: "Leia o texto na Bíblia NAA. Observe as expressões “confie no Senhor” e “reconheça-o em todos os seus caminhos”.",
+intro: "Nem sempre conseguimos enxergar o caminho inteiro. Há decisões familiares, profissionais, financeiras e pessoais que podem trazer dúvidas. Provérbios nos chama a confiar no Senhor de todo o coração, em vez de tratar nosso entendimento limitado como a única referência. Isso não significa abandonar o pensamento ou esperar sinais extraordinários para tudo. Significa incluir Deus em nossos caminhos e buscar direção com humildade.",
+points: [
+  ["Confie em Deus de todo o coração", "Confiar não é dizer que tudo está fácil. É reconhecer que Deus é digno de confiança mesmo quando ainda temos perguntas. Podemos falar com sinceridade sobre nossos medos e, ao mesmo tempo, entregar a Ele nossas decisões.", "A oração não precisa ser uma frase bonita. Você pode dizer: “Senhor, estou confuso. Ajuda-me a agir com sabedoria e integridade”."],
+  ["Reconheça Deus nos caminhos comuns", "O texto fala de todos os caminhos, não apenas dos momentos religiosos. Nossa fé também influencia a forma como tratamos a família, usamos o dinheiro, trabalhamos, falamos e cumprimos compromissos.", "Pergunte: “Esta decisão combina com os princípios de Jesus? Estou sendo honesto? Estou considerando como isso afeta outras pessoas?”"],
+  ["Dê o próximo passo responsável", "Nem sempre Deus mostra todo o percurso de uma vez. Podemos ler a Palavra, pedir conselho a pessoas maduras, buscar informações, avaliar consequências e agir com responsabilidade. Fé não é imprudência nem substitui ajuda profissional quando ela é necessária.", "Em vez de tentar resolver tudo hoje, identifique o próximo passo correto e possível. Depois, continue buscando direção."]
+],
+questions: [
+  "Qual é a diferença entre confiar em Deus e agir sem pensar nas consequências?",
+  "Que decisão cotidiana precisa ser mais alinhada com os valores de Jesus?",
+  "Quem poderia oferecer conselho sábio e confiável em uma situação difícil?"
+],
+practice: "Escreva uma decisão ou preocupação. Ore por ela, identifique um princípio bíblico relevante e defina um próximo passo concreto e responsável. Se necessário, converse com alguém confiável ou com um profissional qualificado.",
+prayer: "Peça sabedoria para as decisões, serenidade diante do que ainda não está claro e coragem para obedecer ao que já se compreende da Palavra.",
+closing: "Não precisamos conhecer todos os detalhes do amanhã para caminhar com Deus hoje. Confiar também é dar o próximo passo com fé, sabedoria e responsabilidade."
+},
+{
+title: "Uma fé que não se apaga",
+summary: "Permanecer firme em Deus quando as circunstâncias são contrárias.",
+ref: "Hebreus 10:23-25",
+time: "28 minutos",
+opening: "Convide o grupo a pensar, sem obrigação de contar detalhes, em algo que ajuda a pessoa a continuar quando está desanimada. Explique que perseverança cristã não é nunca sentir fraqueza; é continuar buscando a Deus e apoio.",
+aim: "Fortalecer a esperança em Deus e mostrar como a comunhão e o encorajamento mútuo ajudam a perseverar.",
+reading: "Hebreus 10:23-25",
+readingNote: "Leia os versículos na Bíblia NAA. Destaque o convite para conservar a esperança e considerar como estimular uns aos outros ao amor e às boas obras.",
+intro: "Existem momentos em que a fé parece simples e outros em que continuar exige esforço. A carta aos Hebreus foi escrita a cristãos que precisavam perseverar. O texto não manda fingir que não há luta; ele aponta para a fidelidade daquele que fez a promessa e para a importância de caminharmos juntos. A esperança cristã não depende de controlar todas as circunstâncias, mas de confiar no caráter de Deus.",
+points: [
+  ["Segure firme a esperança", "A esperança bíblica não é apenas pensamento positivo. Ela se apoia na fidelidade de Deus. Podemos reconhecer o que dói sem concluir que a dor é a única realidade ou que nossa história terminou.", "Quando estiver desanimado, volte às promessas e ao caráter de Deus, leia a Palavra e converse com alguém de confiança. Não se culpe por precisar de apoio."],
+  ["Perseverança não significa isolamento", "O texto incentiva os cristãos a não abandonarem a reunião e a continuarem se encorajando. A comunidade não substitui Deus, mas pode ser um meio de cuidado, correção amorosa e fortalecimento.", "Se alguém falta ou se afasta, aproxime-se com cuidado, sem acusações. Pergunte como pode ajudar e respeite os limites da pessoa."],
+  ["Encoraje alguém com atitudes concretas", "O encorajamento pode ser uma mensagem, uma oração, uma visita combinada, uma refeição, uma carona ou simplesmente escutar sem julgar. Palavras de fé ganham força quando são acompanhadas de amor prático.", "Não prometa que tudo será resolvido imediatamente. Ofereça presença, oração e ajuda realista."]
+],
+questions: [
+  "O que costuma ajudar você a recuperar a esperança em uma fase difícil?",
+  "Como a comunhão pode fortalecer alguém sem minimizar sua dor?",
+  "Que atitude concreta de encorajamento podemos praticar nesta semana?"
+],
+practice: "Escolha uma pessoa para encorajar de forma específica. Entre em contato, pergunte do que ela precisa e ofereça uma ajuda que você realmente possa cumprir.",
+prayer: "Ore para que a esperança permaneça firme, para que os cansados encontrem apoio e para que a célula seja uma comunidade que encoraja com verdade, paciência e amor.",
+closing: "Perseverar não é nunca se cansar. É continuar olhando para a fidelidade de Deus e permitir que a comunidade nos ajude a seguir."
+},
+{
+title: "Fomos chamados para amar",
+summary: "Demonstrar o amor de Jesus por meio de atitudes concretas.",
+ref: "João 13:34-35",
+time: "27 minutos",
+opening: "Pergunte: “Como percebemos que alguém nos ama: apenas pelo que diz ou também pelo que faz?” Deixe duas ou três pessoas responderem e conecte as respostas ao ensino de Jesus.",
+aim: "Mostrar que o amor cristão é uma marca dos discípulos e se expressa em ações concretas, respeito, serviço e perdão responsável.",
+reading: "João 13:34-35",
+readingNote: "Leia o texto na Bíblia NAA. Explique que Jesus deu esse ensino aos discípulos em um momento marcante, antes de sua prisão e crucificação.",
+intro: "Jesus não apresentou o amor como um detalhe opcional da vida cristã. Ele disse que o amor entre seus discípulos seria uma marca reconhecível. Esse amor vai além de simpatia por quem pensa como nós. Ele aprende com o próprio Jesus: serve, escuta, fala a verdade com graça e busca o bem do outro. Amar não significa aprovar todo comportamento, aceitar abusos ou deixar de estabelecer limites seguros.",
+points: [
+  ["Amar é uma decisão que se torna atitude", "Sentimentos variam, mas podemos escolher agir com bondade, respeito e honestidade. Às vezes amar é ouvir; em outras, ajudar, pedir desculpas ou conversar com sinceridade.", "Pergunte antes de agir: “O que seria realmente bom para essa pessoa? Como posso fazer isso sem humilhar, controlar ou prejudicar?”"],
+  ["O amor começa perto", "É possível falar de amor em público e tratar com impaciência quem mora conosco ou trabalha ao nosso lado. Jesus nos chama a viver o amor nos relacionamentos diários: em casa, na igreja, no trabalho e na vizinhança.", "Uma atitude pequena — cumprir uma promessa, ouvir sem interromper ou reconhecer um erro — pode tornar o amor visível."],
+  ["Amor também exige verdade e limites", "O amor cristão não é permitir violência, manipulação ou injustiça. É possível perdoar e, ao mesmo tempo, buscar segurança, ajuda e limites adequados. A reconciliação pode exigir tempo, mudança e responsabilidade.", "Se alguém estiver em risco, a prioridade é a segurança e a busca de ajuda apropriada. A célula deve acolher sem pressionar a pessoa a permanecer em uma situação perigosa."]
+],
+questions: [
+  "Que atitudes fazem o amor de Jesus ser percebido em nossos relacionamentos?",
+  "Por que é mais difícil demonstrar amor justamente com quem está mais perto?",
+  "Como podemos unir amor, verdade e limites saudáveis?"
+],
+practice: "Escolha uma atitude concreta de amor para realizar nos próximos dias: ouvir alguém, reparar um erro, ajudar em uma necessidade ou demonstrar gratidão. Seja específico e faça algo que esteja ao seu alcance.",
+prayer: "Peça a Jesus que transforme nossas atitudes, ajude-nos a amar com sabedoria e faça da célula um lugar de respeito, serviço e cuidado.",
+closing: "O amor cristão não fica apenas no discurso. Ele se torna visível quando as pessoas encontram em nós atitudes que refletem o caráter de Jesus."
+},
+{
+title: "Deus ainda está escrevendo a sua história",
+summary: "Esperança, recomeço e confiança na obra de Deus.",
+ref: "Filipenses 1:3-6",
+time: "28 minutos",
+opening: "Convide o grupo a pensar em algo que aprendeu depois de um período difícil. Ninguém precisa compartilhar algo íntimo. Introduza a ideia de que um capítulo complicado não resume toda a história.",
+aim: "Encorajar esperança realista: Deus continua trabalhando na vida de seus filhos, e podemos responder com fé, arrependimento, apoio e passos concretos.",
+reading: "Filipenses 1:3-6",
+readingNote: "Leia o texto na Bíblia NAA. Explique que Paulo escreve com gratidão à igreja de Filipos e expressa confiança na obra de Deus entre os cristãos.",
+intro: "Todos temos partes da história que gostaríamos de reescrever. Algumas escolhas trouxeram consequências; algumas oportunidades passaram; certas perdas não podem ser desfeitas. A esperança cristã não apaga o passado nem promete que tudo será fácil. Ela nos lembra que Deus continua agindo e que, em Cristo, podemos crescer, buscar reconciliação quando possível e dar passos fiéis no presente.",
+points: [
+  ["Seu passado faz parte da história, mas não precisa governar todo o futuro", "Reconhecer erros é importante, mas viver preso à vergonha não produz transformação. O evangelho nos chama ao arrependimento, ao perdão e a uma vida renovada. Quando houver consequências a reparar, devemos enfrentá-las com honestidade.", "Não confunda graça com ausência de responsabilidade. Um recomeço verdadeiro pode incluir pedir perdão, corrigir o que for possível e aceitar ajuda."],
+  ["Deus trabalha em processos", "Crescimento espiritual nem sempre acontece de uma vez. Há hábitos a formar, feridas a tratar e decisões a amadurecer. Filipenses 1:6 aponta para a confiança na obra de Deus, não para a exigência de perfeição imediata.", "Evite comparar seu processo com o de outra pessoa. Celebre passos reais e continue caminhando, inclusive quando precisar recomeçar."],
+  ["Esperança se traduz em um próximo passo", "Esperar em Deus não é ficar parado. Podemos buscar reconciliação quando for seguro, organizar uma área negligenciada, procurar aconselhamento, retomar a comunhão ou servir de uma maneira possível.","Escolha um passo pequeno, claro e realizável. Não precisa resolver toda a vida nesta semana; comece pela próxima decisão fiel."]
+],
+questions: [
+  "Por que é importante distinguir arrependimento de viver preso à culpa?",
+  "Em qual área você precisa ter paciência com um processo de crescimento?",
+  "Qual próximo passo realista pode representar um recomeço para você?"
+],
+practice: "Complete esta frase em uma folha: “Meu próximo passo fiel será…”. Escolha algo concreto e possível para os próximos sete dias. Se for uma situação complexa, busque ajuda de uma pessoa madura e/ou profissional apropriado.",
+prayer: "Agradeça a Deus por sua graça e peça coragem para aprender com o passado, sabedoria para agir no presente e esperança para continuar crescendo.",
+closing: "Uma fase difícil não precisa ser a palavra final. Em Cristo há graça para recomeçar, responsabilidade para reparar o que for possível e força para continuar caminhando."
+}
+];
+
+let currentLessonIdx = 0;
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function makeCards(){
+  const host = document.getElementById('cards');
+  host.innerHTML = lessons.map((l, i) => `
+    <article class="theme-card">
+      <div class="card-top">
+        <span class="num">MENSAGEM ${String(i+1).padStart(2,'0')}</span>
+        <span class="time-pill">⏱ ${esc(l.time)}</span>
+      </div>
+      <h3>${esc(l.title)}</h3>
+      <p>${esc(l.summary)}</p>
+      <div class="meta">
+        <span>📖 ${esc(l.ref)}</span>
+        <span style="color:var(--muted);font-weight:normal;">· Bíblia NAA</span>
+      </div>
+      <button class="btn" onclick="openLesson(${i})">
+        Abrir roteiro completo
+        <span aria-hidden="true">→</span>
+      </button>
+    </article>
+  `).join('');
+}
+
+function section(id, title, body){
+  return `<section class="section" id="${id}"><h3><span>${title}</span></h3>${body}</section>`;
+}
+
+function openLesson(i, updateHash = true){
+  currentLessonIdx = i;
+  const l = lessons[i];
+  document.getElementById('home').classList.add('hidden');
+  document.getElementById('reader').classList.remove('hidden');
+
+  document.getElementById('rNum').textContent = `MENSAGEM ${String(i+1).padStart(2,'0')} · IEQ CENTRAL LONDRINA`;
+  document.getElementById('rTitle').textContent = l.title;
+  document.getElementById('rSummary').textContent = l.summary;
+
+  const pills = document.getElementById('rMetaPills');
+  pills.innerHTML = `
+    <span class="reader-chip gold">📖 ${esc(l.ref)} (NAA)</span>
+    <span class="reader-chip">⏱ ${esc(l.time)} de duração</span>
+    <span class="reader-chip">👥 Formato para Líderes</span>
+  `;
+
+  const sections = [];
+
+  // Roteiro e tempo
+  sections.push([
+    "tempo",
+    "Roteiro e tempo sugerido",
+    `<p>Use esta divisão como referência dinâmica. Se a conversa e a comunhão estiverem fluindo com profundidade, adapte sem perder o objetivo central.</p>
+    <ul>
+      <li>Acolhimento e abertura — <strong>3 min</strong></li>
+      <li>Leitura bíblica e introdução — <strong>5 min</strong></li>
+      <li>Três pontos da mensagem — <strong>10 min</strong></li>
+      <li>Perguntas e participação em grupo — <strong>6 min</strong></li>
+      <li>Aplicação prática e oração — <strong>4 min</strong></li>
+    </ul>
+    <p class="note">Total aproximado: ${esc(l.time)}. Pode variar conforme o tamanho da célula.</p>
+    <div class="script">
+      <strong>Antes de começar</strong>
+      Tenha uma Bíblia disponível, revise este roteiro antes do encontro e ministre com naturalidade no seu linguajar habitual.
+    </div>`
+  ]);
+
+  // Acolhimento
+  sections.push([
+    "acolhimento",
+    "1. Acolhimento e abertura · 3 min",
+    `<p>${esc(l.opening)}</p>
+    <div class="script">
+      <strong>Você pode dizer</strong>
+      “Que alegria estarmos juntos hoje! Nosso propósito é ouvir a Palavra de Deus, conversar com respeito e descobrir juntos passos práticos para a nossa semana. Ninguém precisa ter respostas perfeitas; estamos aqui para aprender e caminhar juntos em Cristo.”
+    </div>`
+  ]);
+
+  // Leitura Bíblica
+  sections.push([
+    "palavra",
+    "2. Leitura bíblica · 2 min",
+    `<div class="verse-box">
+      <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);font-weight:800;margin-bottom:4px;">Texto Sagrado · Versão NAA</div>
+      <p class="verse">${esc(l.reading)}</p>
+    </div>
+    <p>${esc(l.readingNote)}</p>
+    <p class="note">Dica: Convide alguém do grupo a ler diretamente em sua Bíblia física ou app. Isso estimula a familiaridade com as Escrituras.</p>`
+  ]);
+
+  // Introdução
+  sections.push([
+    "introducao",
+    "3. Introdução ao tema · 3 min",
+    `<p>${esc(l.intro)}</p>
+    <div class="script">
+      <strong>Transição sugerida para o líder</strong>
+      “Vamos agora refletir em três pontos fundamentais que este texto nos ensina para a nossa vida diária.”
+    </div>`
+  ]);
+
+  // Mensagem
+  let pbody = l.points.map((p, j) => `
+    <div style="margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line-soft);">
+      <h4>${j+1}. ${esc(p[0])}</h4>
+      <p>${esc(p[1])}</p>
+      <div class="script">
+        <strong>Enfatize</strong>
+        ${esc(p[2])}
+      </div>
+    </div>
+  `).join('');
+  sections.push(["mensagem", "4. Três pontos da mensagem · 10 min", pbody]);
+
+  // Conversa
+  sections.push([
+    "conversa",
+    "5. Conversa em grupo · 6 min",
+    `<p>Escolha duas ou três perguntas conforme o tempo do grupo. Faça uma pergunta por vez com serenidade, dê espaço para o silêncio reflexivo e agradeça cada resposta. Ninguém é forçado a falar.</p>
+    ${l.questions.map((q, j) => `
+      <div class="question">
+        <strong>Pergunta ${j+1}:</strong> ${esc(q)}
+      </div>
+    `).join('')}
+    <p class="note">Dica de liderança: Evite transformar respostas em debates ou julgamentos. Escute ativamente, valide o sentimento e aponte para a graça do evangelho.</p>`
+  ]);
+
+  // Aplicação
+  sections.push([
+    "pratica",
+    "6. Aplicação para a semana · 2 min",
+    `<p>${esc(l.practice)}</p>
+    <div class="script">
+      <strong>Convite ao grupo</strong>
+      “Vamos assumir juntos um compromisso prático para os próximos dias. Não precisa ser grandioso ou complicado; precisa ser sincero, intencional e possível.”
+    </div>`
+  ]);
+
+  // Oração final
+  sections.push([
+    "oracao",
+    "7. Oração final e encerramento · 2 min",
+    `<p>${esc(l.prayer)}</p>
+    <p>Dê oportunidade para quem quiser compartilhar um motivo específico de oração. Se surgir uma necessidade pastoral delicada, combine um acompanhamento individual após o término da célula.</p>
+    <div class="script">
+      <strong>Oração sugerida</strong>
+      “Senhor Jesus, te agradecemos por Tua Palavra viva. Ajuda-nos a guardá-la em nosso coração e a vivê-la com atitudes de amor, serviço e fé ao longo desta semana. Cuida de cada lar aqui representado e faz-nos instrumentos da Tua paz. Em Teu nome oramos, amém.”
+    </div>
+    <div class="verse-box" style="margin-top:16px;text-align:center;">
+      <div style="font-size:0.78rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--gold);font-weight:800;margin-bottom:4px;">Frase para levar no coração</div>
+      <p style="font-size:1.1rem;font-weight:700;color:var(--navy);">${esc(l.closing)}</p>
+    </div>`
+  ]);
+
+  const body = document.getElementById('lessonBody');
+  body.innerHTML = sections.map(s => section(s[0], s[1], s[2])).join('') + `
+    <div class="lesson-footer-card">
+      <img src="../imagesieqcentral/logo.png" alt="IEQ Central" class="lesson-footer-logo">
+      <div class="lesson-footer-text">
+        <h4>IEQ Central Londrina · Ministério de Células</h4>
+        <p>Rua Benjamin Constant, 1756 · Londrina - PR · Uma igreja que acolhe, cuida e multiplica em amor.</p>
+        <p style="margin-top:4px;font-size:0.78rem;color:#7e8ea1;">Material de apoio aos líderes e anfitriões de célula · Versão Nova Almeida Atualizada (NAA)</p>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('tocLinks').innerHTML = sections.map(s => `
+    <a href="#${s[0]}">${esc(s[1].replace(/ · .*/, ''))}</a>
+  `).join('');
+
+  if (updateHash) {
+    location.hash = 'msg-' + (i + 1);
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goHome(){
+  document.getElementById('reader').classList.add('hidden');
+  document.getElementById('home').classList.remove('hidden');
+  if (location.hash) {
+    history.pushState("", document.title, window.location.pathname + window.location.search);
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copiarRoteiro(){
+  const l = lessons[currentLessonIdx];
+  const texto = [
+    `*IEQ CENTRAL LONDRINA — ROTEIRO DE CÉLULA*`,
+    `*MENSAGEM: ${l.title.toUpperCase()}*`,
+    `📖 Texto Bíblico: ${l.ref} (NAA) | ⏱ Duração sugerida: ${l.time}`,
+    ``,
+    `🎯 *Objetivo:* ${l.aim}`,
+    ``,
+    `💡 *Introdução:* ${l.intro}`,
+    ``,
+    `📌 *Pontos da Mensagem:*`,
+    ...l.points.map((p, i) => `${i+1}. *${p[0]}*\n${p[1]}\n👉 _Enfatize:_ ${p[2]}`),
+    ``,
+    `💬 *Perguntas para reflexão:*`,
+    ...l.questions.map((q, i) => `${i+1}) ${q}`),
+    ``,
+    `🌱 *Passo Prático da Semana:*`,
+    l.practice,
+    ``,
+    `🙏 *Oração Final:*`,
+    l.prayer,
+    ``,
+    `✨ *Frase para levar:* "${l.closing}"`,
+    ``,
+    `📍 IEQ Central Londrina — Rua Benjamin Constant, 1756`,
+    `Acesse online: https://www.ieqlondrina.com.br/celulas/#msg-${currentLessonIdx+1}`
+  ].join('\n');
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(texto).then(() => {
+      showToast('Roteiro copiado com sucesso!');
+    }).catch(() => {
+      fallbackCopy(texto);
+    });
+  } else {
+    fallbackCopy(texto);
+  }
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  showToast('Roteiro copiado com sucesso!');
+}
+
+function compartilharWhatsApp(){
+  const l = lessons[currentLessonIdx];
+  const url = `https://www.ieqlondrina.com.br/celulas/#msg-${currentLessonIdx+1}`;
+  const texto = `*IEQ Central Londrina | Roteiro de Célula*\n\n*${l.title}*\n📖 ${l.ref} · ${l.summary}\n\n👉 Acesse o roteiro completo para a nossa reunião:\n${url}`;
+  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
+}
+
+// Suporte a hash navigation (#msg-1 ... #msg-6)
+function checkHash() {
+  const m = location.hash.match(/^#msg-([1-6])$/);
+  if (m) {
+    const idx = parseInt(m[1], 10) - 1;
+    if (idx >= 0 && idx < lessons.length) {
+      openLesson(idx, false);
+      return;
+    }
+  }
+  goHome();
+}
+
+window.addEventListener('hashchange', checkHash);
+
+// Inicialização
+makeCards();
+checkHash();
+</script>
+</body>
+</html>

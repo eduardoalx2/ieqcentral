@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Células IEQ Central | Roteiros para Líderes</title>
+<title>Células IEQ Central | Roteiros & Quebra-Gelos para Líderes</title>
 <link rel="icon" type="image/png" href="../mini.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +17,9 @@
   --gold: #c79b42;
   --gold-light: #f5df9e;
   --gold-subtle: #fbf7ee;
+  --amber-bg: #fffbeb;
+  --amber-border: #fcd34d;
+  --amber-text: #92400e;
   --ink: #1f2a37;
   --ink-soft: #4b5563;
   --muted: #64748b;
@@ -103,6 +106,13 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 22px;
   padding-bottom: 14px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.topbar-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .back-hub-btn {
   display: inline-flex;
@@ -121,16 +131,32 @@ a { color: inherit; text-decoration: none; }
   background: rgba(255, 255, 255, 0.18);
   color: #fff;
 }
-.nav-tag {
-  font-size: 0.75rem;
+.topbar-tabs {
+  display: flex;
+  gap: 8px;
+}
+.tab-btn {
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gold-light);
-  background: rgba(199, 155, 66, 0.15);
-  border: 1px solid rgba(199, 155, 66, 0.3);
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  color: #dbe7f3;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+.tab-btn.active {
+  background: var(--gold);
+  color: var(--navy-dark);
+  border-color: var(--gold-light);
+  box-shadow: 0 2px 8px rgba(199, 155, 66, 0.4);
 }
 
 .brand {
@@ -241,6 +267,40 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+}
+
+/* ─── QUEBRA-GELO BANNER ON HOME ─── */
+.icebreaker-highlight-banner {
+  background: linear-gradient(135deg, #102c4d 0%, #1e4d7b 100%);
+  color: #fff;
+  border-radius: var(--radius-md);
+  padding: 22px 26px;
+  margin-bottom: 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border-left: 5px solid var(--gold);
+  box-shadow: var(--shadow-sm);
+}
+.icebreaker-highlight-text h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.22rem;
+  font-weight: 750;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.icebreaker-highlight-text p {
+  color: #d1e2f3;
+  font-size: 0.92rem;
+  margin-top: 4px;
+}
+.icebreaker-highlight-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 /* ─── CARDS GRID ─── */
@@ -360,6 +420,15 @@ main {
   background: var(--pale);
   color: var(--navy);
 }
+.btn.gold {
+  background: var(--gold);
+  color: var(--navy-dark);
+  box-shadow: 0 2px 8px rgba(199, 155, 66, 0.35);
+}
+.btn.gold:hover {
+  background: #b58933;
+  color: #ffffff;
+}
 .btn.whatsapp {
   background: #25d366;
   color: #ffffff;
@@ -406,6 +475,124 @@ main {
   font-size: 0.95rem;
   line-height: 1.65;
   margin: 8px 0;
+}
+
+/* ─── STANDARDIZED LEADER BOX ─── */
+/* Caixa padrão com tonalidade destacada direcionada ao líder */
+.leader-box {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid var(--amber-border);
+  border-left: 5px solid #d97706;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.08);
+}
+.leader-box-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.leader-box-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #d97706;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+.leader-box-title {
+  color: #92400e;
+  font-size: 0.88rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.leader-box p {
+  color: #78350f !important;
+  font-size: 0.93rem !important;
+  line-height: 1.55 !important;
+  margin: 6px 0 !important;
+}
+.leader-box strong {
+  color: #92400e;
+}
+.leader-box ul {
+  padding-left: 20px;
+  margin: 6px 0;
+}
+.leader-box li {
+  color: #78350f !important;
+  margin: 4px 0 !important;
+  font-size: 0.92rem !important;
+}
+
+/* ─── SCRIPTURE BOX (VERSÍCULOS COMPLETOS) ─── */
+.scripture-box {
+  background: #ffffff;
+  border: 1px solid #d6e2ef;
+  border-left: 5px solid var(--navy);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin: 16px 0;
+  box-shadow: var(--shadow-sm);
+}
+.scripture-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line-soft);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.scripture-ref-title {
+  font-family: 'Outfit', sans-serif;
+  color: var(--navy);
+  font-size: 1.18rem;
+  font-weight: 750;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.scripture-tag {
+  background: var(--pale);
+  color: var(--blue);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.scripture-verse-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.scripture-verse-item {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.08rem;
+  color: #1a2736;
+  line-height: 1.7;
+}
+.scripture-vnum {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--blue);
+  background: var(--pale);
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+  vertical-align: middle;
 }
 
 /* ─── READER VIEW ─── */
@@ -650,15 +837,192 @@ main {
   color: var(--blue);
   margin-right: 4px;
 }
-.time-tag {
-  display: inline-block;
+
+/* ─── BANCO DE QUEBRA-GELO VIEW ─── */
+.icebreaker-view {
+  background: transparent;
+}
+.icebreaker-toolbar {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.icebreaker-search-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.search-input-wrap {
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+}
+.search-input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  font-size: 0.92rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.search-input:focus {
+  border-color: var(--blue);
+  background: #ffffff;
+}
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+.category-filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.cat-chip {
+  padding: 6px 13px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
   background: var(--pale);
   color: var(--blue);
-  padding: 2px 10px;
+  border: 1px solid transparent;
+  transition: all 0.18s;
+  cursor: pointer;
+}
+.cat-chip:hover {
+  background: #dbe9f6;
+}
+.cat-chip.active {
+  background: var(--navy);
+  color: #ffffff;
+  border-color: var(--navy);
+}
+
+.icebreaker-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.ice-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+}
+.ice-card:hover {
+  border-color: #a3c1e2;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.ice-card.highlighted {
+  border: 2px solid var(--gold);
+  background: #fdfbf7;
+  animation: pulseHighlight 1.5s infinite alternate;
+}
+@keyframes pulseHighlight {
+  from { box-shadow: 0 0 0 0 rgba(199, 155, 66, 0.4); }
+  to { box-shadow: 0 0 16px 2px rgba(199, 155, 66, 0.3); }
+}
+
+.ice-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.ice-num {
+  font-size: 0.75rem;
+  font-weight: 850;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+}
+.ice-cat-pill {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 2px 8px;
   border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 800;
-  margin-left: 8px;
+  background: var(--pale);
+  color: var(--blue);
+}
+.ice-card h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 750;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.ice-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.ice-body {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin-bottom: 14px;
+  flex: 1;
+}
+.ice-spiritual-link {
+  background: var(--gold-subtle);
+  border-left: 3px solid var(--gold);
+  padding: 8px 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.84rem;
+  color: #78350f;
+  margin-bottom: 14px;
+}
+.ice-spiritual-link strong {
+  color: #92400e;
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+.ice-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line-soft);
+}
+.ice-btn-sm {
+  padding: 7px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--pale);
+  color: var(--blue);
+  transition: all 0.18s;
+}
+.ice-btn-sm:hover {
+  background: var(--blue);
+  color: #fff;
 }
 
 /* ─── CELL LEADER SIGNATURE FOOTER INSIDE LESSON ─── */
@@ -719,9 +1083,12 @@ footer {
 /* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
   .grid { grid-template-columns: 1fr; }
+  .icebreaker-grid { grid-template-columns: 1fr; }
   .content-layout { grid-template-columns: 1fr; }
   .toc { position: static; margin-bottom: 18px; }
   .intro { flex-direction: column; align-items: flex-start; }
+  .icebreaker-highlight-banner { flex-direction: column; align-items: flex-start; }
+  .icebreaker-highlight-actions { width: 100%; flex-direction: column; }
   .section { padding: 18px; }
   .reader-head { padding: 22px 20px; }
   .topbar { padding: 20px 16px 28px; }
@@ -733,7 +1100,7 @@ footer {
 /* ─── PRINT OPTIMIZATIONS ─── */
 @media print {
   body { background: #fff !important; font-size: 10.5pt; color: #111; }
-  .topbar, footer, .intro, .grid, .reader-tools, .toc, .back-button, .back-hub-btn, #toast, .orientation-card {
+  .topbar, footer, .intro, .grid, .reader-tools, .toc, .back-button, .back-hub-btn, #toast, .orientation-card, .icebreaker-highlight-banner, .icebreaker-toolbar, #icebreakers {
     display: none !important;
   }
   main { padding: 0 !important; max-width: none !important; }
@@ -762,13 +1129,19 @@ footer {
     padding: 14px !important;
     margin-bottom: 12px !important;
   }
+  .leader-box {
+    background: #faf7ee !important;
+    border: 1px solid #888 !important;
+    border-left: 4px solid #333 !important;
+  }
+  .leader-box p, .leader-box li { color: #000 !important; }
+  .scripture-box {
+    border: 1px solid #444 !important;
+    border-left: 4px solid #111 !important;
+  }
   .script {
     background: #f9f9f9 !important;
     border-left: 3px solid #333 !important;
-  }
-  .verse-box {
-    border: 1px solid #777 !important;
-    background: #fafafa !important;
   }
   .section h3, .section h4, .verse { color: #000 !important; }
   a { color: #000 !important; text-decoration: none !important; }
@@ -779,20 +1152,29 @@ footer {
 
 <div id="toast">
   <span style="font-size:1.1rem;">✓</span>
-  <span id="toastMsg">Roteiro copiado com sucesso!</span>
+  <span id="toastMsg">Copiado com sucesso!</span>
 </div>
 
 <!-- HEADER PRINCIPAL -->
 <header class="topbar">
   <div class="wrap">
     <div class="topbar-nav">
-      <a href="../" class="back-hub-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-        ieqlondrina.com.br
-      </a>
-      <span class="nav-tag">Ministério de Células</span>
+      <div class="topbar-nav-left">
+        <a href="../" class="back-hub-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          ieqlondrina.com.br
+        </a>
+      </div>
+      <div class="topbar-tabs">
+        <button class="tab-btn active" id="tabRoteiros" onclick="switchMainTab('roteiros')">
+          📖 Roteiros de Célula
+        </button>
+        <button class="tab-btn" id="tabQuebraGelon" onclick="switchMainTab('quebra-gelo')">
+          🎲 25 Quebra-Gelos
+        </button>
+      </div>
     </div>
 
     <div class="brand">
@@ -806,7 +1188,7 @@ footer {
     </div>
 
     <h1>Células que acolhem,<br>fortalecem e multiplicam.</h1>
-    <p>Seis roteiros bíblicos para apoiar cada líder a conduzir uma conversa acolhedora, compartilhar a Palavra de Deus e incentivar passos práticos de fé. Escolha um tema e conduza o roteiro com liberdade no Espírito.</p>
+    <p>Roteiros bíblicos com textos por extenso e orientações exclusivas ao líder, além de um banco completo com 25 dinâmicas de quebra-gelo para abençoar sua célula.</p>
 
     <div class="quad-bar" aria-hidden="true">
       <span></span><span></span><span></span><span></span>
@@ -817,23 +1199,42 @@ footer {
 <main>
 <!-- LISTA DE MENSAGENS (HOME) -->
 <section id="home">
+
+  <!-- BANNER DE DESTAQUE: BANCO DE QUEBRA-GELO -->
+  <div class="icebreaker-highlight-banner">
+    <div class="icebreaker-highlight-text">
+      <h3>
+        🎲 Banco com 25 Quebra-Gelos de Célula
+      </h3>
+      <p>Dinâmicas leves, divertidas e espirituais para iniciar cada encontro gerando risos, comunhão e abertura de coração.</p>
+    </div>
+    <div class="icebreaker-highlight-actions">
+      <button class="btn gold" onclick="switchMainTab('quebra-gelo')">
+        Ver os 25 Quebra-Gelos →
+      </button>
+      <button class="btn secondary" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.3);" onclick="sortearQuebraGelo()">
+        🎲 Sortear agora
+      </button>
+    </div>
+  </div>
+
   <div class="intro">
     <div>
       <h2>Escolha a mensagem da célula</h2>
-      <p>Planejada para aproximadamente 25 a 30 minutos em grupo.</p>
+      <p>Planejada para aproximadamente 25 a 30 minutos em grupo com versículos bíblicos completos.</p>
     </div>
     <span class="pill">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
         <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
       </svg>
-      6 mensagens · Bíblia NAA
+      6 mensagens bíblicas estruturadas
     </span>
   </div>
 
   <div class="grid" id="cards"></div>
 
-  <!-- ORIENTAÇÃO AO LÍDER -->
+  <!-- ORIENTAÇÃO GERAL AO LÍDER -->
   <div class="orientation-card">
     <div class="orientation-header">
       <div class="orientation-header-icon">
@@ -843,11 +1244,47 @@ footer {
           <line x1="12" y1="8" x2="12.01" y2="8"></line>
         </svg>
       </div>
-      <h3>Orientação rápida para o líder</h3>
+      <h3>Guia de condução para o líder</h3>
     </div>
-    <p>Você não precisa ser um pregador profissional. Leia o texto bíblico, use as frases sugeridas como apoio e faça as perguntas com naturalidade. Dê espaço para as pessoas falarem, sem pressionar ninguém a compartilhar algo íntimo ou constrangedor.</p>
-    <p>O objetivo não é terminar todo o roteiro correndo a qualquer custo: é que o grupo compreenda a Palavra, se conecte em comunhão e saia com um passo prático. Se o tempo estiver curto, priorize o texto bíblico, os pontos principais, uma pergunta e a oração.</p>
+    <p>Você não precisa ser um pregador profissional. As mensagens foram desenhadas com <strong>caixas de orientação destacadas</strong> especificamente para você conduzir com facilidade e segurança.</p>
+    <p>Dê espaço para as pessoas falarem, sem pressionar ninguém. Se o tempo estiver curto, priorize o texto bíblico, os pontos principais, uma pergunta e a oração final com os pedidos da semana.</p>
   </div>
+</section>
+
+<!-- BANCO DE QUEBRA-GELOS VIEW -->
+<section id="icebreakers" class="hidden">
+  <div class="intro">
+    <div>
+      <h2>Banco de Quebra-Gelos para Célula</h2>
+      <p>25 dinâmicas práticas, leves e organizadas para destravar a conversa e integrar os participantes.</p>
+    </div>
+    <button class="btn secondary" onclick="switchMainTab('roteiros')">
+      ← Voltar aos Roteiros
+    </button>
+  </div>
+
+  <div class="icebreaker-toolbar">
+    <div class="icebreaker-search-row">
+      <div class="search-input-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" id="iceSearch" placeholder="Buscar por palavra-chave (ex: fotos, balas, sem material, oração)..." oninput="filterIcebreakers()">
+      </div>
+      <button class="btn gold" onclick="sortearQuebraGelo()">
+        🎲 Sortear um Quebra-Gelo
+      </button>
+    </div>
+
+    <div class="category-filter-row">
+      <button class="cat-chip active" onclick="setCategoryFilter('todas', this)">Todas (25)</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Sem Material', this)">Sem Material</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Conexão', this)">Conexão & Conhecer</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Diversão', this)">Diversão & Risos</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Reflexão', this)">Reflexão & Fé</button>
+      <button class="cat-chip" onclick="setCategoryFilter('Comunhão', this)">Comunhão & Cuidado</button>
+    </div>
+  </div>
+
+  <div class="icebreaker-grid" id="iceGrid"></div>
 </section>
 
 <!-- LEITOR DA MENSAGEM SELECIONADA -->
@@ -895,6 +1332,9 @@ footer {
       </svg>
       Enviar no WhatsApp
     </button>
+    <button class="btn gold" onclick="verQuebraGeloDaMensagem()">
+      🎲 Quebra-Gelo Sugerido
+    </button>
   </div>
 
   <div class="content-layout">
@@ -917,16 +1357,22 @@ footer {
 </footer>
 
 <script>
+// ─── DADOS PADRONIZADOS DAS MENSAGENS COM TEXTO BÍBLICO COMPLETO POR EXTENSO ───
 const lessons = [
 {
 title: "Há lugar para você",
 summary: "Comunhão, acolhimento e pertencimento ao corpo de Cristo.",
 ref: "Romanos 12:4-5",
+verses: [
+  { num: "4", text: "Porque assim como em um só corpo temos muitos membros, mas nem todos os membros têm a mesma função," },
+  { num: "5", text: "assim também nós, embora muitos, somos um só corpo em Cristo e individualmente membros uns dos outros." }
+],
 time: "27 minutos",
+suggestedIcebreakerId: 1,
 opening: "Receba cada pessoa pelo nome, agradeça pela presença e explique que a célula é um lugar para caminhar com Jesus e uns com os outros. Não é preciso ter todas as respostas para fazer parte.",
+openingLeaderTip: "Crie um clima leve desde a porta. Se houver pessoas novas ou visitantes, apresente-as carinhosamente e não faça cobranças sobre frequência ou doutrina no primeiro dia.",
 aim: "Ajudar o grupo a perceber que Deus nos chama para uma fé vivida em comunidade, na qual cada pessoa tem valor e pode contribuir.",
-reading: "Romanos 12:4-5",
-readingNote: "Peça a alguém para ler o texto na Bíblia NAA. Convide o grupo a observar a comparação que Paulo faz entre o corpo e a igreja.",
+readingNote: "Convide alguém voluntário para ler em voz alta os versículos 4 e 5. Peça para todos acompanharem o contraste entre 'muitos membros' e 'um só corpo'.",
 intro: "Pense no corpo humano: olhos, mãos, pés e ouvidos têm funções diferentes, mas nenhum deles foi feito para funcionar isoladamente. Paulo usa essa imagem para ensinar que, em Cristo, somos muitos, mas fazemos parte de um só corpo. A igreja não é apenas um lugar aonde vamos; é uma família espiritual da qual participamos.",
 points: [
   ["Cada pessoa tem valor", "No corpo, nenhuma parte é inútil. Da mesma forma, ninguém deve pensar que não tem importância na igreja. Há pessoas que ensinam, outras servem, encorajam, escutam, oram ou ajudam de maneiras discretas. Deus pode usar cada pessoa.", "Evite comparar dons ou medir o valor de alguém pelo que aparece. Uma palavra de encorajamento ou uma ajuda prática pode fortalecer muito uma pessoa."],
@@ -934,8 +1380,8 @@ points: [
   ["Pertencer também é participar", "Ser parte do corpo não significa apenas receber. Cada pessoa pode contribuir conforme sua realidade: chegar com disposição, ouvir com atenção, orar, ajudar em uma necessidade ou convidar alguém que precisa de companhia.", "Não espere ser especialista para servir. Comece com o que você tem e com uma atitude simples de amor."]
 ],
 questions: [
-  "O que faz uma pessoa se sentir realmente acolhida em um grupo?",
-  "Qual atitude simples pode fortalecer nossa comunhão nesta semana?",
+  "O que faz uma pessoa se sentir realmente acolhida e segura em um grupo?",
+  "Qual atitude simples pode fortalecer nossa comunhão e cuidado nesta semana?",
   "Como podemos perceber alguém que está se afastando ou precisando de cuidado, sem invadir sua privacidade?"
 ],
 practice: "Nesta semana, procure uma pessoa da célula com quem você conversou pouco. Mande uma mensagem, pergunte como ela está e escute de verdade. Como grupo, escolham uma forma concreta de cuidar de alguém.",
@@ -946,21 +1392,27 @@ closing: "Reforce: em Cristo, ninguém precisa caminhar sozinho. A célula é um
 title: "Floresça onde Deus plantou você",
 summary: "Fé e perseverança para crescer mesmo em estações difíceis.",
 ref: "Salmo 92:12-14",
+verses: [
+  { num: "12", text: "O justo florescerá como a palmeira, crescerá como o cedro no Líbano." },
+  { num: "13", text: "Plantados na Casa do Senhor, florescerão nos átrios do nosso Deus." },
+  { num: "14", text: "Na velhice ainda darão frutos; serão viçosos e cheios de seiva," }
+],
 time: "28 minutos",
+suggestedIcebreakerId: 4,
 opening: "Pergunte ao grupo: “Uma planta floresce apenas quando tudo está perfeito?” Ouça algumas respostas e introduza a ideia de que crescimento exige cuidado e perseverança, mesmo quando a estação é difícil.",
+openingLeaderTip: "Valide as dificuldades que os membros estão enfrentando. Não minimize as dores, mas aponte para a fidelidade sustentadora do Senhor.",
 aim: "Encorajar cada pessoa a continuar crescendo em Deus no lugar e na estação em que se encontra, sem esperar que todas as circunstâncias mudem primeiro.",
-reading: "Salmo 92:12-14",
-readingNote: "Leia o texto na Bíblia NAA. Chame atenção para a imagem de árvores plantadas e para a ideia de continuar frutificando mesmo na velhice.",
+readingNote: "Leia o Salmo com calma. Destaque a promessa de dar frutos mesmo na velhice, provando que o plano de Deus não tem prazo de validade.",
 intro: "Às vezes pensamos: “Quando minha situação melhorar, vou voltar a servir”; “quando eu tiver menos problemas, vou buscar mais a Deus”; “quando tudo estiver no lugar, vou florescer”. Mas a vida raramente fica perfeita. O salmo retrata pessoas enraizadas em Deus, que continuam frutificando ao longo das estações. Florescer não é fingir que não há dor; é continuar recebendo cuidado de Deus e dando passos de fidelidade em meio à realidade.",
 points: [
-  ["Crie raízes antes de buscar frutos", "Uma árvore firme depende de raízes profundas. Nossa vida espiritual também precisa de raízes: Palavra, oração, comunhão e obediência. Essas práticas não são uma fórmula para evitar dificuldades; são maneiras de permanecer perto de Deus durante elas.", "Não compare sua estação com a de outra pessoa. Invista hoje em um hábito pequeno e consistente de comunhão com Deus."],
-  ["Não confunda estação difícil com fim da história", "Há fases de espera, perda, mudança e cansaço. Elas são reais, e não precisamos escondê-las. Porém, uma fase difícil não define todo o futuro. Deus pode sustentar, amadurecer e conduzir seus filhos mesmo quando o progresso parece lento.", "Se você está cansado, procure apoio. Descansar, pedir ajuda e conversar com alguém maduro na fé também podem fazer parte da perseverança."],
+  ["Crie raízes antes de buscar frutos", "Uma árvore firme depende de raízes profundas. Nossa vida espiritual também precisa de raízes: Palavra, oração, comunhão e obediência. Essas práticas não são uma fórmula para evitar dificuldades; são maneiras de permanecer perto de Deus durante elas.", "Não compare sua estação com a de outra pessoa. Invista hoje em um hábito pequeno e consistente de comunhão diária com Deus."],
+  ["Não confunda estação difícil com fim da história", "Há fases de espera, perda, mudança e cansaço. Elas são reais, e não precisamos escondê-las. Porém, uma fase difícil não define todo o futuro. Deus pode sustentar, amadurecer e conduzir seus filhos mesmo quando o progresso parece lento.", "Se você está cansado, procure apoio. Descansar, pedir ajuda e conversar com alguém maduro na fé também fazem parte da perseverança cristã."],
   ["Florescer também é frutificar para alguém", "Fruto não é apenas conquista visível. Pode ser paciência em casa, reconciliação, generosidade, fidelidade, serviço e uma palavra que levanta alguém. Deus trabalha em nós e, por meio de nós, alcança outras pessoas.", "Pergunte não apenas “o que quero receber?”, mas também “que fruto de amor posso oferecer hoje?”."]
 ],
 questions: [
-  "Em que área você tem esperado as condições perfeitas para dar um próximo passo?",
-  "Que prática simples ajuda você a criar raízes em Deus?",
-  "Que tipo de fruto alguém ao seu redor precisa receber nesta semana?"
+  "Em que área da vida você tem esperado as condições perfeitas para dar o próximo passo com Deus?",
+  "Que prática simples no seu cotidiano ajuda você a criar raízes firmes no Senhor?",
+  "Que tipo de fruto espiritual alguém ao seu redor (família, trabalho) precisa receber nesta semana?"
 ],
 practice: "Escolha um passo realista para os próximos sete dias: separar dez minutos para ler a Bíblia e orar, pedir ajuda em uma dificuldade ou praticar uma atitude de serviço. Compartilhe com alguém do grupo como foi.",
 prayer: "Ore por quem está atravessando uma estação difícil. Peça raízes profundas, força para perseverar e sensibilidade para reconhecer os frutos que Deus pode produzir no cotidiano.",
@@ -970,21 +1422,26 @@ closing: "Florescer não significa que nunca haverá inverno. Significa permanec
 title: "Um passo de cada vez com Jesus",
 summary: "Confiar em Deus nas decisões e nos desafios cotidianos.",
 ref: "Provérbios 3:5-6",
+verses: [
+  { num: "5", text: "Confie no Senhor de todo o seu coração e não se apoie no seu próprio entendimento." },
+  { num: "6", text: "Reconheça o Senhor em todos os seus caminhos, e ele endireitará as suas veredas." }
+],
 time: "27 minutos",
+suggestedIcebreakerId: 14,
 opening: "Pergunte: “Você já tentou resolver tudo de uma vez e acabou mais ansioso?” Diga que a mensagem de hoje é sobre confiar em Deus e dar o próximo passo com sabedoria.",
+openingLeaderTip: "Fale sobre a tentação da ansiedade moderna. Ajude as pessoas a respirarem e perceberem que Deus cuida de nós no ritmo de cada dia.",
 aim: "Ajudar o grupo a distinguir confiança em Deus de passividade, reconhecendo a importância da oração, da Palavra, do conselho sábio e de decisões responsáveis.",
-reading: "Provérbios 3:5-6",
-readingNote: "Leia o texto na Bíblia NAA. Observe as expressões “confie no Senhor” e “reconheça-o em todos os seus caminhos”.",
+readingNote: "Observe as expressões 'de todo o seu coração' e 'em todos os seus caminhos'. Isso inclui finanças, carreira, relacionamentos e saúde.",
 intro: "Nem sempre conseguimos enxergar o caminho inteiro. Há decisões familiares, profissionais, financeiras e pessoais que podem trazer dúvidas. Provérbios nos chama a confiar no Senhor de todo o coração, em vez de tratar nosso entendimento limitado como a única referência. Isso não significa abandonar o pensamento ou esperar sinais extraordinários para tudo. Significa incluir Deus em nossos caminhos e buscar direção com humildade.",
 points: [
-  ["Confie em Deus de todo o coração", "Confiar não é dizer que tudo está fácil. É reconhecer que Deus é digno de confiança mesmo quando ainda temos perguntas. Podemos falar com sinceridade sobre nossos medos e, ao mesmo tempo, entregar a Ele nossas decisões.", "A oração não precisa ser uma frase bonita. Você pode dizer: “Senhor, estou confuso. Ajuda-me a agir com sabedoria e integridade”."],
+  ["Confie em Deus de todo o coração", "Confiar não é dizer que tudo está fácil. É reconhecer que Deus é digno de confiança mesmo quando ainda temos perguntas. Podemos falar com sinceridade sobre nossos medos e, ao mesmo tempo, entregar a Ele nossas decisões.", "A oração não precisa de frases prontas. Você pode dizer com sinceridade: “Senhor, estou confuso. Ajuda-me a agir com sabedoria e retidão”."],
   ["Reconheça Deus nos caminhos comuns", "O texto fala de todos os caminhos, não apenas dos momentos religiosos. Nossa fé também influencia a forma como tratamos a família, usamos o dinheiro, trabalhamos, falamos e cumprimos compromissos.", "Pergunte: “Esta decisão combina com os princípios de Jesus? Estou sendo honesto? Estou considerando como isso afeta outras pessoas?”"],
-  ["Dê o próximo passo responsável", "Nem sempre Deus mostra todo o percurso de uma vez. Podemos ler a Palavra, pedir conselho a pessoas maduras, buscar informações, avaliar consequências e agir com responsabilidade. Fé não é imprudência nem substitui ajuda profissional quando ela é necessária.", "Em vez de tentar resolver tudo hoje, identifique o próximo passo correto e possível. Depois, continue buscando direção."]
+  ["Dê o próximo passo responsável", "Nem sempre Deus mostra todo o percurso de uma vez. Podemos ler a Palavra, pedir conselho a pessoas maduras, buscar informações, avaliar consequências e agir com responsabilidade. Fé não é imprudência nem substitui ajuda profissional quando ela é necessária.", "Em vez de tentar resolver toda a vida hoje, identifique o próximo passo correto e possível. Depois, continue buscando a direção do Espírito."]
 ],
 questions: [
-  "Qual é a diferença entre confiar em Deus e agir sem pensar nas consequências?",
-  "Que decisão cotidiana precisa ser mais alinhada com os valores de Jesus?",
-  "Quem poderia oferecer conselho sábio e confiável em uma situação difícil?"
+  "Qual é a diferença prática entre confiar em Deus e agir por impulso sem pensar nas consequências?",
+  "Que decisão cotidiana sua precisa ser mais alinhada com os valores e ensinamentos de Jesus?",
+  "Quem é uma pessoa madura e sábia que poderia oferecer conselho bíblico para um momento de decisão?"
 ],
 practice: "Escreva uma decisão ou preocupação. Ore por ela, identifique um princípio bíblico relevante e defina um próximo passo concreto e responsável. Se necessário, converse com alguém confiável ou com um profissional qualificado.",
 prayer: "Peça sabedoria para as decisões, serenidade diante do que ainda não está claro e coragem para obedecer ao que já se compreende da Palavra.",
@@ -994,21 +1451,27 @@ closing: "Não precisamos conhecer todos os detalhes do amanhã para caminhar co
 title: "Uma fé que não se apaga",
 summary: "Permanecer firme em Deus quando as circunstâncias são contrárias.",
 ref: "Hebreus 10:23-25",
+verses: [
+  { num: "23", text: "Guardemos firme a confissão da esperança, sem vacilar, pois quem fez a promessa é fiel." },
+  { num: "24", text: "Cuidemos também de nos animar uns aos outros no amor e na prática de boas obras." },
+  { num: "25", text: "Não deixemos de nos congregar, como é costume de alguns. Pelo contrário, façamos admoestações, tanto mais quanto vocês veem que o Dia se aproxima." }
+],
 time: "28 minutos",
+suggestedIcebreakerId: 22,
 opening: "Convide o grupo a pensar, sem obrigação de contar detalhes, em algo que ajuda a pessoa a continuar quando está desanimada. Explique que perseverança cristã não é nunca sentir fraqueza; é continuar buscando a Deus e apoio.",
+openingLeaderTip: "Seja vulnerável como líder. Conte um momento em que você esteve cansado e como a oração da igreja te sustentou.",
 aim: "Fortalecer a esperança em Deus e mostrar como a comunhão e o encorajamento mútuo ajudam a perseverar.",
-reading: "Hebreus 10:23-25",
-readingNote: "Leia os versículos na Bíblia NAA. Destaque o convite para conservar a esperança e considerar como estimular uns aos outros ao amor e às boas obras.",
+readingNote: "Peça ao grupo para observar o tripé: esperança inabalável em Deus (v.23), estímulo mútuo ao amor (v.24) e a importância de nos reunirmos juntos (v.25).",
 intro: "Existem momentos em que a fé parece simples e outros em que continuar exige esforço. A carta aos Hebreus foi escrita a cristãos que precisavam perseverar. O texto não manda fingir que não há luta; ele aponta para a fidelidade daquele que fez a promessa e para a importância de caminharmos juntos. A esperança cristã não depende de controlar todas as circunstâncias, mas de confiar no caráter de Deus.",
 points: [
   ["Segure firme a esperança", "A esperança bíblica não é apenas pensamento positivo. Ela se apoia na fidelidade de Deus. Podemos reconhecer o que dói sem concluir que a dor é a única realidade ou que nossa história terminou.", "Quando estiver desanimado, volte às promessas e ao caráter de Deus, leia a Palavra e converse com alguém de confiança. Não se culpe por precisar de apoio."],
   ["Perseverança não significa isolamento", "O texto incentiva os cristãos a não abandonarem a reunião e a continuarem se encorajando. A comunidade não substitui Deus, mas pode ser um meio de cuidado, correção amorosa e fortalecimento.", "Se alguém falta ou se afasta, aproxime-se com cuidado, sem acusações. Pergunte como pode ajudar e respeite os limites da pessoa."],
-  ["Encoraje alguém com atitudes concretas", "O encorajamento pode ser uma mensagem, uma oração, uma visita combinada, uma refeição, uma carona ou simplesmente escutar sem julgar. Palavras de fé ganham força quando são acompanhadas de amor prático.", "Não prometa que tudo será resolvido imediatamente. Ofereça presença, oração e ajuda realista."]
+  ["Encoraje alguém com atitudes concretas", "O encorajamento pode ser uma mensagem, uma oração, uma visita combinada, uma refeição, uma carona ou simplesmente escutar sem julgar. Palavras de fé ganham força quando são acompanhadas de amor prático.", "Não prometa que tudo será resolvido imediatamente. Ofereça presença, oração sincera e ajuda realista."]
 ],
 questions: [
-  "O que costuma ajudar você a recuperar a esperança em uma fase difícil?",
-  "Como a comunhão pode fortalecer alguém sem minimizar sua dor?",
-  "Que atitude concreta de encorajamento podemos praticar nesta semana?"
+  "O que costuma ajudar você a recuperar o ânimo e a esperança em uma fase difícil?",
+  "Como a comunidade da célula pode fortalecer alguém sem julgar ou minimizar sua dor?",
+  "Que atitude concreta de encorajamento nós podemos praticar com alguém da igreja nesta semana?"
 ],
 practice: "Escolha uma pessoa para encorajar de forma específica. Entre em contato, pergunte do que ela precisa e ofereça uma ajuda que você realmente possa cumprir.",
 prayer: "Ore para que a esperança permaneça firme, para que os cansados encontrem apoio e para que a célula seja uma comunidade que encoraja com verdade, paciência e amor.",
@@ -1018,11 +1481,16 @@ closing: "Perseverar não é nunca se cansar. É continuar olhando para a fideli
 title: "Fomos chamados para amar",
 summary: "Demonstrar o amor de Jesus por meio de atitudes concretas.",
 ref: "João 13:34-35",
+verses: [
+  { num: "34", text: "Eu lhes dou um novo mandamento: que vocês amem uns aos outros. Assim como eu os amei, que também vocês amem uns aos outros." },
+  { num: "35", text: "Nisto todos conhecerão que vocês são meus discípulos: se tiverem amor uns pelos outros." }
+],
 time: "27 minutos",
+suggestedIcebreakerId: 10,
 opening: "Pergunte: “Como percebemos que alguém nos ama: apenas pelo que diz ou também pelo que faz?” Deixe duas ou três pessoas responderem e conecte as respostas ao ensino de Jesus.",
-aim: "Mostrar que o amor cristão é uma marca dos discípulos e se expressa em ações concretas, respeito, serviço e perdão responsável.",
-reading: "João 13:34-35",
-readingNote: "Leia o texto na Bíblia NAA. Explique que Jesus deu esse ensino aos discípulos em um momento marcante, antes de sua prisão e crucificação.",
+openingLeaderTip: "Amor cristão é ação, não mero sentimento. Conduza o grupo para refletir no amor prático nos pequenos gestos diários.",
+aim: "Mostrar que o amor cristão é a principal marca dos discípulos e se expressa em ações concretas, respeito, serviço e perdão responsável.",
+readingNote: "Enfatize a medida dada por Jesus: 'assim como eu os amei'. É um amor que perdoa, serve e se entrega.",
 intro: "Jesus não apresentou o amor como um detalhe opcional da vida cristã. Ele disse que o amor entre seus discípulos seria uma marca reconhecível. Esse amor vai além de simpatia por quem pensa como nós. Ele aprende com o próprio Jesus: serve, escuta, fala a verdade com graça e busca o bem do outro. Amar não significa aprovar todo comportamento, aceitar abusos ou deixar de estabelecer limites seguros.",
 points: [
   ["Amar é uma decisão que se torna atitude", "Sentimentos variam, mas podemos escolher agir com bondade, respeito e honestidade. Às vezes amar é ouvir; em outras, ajudar, pedir desculpas ou conversar com sinceridade.", "Pergunte antes de agir: “O que seria realmente bom para essa pessoa? Como posso fazer isso sem humilhar, controlar ou prejudicar?”"],
@@ -1030,33 +1498,40 @@ points: [
   ["Amor também exige verdade e limites", "O amor cristão não é permitir violência, manipulação ou injustiça. É possível perdoar e, ao mesmo tempo, buscar segurança, ajuda e limites adequados. A reconciliação pode exigir tempo, mudança e responsabilidade.", "Se alguém estiver em risco, a prioridade é a segurança e a busca de ajuda apropriada. A célula deve acolher sem pressionar a pessoa a permanecer em uma situação perigosa."]
 ],
 questions: [
-  "Que atitudes fazem o amor de Jesus ser percebido em nossos relacionamentos?",
-  "Por que é mais difícil demonstrar amor justamente com quem está mais perto?",
-  "Como podemos unir amor, verdade e limites saudáveis?"
+  "Que atitudes do dia a dia fazem o amor de Jesus ser claramente percebido pelas pessoas ao nosso redor?",
+  "Por que costuma ser mais desafiador demonstrar paciência e amor com quem está mais perto de nós?",
+  "Como podemos equilibrar amor genuíno, verdade e limites saudáveis em nossos relacionamentos?"
 ],
-practice: "Escolha uma atitude concreta de amor para realizar nos próximos dias: ouvir alguém, reparar um erro, ajudar em uma necessidade ou demonstrar gratidão. Seja específico e faça algo que esteja ao seu alcance.",
+practice: "Escolha uma atitude concreta de amor para realizar nos próximos dias: ouvir alguém, reparar um erro, ajudar em uma necessidade ou demonstrar gratidão sincera. Seja específico e faça algo ao seu alcance.",
 prayer: "Peça a Jesus que transforme nossas atitudes, ajude-nos a amar com sabedoria e faça da célula um lugar de respeito, serviço e cuidado.",
 closing: "O amor cristão não fica apenas no discurso. Ele se torna visível quando as pessoas encontram em nós atitudes que refletem o caráter de Jesus."
 },
 {
 title: "Deus ainda está escrevendo a sua história",
-summary: "Esperança, recomeço e confiança na obra de Deus.",
+summary: "Esperança, recomeço e confiança na obra contínua de Deus.",
 ref: "Filipenses 1:3-6",
+verses: [
+  { num: "3", text: "Dou graças ao meu Deus todas as vezes que me lembro de vocês." },
+  { num: "4", text: "Em todas as minhas orações em favor de todos vocês, sempre oro com alegria," },
+  { num: "5", text: "por causa da cooperação que vocês têm demonstrado na proclamação do evangelho, desde o primeiro dia até agora." },
+  { num: "6", text: "Estou convencido de que aquele que começou boa obra em vocês vai completá-la até o Dia de Cristo Jesus." }
+],
 time: "28 minutos",
+suggestedIcebreakerId: 15,
 opening: "Convide o grupo a pensar em algo que aprendeu depois de um período difícil. Ninguém precisa compartilhar algo íntimo. Introduza a ideia de que um capítulo complicado não resume toda a história.",
+openingLeaderTip: "Muitos chegam à célula carregando frustrações e culpas do passado. Traga uma mensagem de recomeço e esperança baseada na fidelidade da graça divina.",
 aim: "Encorajar esperança realista: Deus continua trabalhando na vida de seus filhos, e podemos responder com fé, arrependimento, apoio e passos concretos.",
-reading: "Filipenses 1:3-6",
-readingNote: "Leia o texto na Bíblia NAA. Explique que Paulo escreve com gratidão à igreja de Filipos e expressa confiança na obra de Deus entre os cristãos.",
+readingNote: "Destaque a certeza de Paulo no versículo 6: Aquele que começou a boa obra é fiel e poderoso para completá-la.",
 intro: "Todos temos partes da história que gostaríamos de reescrever. Algumas escolhas trouxeram consequências; algumas oportunidades passaram; certas perdas não podem ser desfeitas. A esperança cristã não apaga o passado nem promete que tudo será fácil. Ela nos lembra que Deus continua agindo e que, em Cristo, podemos crescer, buscar reconciliação quando possível e dar passos fiéis no presente.",
 points: [
-  ["Seu passado faz parte da história, mas não precisa governar todo o futuro", "Reconhecer erros é importante, mas viver preso à vergonha não produz transformação. O evangelho nos chama ao arrependimento, ao perdão e a uma vida renovada. Quando houver consequências a reparar, devemos enfrentá-las com honestidade.", "Não confunda graça com ausência de responsabilidade. Um recomeço verdadeiro pode incluir pedir perdão, corrigir o que for possível e aceitar ajuda."],
+  ["Seu passado faz parte da história, mas não precisa governar seu futuro", "Reconhecer erros é importante, mas viver preso à culpa e à vergonha não produz transformação. O evangelho nos chama ao arrependimento, ao perdão e a uma vida renovada. Quando houver consequências a reparar, devemos enfrentá-las com honestidade.", "Não confunda graça com ausência de responsabilidade. Um recomeço verdadeiro pode incluir pedir perdão, corrigir o que for possível e aceitar ajuda."],
   ["Deus trabalha em processos", "Crescimento espiritual nem sempre acontece de uma vez. Há hábitos a formar, feridas a tratar e decisões a amadurecer. Filipenses 1:6 aponta para a confiança na obra de Deus, não para a exigência de perfeição imediata.", "Evite comparar seu processo com o de outra pessoa. Celebre passos reais e continue caminhando, inclusive quando precisar recomeçar."],
-  ["Esperança se traduz em um próximo passo", "Esperar em Deus não é ficar parado. Podemos buscar reconciliação quando for seguro, organizar uma área negligenciada, procurar aconselhamento, retomar a comunhão ou servir de uma maneira possível.","Escolha um passo pequeno, claro e realizável. Não precisa resolver toda a vida nesta semana; comece pela próxima decisão fiel."]
+  ["Esperança se traduz em um próximo passo fiel", "Esperar em Deus não é ficar de braços cruzados. Podemos buscar reconciliação quando for seguro, organizar uma área negligenciada, procurar aconselhamento, retomar a comunhão ou servir de uma maneira possível.", "Escolha um passo pequeno, claro e realizável. Não precisa resolver toda a vida nesta semana; comece pela próxima decisão fiel com o Senhor."]
 ],
 questions: [
-  "Por que é importante distinguir arrependimento de viver preso à culpa?",
-  "Em qual área você precisa ter paciência com um processo de crescimento?",
-  "Qual próximo passo realista pode representar um recomeço para você?"
+  "Por que é fundamental distinguir entre o arrependimento que liberta e a culpa que paralisa?",
+  "Em qual área da sua vida você precisa ter mais paciência com o processo de Deus?",
+  "Qual próximo passo realista pode representar um recomeço abençoado para você hoje?"
 ],
 practice: "Complete esta frase em uma folha: “Meu próximo passo fiel será…”. Escolha algo concreto e possível para os próximos sete dias. Se for uma situação complexa, busque ajuda de uma pessoa madura e/ou profissional apropriado.",
 prayer: "Agradeça a Deus por sua graça e peça coragem para aprender com o passado, sabedoria para agir no presente e esperança para continuar crescendo.",
@@ -1064,7 +1539,237 @@ closing: "Uma fase difícil não precisa ser a palavra final. Em Cristo há gra�
 }
 ];
 
+// ─── BANCO COM 25 DINÂMICAS DE QUEBRA-GELO ───
+const icebreakers = [
+{
+  id: 1,
+  title: "O que temos em comum?",
+  category: "Conexão",
+  time: "7 min",
+  materials: "Nenhum material necessário",
+  desc: "Divida o grupo em duplas (preferencialmente pessoas que conversam pouco). Em 3 minutos, a dupla precisa conversar e encontrar 3 coisas inusitadas ou improváveis que têm em comum (ex: medo infantil engraçado, comida preferida estranha, mesmo apelido no colégio). Depois, compartilham com a célula.",
+  spiritual: "Demonstra que, apesar das aparências e diferenças, temos elos preciosos que nos conectam em Cristo."
+},
+{
+  id: 2,
+  title: "Duas Verdades e Uma Mentira",
+  category: "Diversão",
+  time: "10 min",
+  materials: "Nenhum material necessário",
+  desc: "Cada participante pensa em três afirmações sobre si mesmo: duas são verdades curiosas e uma é uma mentira convincente. Em ordem, cada um fala suas 3 frases e o restante da célula vota tentando descobrir qual é a falsa.",
+  spiritual: "Quebra a timidez com boas risadas e ajuda a revelar talentos e histórias que os irmãos nem imaginavam."
+},
+{
+  id: 3,
+  title: "A Foto Especial do Celular",
+  category: "Conexão",
+  time: "8 min",
+  materials: "Smartphone pessoal",
+  desc: "Peça para cada um abrir a galeria de fotos do celular e escolher uma imagem marcante dos últimos meses (uma viagem, um momento simples em família ou uma conquista). Cada pessoa tem 45 segundos para mostrar e contar por que aquela foto a alegrou.",
+  spiritual: "Abre o coração para valorizarmos a família, a criação de Deus e momentos simples do dia a dia."
+},
+{
+  id: 4,
+  title: "Linha do Tempo das Gratidões",
+  category: "Reflexão",
+  time: "8 min",
+  materials: "Nenhum material necessário",
+  desc: "Cada participante compartilha dois motivos rápidos de gratidão a Deus: um do passado que marcou a sua trajetória e um motivo bem específico desta última semana.",
+  spiritual: "Prepara a atmosfera para a Palavra, lembrando que a fidelidade do Senhor atravessa todas as estações."
+},
+{
+  id: 5,
+  title: "Viagem no Tempo Bíblica",
+  category: "Diversão",
+  time: "8 min",
+  materials: "Nenhum material necessário",
+  desc: "Cada um responde: 'Se você tivesse uma máquina do tempo e pudesse presenciar pessoalmente uma passagem da Bíblia com seus próprios olhos, qual escolheria e por quê?'",
+  spiritual: "Estimula o amor pelas histórias da Bíblia e gera conversas ricas sobre a fé dos patriarcas e milagres de Jesus."
+},
+{
+  id: 6,
+  title: "M&M ou Balas das Cores",
+  category: "Diversão",
+  time: "10 min",
+  materials: "1 pacote de confeitos coloridos (M&M, Skittles ou balas)",
+  desc: "Passe o saquinho e cada um retira 2 confeitos sem saber a regra. Depois, revele a legenda: Vermelho = Compartilhe um sonho; Amarelo = Uma memória alegre da infância; Verde = Um hobby ou esporte; Azul = Uma vitória recente; Marrom = Um desafio superado.",
+  spiritual: "Uma dinâmica doce que engaja naturalmente crianças, jovens e adultos."
+},
+{
+  id: 7,
+  title: "Quem Sou Eu Bíblico?",
+  category: "Diversão",
+  time: "10 min",
+  materials: "Post-it e caneta",
+  desc: "Escreva o nome de personagens bíblicos em papéis (ex: Noé, Moisés, Pedro, Davi, Rute, Ester) e cole na testa de cada voluntário sem ele ver. O participante faz perguntas para a célula que só podem ser respondidas com 'Sim' ou 'Não' até adivinhar quem é.",
+  spiritual: "Excelente para descontrair, ativar a memória bíblica e envolver todos os presentes."
+},
+{
+  id: 8,
+  title: "A Teia da Comunhão (Novelo de Lã)",
+  category: "Comunhão",
+  time: "10 min",
+  materials: "1 novelo de lã ou rolo de barbante",
+  desc: "O líder segura a ponta da lã, fala uma qualidade da pessoa à sua frente e joga o novelo segurando a sua ponta. O processo se repete até formar uma grande teia interligada. O líder pede para um soltar a linha e todos veem a teia afrouxar.",
+  spiritual: "Ilustra visualmente Romanos 12 e 1 Coríntios 12: estamos interligados e a ausência de um membro afeta todo o corpo."
+},
+{
+  id: 9,
+  title: "Sua Semana em 3 Emojis",
+  category: "Sem Material",
+  time: "6 min",
+  materials: "Nenhum (ou celular)",
+  desc: "Peça para cada um pensar em 3 emojis que melhor resumem como foram os seus últimos sete dias (ex: 😴 💼 🙏 ou 🏃‍♂️ ☕ 🎉) e explicar o significado em 30 segundos.",
+  spiritual: "Dá ao líder um termômetro imediato de como cada membro chegou emocionalmente na reunião."
+},
+{
+  id: 10,
+  title: "O Presente Invisível",
+  category: "Comunhão",
+  time: "7 min",
+  materials: "Nenhum material necessário",
+  desc: "Em círculo, cada pessoa 'entrega' simbolicamente um presente invisível para quem está ao seu lado direito, dizendo algo espiritual ou emocional que deseja a ela (ex: 'Estou te dando um pacote de paz para o seu trabalho nesta semana').",
+  spiritual: "Ensina o poder das palavras que abençoam e constroem, exercitando o amor fraterno."
+},
+{
+  id: 11,
+  title: "A Moeda do Ano",
+  category: "Conexão",
+  time: "8 min",
+  materials: "Moedas de anos variados",
+  desc: "Coloque moedas diversas em um recipiente. Cada participante tira uma moeda, olha o ano de cunhagem (ex: 2012, 2018, 2005) e conta algo marcante ou engraçado que aconteceu em sua vida naquele ano específico.",
+  spiritual: "Faz a célula viajar no tempo e testemunhar o cuidado de Deus ao longo dos anos."
+},
+{
+  id: 12,
+  title: "O Espelho da Virtude",
+  category: "Comunhão",
+  time: "8 min",
+  materials: "Nenhum material necessário",
+  desc: "Cada participante olha para o colega da esquerda e destaca com sinceridade uma virtude cristã que admira e enxerga na vida dele (ex: fidelidade, paciência, bom humor, generosidade).",
+  spiritual: "Fortalece a identidade em Cristo e derrama bálsamo sobre quem chegou desanimado ou cansado."
+},
+{
+  id: 13,
+  title: "Tempestade no Copo d'Água",
+  category: "Reflexão",
+  time: "7 min",
+  materials: "1 copo cheio até a borda e clips ou moedinhas",
+  desc: "Com o copo cheio até a borda, cada pessoa coloca um clipe delicadamente, até que a tensão superficial se rompa e derrame. Cada clipe representa uma carga ou ansiedade do cotidiano que guardamos sem desabafar.",
+  spiritual: "Mostra que quando retemos ansiedades sozinhos, transbordamos; mas quando entregamos a Deus e compartilhamos na célula, há alívio."
+},
+{
+  id: 14,
+  title: "Barco Afundando (Valores Inegociáveis)",
+  category: "Reflexão",
+  time: "8 min",
+  materials: "Nenhum material necessário",
+  desc: "O líder propõe um cenário: o barco está afundando e só há espaço para 3 valores fundamentais da vida cristã (entre Fé, Família, Comunhão, Honestidade, Perdão, Paciência, Amor). O grupo precisa debater e escolher 3 em consenso.",
+  spiritual: "Ajuda a alinhar o foco no que é eterno e prioritário segundo o coração de Deus."
+},
+{
+  id: 15,
+  title: "Carta para o Próximo Mês",
+  category: "Reflexão",
+  time: "8 min",
+  materials: "Pedaços de papel e canetas",
+  desc: "Cada pessoa escreve em 1 frase uma meta espiritual prática ou uma atitude de fé que deseja viver nos próximos 30 dias. Dobra o papel e entrega ao líder para ser reaberto na célula do mês seguinte.",
+  spiritual: "Fomenta crescimento intencional e prestação de contas com amor entre os irmãos."
+},
+{
+  id: 16,
+  title: "O Nó Humano",
+  category: "Diversão",
+  time: "8 min",
+  materials: "Nenhum material necessário",
+  desc: "Todos em círculo dão as mãos para duas pessoas diferentes que não estejam ao seu lado. Forma-se um grande emaranhado. Sem soltar as mãos em nenhum momento, o grupo precisa se mover, passar por baixo e desatar o nó até refazer o círculo.",
+  spiritual: "Ensina paciência, comunicação atenta e que conflitos se resolvem quando permanecemos de mãos dadas."
+},
+{
+  id: 17,
+  title: "Eu Já / Eu Nunca (Versão Leve)",
+  category: "Sem Material",
+  time: "6 min",
+  materials: "Nenhum material necessário",
+  desc: "O líder cita situações engraçadas e quem já passou por aquilo levanta a mão (ex: 'Quem já começou a ler a Bíblia e parou em Levítico?', 'Quem já dormiu no sermão?', 'Quem já cantou louvor errado com convicção?').",
+  spiritual: "Demonstra com naturalidade que somos humanos em processo de amadurecimento."
+},
+{
+  id: 18,
+  title: "60 Segundos de Paixão",
+  category: "Conexão",
+  time: "8 min",
+  materials: "Cronômetro do celular",
+  desc: "Dois ou três voluntários recebem 60 segundos exatos para falar com entusiasmo sobre qualquer assunto que amam (café especial, pescaria, artesanato, futebol, plantas, culinária).",
+  spiritual: "Celebra os talentos e gostos individuais dados por Deus aos seus filhos."
+},
+{
+  id: 19,
+  title: "O Objeto de Afeto",
+  category: "Conexão",
+  time: "8 min",
+  materials: "Nenhum material necessário",
+  desc: "Cada participante compartilha sobre um objeto simples em sua casa que tem valor afetivo inestimável (uma caneca antiga, uma bíblia de família, uma carta guardada) e conta a história por trás dele.",
+  spiritual: "Lembra que as maiores riquezas da vida estão nos laços e histórias compartilhadas."
+},
+{
+  id: 20,
+  title: "Torre dos Copos em Silêncio",
+  category: "Diversão",
+  time: "8 min",
+  materials: "12 a 15 copos descartáveis",
+  desc: "Em trios, o desafio é montar a torre mais estável possível em 2 minutos, porém em silêncio absoluto, comunicando-se apenas com o olhar e gestos.",
+  spiritual: "Demonstra que a cooperação e a harmonia muitas vezes falam mais alto do que discursos."
+},
+{
+  id: 21,
+  title: "No Sapato do Irmão",
+  category: "Comunhão",
+  time: "7 min",
+  materials: "Nenhum material necessário",
+  desc: "Cada pessoa tira um pé do calçado e coloca no meio da sala. Cada um pega um calçado diferente do seu e descobre quem é o dono. Ao longo da semana e no encerramento, cada um orará pela caminhada daquela pessoa.",
+  spiritual: "Pratica empatia e intercessão real, lembrando do mandamento de levar as cargas uns dos outros."
+},
+{
+  id: 22,
+  title: "O Peso da Pedra aos Pés da Cruz",
+  category: "Reflexão",
+  time: "8 min",
+  materials: "1 pedra média/pesada",
+  desc: "Passe uma pedra pesada de mão em mão. Cada um segura a pedra por alguns segundos e reflete em algo pesado que enfrentou na semana. No final, a pedra é colocada no centro, simbolizando entregar o fardo a Jesus.",
+  spiritual: "Ilustra Mateus 11:28 ('Venham a mim todos os que estão cansados e sobrecarregados')."
+},
+{
+  id: 23,
+  title: "Telefone Sem Fio da Verdade",
+  category: "Diversão",
+  time: "7 min",
+  materials: "Nenhum material necessário",
+  desc: "O líder sussurra uma frase bíblica detalhada no ouvido do primeiro participante, que sussurra para o próximo até o último falar em voz alta o que chegou até ele.",
+  spiritual: "Provoca boas risadas e ensina a importância de sermos cuidadosos com a comunicação e fiéis à Palavra."
+},
+{
+  id: 24,
+  title: "Amigo de Oração Secreto",
+  category: "Comunhão",
+  time: "6 min",
+  materials: "Tiras de papel e canetas",
+  desc: "Cada um escreve seu nome e um pedido de oração específico. Os papéis são misturados e cada um sorteia um irmão para ser seu intercessor secreto durante toda a semana, mandando uma mensagem de encorajamento.",
+  spiritual: "Prolonga o impacto da célula para além da reunião semanal, mantendo o grupo unido em oração."
+},
+{
+  id: 25,
+  title: "A Fita dos Livramentos",
+  category: "Reflexão",
+  time: "8 min",
+  materials: "Fitas de tecido ou barbante",
+  desc: "Cada participante recebe um pedaço de fita e dá um nó para cada livramento ou resposta de oração que se lembra de ter recebido de Deus neste ano. Amarram no pulso como um memorial.",
+  spiritual: "Funciona como os memoriais bíblicos do Antigo Testamento para nunca esquecermos os feitos do Senhor."
+}
+];
+
 let currentLessonIdx = 0;
+let currentIcebreakerCat = 'todas';
 
 function esc(s){
   return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1077,6 +1782,37 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
+// Alternar entre aba de Roteiros e aba de Quebra-Gelos
+function switchMainTab(tab) {
+  const homeSec = document.getElementById('home');
+  const readerSec = document.getElementById('reader');
+  const iceSec = document.getElementById('icebreakers');
+  const tabRot = document.getElementById('tabRoteiros');
+  const tabIce = document.getElementById('tabQuebraGelon');
+
+  if (tab === 'quebra-gelo') {
+    homeSec.classList.add('hidden');
+    readerSec.classList.add('hidden');
+    iceSec.classList.remove('hidden');
+    tabRot.classList.remove('active');
+    tabIce.classList.add('active');
+    renderIcebreakers();
+    location.hash = 'quebra-gelos';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    iceSec.classList.add('hidden');
+    readerSec.classList.add('hidden');
+    homeSec.classList.remove('hidden');
+    tabIce.classList.remove('active');
+    tabRot.classList.add('active');
+    if (location.hash === '#quebra-gelos') {
+      history.pushState("", document.title, window.location.pathname + window.location.search);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+// ─── RENDERIZAÇÃO DOS CARDS DE MENSAGEM NA HOME ───
 function makeCards(){
   const host = document.getElementById('cards');
   host.innerHTML = lessons.map((l, i) => `
@@ -1089,7 +1825,7 @@ function makeCards(){
       <p>${esc(l.summary)}</p>
       <div class="meta">
         <span>📖 ${esc(l.ref)}</span>
-        <span style="color:var(--muted);font-weight:normal;">· Bíblia NAA</span>
+        <span style="color:var(--muted);font-weight:normal;">· Texto completo incluído</span>
       </div>
       <button class="btn" onclick="openLesson(${i})">
         Abrir roteiro completo
@@ -1099,15 +1835,33 @@ function makeCards(){
   `).join('');
 }
 
+// ─── HELPER PARA CRIAR SEÇÕES E CAIXA DE LÍDER PADRONIZADA ───
+function leaderBox(title, body){
+  return `
+    <div class="leader-box">
+      <div class="leader-box-header">
+        <span class="leader-box-badge">👔 ORIENTAÇÃO AO LÍDER</span>
+        <span class="leader-box-title">${esc(title)}</span>
+      </div>
+      ${body}
+    </div>
+  `;
+}
+
 function section(id, title, body){
   return `<section class="section" id="${id}"><h3><span>${title}</span></h3>${body}</section>`;
 }
 
+// ─── ABRIR MENSAGEM NO MODO LEITOR ───
 function openLesson(i, updateHash = true){
   currentLessonIdx = i;
   const l = lessons[i];
+
   document.getElementById('home').classList.add('hidden');
+  document.getElementById('icebreakers').classList.add('hidden');
   document.getElementById('reader').classList.remove('hidden');
+  document.getElementById('tabRoteiros').classList.add('active');
+  document.getElementById('tabQuebraGelon').classList.remove('active');
 
   document.getElementById('rNum').textContent = `MENSAGEM ${String(i+1).padStart(2,'0')} · IEQ CENTRAL LONDRINA`;
   document.getElementById('rTitle').textContent = l.title;
@@ -1115,113 +1869,132 @@ function openLesson(i, updateHash = true){
 
   const pills = document.getElementById('rMetaPills');
   pills.innerHTML = `
-    <span class="reader-chip gold">📖 ${esc(l.ref)} (NAA)</span>
-    <span class="reader-chip">⏱ ${esc(l.time)} de duração</span>
-    <span class="reader-chip">👥 Formato para Líderes</span>
+    <span class="reader-chip gold">📖 ${esc(l.ref)} (Texto Completo)</span>
+    <span class="reader-chip">⏱ ${esc(l.time)} sugeridos</span>
+    <span class="reader-chip">👔 Guia com orientações ao líder</span>
   `;
 
   const sections = [];
 
-  // Roteiro e tempo
+  // 1. Roteiro e tempo sugerido
   sections.push([
     "tempo",
     "Roteiro e tempo sugerido",
-    `<p>Use esta divisão como referência dinâmica. Se a conversa e a comunhão estiverem fluindo com profundidade, adapte sem perder o objetivo central.</p>
+    `<p>Distribuição de tempo recomendada para o encontro de célula. Adapte com sensibilidade espiritual conforme o fluir do grupo.</p>
     <ul>
-      <li>Acolhimento e abertura — <strong>3 min</strong></li>
+      <li>Acolhimento & Quebra-gelo — <strong>5 min</strong></li>
       <li>Leitura bíblica e introdução — <strong>5 min</strong></li>
       <li>Três pontos da mensagem — <strong>10 min</strong></li>
-      <li>Perguntas e participação em grupo — <strong>6 min</strong></li>
-      <li>Aplicação prática e oração — <strong>4 min</strong></li>
+      <li>Conversa e perguntas em grupo — <strong>6 min</strong></li>
+      <li>Aplicação prática e oração final — <strong>4 min</strong></li>
     </ul>
     <p class="note">Total aproximado: ${esc(l.time)}. Pode variar conforme o tamanho da célula.</p>
-    <div class="script">
-      <strong>Antes de começar</strong>
-      Tenha uma Bíblia disponível, revise este roteiro antes do encontro e ministre com naturalidade no seu linguajar habitual.
-    </div>`
+    ${leaderBox("Antes de começar a reunião", `
+      <p>Chegue pelo menos 15 minutos antes. Ore pelo ambiente e pela vida de cada pessoa esperada. Tenha uma Bíblia em mãos e mantenha o clima acolhedor e receptivo.</p>
+    `)}`
   ]);
 
-  // Acolhimento
+  // 2. Acolhimento e abertura
   sections.push([
     "acolhimento",
-    "1. Acolhimento e abertura · 3 min",
+    "1. Acolhimento e abertura · 5 min",
     `<p>${esc(l.opening)}</p>
-    <div class="script">
-      <strong>Você pode dizer</strong>
-      “Que alegria estarmos juntos hoje! Nosso propósito é ouvir a Palavra de Deus, conversar com respeito e descobrir juntos passos práticos para a nossa semana. Ninguém precisa ter respostas perfeitas; estamos aqui para aprender e caminhar juntos em Cristo.”
+    ${leaderBox("Como conduzir o acolhimento", `
+      <p>${esc(l.openingLeaderTip)}</p>
+      <p style="margin-top:6px;"><strong>Você pode dizer ao grupo:</strong> “Que alegria estarmos juntos hoje! Nosso propósito é ouvir a Palavra de Deus, conversar com respeito e descobrir passos práticos para a nossa semana. Ninguém precisa de respostas perfeitas; estamos aqui para aprender e caminhar juntos em Cristo.”</p>
+    `)}
+    <div style="margin-top:12px;">
+      <button class="btn gold" style="font-size:0.84rem;padding:8px 14px;" onclick="verQuebraGeloDaMensagem()">
+        🎲 Fazer o Quebra-Gelo sugerido para hoje
+      </button>
     </div>`
   ]);
 
-  // Leitura Bíblica
+  // 3. Leitura Bíblica por extenso
+  const versesHtml = l.verses.map(v => `
+    <div class="scripture-verse-item">
+      <span class="scripture-vnum">${v.num}</span>
+      <span>${esc(v.text)}</span>
+    </div>
+  `).join('');
+
   sections.push([
     "palavra",
-    "2. Leitura bíblica · 2 min",
-    `<div class="verse-box">
-      <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);font-weight:800;margin-bottom:4px;">Texto Sagrado · Versão NAA</div>
-      <p class="verse">${esc(l.reading)}</p>
+    "2. Leitura bíblica por extenso · 3 min",
+    `<div class="scripture-box">
+      <div class="scripture-header">
+        <div class="scripture-ref-title">
+          <span>📖</span>
+          <span>${esc(l.ref)}</span>
+        </div>
+        <span class="scripture-tag">Texto Sagrado Completo</span>
+      </div>
+      <div class="scripture-verse-list">
+        ${versesHtml}
+      </div>
     </div>
-    <p>${esc(l.readingNote)}</p>
-    <p class="note">Dica: Convide alguém do grupo a ler diretamente em sua Bíblia física ou app. Isso estimula a familiaridade com as Escrituras.</p>`
+    ${leaderBox("Orientação para a leitura", `
+      <p>${esc(l.readingNote)}</p>
+      <p style="margin-top:4px;"><strong>Dica prática:</strong> Convide alguém voluntário para ler em voz alta. Isso inclui os membros e incentiva o contato direto com a Palavra.</p>
+    `)}`
   ]);
 
-  // Introdução
+  // 4. Introdução ao tema
   sections.push([
     "introducao",
     "3. Introdução ao tema · 3 min",
     `<p>${esc(l.intro)}</p>
-    <div class="script">
-      <strong>Transição sugerida para o líder</strong>
-      “Vamos agora refletir em três pontos fundamentais que este texto nos ensina para a nossa vida diária.”
-    </div>`
+    ${leaderBox("Transição sugerida para o líder", `
+      <p><strong>Fale com naturalidade:</strong> “Vamos agora observar três verdades fundamentais que este texto nos ensina para aplicarmos na nossa vida diária.”</p>
+    `)}`
   ]);
 
-  // Mensagem
+  // 5. Três pontos da mensagem
   let pbody = l.points.map((p, j) => `
-    <div style="margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line-soft);">
+    <div style="margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line-soft);">
       <h4>${j+1}. ${esc(p[0])}</h4>
       <p>${esc(p[1])}</p>
-      <div class="script">
-        <strong>Enfatize</strong>
-        ${esc(p[2])}
-      </div>
+      ${leaderBox(`Enfatize no ponto ${j+1}`, `
+        <p><strong>Foco da ministração:</strong> ${esc(p[2])}</p>
+      `)}
     </div>
   `).join('');
   sections.push(["mensagem", "4. Três pontos da mensagem · 10 min", pbody]);
 
-  // Conversa
+  // 6. Conversa em grupo
   sections.push([
     "conversa",
     "5. Conversa em grupo · 6 min",
-    `<p>Escolha duas ou três perguntas conforme o tempo do grupo. Faça uma pergunta por vez com serenidade, dê espaço para o silêncio reflexivo e agradeça cada resposta. Ninguém é forçado a falar.</p>
+    `<p>Escolha duas ou três perguntas conforme o tempo do grupo. Faça uma pergunta por vez com serenidade, dê espaço para o silêncio reflexivo e agradeça cada resposta. Ninguém deve se sentir forçado a falar.</p>
     ${l.questions.map((q, j) => `
       <div class="question">
         <strong>Pergunta ${j+1}:</strong> ${esc(q)}
       </div>
     `).join('')}
-    <p class="note">Dica de liderança: Evite transformar respostas em debates ou julgamentos. Escute ativamente, valide o sentimento e aponte para a graça do evangelho.</p>`
+    ${leaderBox("Dica de moderação para o líder", `
+      <p>Evite transformar respostas em debates ou repreensões. Acolha com empatia, valide a honestidade da pessoa e conecte a resposta com a graça e os ensinamentos de Jesus.</p>
+    `)}`
   ]);
 
-  // Aplicação
+  // 7. Aplicação para a semana
   sections.push([
     "pratica",
     "6. Aplicação para a semana · 2 min",
     `<p>${esc(l.practice)}</p>
-    <div class="script">
-      <strong>Convite ao grupo</strong>
-      “Vamos assumir juntos um compromisso prático para os próximos dias. Não precisa ser grandioso ou complicado; precisa ser sincero, intencional e possível.”
-    </div>`
+    ${leaderBox("Como motivar o compromisso prático", `
+      <p><strong>Convite ao grupo:</strong> “Vamos escolher um passo concreto para viver nesta semana. Não precisa ser algo grandioso ou difícil; precisa ser sincero, intencional e possível no seu dia a dia.”</p>
+    `)}`
   ]);
 
-  // Oração final
+  // 8. Oração final e encerramento
   sections.push([
     "oracao",
     "7. Oração final e encerramento · 2 min",
     `<p>${esc(l.prayer)}</p>
-    <p>Dê oportunidade para quem quiser compartilhar um motivo específico de oração. Se surgir uma necessidade pastoral delicada, combine um acompanhamento individual após o término da célula.</p>
-    <div class="script">
-      <strong>Oração sugerida</strong>
-      “Senhor Jesus, te agradecemos por Tua Palavra viva. Ajuda-nos a guardá-la em nosso coração e a vivê-la com atitudes de amor, serviço e fé ao longo desta semana. Cuida de cada lar aqui representado e faz-nos instrumentos da Tua paz. Em Teu nome oramos, amém.”
-    </div>
+    ${leaderBox("Condução da oração e discrição pastoral", `
+      <p>Pergunte se alguém tem um pedido de oração especial para apresentar ao Senhor. Caso alguém compartilhe uma dor profunda ou situação delicada, não exponha; ofereça-se para orar junto em particular ao final da reunião.</p>
+      <p style="margin-top:4px;"><strong>Oração sugerida:</strong> “Senhor Jesus, te agradecemos por Tua Palavra viva. Ajuda-nos a guardá-la no coração e a vivê-la com atitudes de amor, serviço e fé ao longo desta semana. Abençoa cada lar aqui representado e faz-nos canais da Tua graça. Em Teu santo nome oramos, amém.”</p>
+    `)}
     <div class="verse-box" style="margin-top:16px;text-align:center;">
       <div style="font-size:0.78rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--gold);font-weight:800;margin-bottom:4px;">Frase para levar no coração</div>
       <p style="font-size:1.1rem;font-weight:700;color:var(--navy);">${esc(l.closing)}</p>
@@ -1235,7 +2008,7 @@ function openLesson(i, updateHash = true){
       <div class="lesson-footer-text">
         <h4>IEQ Central Londrina · Ministério de Células</h4>
         <p>Rua Benjamin Constant, 1756 · Londrina - PR · Uma igreja que acolhe, cuida e multiplica em amor.</p>
-        <p style="margin-top:4px;font-size:0.78rem;color:#7e8ea1;">Material de apoio aos líderes e anfitriões de célula · Versão Nova Almeida Atualizada (NAA)</p>
+        <p style="margin-top:4px;font-size:0.78rem;color:#7e8ea1;">Roteiro oficial de apoio aos líderes e anfitriões de célula.</p>
       </div>
     </div>
   `;
@@ -1251,29 +2024,169 @@ function openLesson(i, updateHash = true){
 }
 
 function goHome(){
-  document.getElementById('reader').classList.add('hidden');
-  document.getElementById('home').classList.remove('hidden');
-  if (location.hash) {
-    history.pushState("", document.title, window.location.pathname + window.location.search);
-  }
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  switchMainTab('roteiros');
 }
 
+// ─── VER QUEBRA-GELO SUGERIDO DA MENSAGEM ───
+function verQuebraGeloDaMensagem() {
+  const l = lessons[currentLessonIdx];
+  const qgId = l.suggestedIcebreakerId || 1;
+  switchMainTab('quebra-gelo');
+  highlightIcebreaker(qgId);
+}
+
+// ─── RENDERIZAÇÃO DOS 25 QUEBRA-GELOS ───
+function renderIcebreakers() {
+  const grid = document.getElementById('iceGrid');
+  const term = (document.getElementById('iceSearch').value || '').toLowerCase().trim();
+
+  const filtered = icebreakers.filter(b => {
+    const matchesCat = (currentIcebreakerCat === 'todas') || (b.category.toLowerCase() === currentIcebreakerCat.toLowerCase());
+    const matchesText = !term ||
+      b.title.toLowerCase().includes(term) ||
+      b.desc.toLowerCase().includes(term) ||
+      b.materials.toLowerCase().includes(term) ||
+      b.category.toLowerCase().includes(term);
+    return matchesCat && matchesText;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:40px 20px;background:#fff;border-radius:14px;border:1px solid var(--line);">
+        <p style="font-size:1.1rem;color:var(--muted);">Nenhum quebra-gelo encontrado para este filtro.</p>
+        <button class="btn secondary" style="margin-top:12px;" onclick="resetIceFilters()">Limpar filtros</button>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(b => `
+    <article class="ice-card" id="iceCard-${b.id}">
+      <div class="ice-card-top">
+        <span class="ice-num">DINÂMICA #${String(b.id).padStart(2,'0')}</span>
+        <span class="ice-cat-pill">${esc(b.category)}</span>
+      </div>
+      <h4>${esc(b.title)}</h4>
+      <div class="ice-meta">
+        <span>⏱ ${esc(b.time)}</span>
+        <span>🎒 ${esc(b.materials)}</span>
+      </div>
+      <div class="ice-body">
+        <p>${esc(b.desc)}</p>
+      </div>
+      <div class="ice-spiritual-link">
+        <strong>Conexão & Gancho para a Célula:</strong>
+        ${esc(b.spiritual)}
+      </div>
+      <div class="ice-actions">
+        <button class="ice-btn-sm" onclick="copiarQuebraGelo(${b.id})">
+          📋 Copiar
+        </button>
+        <button class="ice-btn-sm" onclick="compartilharQuebraGeloWhatsApp(${b.id})">
+          💬 WhatsApp
+        </button>
+      </div>
+    </article>
+  `).join('');
+}
+
+function setCategoryFilter(cat, btnEl) {
+  currentIcebreakerCat = cat;
+  document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+  btnEl.classList.add('active');
+  renderIcebreakers();
+}
+
+function filterIcebreakers() {
+  renderIcebreakers();
+}
+
+function resetIceFilters() {
+  document.getElementById('iceSearch').value = '';
+  currentIcebreakerCat = 'todas';
+  document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+  document.querySelector('.cat-chip').classList.add('active');
+  renderIcebreakers();
+}
+
+function sortearQuebraGelo() {
+  if (document.getElementById('icebreakers').classList.contains('hidden')) {
+    switchMainTab('quebra-gelo');
+  }
+  const randomIdx = Math.floor(Math.random() * icebreakers.length);
+  const picked = icebreakers[randomIdx];
+  highlightIcebreaker(picked.id);
+  showToast(`Sorteado: "${picked.title}" (#${picked.id})`);
+}
+
+function highlightIcebreaker(id) {
+  resetIceFilters();
+  setTimeout(() => {
+    const el = document.getElementById(`iceCard-${id}`);
+    if (el) {
+      document.querySelectorAll('.ice-card').forEach(c => c.classList.remove('highlighted'));
+      el.classList.add('highlighted');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => el.classList.remove('highlighted'), 3500);
+    }
+  }, 100);
+}
+
+function copiarQuebraGelo(id) {
+  const b = icebreakers.find(item => item.id === id);
+  if (!b) return;
+
+  const texto = [
+    `*IEQ CENTRAL LONDRINA — QUEBRA-GELO #${b.id}*`,
+    `*${b.title.toUpperCase()}*`,
+    `⏱ Duração: ${b.time} | 🎒 Material: ${b.materials}`,
+    `🏷 Categoria: ${b.category}`,
+    ``,
+    `👉 *Como fazer:*`,
+    b.desc,
+    ``,
+    `💡 *Conexão Espiritual para a Célula:*`,
+    b.spiritual,
+    ``,
+    `📍 IEQ Central Londrina — Ministério de Células`
+  ].join('\n');
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(texto).then(() => showToast('Quebra-gelo copiado!'));
+  } else {
+    fallbackCopy(texto);
+  }
+}
+
+function compartilharQuebraGeloWhatsApp(id) {
+  const b = icebreakers.find(item => item.id === id);
+  if (!b) return;
+
+  const texto = `*IEQ Central Londrina | Quebra-Gelo #${b.id}*\n*${b.title}*\n\n⏱ Duração: ${b.time} | 🎒 Material: ${b.materials}\n\n👉 *Como fazer:*\n${b.desc}\n\n💡 *Gancho:* ${b.spiritual}`;
+  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
+}
+
+// ─── COMPARTILHAMENTO E CÓPIA DA MENSAGEM COMPLETA ───
 function copiarRoteiro(){
   const l = lessons[currentLessonIdx];
+  const versesText = l.verses.map(v => `${v.num}. ${v.text}`).join('\n');
+
   const texto = [
     `*IEQ CENTRAL LONDRINA — ROTEIRO DE CÉLULA*`,
     `*MENSAGEM: ${l.title.toUpperCase()}*`,
-    `📖 Texto Bíblico: ${l.ref} (NAA) | ⏱ Duração sugerida: ${l.time}`,
+    `📖 Texto Bíblico: ${l.ref} | ⏱ Duração sugerida: ${l.time}`,
     ``,
-    `🎯 *Objetivo:* ${l.aim}`,
+    `📜 *Texto Sagrado:*`,
+    versesText,
+    ``,
+    `🎯 *Objetivo da Reunião:* ${l.aim}`,
     ``,
     `💡 *Introdução:* ${l.intro}`,
     ``,
-    `📌 *Pontos da Mensagem:*`,
-    ...l.points.map((p, i) => `${i+1}. *${p[0]}*\n${p[1]}\n👉 _Enfatize:_ ${p[2]}`),
+    `📌 *Três Pontos da Mensagem:*`,
+    ...l.points.map((p, i) => `${i+1}. *${p[0]}*\n${p[1]}\n👉 _Orientação ao Líder:_ ${p[2]}`),
     ``,
-    `💬 *Perguntas para reflexão:*`,
+    `💬 *Perguntas para Reflexão:*`,
     ...l.questions.map((q, i) => `${i+1}) ${q}`),
     ``,
     `🌱 *Passo Prático da Semana:*`,
@@ -1282,10 +2195,10 @@ function copiarRoteiro(){
     `🙏 *Oração Final:*`,
     l.prayer,
     ``,
-    `✨ *Frase para levar:* "${l.closing}"`,
+    `✨ *Frase para levar no coração:* "${l.closing}"`,
     ``,
     `📍 IEQ Central Londrina — Rua Benjamin Constant, 1756`,
-    `Acesse online: https://www.ieqlondrina.com.br/celulas/#msg-${currentLessonIdx+1}`
+    `Acesse online com recursos para o líder: https://www.ieqlondrina.com.br/celulas/#msg-${currentLessonIdx+1}`
   ].join('\n');
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1312,12 +2225,16 @@ function fallbackCopy(text) {
 function compartilharWhatsApp(){
   const l = lessons[currentLessonIdx];
   const url = `https://www.ieqlondrina.com.br/celulas/#msg-${currentLessonIdx+1}`;
-  const texto = `*IEQ Central Londrina | Roteiro de Célula*\n\n*${l.title}*\n📖 ${l.ref} · ${l.summary}\n\n👉 Acesse o roteiro completo para a nossa reunião:\n${url}`;
+  const texto = `*IEQ Central Londrina | Roteiro de Célula*\n\n*${l.title}*\n📖 ${l.ref} · ${l.summary}\n\n👉 Acesse o roteiro completo com textos bíblicos e guia para líderes:\n${url}`;
   window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
 }
 
-// Suporte a hash navigation (#msg-1 ... #msg-6)
+// ─── SUPORTE A HASH NAVIGATION (#msg-1 ... #msg-6 ou #quebra-gelos) ───
 function checkHash() {
+  if (location.hash === '#quebra-gelos') {
+    switchMainTab('quebra-gelo');
+    return;
+  }
   const m = location.hash.match(/^#msg-([1-6])$/);
   if (m) {
     const idx = parseInt(m[1], 10) - 1;
@@ -1326,13 +2243,14 @@ function checkHash() {
       return;
     }
   }
-  goHome();
+  switchMainTab('roteiros');
 }
 
 window.addEventListener('hashchange', checkHash);
 
 // Inicialização
 makeCards();
+renderIcebreakers();
 checkHash();
 </script>
 </body>

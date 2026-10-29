@@ -82,7 +82,7 @@
 | **03** | **Siempre a Tiempo** | Vídeo Oficial de Referência | • [Ver no YouTube](https://www.youtube.com/watch?v=Mo2Dtf5yoyk&list=RDMo2Dtf5yoyk&start_radio=1) (ID: `Mo2Dtf5yoyk`) |
 | **04** | **Sou Grato por Teu Amor** | Get Worship (72 bpm · Tom: Ré) | • 6 Faixas MP3 (inclui ref artística)<br>• Letra formatada em texto<br>• PDF Letra |
 | **05** | **Grato Sou (O Canto das Igrejas)** | Versão brasileira: O Canto das Igrejas<br><small>Orig.: I Thank God (Maverick City & UPPERROOM \| TRIBL)</small> | • [Assistir O Canto das Igrejas](https://www.youtube.com/watch?v=LfSwJaT0V9A&list=RDLfSwJaT0V9A&start_radio=1) (ID: `LfSwJaT0V9A`)<br>• [Gravação Original TRIBL](https://www.youtube.com/watch?v=LM1qrx0Huds&list=RDLM1qrx0Huds&start_radio=1) |
-| **06** | **Grato Sou (Elevation)** | Get Worship (72 bpm · Tom: Ré) | • 6 Faixas MP3<br>• Letra formatada em texto<br>• PDF Letra |
+| **06** | **Aqui Vou Eu** | IPALPHA NOVA · Part. Especial Banda Central UP (Tom: Lá / A) | • Áudio de Referência (MP3)<br>• Letra formatada com dinâmicas da banda e vocal<br>• PDF Cifra e Letra |
 
 ---
 

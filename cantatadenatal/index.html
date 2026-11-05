@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cantata de Natal IEQ Central — Portal de Ensaios</title>
+    <title>Cantata de Natal Kids 2026 — Guia para as famílias</title>
     <meta name="description" content="Portal oficial de ensaios e preparação para a Cantata de Natal IEQ Central Londrina. Músicas, playbacks, letras e roteiro de teatro.">
     <link rel="icon" type="image/png" href="../mini.png">
     
@@ -1265,6 +1265,8 @@
             font-size: 12.5px;
             line-height: 1.6;
         }
+
+.family-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%}.family-steps button{font:inherit;text-align:left;background:white;border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:12px;padding:18px;cursor:pointer;color:var(--crimson-dark);box-shadow:var(--shadow-subtle)}.family-steps span{display:block;font-size:13px;color:var(--muted);margin-top:8px}.participation{background:var(--pine-dark);color:white;border-radius:12px;padding:18px;text-align:left;margin-top:18px;font-size:14px}.participation strong{display:block;color:var(--gold-light);margin-bottom:5px}.outfit-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.outfit-card{background:white;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-card)}.outfit-card img{width:100%;height:280px;object-fit:contain;background:var(--bg-warm);display:block}.outfit-copy{padding:18px}.outfit-copy h3{font-family:Fraunces,serif;font-size:21px;color:var(--crimson-dark)}.outfit-copy p{margin:10px 0;font-size:14px}.outfit-copy a{margin:4px 2px;min-height:40px}.outfit-grid h3{scroll-margin-top:100px}.outfit-heading{font-family:Cinzel,serif;color:var(--crimson-dark);margin:26px 0 14px}.lyrics-links{display:grid;gap:10px}.lyrics-links button{text-align:left;padding:16px;font:inherit;background:white;color:var(--crimson);border:1px solid var(--line);border-radius:12px;cursor:pointer}.tab-bar{border-radius:18px;flex-wrap:wrap}.tab-btn{padding:10px;font-size:12px;flex:1 0 auto}.tab-bar-wrap{top:0}.family-steps button:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}@media(max-width:540px){.family-steps,.outfit-grid{grid-template-columns:1fr}.hero{padding-top:24px}.hero-verse{display:none}.festive-ribbon{flex-wrap:wrap;gap:8px}.ribbon-left{flex-wrap:wrap;font-size:9px}.outfit-card img{height:300px}.tab-btn{font-size:11px;padding:8px}.tab-bar-wrap{padding:0 10px}.family-steps button{padding:14px}.family-steps span{margin-top:3px}}
     </style>
 </head>
 <body>
@@ -1311,45 +1313,35 @@
             <span style="opacity:0.5;">·</span>
             <span>Música &amp; Teatro</span>
         </div>
-        <h1 class="hero-title">Cantata de Natal <span>IEQ Central</span></h1>
-        <p class="hero-sub">Portal interativo com todas as músicas, playbacks instrumentais, roteiro do teatro e materiais para que você e sua família possam ensaiar em casa com excelência.</p>
+        <h1 class="hero-title">Cantata de Natal Kids <span>2026</span></h1>
+        <p class="hero-sub">Famílias, a preparação começa aqui: ouvir todas as músicas, aprender as letras e providenciar o figurino. Tudo em um só lugar.</p>
 
         <div class="hero-verse">
             <strong>Lucas 2:14</strong>
             “Glória a Deus nas maiores alturas, e paz na terra entre os homens a quem ele quer bem.”
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-val">06</div>
-                <div class="stat-lbl">Canções</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val">12</div>
-                <div class="stat-lbl">Áudios (Voz &amp; PB)</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val">14 pág</div>
-                <div class="stat-lbl">Roteiro Teatro</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val">100%</div>
-                <div class="stat-lbl">Ensaio em Casa</div>
-            </div>
-        </div>
+        <div class="family-steps" aria-label="As três tarefas da família">
+<button onclick="irPara('tab-musicas')"><b>1 · Ouvir todas as músicas</b><span>Comece pela versão cantada das 6 canções.</span></button>
+<button onclick="irPara('tab-letras')"><b>2 · Aprender as letras</b><span>Acompanhe a letra enquanto a música toca.</span></button>
+<button onclick="irPara('tab-figurinos')"><b>3 · Providenciar o figurino</b><span>Veja seu grupo, as imagens e os links de compra.</span></button>
+</div>
+<p class="participation"><strong>Todos participam e aprendem todas as músicas.</strong> Quem toca instrumentos e quem participa da dança também integrará o coral. Nesta cantata não haverá instrumentos.</p>
     </header>
 
     <!-- ─── STICKY TAB NAVIGATION ─── -->
     <div class="tab-bar-wrap">
         <nav class="tab-bar">
             <button class="tab-btn active" onclick="switchTab('tab-musicas')">
-                <span>🎵</span> Músicas &amp; Playbacks
+                <span>🎵</span> 1. Ouvir
             </button>
+            <button class="tab-btn" onclick="switchTab('tab-letras')">📖 2. Letras</button>
+            <button class="tab-btn" onclick="switchTab('tab-figurinos')">👕 3. Figurinos</button>
             <button class="tab-btn" onclick="switchTab('tab-teatro')">
                 <span>🎭</span> Teatro &amp; Encenação
             </button>
             <button class="tab-btn" onclick="switchTab('tab-mapas')">
-                <span>📑</span> Cronograma &amp; Mapas
+                <span>📑</span> Materiais de Ensaio
             </button>
             <button class="tab-btn" onclick="switchTab('tab-dicas')">
                 <span>💡</span> Dicas de Ensaio
@@ -1358,7 +1350,7 @@
     </div>
 
     <!-- ─── MAIN CONTAINER ─── -->
-    <main class="main-container">
+    <main class="main-container"><section id="tab-letras" class="tab-panel"><h2 class="section-title">2. Acompanhe e aprenda as letras</h2><p class="section-sub">Escolha uma canção para abrir a letra existente junto ao reprodutor. Você pode ouvir e ler ao mesmo tempo.</p><div class="info-banner" style="margin-top:16px"><div>Comece ouvindo com voz, acompanhe a letra e cante junto. Depois, pratique com o playback. Todos devem aprender as seis músicas.</div></div><div class="lyrics-links"><button onclick="abrirLetra(1)">01 · Mistérios do Natal <span aria-hidden="true">→</span></button><button onclick="abrirLetra(2)">02 · História Estranha <span aria-hidden="true">→</span></button><button onclick="abrirLetra(3)">03 · Tenda no Deserto <span aria-hidden="true">→</span></button><button onclick="abrirLetra(4)">04 · Ele Vem <span aria-hidden="true">→</span></button><button onclick="abrirLetra(5)">05 · Silêncio <span aria-hidden="true">→</span></button><button onclick="abrirLetra(6)">06 · Emanuel <span aria-hidden="true">→</span></button></div><p style="margin-top:18px"><a class="btn-pdf" href="../Cantata%20de%20Natal%20Kids/Caderno%20de%20Letras.pdf" target="_blank">Abrir caderno completo de letras ↗</a></p></section><section id="tab-figurinos" class="tab-panel"><h2 class="section-title">3. Identifique e providencie o figurino</h2><p class="section-sub">Encontre abaixo o grupo ou o nome da criança. As fotos são referências enviadas no grupo.</p><div class="info-banner" style="margin-top:16px"><div><strong>Atenção às cores:</strong> os anúncios podem mostrar várias opções. Para o coral, o laço e a gravata são <strong>vinho</strong>. O link do laço é anunciado como vermelho; confirme a opção vinho com a organização antes de comprar. Não deixe as compras para a última hora.</div></div><h3 class="outfit-heading">Coral e solistas</h3><div class="outfit-grid"><article class="outfit-card"><img src="figurinos/coral-feminino.jpg" alt="Referência de figurino: Coral feminino" loading="lazy"><div class="outfit-copy"><h3>Coral feminino</h3><p>Camisa branca, saia escura e laço vinho.</p><a class="btn-pdf" href="https://br.shp.ee/odybFmaP" target="_blank" rel="noopener noreferrer">Ver saia feminina ↗</a><a class="btn-pdf" href="https://br.shp.ee/n51xtTkn" target="_blank" rel="noopener noreferrer">Ver laço feminino ↗</a></div></article><article class="outfit-card"><img src="figurinos/coral-masculino.jpg" alt="Referência de figurino: Coral masculino" loading="lazy"><div class="outfit-copy"><h3>Coral masculino</h3><p>Camisa branca, calça preta, suspensório e gravata borboleta vinho.</p><a class="btn-pdf" href="https://br.shp.ee/4STHK9is" target="_blank" rel="noopener noreferrer">Ver suspensório ↗</a><a class="btn-pdf" href="https://br.shp.ee/KXxDzvto" target="_blank" rel="noopener noreferrer">Ver gravata borboleta ↗</a></div></article><article class="outfit-card"><img src="figurinos/solistas.jpg" alt="Referência de figurino: Solistas · Ana e Milena" loading="lazy"><div class="outfit-copy"><h3>Solistas · Ana e Milena</h3><p>Blusa preta e saia longa vinho. Siga estas cores mesmo que a foto do anúncio apresente outra combinação.</p><a class="btn-pdf" href="https://br.shp.ee/odybFmaP" target="_blank" rel="noopener noreferrer">Ver saia longa ↗</a></div></article><article class="outfit-card"><img src="figurinos/laco.jpg" alt="Referência de figurino: Acessórios do coral" loading="lazy"><div class="outfit-copy"><h3>Acessórios do coral</h3><p>Laço feminino: modelo da referência, na cor vinho. A gravata dos meninos também deve ser vinho.</p><a class="btn-pdf" href="https://br.shp.ee/n51xtTkn" target="_blank" rel="noopener noreferrer">Ver laço feminino ↗</a><a class="btn-pdf" href="https://br.shp.ee/KXxDzvto" target="_blank" rel="noopener noreferrer">Ver gravata dos meninos ↗</a></div></article></div><h3 class="outfit-heading">Personagens · Caçadores</h3><div class="outfit-grid"><article class="outfit-card"><img src="figurinos/alice.jpg" alt="Referência de figurino: Alice" loading="lazy"><div class="outfit-copy"><h3>Alice</h3><p>Figurino de caçadora.</p><a class="btn-pdf" href="https://br.shp.ee/KYSDaxdw" target="_blank" rel="noopener noreferrer">Ver figurino de Alice ↗</a></div></article><article class="outfit-card"><img src="figurinos/valentina.jpg" alt="Referência de figurino: Valentina" loading="lazy"><div class="outfit-copy"><h3>Valentina</h3><p>Figurino de caçadora.</p><a class="btn-pdf" href="https://br.shp.ee/CG7p8uKg" target="_blank" rel="noopener noreferrer">Ver figurino de Valentina ↗</a></div></article><article class="outfit-card"><img src="figurinos/lucas.jpg" alt="Referência de figurino: Lucas" loading="lazy"><div class="outfit-copy"><h3>Lucas</h3><p>Figurino de caçador.</p><a class="btn-pdf" href="https://br.shp.ee/q9xq39QS" target="_blank" rel="noopener noreferrer">Ver figurino de Lucas ↗</a></div></article><article class="outfit-card"><img src="figurinos/pietro.jpg" alt="Referência de figurino: Pietro" loading="lazy"><div class="outfit-copy"><h3>Pietro</h3><p>Figurino de caçador.</p><a class="btn-pdf" href="https://br.shp.ee/H9VAoNzZ" target="_blank" rel="noopener noreferrer">Ver figurino de Pietro ↗</a></div></article></div><details style="margin-top:20px"><summary>Outras imagens de referência dos anúncios</summary><div class="outfit-grid" style="margin-top:15px"><article class="outfit-card"><img src="figurinos/saia.jpg" alt="Referência de figurino: Saia · confira a cor indicada para seu grupo" loading="lazy"><div class="outfit-copy"><h3>Saia · confira a cor indicada para seu grupo</h3><p>O anúncio é uma referência de compra; siga as orientações do seu grupo.</p></div></article><article class="outfit-card"><img src="figurinos/alice-anuncio.jpg" alt="Referência de figurino: Alice · imagem do anúncio compartilhado" loading="lazy"><div class="outfit-copy"><h3>Alice · imagem do anúncio compartilhado</h3><p>O anúncio é uma referência de compra; siga as orientações do seu grupo.</p></div></article><article class="outfit-card"><img src="figurinos/gravata.jpg" alt="Referência de figurino: Gravatas · escolher vinho" loading="lazy"><div class="outfit-copy"><h3>Gravatas · escolher vinho</h3><p>O anúncio é uma referência de compra; siga as orientações do seu grupo.</p></div></article></div></details></section>
 
         <!-- ═══════════════════════════════════════════════════
              ABA 1: MÚSICAS & PLAYBACKS
@@ -2317,7 +2309,7 @@
     </main>
 
     <!-- ─── FOOTER ─── -->
-    <footer class="page-footer">
+    <footer class="page-footer"><p>Para voltar: <a href="https://ieqlondrina.com.br">ieqlondrina.com.br</a> → card <strong>Cantata de Natal 2026</strong> → senha <strong>natal</strong>.</p>
         <p><strong>Cantata de Natal IEQ Central</strong> · Igreja do Evangelho Quadrangular Central Londrina</p>
         <p>Travessa Belo Horizonte, 90 · Centro · Londrina, PR</p>
         <p style="margin-top: 6px; font-size: 11px; opacity: 0.7;">Material de uso exclusivo para membros e equipe dos ensaios da cantata.</p>
@@ -2395,6 +2387,9 @@
 
     <!-- ─── JAVASCRIPT LOGIC ─── -->
     <script>
+function irPara(id){switchTab(id);document.querySelector('.tab-bar-wrap').scrollIntoView({behavior:'smooth',block:'start'});}
+function abrirLetra(n){switchTab('tab-musicas');const panel=document.getElementById('letra-card-'+n);if(panel.style.display!=='block')toggleLetra(n);document.getElementById('card-track-'+n).scrollIntoView({behavior:'smooth',block:'start'});}
+
         /* ═══════════════════════════════════════════════════
            CATÁLOGO DE DADOS DAS FAIXAS
            ═══════════════════════════════════════════════════ */
@@ -2518,7 +2513,7 @@
             currentMode = mode;
 
             const fileUrl = (mode === 'voz') ? data.voz : data.pb;
-            const needsSourceChange = (audio.src !== fileUrl && !audio.src.endsWith(fileUrl));
+            const needsSourceChange = audio.src !== new URL(fileUrl, document.baseURI).href;
 
             if (needsSourceChange) {
                 audio.src = fileUrl;
@@ -2618,7 +2613,7 @@
                 if (toggleBtn) toggleBtn.textContent = '⇄ Mudar p/ Voz';
             }
 
-            document.querySelectorAll('.music-card').forEach(card => card.classList.remove('is-playing'));
+            document.querySelectorAll('.music-card').forEach(card => { card.classList.remove('is-playing'); card.querySelectorAll('.btn-play-version').forEach(btn => btn.classList.remove('active-btn')); });
             const currentCard = document.getElementById(`card-track-${currentTrackNum}`);
             if (currentCard) {
                 currentCard.classList.add('is-playing');

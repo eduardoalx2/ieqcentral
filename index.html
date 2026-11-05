@@ -1163,6 +1163,36 @@
                     </div>
                     <span class="hub-link-arrow">→</span>
                 </a>
+                <a href="estacaodanovavida/sermao5.html" class="hub-link hub-sublink">
+                    <div class="hub-link-icon" style="background:#3E7C59;color:#fff;font-weight:900;font-size:13px;letter-spacing:-0.5px;">
+                        05
+                    </div>
+                    <div class="hub-link-text">
+                        <div class="hub-link-title">Sermão 5 · A voz que anuncia: A Pena</div>
+                        <div class="hub-link-sub">11/11/2026 · Quarta-feira às 20h</div>
+                    </div>
+                    <span class="hub-link-arrow">→</span>
+                </a>
+                <a href="estacaodanovavida/sermao6.html" class="hub-link hub-sublink">
+                    <div class="hub-link-icon" style="background:#1E3A5F;color:#fff;font-weight:900;font-size:13px;letter-spacing:-0.5px;">
+                        06
+                    </div>
+                    <div class="hub-link-text">
+                        <div class="hub-link-title">Sermão 6 · Cultive a nova vida: O Vaso</div>
+                        <div class="hub-link-sub">18/11/2026 · Quarta-feira às 20h</div>
+                    </div>
+                    <span class="hub-link-arrow">→</span>
+                </a>
+                <a href="estacaodanovavida/sermao7.html" class="hub-link hub-sublink">
+                    <div class="hub-link-icon" style="background:#C8A951;color:#1E3A5F;font-weight:900;font-size:13px;letter-spacing:-0.5px;">
+                        07
+                    </div>
+                    <div class="hub-link-text">
+                        <div class="hub-link-title">Sermão 7 · Frutos de uma nova vida: O Ramo e Fruto</div>
+                        <div class="hub-link-sub">25/11/2026 · Quarta-feira às 20h</div>
+                    </div>
+                    <span class="hub-link-arrow">→</span>
+                </a>
                 <a href="estacaodanovavida/" class="hub-link hub-sublink" style="border-top:1px dashed var(--line);margin-top:4px;">
                     <div class="hub-link-icon" style="background:linear-gradient(135deg, #1E3A5F 0%, #C8A951 100%);color:#fff;font-size:13px;font-weight:900;">
                         ★
@@ -1292,6 +1322,28 @@ const CAMPANHA_DATA = [
         cor: '#3E7C59',
         resumo: 'Discernir a voz que orienta seus passos e firmar-se na Palavra.',
         ato: 'Pena de escuta atenta.'
+    },
+    {
+        num: 6,
+        dataStr: '18/11/2026',
+        dataCulto: new Date(2026, 10, 18, 20, 0, 0),
+        titulo: 'Cultive a nova vida: O Vaso',
+        simbolo: 'O Vaso',
+        icone: '🪴',
+        cor: '#1E3A5F',
+        resumo: 'Cultivar e proteger aquilo que Deus está fazendo nascer.',
+        ato: 'Vaso como lembrete de cuidado, oração e compromisso diário.'
+    },
+    {
+        num: 7,
+        dataStr: '25/11/2026',
+        dataCulto: new Date(2026, 10, 25, 20, 0, 0),
+        titulo: 'Frutos de uma nova vida: O Ramo e Fruto',
+        simbolo: 'O Ramo e Fruto',
+        icone: '🌿',
+        cor: '#C8A951',
+        resumo: 'Celebrar os frutos da caminhada e continuar permanecendo em Cristo.',
+        ato: 'Ramo e fruto como lembrete de permanecer em Jesus e compartilhar.'
     }
 ];
 
@@ -1352,7 +1404,7 @@ function renderCampanhaHomeRecap() {
         if (proxima) {
             proxEl.innerHTML = `✨ <strong>Próxima ministração:</strong> Semana ${proxima.num} (${proxima.dataStr} às 20h) · <em>${proxima.titulo}</em>`;
         } else {
-            proxEl.innerHTML = `🎉 <strong>Campanha concluída:</strong> Todas as 5 semanas foram ministradas com vitória!`;
+            proxEl.innerHTML = `🎉 <strong>Campanha concluída:</strong> Todas as 7 semanas foram ministradas com vitória!`;
         }
     }
 }

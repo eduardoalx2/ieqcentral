@@ -31,6 +31,18 @@ exports.centralKidsApi=onCall({region:'southamerica-east1',maxInstances:5,timeou
  const o={uid:request.auth.uid,tokenHash:hash(token),name,phone,seller,quantity,amountCents:quantity*500,status:'reserved',createdAt:now,expiresAt:h.until,numbers:[],paidCents:0,approvedQuantity:0};tx.set(stateRef,s);tx.create(ref,o);return publicOrder(o,id);
  });}
  if(a==='lookup'){const ref=db.doc(`orders/${D.text(request.data.id,80)}`);const snap=await ref.get();if(!snap.exists||!owns(snap.data(),request))throw Error('Compra não encontrada. Use seu link privado.');const o=publicOrder(snap.data(),snap.id);if(o.status==='reserved'&&o.expiresAt<=now)o.status='expired';return o;}
+ if(a==='declare'){
+ const id=D.text(request.data.id,80);if(id.includes('/'))throw Error('Compra inválida.');
+ return await db.runTransaction(async tx=>{
+ const ref=db.doc(`orders/${id}`),[ss,os]=await Promise.all([tx.get(stateRef),tx.get(ref)]);
+ if(!os.exists||!owns(os.data(),request))throw Error('Compra indisponível.');const o=os.data();
+ if(['pending','approved'].includes(o.status))return publicOrder(o,id);
+ if(o.status!=='reserved')throw Error('Esta compra não pode informar pagamento.');
+ const s=ss.data()||D.initial();D.submit(s,id,now);
+ tx.update(ref,{status:'pending',proofMethod:'declared',declaredAt:now,submittedAt:now});tx.set(stateRef,s);
+ tx.create(db.collection('audit').doc(),{action:'participant-declared-payment',orderId:id,at:now,by:request.auth.uid,reason:'Participante informou que já comprovou o pagamento, sem anexar comprovante.'});
+ return {id,status:'pending',proofMethod:'declared'};
+ });}
  if(a==='submit'){
  const id=D.text(request.data.id,80);if(id.includes('/'))throw Error('Compra inválida.');
  const bytes=D.validateFile(request.data.base64,request.data.mime),digest=hash(bytes.toString('base64'));
@@ -40,7 +52,7 @@ exports.centralKidsApi=onCall({region:'southamerica-east1',maxInstances:5,timeou
  if(o.status!=='reserved')throw Error('Compra não aceita comprovante.');const s=ss.data()||D.initial();D.submit(s,id,now);
  const encoded=bytes.toString('base64'),parts=Array.from({length:Math.ceil(encoded.length/600000)},(_,i)=>encoded.slice(i*600000,(i+1)*600000));
  tx.set(fileRef,{chunkCount:parts.length,mime:request.data.mime,createdAt:now,bytes:bytes.length});
- parts.forEach((base64,i)=>tx.set(fileRef.collection('parts').doc(String(i).padStart(2,'0')),{base64}));tx.set(dupRef,{firstOrderId:ds.data()?.firstOrderId||id});tx.update(ref,{status:'pending',submittedAt:now,duplicateReceipt:ds.exists&&ds.data().firstOrderId!==id});tx.set(stateRef,s);return {id,status:'pending'};
+ parts.forEach((base64,i)=>tx.set(fileRef.collection('parts').doc(String(i).padStart(2,'0')),{base64}));tx.set(dupRef,{firstOrderId:ds.data()?.firstOrderId||id});tx.update(ref,{status:'pending',proofMethod:'attached',submittedAt:now,duplicateReceipt:ds.exists&&ds.data().firstOrderId!==id});tx.set(stateRef,s);return {id,status:'pending'};
  });}
  if(a==='dashboard'){const [ss,orders,logs]=await Promise.all([stateRef.get(),db.collection('orders').get(),db.collection('audit').orderBy('at','desc').limit(100).get()]);const s=ss.data()||D.initial();D.clean(s,now);return {state:s,available:D.remaining(s),orders:orders.docs.map(o=>publicOrder(o.data(),o.id,true)),audit:logs.docs.map(x=>x.data())};}
  if(a==='file'){const ref=db.doc(`receipts/${D.text(request.data.id,80)}`),f=await ref.get();if(!f.exists)throw Error('Comprovante indisponível.');const meta=f.data();if(meta.base64)return meta;const count=D.integer(meta.chunkCount,1,12);const parts=await db.getAll(...Array.from({length:count},(_,i)=>ref.collection('parts').doc(String(i).padStart(2,'0'))));if(parts.some(p=>!p.exists))throw Error('Comprovante incompleto. Contate a equipe.');const base64=parts.map(p=>p.data().base64).join('');D.validateFile(base64,meta.mime);return {mime:meta.mime,base64};}

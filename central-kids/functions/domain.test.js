@@ -46,3 +46,19 @@ test('nova apuração exclui todas as compras do mesmo ganhador',()=>{
  s.draws.push({orderId:'a',contactAt:now,delivered:false});
  const result=D.draw(s,orders,now+48*3600000,'Sem resposta');assert.equal(result.orderId,'c');
 });
+
+test('comprovantes de celular acima de 600 KB são aceitos até 5 MB',()=>{
+ for(const [mime,signature] of [['application/pdf',Buffer.from('%PDF-1.7\n')],['image/jpeg',Buffer.from([255,216,255])],['image/png',Buffer.from([137,80,78,71,13,10,26,10])]]){
+  const file=Buffer.alloc(2*1024*1024);signature.copy(file);
+  assert.deepEqual(D.validateFile(file.toString('base64'),mime),file);
+  const max=Buffer.alloc(5*1024*1024);signature.copy(max);
+  assert.equal(D.validateFile(max.toString('base64'),mime).length,max.length);
+  assert.throws(()=>D.validateFile(Buffer.concat([max,Buffer.from([0])]).toString('base64'),mime));
+ }
+});
+test('comprovante vazio, formato divergente e documento não permitido são rejeitados',()=>{
+ assert.throws(()=>D.validateFile('','application/pdf'));
+ assert.throws(()=>D.validateFile(Buffer.from('documento').toString('base64'),'application/pdf'));
+ assert.throws(()=>D.validateFile(Buffer.from('%PDF-1.7').toString('base64'),'image/png'));
+ assert.throws(()=>D.validateFile(Buffer.from('%PDF-1.7').toString('base64'),'application/msword'));
+});

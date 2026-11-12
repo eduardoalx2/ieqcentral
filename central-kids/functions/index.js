@@ -38,10 +38,12 @@ exports.centralKidsApi=onCall({region:'southamerica-east1',maxInstances:5,timeou
  const ref=db.doc(`orders/${id}`),fileRef=db.doc(`receipts/${id}`),dupRef=db.doc(`receiptHashes/${digest}`);
  const [ss,os,ds]=await Promise.all([tx.get(stateRef),tx.get(ref),tx.get(dupRef)]);if(!os.exists||!owns(os.data(),request))throw Error('Compra indisponível.');const o=os.data();if(['pending','approved'].includes(o.status))return publicOrder(o,id);
  if(o.status!=='reserved')throw Error('Compra não aceita comprovante.');const s=ss.data()||D.initial();D.submit(s,id,now);
- tx.set(fileRef,{base64:bytes.toString('base64'),mime:request.data.mime,createdAt:now});tx.set(dupRef,{firstOrderId:ds.data()?.firstOrderId||id});tx.update(ref,{status:'pending',submittedAt:now,duplicateReceipt:ds.exists&&ds.data().firstOrderId!==id});tx.set(stateRef,s);return {id,status:'pending'};
+ const encoded=bytes.toString('base64'),parts=Array.from({length:Math.ceil(encoded.length/600000)},(_,i)=>encoded.slice(i*600000,(i+1)*600000));
+ tx.set(fileRef,{chunkCount:parts.length,mime:request.data.mime,createdAt:now,bytes:bytes.length});
+ parts.forEach((base64,i)=>tx.set(fileRef.collection('parts').doc(String(i).padStart(2,'0')),{base64}));tx.set(dupRef,{firstOrderId:ds.data()?.firstOrderId||id});tx.update(ref,{status:'pending',submittedAt:now,duplicateReceipt:ds.exists&&ds.data().firstOrderId!==id});tx.set(stateRef,s);return {id,status:'pending'};
  });}
  if(a==='dashboard'){const [ss,orders,logs]=await Promise.all([stateRef.get(),db.collection('orders').get(),db.collection('audit').orderBy('at','desc').limit(100).get()]);const s=ss.data()||D.initial();D.clean(s,now);return {state:s,available:D.remaining(s),orders:orders.docs.map(o=>publicOrder(o.data(),o.id,true)),audit:logs.docs.map(x=>x.data())};}
- if(a==='file'){const f=await db.doc(`receipts/${D.text(request.data.id,80)}`).get();if(!f.exists)throw Error('Comprovante indisponível.');return f.data();}
+ if(a==='file'){const ref=db.doc(`receipts/${D.text(request.data.id,80)}`),f=await ref.get();if(!f.exists)throw Error('Comprovante indisponível.');const meta=f.data();if(meta.base64)return meta;const count=D.integer(meta.chunkCount,1,12);const parts=await db.getAll(...Array.from({length:count},(_,i)=>ref.collection('parts').doc(String(i).padStart(2,'0'))));if(parts.some(p=>!p.exists))throw Error('Comprovante incompleto. Contate a equipe.');const base64=parts.map(p=>p.data().base64).join('');D.validateFile(base64,meta.mime);return {mime:meta.mime,base64};}
  if(management.includes(a))return await db.runTransaction(async tx=>{
  const ss=await tx.get(stateRef),s=ss.data()||D.initial();D.clean(s,now);
  const id=request.data.id?D.text(request.data.id,80):null;if(id?.includes('/'))throw Error('Compra inválida.');

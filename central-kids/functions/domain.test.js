@@ -39,3 +39,10 @@ test('WhatsApp aceita formato brasileiro e rejeita DDD inválido',()=>{
  assert.equal(D.phone('+55 43 99999-1234'),'43999991234');
  assert.throws(()=>D.phone('00999991234'));
 });
+
+test('nova apuração exclui todas as compras do mesmo ganhador',()=>{
+ const s=state();for(const id of ['a','b','c']){D.reserve(s,id,1,now);D.submit(s,id,now);D.approve(s,id,1,500,now);}
+ s.closed=true;const orders={a:{name:'Ana',phone:'43999991234'},b:{name:'Ana',phone:'43999991234'},c:{name:'Bia',phone:'43999995678'}};
+ s.draws.push({orderId:'a',contactAt:now,delivered:false});
+ const result=D.draw(s,orders,now+48*3600000,'Sem resposta');assert.equal(result.orderId,'c');
+});

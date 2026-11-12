@@ -1,1 +1,0 @@
-{"functions":[{"source":"functions","codebase":"central-kids","ignore":["node_modules","*.test.js","*-debug.log"]}],"firestore":[{"database":"central-kids","rules":"firestore.rules"}],"emulators":{"functions":{"port":5001},"firestore":{"port":8080},"auth":{"port":9099},"ui":{"enabled":false}}}

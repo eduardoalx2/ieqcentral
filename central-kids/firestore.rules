@@ -1,7 +1,0 @@
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    // Isolated named database. All operations pass through the authenticated callable.
-    match /{document=**} { allow read, write: if false; }
-  }
-}

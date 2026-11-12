@@ -10,7 +10,7 @@ const stateRef=db.doc('system/event');
 const hash=t=>createHash('sha256').update(String(t||'')).digest('hex');
 function owns(o,request){const token=hash(request.data.token);return request.auth?.uid===o.uid||(typeof o.tokenHash==='string'&&timingSafeEqual(Buffer.from(token),Buffer.from(o.tokenHash)));}
 function admin(r){return !!r.auth?.token.email_verified&&D.ADMINS.includes(String(r.auth.token.email||'').toLowerCase());}
-function publicOrder(o,id){const {uid,tokenHash,...safe}=o;return {id,...safe};}
+function publicOrder(o,id,internal=false){const {uid,tokenHash,...safe}=o;if(!internal){for(const key of ["note","duplicateReceipt","approvedBy","adjustmentReason"])delete safe[key];}return {id,...safe};}
 exports.centralKidsApi=onCall({region:'southamerica-east1',maxInstances:5,timeoutSeconds:60,cors:['https://www.ieqlondrina.com.br','https://ieqlondrina.com.br',/^http:\/\/localhost(:\d+)?$/,/^http:\/\/127\.0\.0\.1(:\d+)?$/]},async request=>{
  try{
  const a=request.data?.action, now=Date.now();
@@ -40,7 +40,7 @@ exports.centralKidsApi=onCall({region:'southamerica-east1',maxInstances:5,timeou
  if(o.status!=='reserved')throw Error('Compra não aceita comprovante.');const s=ss.data()||D.initial();D.submit(s,id,now);
  tx.set(fileRef,{base64:bytes.toString('base64'),mime:request.data.mime,createdAt:now});tx.set(dupRef,{firstOrderId:ds.data()?.firstOrderId||id});tx.update(ref,{status:'pending',submittedAt:now,duplicateReceipt:ds.exists&&ds.data().firstOrderId!==id});tx.set(stateRef,s);return {id,status:'pending'};
  });}
- if(a==='dashboard'){const [ss,orders,logs]=await Promise.all([stateRef.get(),db.collection('orders').get(),db.collection('audit').orderBy('at','desc').limit(100).get()]);const s=ss.data()||D.initial();D.clean(s,now);return {state:s,available:D.remaining(s),orders:orders.docs.map(o=>publicOrder(o.data(),o.id)),audit:logs.docs.map(x=>x.data())};}
+ if(a==='dashboard'){const [ss,orders,logs]=await Promise.all([stateRef.get(),db.collection('orders').get(),db.collection('audit').orderBy('at','desc').limit(100).get()]);const s=ss.data()||D.initial();D.clean(s,now);return {state:s,available:D.remaining(s),orders:orders.docs.map(o=>publicOrder(o.data(),o.id,true)),audit:logs.docs.map(x=>x.data())};}
  if(a==='file'){const f=await db.doc(`receipts/${D.text(request.data.id,80)}`).get();if(!f.exists)throw Error('Comprovante indisponível.');return f.data();}
  if(management.includes(a))return await db.runTransaction(async tx=>{
  const ss=await tx.get(stateRef),s=ss.data()||D.initial();D.clean(s,now);
@@ -60,7 +60,7 @@ exports.centralKidsApi=onCall({region:'southamerica-east1',maxInstances:5,timeou
  }else if(a==='enable'){if(s.closed||s.draws.length||now>=D.CLOSE)throw Error('Evento encerrado.');s.enabled=request.data.enabled===true;
  }else if(a==='close'){s.closed=true;
  }else if(a==='draw'){
- const all=await tx.get(db.collection('orders'));const orders=Object.fromEntries(all.docs.map(x=>[x.id,x.data()]));result=D.draw(s,orders,now,request.data.reason);
+ const all=await tx.get(db.collection('orders'));const orders=Object.fromEntries(all.docs.map(x=>[x.id,x.data()]));s.closed=true;result=D.draw(s,orders,now,request.data.reason);
  }else if(a==='contact'){const last=s.draws.at(-1);if(!last)throw Error('Sorteio ainda não realizado.');D.text(request.data.reason,500);if(!last.contactAt)last.contactAt=now;
  }else if(a==='deliver'){const last=s.draws.at(-1);if(!last)throw Error('Sorteio ainda não realizado.');last.delivered=true;last.deliveredAt=now;last.receivedBy=D.text(request.data.reason,200);
  }else throw Error('Ação inválida.');

@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Painel Administrativo · Ação entre Amigos Central Kids</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <!-- CABEÇALHO DO PAINEL ADMIN -->
+    <header class="top-banner">
+        <div class="top-banner-inner">
+            <div class="hub-topbar">
+                <a href="./index.html" class="back-site-link">
+                    <span>←</span> Voltar à Página Pública
+                </a>
+                <button type="button" id="btnLogoutAdmin" class="admin-shortcut-btn" style="display:none;" onclick="sairPainelAdmin()">
+                    🚪 Sair do Painel
+                </button>
+            </div>
+            <div class="hero-brand">
+                <div class="hero-logo-box">
+                    <img src="./assets/logo-central-kids.png" alt="Logo Central Kids">
+                </div>
+                <div class="hero-titles">
+                    <span class="hero-badge">🔒 Administração Restrita</span>
+                    <h1>Gestão · Ação entre Amigos Central Kids</h1>
+                    <p>Conferência de Pix, liberação de números (001 a 200), sorteio e auditoria</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="margin-top:1rem;">
+
+        <!-- TELA DE LOGIN DO PAINEL (INDEPENDENTE DO FIREBASE AUTH) -->
+        <section id="telaLoginAdmin" class="card" style="max-width:430px; margin:1.5rem auto; text-align:center;">
+            <div style="font-size:2.3rem; margin-bottom:6px;">🔐</div>
+            <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:4px;">Acesso Administrativo</h2>
+            <p style="font-size:0.84rem; color:var(--muted); margin-bottom:14px;">
+                Digite a senha de administração do Central Kids para gerenciar as reservas e aprovar pagamentos.
+            </p>
+            <form onsubmit="fazerLoginAdmin(event)">
+                <div class="form-group" style="text-align:left;">
+                    <label class="form-label" for="inputSenhaAdmin">Senha do Painel</label>
+                    <input type="password" id="inputSenhaAdmin" class="form-input" placeholder="Digite a senha..." required autofocus>
+                </div>
+                <div id="erroSenhaAdmin" style="display:none; background:#fee2e2; color:#991b1b; padding:9px; border-radius:8px; font-size:0.82rem; font-weight:700; margin-bottom:10px;">
+                    Senha incorreta. Tente novamente.
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Entrar no Painel →
+                </button>
+            </form>
+        </section>
+
+        <!-- CONTEÚDO DO PAINEL ADMINISTRATIVO -->
+        <section id="conteudoPainelAdmin" style="display:none;">
+
+            <!-- BARRA DE AÇÕES RÁPIDAS E STATUS DAS VENDAS -->
+            <div class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:12px 14px;">
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                    <span id="badgeStatusVendasAdmin" class="status-badge status-aprovado">Vendas Abertas</span>
+                    <span id="textoDetalheVendasAdmin" style="font-size:0.8rem; color:var(--muted); font-weight:600;">Encerramento automático: 20/12/2026 às 22h</span>
+                </div>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="recarregarPainelCompleto()">
+                        🔄 Atualizar
+                    </button>
+                    <button type="button" class="btn btn-red btn-sm" id="btnToggleVendas" onclick="alternarEncerramentoVendas()">
+                        🛑 Encerrar Vendas
+                    </button>
+                </div>
+            </div>
+
+            <!-- 5 INDICADORES PRINCIPAIS -->
+            <div class="admin-stats-grid">
+                <div class="admin-stat-card" style="border-left:4px solid #16a34a;">
+                    <div class="lbl">Arrecadado Confirmado</div>
+                    <div class="val" id="statValorConfirmado" style="color:#15803d;">R$ 0,00</div>
+                </div>
+                <div class="admin-stat-card" style="border-left:4px solid #f59e0b;">
+                    <div class="lbl">Valores Pendentes</div>
+                    <div class="val" id="statValorPendente" style="color:#b45309;">R$ 0,00</div>
+                </div>
+                <div class="admin-stat-card" style="border-left:4px solid #0284c7;">
+                    <div class="lbl">Números Vendidos</div>
+                    <div class="val" id="statNumerosVendidos" style="color:#0369a1;">0 / 200</div>
+                </div>
+                <div class="admin-stat-card" style="border-left:4px solid #7e22ce;">
+                    <div class="lbl">Reservados / Análise</div>
+                    <div class="val" id="statNumerosReservados" style="color:#6b21a8;">0</div>
+                </div>
+                <div class="admin-stat-card" style="border-left:4px solid #475569;">
+                    <div class="lbl">Números Disponíveis</div>
+                    <div class="val" id="statNumerosDisponiveis">200</div>
+                </div>
+            </div>
+
+            <!-- NAVEGAÇÃO INTERNA DO ADMIN -->
+            <div class="hub-tabs-bar" style="grid-template-columns: repeat(4, 1fr); margin-bottom:1rem;">
+                <button type="button" class="hub-tab-btn active" id="admTabPedidos" onclick="mudarAbaAdmin('pedidos')">
+                    📋 Pedidos
+                </button>
+                <button type="button" class="hub-tab-btn" id="admTabNumeros" onclick="mudarAbaAdmin('numeros')">
+                    🔢 Números (001-200)
+                </button>
+                <button type="button" class="hub-tab-btn" id="admTabSorteio" onclick="mudarAbaAdmin('sorteio')">
+                    🏆 Sorteio
+                </button>
+                <button type="button" class="hub-tab-btn" id="admTabConfig" onclick="mudarAbaAdmin('config')">
+                    ⚙️ Config & Logs
+                </button>
+            </div>
+
+            <!-- ==========================================
+                 ABA ADMIN 1: PEDIDOS E CONFERÊNCIA
+            =========================================== -->
+            <div id="admViewPedidos">
+                <div class="card">
+                    <div style="display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:12px;">
+                        <input type="search" id="inputBuscaAdmin" class="form-input" placeholder="🔍 Pesquisar por nome, WhatsApp, vendedor, protocolo ou número (ex.: 045)..." oninput="renderizarPedidosAdmin()">
+
+                        <!-- FILTROS DE FILA -->
+                        <div style="display:flex; gap:6px; flex-wrap:wrap;" id="barBotoesFiltroStatus">
+                            <button type="button" class="qty-preset-btn active" data-flt="todos" onclick="selecionarFiltroStatus('todos')">Todos (<span id="cnt_todos">0</span>)</button>
+                            <button type="button" class="qty-preset-btn" data-flt="comprovante_enviado" onclick="selecionarFiltroStatus('comprovante_enviado')">📎 Com Comprovante (<span id="cnt_comprovante_enviado">0</span>)</button>
+                            <button type="button" class="qty-preset-btn" data-flt="declarado_sem_comprovante" onclick="selecionarFiltroStatus('declarado_sem_comprovante')">⚠️ Sem Comprovante (<span id="cnt_declarado_sem_comprovante">0</span>)</button>
+                            <button type="button" class="qty-preset-btn" data-flt="reservado_aguardando" onclick="selecionarFiltroStatus('reservado_aguardando')">⏳ Reservados (<span id="cnt_reservado_aguardando">0</span>)</button>
+                            <button type="button" class="qty-preset-btn" data-flt="aprovado" onclick="selecionarFiltroStatus('aprovado')">✅ Aprovados (<span id="cnt_aprovado">0</span>)</button>
+                            <button type="button" class="qty-preset-btn" data-flt="rejeitado" onclick="selecionarFiltroStatus('rejeitado')">❌ Rejeitados (<span id="cnt_rejeitado">0</span>)</button>
+                            <button type="button" class="qty-preset-btn" data-flt="cancelado" onclick="selecionarFiltroStatus('cancelado')">🚫 Cancelados (<span id="cnt_cancelado">0</span>)</button>
+                            <button type="button" class="qty-preset-btn" data-flt="expirado" onclick="selecionarFiltroStatus('expirado')">⌛ Expirados (<span id="cnt_expirado">0</span>)</button>
+                        </div>
+                    </div>
+
+                    <div id="listaPedidosAdminContainer" style="display:grid; gap:12px;"></div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 ABA ADMIN 2: RELAÇÃO DE NÚMEROS (001 A 200)
+            =========================================== -->
+            <div id="admViewNumeros" style="display:none;">
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                        <div>
+                            <h2 style="font-size:1.1rem; font-weight:800;">🔢 Mapa Geral dos 200 Números (001 a 200)</h2>
+                            <p style="font-size:0.82rem; color:var(--muted);">Números em verde estão pagos e confirmados. Toque em um número vendido para ver o participante.</p>
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="exportarPlanilhaCSV()">
+                            📥 Exportar Planilha (CSV/Excel)
+                        </button>
+                    </div>
+
+                    <div id="detalheNumeroSelecionado" style="display:none; background:#f0fdf4; border:1.5px solid #16a34a; border-radius:12px; padding:10px 12px; margin-bottom:12px; font-size:0.86rem;"></div>
+
+                    <div class="numbers-board" id="gridNumeros200"></div>
+
+                    <h3 style="font-size:1rem; font-weight:800; margin:18px 0 8px;">📋 Relação Nominal de Números Pagos</h3>
+                    <div id="tabelaNumerosPagos" style="display:grid; gap:6px;"></div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 ABA ADMIN 3: SORTEIO OFICIAL
+            =========================================== -->
+            <div id="admViewSorteio" style="display:none;">
+                <div class="card">
+                    <h2 style="font-size:1.15rem; font-weight:800; margin-bottom:4px;">🏆 Sorteio da Cesta de Natal · Central Kids</h2>
+                    <p style="font-size:0.84rem; color:var(--muted); margin-bottom:14px;">
+                        Somente números com <strong>pagamento confirmado</strong> participam. Ao realizar ou registrar o sorteio, as vendas são automaticamente encerradas e o resultado fica gravado na ata oficial.
+                    </p>
+
+                    <div id="resumoElegiveisSorteio" style="background:var(--surface-alt); border:1px solid #e7e0d3; border-radius:12px; padding:12px; margin-bottom:14px; font-size:0.9rem;"></div>
+
+                    <div style="display:grid; grid-template-columns:1fr; gap:12px;">
+                        <!-- MODO 1: SORTEAR PELO SISTEMA -->
+                        <div style="background:#f0fdf4; border:2px solid #16a34a; border-radius:14px; padding:14px;">
+                            <div style="font-weight:800; font-size:0.98rem; color:#14532d; margin-bottom:4px;">
+                                🎲 Opção A: Sortear Número Agora pelo Sistema
+                            </div>
+                            <p style="font-size:0.82rem; color:#166534; margin-bottom:10px;">
+                                O sistema realiza o sorteio eletrônico aleatório exclusivamente entre os números pagos e identifica o ganhador na hora.
+                            </p>
+                            <input type="text" id="inputObsSorteioSistema" class="form-input" placeholder="Observação opcional (ex.: Sorteio após a Cantata de Natal)" style="margin-bottom:8px;">
+                            <button type="button" class="btn btn-primary" onclick="executarSorteioNoSistema()">
+                                🎉 Realizar Sorteio Oficial Agora
+                            </button>
+                        </div>
+
+                        <!-- MODO 2: REGISTRAR NÚMERO SORTEADO FORA DO SISTEMA (NO CULTO) -->
+                        <div style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:14px; padding:14px;">
+                            <div style="font-weight:800; font-size:0.95rem; color:var(--ink); margin-bottom:4px;">
+                                🎤 Opção B: Sorteio feito no globo/papel no culto (Registrar Ganhador)
+                            </div>
+                            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:10px;">
+                                Se o sorteio for feito fisicamente no culto, digite abaixo o número sorteado (001 a 200) para validar o titular e deixar registrado no sistema:
+                            </p>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <input type="number" id="inputNumeroSorteadoManual" class="form-input" placeholder="Nº (1 a 200)" min="1" max="200" style="width:140px;">
+                                <input type="text" id="inputObsSorteioManual" class="form-input" placeholder="Observação (opcional)" style="flex:1; min-width:180px;">
+                                <button type="button" class="btn btn-secondary" style="width:auto;" onclick="registrarSorteioManualCulto()">
+                                    Validar e Registrar Ganhador
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="font-size:1rem; font-weight:800; margin:18px 0 8px;">📜 Histórico de Sorteios Realizados</h3>
+                    <div id="listaHistoricoSorteios"></div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 ABA ADMIN 4: CONFIGURAÇÕES, BACKUP E LOGS
+            =========================================== -->
+            <div id="admViewConfig" style="display:none;">
+                <div class="card">
+                    <h2 style="font-size:1.1rem; font-weight:800; margin-bottom:10px;">⚙️ Configurações do Pix e Reserva</h2>
+                    <form onsubmit="salvarConfigAdminForm(event)">
+                        <div class="form-group">
+                            <label class="form-label">Chave Pix</label>
+                            <input type="text" id="cfgChavePix" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nome do Recebedor Pix</label>
+                            <input type="text" id="cfgNomeRecebedor" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Prazo de Expiração de Reserva sem Comprovante (minutos)</label>
+                            <input type="number" id="cfgPrazoMinutos" class="form-input" min="5" max="1440" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            💾 Salvar Configurações
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2 style="font-size:1.1rem; font-weight:800; margin-bottom:6px;">🛡️ Cópia de Segurança (Backup) e Exportação</h2>
+                    <p style="font-size:0.83rem; color:var(--muted); margin-bottom:12px;">
+                        Baixe a planilha para Excel ou uma cópia integral de segurança com todos os participantes, números e configurações.
+                    </p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                        <button type="button" class="btn btn-secondary" onclick="exportarPlanilhaCSV()">
+                            📊 Baixar Planilha CSV (Excel)
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="exportarBackupJSON()">
+                            📦 Baixar Backup Completo (JSON)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 style="font-size:1.1rem; font-weight:800; margin-bottom:8px;">🕵️ Registro de Ações Administrativas (Auditoria)</h2>
+                    <div id="listaLogsAuditoria" style="display:grid; gap:6px; max-height:420px; overflow-y:auto; font-size:0.8rem;"></div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- MODAL VISUALIZADOR DE COMPROVANTE -->
+    <div class="modal-overlay" id="modalComprovante" onclick="fecharModalComprovante()">
+        <div class="modal-box" style="max-width:640px;" onclick="event.stopPropagation()">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h3 style="font-size:1.05rem; font-weight:800;" id="tituloModalComprovante">Comprovante do Pedido</h3>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="fecharModalComprovante()">✕ Fechar</button>
+            </div>
+            <div id="corpoModalComprovante" style="text-align:center; min-height:180px; display:flex; align-items:center; justify-content:center;"></div>
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;" id="rodapeModalComprovante"></div>
+        </div>
+    </div>
+
+    <!-- MODAL DE APROVAÇÃO / AJUSTE DE PAGAMENTO -->
+    <div class="modal-overlay" id="modalAprovarPedido">
+        <div class="modal-box">
+            <h3 style="font-size:1.12rem; font-weight:800; margin-bottom:6px;">✅ Confirmar Pagamento e Gerar Números</h3>
+            <p id="subtituloModalAprovar" style="font-size:0.84rem; color:var(--muted); margin-bottom:12px;"></p>
+
+            <div id="alertaSemComprovanteModal" style="display:none; background:#ffedd5; border:1.5px solid #f97316; color:#7c2d12; padding:10px; border-radius:10px; font-size:0.82rem; font-weight:700; margin-bottom:12px;">
+                ⚠️ ATENÇÃO: Este participante declarou pagamento SEM anexar comprovante. Confira no extrato bancário antes de aprovar!
+            </div>
+
+            <form onsubmit="confirmarAprovacaoModal(event)">
+                <input type="hidden" id="aprovPedidoId">
+                <div class="form-group">
+                    <label class="form-label">Quantidade de Números a Liberar (001 a 200)</label>
+                    <input type="number" id="aprovQuantidade" class="form-input" min="1" max="200" required oninput="aoMudarQtdAprovacao()">
+                    <div class="form-hint">Os números serão sorteados automaticamente sem repetição.</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Valor Confirmado Recebido (R$)</label>
+                    <input type="number" id="aprovValorReais" class="form-input" step="0.01" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Observação Administrativa (opcional)</label>
+                    <input type="text" id="aprovObservacao" class="form-input" placeholder="Ex.: Conferido no extrato Pix">
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModalAprovar()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="btnSubmitAprovacao">✅ Aprovar e Sortear Números</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toastAdmin"></div>
+
+    <script type="module">
+        import {
+            TOTAL_NUMEROS,
+            VALOR_POR_NUMERO_REAIS,
+            VALOR_POR_NUMERO_CENTAVOS,
+            formatarNumeroSorte,
+            formatarMoedaCentavos,
+            formatarTelefone,
+            carregarResumoEPedidos,
+            obterComprovantePedido,
+            aprovarPedidoAdmin,
+            rejeitarPedidoAdmin,
+            cancelarPedidoAdmin,
+            salvarObservacaoPedidoAdmin,
+            atualizarConfiguracoesAdmin,
+            registrarSorteioOficialAdmin,
+            carregarLogsAdmin,
+            gerarMensagemWhatsAppAprovacao
+        } from './db-service.js';
+
+        const SESSION_KEY_ADMIN = 'central_kids_admin_auth_ok';
+        let resumoGlobal = null;
+        let filtroStatusAtual = 'todos';
+
+        window.mostrarToast = function(msg) {
+            const t = document.getElementById('toastAdmin');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3400);
+        };
+
+        function escapeHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        // ==========================================
+        // AUTENTICAÇÃO DO PAINEL (SENHA: centralkids)
+        // ==========================================
+        window.fazerLoginAdmin = function(e) {
+            e.preventDefault();
+            const senhaDigitada = (document.getElementById('inputSenhaAdmin').value || '').trim().toLowerCase();
+            if (senhaDigitada === 'centralkids') {
+                sessionStorage.setItem(SESSION_KEY_ADMIN, 'true');
+                document.getElementById('erroSenhaAdmin').style.display = 'none';
+                abrirPainelAutenticado();
+            } else {
+                document.getElementById('erroSenhaAdmin').style.display = 'block';
+                document.getElementById('inputSenhaAdmin').select();
+            }
+        };
+
+        window.sairPainelAdmin = function() {
+            sessionStorage.removeItem(SESSION_KEY_ADMIN);
+            document.getElementById('conteudoPainelAdmin').style.display = 'none';
+            document.getElementById('btnLogoutAdmin').style.display = 'none';
+            document.getElementById('telaLoginAdmin').style.display = 'block';
+            document.getElementById('inputSenhaAdmin').value = '';
+        };
+
+        async function abrirPainelAutenticado() {
+            document.getElementById('telaLoginAdmin').style.display = 'none';
+            document.getElementById('conteudoPainelAdmin').style.display = 'block';
+            document.getElementById('btnLogoutAdmin').style.display = 'inline-flex';
+            await recarregarPainelCompleto();
+        }
+
+        // Navegação entre abas do Admin
+        window.mudarAbaAdmin = async function(aba) {
+            document.getElementById('admViewPedidos').style.display = aba === 'pedidos' ? 'block' : 'none';
+            document.getElementById('admViewNumeros').style.display = aba === 'numeros' ? 'block' : 'none';
+            document.getElementById('admViewSorteio').style.display = aba === 'sorteio' ? 'block' : 'none';
+            document.getElementById('admViewConfig').style.display = aba === 'config' ? 'block' : 'none';
+
+            document.getElementById('admTabPedidos').classList.toggle('active', aba === 'pedidos');
+            document.getElementById('admTabNumeros').classList.toggle('active', aba === 'numeros');
+            document.getElementById('admTabSorteio').classList.toggle('active', aba === 'sorteio');
+            document.getElementById('admTabConfig').classList.toggle('active', aba === 'config');
+
+            if (aba === 'numeros') renderizarMapaNumeros200();
+            if (aba === 'sorteio') renderizarAbaSorteio();
+            if (aba === 'config') await renderizarAbaConfigELogs();
+        };
+
+        window.recarregarPainelCompleto = async function() {
+            try {
+                resumoGlobal = await carregarResumoEPedidos();
+                const est = resumoGlobal.estatisticas;
+                const cfg = resumoGlobal.config;
+
+                document.getElementById('statValorConfirmado').textContent = formatarMoedaCentavos(est.valorConfirmadoCentavos);
+                document.getElementById('statValorPendente').textContent = formatarMoedaCentavos(est.valorPendenteCentavos);
+                document.getElementById('statNumerosVendidos').textContent = `${est.numerosVendidos} / ${TOTAL_NUMEROS}`;
+                document.getElementById('statNumerosReservados').textContent = `${est.numerosReservadosTotal}`;
+                document.getElementById('statNumerosDisponiveis').textContent = `${est.numerosDisponiveis}`;
+
+                const badgeVendas = document.getElementById('badgeStatusVendasAdmin');
+                const txtVendas = document.getElementById('textoDetalheVendasAdmin');
+                const btnToggle = document.getElementById('btnToggleVendas');
+
+                if (est.vendasEncerradas) {
+                    badgeVendas.className = 'status-badge status-rejeitado';
+                    badgeVendas.textContent = '🔒 Vendas Encerradas';
+                    txtVendas.textContent = est.motivoEncerramento;
+                    btnToggle.textContent = '🔓 Reabrir Vendas';
+                    btnToggle.className = 'btn btn-primary btn-sm';
+                } else {
+                    badgeVendas.className = 'status-badge status-aprovado';
+                    badgeVendas.textContent = '🟢 Vendas Abertas';
+                    txtVendas.textContent = 'Encerramento automático: 20/12/2026 às 22h';
+                    btnToggle.textContent = '🛑 Encerrar Vendas';
+                    btnToggle.className = 'btn btn-red btn-sm';
+                }
+
+                atualizarContadoresFiltros();
+                renderizarPedidosAdmin();
+                renderizarMapaNumeros200();
+                renderizarAbaSorteio();
+            } catch (err) {
+                console.error("Erro ao carregar painel:", err);
+                mostrarToast("Erro ao carregar dados: " + err.message);
+            }
+        };
+
+        function atualizarContadoresFiltros() {
+            const pedidos = resumoGlobal?.pedidos || [];
+            const cont = {
+                todos: pedidos.length,
+                comprovante_enviado: 0,
+                declarado_sem_comprovante: 0,
+                reservado_aguardando: 0,
+                aprovado: 0,
+                rejeitado: 0,
+                cancelado: 0,
+                expirado: 0
+            };
+            pedidos.forEach(p => {
+                const st = p.statusEfetivo;
+                if (cont[st] !== undefined) cont[st]++;
+            });
+            Object.keys(cont).forEach(k => {
+                const el = document.getElementById(`cnt_${k}`);
+                if (el) el.textContent = cont[k];
+            });
+        }
+
+        window.selecionarFiltroStatus = function(flt) {
+            filtroStatusAtual = flt;
+            document.querySelectorAll('#barBotoesFiltroStatus .qty-preset-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.flt === flt);
+            });
+            renderizarPedidosAdmin();
+        };
+
+        function rotuloStatusAdmin(st) {
+            const m = {
+                reservado_aguardando: '⏳ Aguardando Pagamento',
+                comprovante_enviado: '📎 Comprovante Enviado',
+                declarado_sem_comprovante: '⚠️ DECLARADO SEM COMPROVANTE',
+                aprovado: '✅ Pagamento Aprovado',
+                rejeitado: '❌ Rejeitado',
+                cancelado: '🚫 Cancelado',
+                expirado: '⌛ Reserva Expirada'
+            };
+            return m[st] || st;
+        }
+
+        window.renderizarPedidosAdmin = function() {
+            const container = document.getElementById('listaPedidosAdminContainer');
+            const pedidos = resumoGlobal?.pedidos || [];
+            const termo = (document.getElementById('inputBuscaAdmin').value || '').toLowerCase().trim();
+
+            const filtrados = pedidos.filter(p => {
+                if (filtroStatusAtual !== 'todos' && p.statusEfetivo !== filtroStatusAtual) return false;
+                if (!termo) return true;
+                const nums = Array.isArray(p.numeros) ? p.numeros.join(' ') : '';
+                const alvo = `${p.nome || ''} ${p.whatsappFormatado || ''} ${p.whatsappLimpo || ''} ${p.vendedor || ''} ${p.protocolo || ''} ${nums}`.toLowerCase();
+                return alvo.includes(termo);
+            });
+
+            if (filtrados.length === 0) {
+                container.innerHTML = `
+                    <div style="padding:2.2rem; text-align:center; color:var(--muted); background:#f8fafc; border-radius:12px;">
+                        Nenhum pedido encontrado para este filtro/busca.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtrados.map(p => {
+                const st = p.statusEfetivo;
+                const telLimpo = p.whatsappLimpo || '';
+                const linkWhatsDireto = `https://wa.me/55${telLimpo}`;
+                const msgAprovado = st === 'aprovado' ? gerarMensagemWhatsAppAprovacao(p) : '';
+                const linkWhatsNumeros = `https://wa.me/55${telLimpo}?text=${encodeURIComponent(msgAprovado)}`;
+
+                const destaqueSemComprovante = st === 'declarado_sem_comprovante' || p.metodoPagamento === 'declarado_sem_comprovante';
+
+                return `
+                    <div style="background:#fff; border:${destaqueSemComprovante ? '2px solid #f97316' : '1px solid var(--border)'}; border-radius:14px; padding:14px; box-shadow:var(--shadow-sm);">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+                            <div>
+                                <span class="status-badge status-${escapeHtml(st)}">${rotuloStatusAdmin(st)}</span>
+                                <span style="font-family:monospace; font-size:0.78rem; color:var(--muted); margin-left:6px;">${escapeHtml(p.protocolo || p.id.slice(0, 8))}</span>
+                                <h3 style="font-size:1.05rem; font-weight:800; margin-top:4px;">${escapeHtml(p.nome)}</h3>
+                            </div>
+                            <div style="text-align:right; font-size:0.78rem; color:var(--muted);">
+                                📅 ${escapeHtml(p.criadoEmTexto || '')}
+                            </div>
+                        </div>
+
+                        ${destaqueSemComprovante ? `
+                            <div style="background:#ffedd5; border:1px solid #fb923c; color:#9a3412; padding:8px 10px; border-radius:8px; font-size:0.8rem; font-weight:800; margin-bottom:8px;">
+                                ⚠️ PAGAMENTO INFORMADO SEM COMPROVANTE — O participante declarou ter pago sem anexar arquivo. Confira no extrato bancário antes de aprovar.
+                            </div>
+                        ` : ''}
+
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:6px; background:var(--surface-alt); padding:10px; border-radius:10px; font-size:0.84rem; margin-bottom:10px;">
+                            <div>📱 <strong>WhatsApp:</strong> ${escapeHtml(p.whatsappFormatado || formatarTelefone(p.whatsappLimpo))}</div>
+                            <div>🤝 <strong>Vendedor:</strong> ${escapeHtml(p.vendedor || 'Não informado')}</div>
+                            <div>🎟️ <strong>Quantidade:</strong> <strong>${p.quantidadeAprovada || p.quantidade} nº(s)</strong> ${p.quantidadeAprovada && p.quantidadeAprovada !== p.quantidade ? `(pediu ${p.quantidade})` : ''}</div>
+                            <div>💰 <strong>Valor:</strong> <strong style="color:var(--primary-dark);">${formatarMoedaCentavos(st === 'aprovado' ? p.valorPagoCentavos : p.valorTotalCentavos)}</strong></div>
+                        </div>
+
+                        ${st === 'aprovado' && Array.isArray(p.numeros) && p.numeros.length > 0 ? `
+                            <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:10px; padding:10px; margin-bottom:10px;">
+                                <div style="font-size:0.76rem; font-weight:800; color:#166534; text-transform:uppercase;">🍀 Números Atribuídos (${p.numeros.length}):</div>
+                                <div class="lucky-numbers-wrap">
+                                    ${p.numeros.map(n => `<span class="lucky-number-pill" style="font-size:0.88rem; padding:4px 10px;">${escapeHtml(n)}</span>`).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${p.observacaoAdmin ? `
+                            <div style="font-size:0.8rem; background:#fef2f2; color:#991b1b; padding:8px 10px; border-radius:8px; margin-bottom:10px;">
+                                📌 <strong>Observação / Histórico:</strong> ${escapeHtml(p.observacaoAdmin)}
+                            </div>
+                        ` : ''}
+
+                        <!-- BOTÕES DE AÇÃO DO PEDIDO -->
+                        <div style="display:flex; gap:7px; flex-wrap:wrap; align-items:center;">
+                            ${p.possuiComprovante ? `
+                                <button type="button" class="btn btn-secondary btn-sm" style="border-color:#0284c7; color:#0369a1; background:#e0f2fe;" onclick="visualizarComprovanteAdmin('${p.id}', '${escapeHtml(p.nome)}')">
+                                    👁️ Abrir Comprovante
+                                </button>
+                            ` : ''}
+
+                            ${st !== 'aprovado' && st !== 'cancelado' ? `
+                                <button type="button" class="btn btn-primary btn-sm" onclick="abrirModalAprovacao('${p.id}')">
+                                    ✅ Confirmar Pagamento e Gerar Números
+                                </button>
+                            ` : ''}
+
+                            ${st === 'aprovado' ? `
+                                <a href="${linkWhatsNumeros}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-sm">
+                                    💬 Enviar Números no WhatsApp
+                                </a>
+                            ` : ''}
+
+                            <a href="${linkWhatsDireto}" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">
+                                📞 Conversar no WhatsApp
+                            </a>
+
+                            ${['comprovante_enviado', 'declarado_sem_comprovante', 'reservado_aguardando'].includes(st) ? `
+                                <button type="button" class="btn btn-red btn-sm" onclick="acaoRejeitarPedido('${p.id}', '${escapeHtml(p.nome)}')">
+                                    ❌ Rejeitar
+                                </button>
+                            ` : ''}
+
+                            ${st !== 'cancelado' ? `
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="acaoCancelarPedido('${p.id}', '${escapeHtml(p.nome)}', '${st}')">
+                                    🚫 Cancelar Reserva
+                                </button>
+                            ` : ''}
+
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="acaoEditarObservacao('${p.id}')">
+                                📝 Anotar
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        // ==========================================
+        // VISUALIZAR COMPROVANTE (IMAGEM OU PDF)
+        // ==========================================
+        window.visualizarComprovanteAdmin = async function(pedidoId, nome) {
+            const modal = document.getElementById('modalComprovante');
+            const corpo = document.getElementById('corpoModalComprovante');
+            const rodape = document.getElementById('rodapeModalComprovante');
+            document.getElementById('tituloModalComprovante').textContent = `Comprovante · ${nome}`;
+            corpo.innerHTML = `<div style="padding:2rem; color:var(--muted);">Carregando comprovante...</div>`;
+            rodape.innerHTML = '';
+            modal.classList.add('active');
+
+            try {
+                const comp = await obterComprovantePedido(pedidoId);
+                if (comp.mimeType === 'application/pdf') {
+                    corpo.innerHTML = `
+                        <iframe src="${comp.dataUrl}" style="width:100%; height:68vh; border:1px solid var(--border); border-radius:10px;"></iframe>
+                    `;
+                } else {
+                    corpo.innerHTML = `
+                        <img src="${comp.dataUrl}" alt="Comprovante" style="max-width:100%; max-height:68vh; object-fit:contain; border-radius:10px; border:1px solid var(--border);">
+                    `;
+                }
+                rodape.innerHTML = `
+                    <a href="${comp.dataUrl}" download="${escapeHtml(comp.fileName)}" class="btn btn-primary btn-sm">
+                        📥 Baixar Arquivo (${escapeHtml(comp.fileName)})
+                    </a>
+                `;
+            } catch (err) {
+                corpo.innerHTML = `<div style="color:var(--accent-red); padding:1.5rem;">${escapeHtml(err.message)}</div>`;
+            }
+        };
+
+        window.fecharModalComprovante = function() {
+            document.getElementById('modalComprovante').classList.remove('active');
+            document.getElementById('corpoModalComprovante').innerHTML = '';
+        };
+
+        // ==========================================
+        // APROVAR PAGAMENTO + ENVIAR WHATSAPP
+        // ==========================================
+        window.abrirModalAprovacao = function(pedidoId) {
+            const p = (resumoGlobal?.pedidos || []).find(x => x.id === pedidoId);
+            if (!p) return;
+
+            document.getElementById('aprovPedidoId').value = p.id;
+            document.getElementById('aprovQuantidade').value = p.quantidade;
+            document.getElementById('aprovValorReais').value = ((p.valorTotalCentavos || (p.quantidade * VALOR_POR_NUMERO_CENTAVOS)) / 100).toFixed(2);
+            document.getElementById('aprovObservacao').value = p.observacaoAdmin || '';
+            document.getElementById('subtituloModalAprovar').textContent = `${p.nome} · WhatsApp: ${p.whatsappFormatado}`;
+            document.getElementById('alertaSemComprovanteModal').style.display =
+                (p.statusEfetivo === 'declarado_sem_comprovante' || p.metodoPagamento === 'declarado_sem_comprovante') ? 'block' : 'none';
+
+            document.getElementById('modalAprovarPedido').classList.add('active');
+        };
+
+        window.aoMudarQtdAprovacao = function() {
+            const qtd = parseInt(document.getElementById('aprovQuantidade').value, 10) || 1;
+            document.getElementById('aprovValorReais').value = (qtd * VALOR_POR_NUMERO_REAIS).toFixed(2);
+        };
+
+        window.fecharModalAprovar = function() {
+            document.getElementById('modalAprovarPedido').classList.remove('active');
+        };
+
+        window.confirmarAprovacaoModal = async function(e) {
+            e.preventDefault();
+            const pedidoId = document.getElementById('aprovPedidoId').value;
+            const quantidadeAprovada = parseInt(document.getElementById('aprovQuantidade').value, 10);
+            const valorReais = parseFloat(document.getElementById('aprovValorReais').value);
+            const observacaoAdmin = document.getElementById('aprovObservacao').value.trim();
+
+            const btn = document.getElementById('btnSubmitAprovacao');
+            btn.disabled = true;
+            btn.textContent = 'Sorteando números...';
+
+            try {
+                const aprovado = await aprovarPedidoAdmin({
+                    pedidoId,
+                    quantidadeAprovada,
+                    valorPagoCentavos: Math.round(valorReais * 100),
+                    observacaoAdmin
+                });
+                fecharModalAprovar();
+                await recarregarPainelCompleto();
+                mostrarToast(`✅ Aprovado! Números gerados: ${aprovado.numeros.join(', ')}`);
+
+                // Pergunta se já deseja abrir o WhatsApp com a mensagem pronta
+                if (confirm(`Pagamento aprovado com sucesso!\n\nNúmeros de ${aprovado.nome}: ${aprovado.numeros.join(', ')}\n\nDeseja abrir o WhatsApp agora com a mensagem pronta para enviar ao participante?`)) {
+                    const msg = gerarMensagemWhatsAppAprovacao(aprovado);
+                    window.open(`https://wa.me/55${aprovado.whatsappLimpo}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+                }
+            } catch (err) {
+                alert(err.message || "Erro ao aprovar pedido.");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '✅ Aprovar e Sortear Números';
+            }
+        };
+
+        // Rejeitar / Cancelar / Anotar
+        window.acaoRejeitarPedido = async function(pedidoId, nome) {
+            const motivo = prompt(`Informe o motivo da rejeição do pedido de ${nome} (os números reservados serão liberados):`);
+            if (!motivo) return;
+            try {
+                await rejeitarPedidoAdmin({ pedidoId, motivo });
+                mostrarToast("Pedido marcado como rejeitado e reserva liberada.");
+                await recarregarPainelCompleto();
+            } catch (err) {
+                alert(err.message);
+            }
+        };
+
+        window.acaoCancelarPedido = async function(pedidoId, nome, statusAtual) {
+            const avisoExtra = statusAtual === 'aprovado'
+                ? "\n\nATENÇÃO: Este pedido já tinha números aprovados. Cancelá-lo irá devolver esses números ao estoque livre."
+                : "";
+            const motivo = prompt(`Cancelar a reserva de ${nome}?${avisoExtra}\n\nInforme o motivo do cancelamento:`, "Reserva cancelada pela administração");
+            if (motivo === null) return;
+            try {
+                await cancelarPedidoAdmin({ pedidoId, motivo });
+                mostrarToast("Reserva cancelada com sucesso.");
+                await recarregarPainelCompleto();
+            } catch (err) {
+                alert(err.message);
+            }
+        };
+
+        window.acaoEditarObservacao = async function(pedidoId) {
+            const p = (resumoGlobal?.pedidos || []).find(x => x.id === pedidoId);
+            if (!p) return;
+            const nova = prompt(`Anotação administrativa para ${p.nome}:`, p.observacaoAdmin || '');
+            if (nova === null) return;
+            try {
+                await salvarObservacaoPedidoAdmin({ pedidoId, observacao: nova });
+                mostrarToast("Observação salva!");
+                await recarregarPainelCompleto();
+            } catch (err) {
+                alert(err.message);
+            }
+        };
+
+        window.alternarEncerramentoVendas = async function() {
+            const est = resumoGlobal?.estatisticas;
+            const encerrar = !est?.vendasEncerradas;
+            const msg = encerrar
+                ? "Deseja ENCERRAR as vendas agora? Nenhuma nova reserva poderá ser feita na página pública."
+                : "Deseja REABRIR as vendas na página pública?";
+            if (!confirm(msg)) return;
+            try {
+                await atualizarConfiguracoesAdmin({ vendasEncerradasManual: encerrar });
+                mostrarToast(encerrar ? "Vendas encerradas!" : "Vendas reabertas!");
+                await recarregarPainelCompleto();
+            } catch (err) {
+                alert(err.message);
+            }
+        };
+
+        // ==========================================
+        // MAPA DOS 200 NÚMEROS (001 A 200)
+        // ==========================================
+        function renderizarMapaNumeros200() {
+            const grid = document.getElementById('gridNumeros200');
+            const tabela = document.getElementById('tabelaNumerosPagos');
+            const mapa = resumoGlobal?.mapaNumerosOcupados || {};
+
+            let htmlGrid = '';
+            for (let i = 1; i <= TOTAL_NUMEROS; i++) {
+                const cod = formatarNumeroSorte(i);
+                const info = mapa[cod];
+                if (info) {
+                    htmlGrid += `<div class="number-cell sold" onclick="mostrarTitularNumero('${cod}')" title="${escapeHtml(info.nome)}">${cod}</div>`;
+                } else {
+                    htmlGrid += `<div class="number-cell">${cod}</div>`;
+                }
+            }
+            grid.innerHTML = htmlGrid;
+
+            const numerosOrdenados = Object.keys(mapa).sort();
+            if (numerosOrdenados.length === 0) {
+                tabela.innerHTML = `<div style="color:var(--muted); font-size:0.84rem;">Nenhum número pago/aprovado até o momento.</div>`;
+                return;
+            }
+            tabela.innerHTML = numerosOrdenados.map(num => {
+                const item = mapa[num];
+                return `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:#fff; border:1px solid var(--border); border-radius:10px; font-size:0.84rem;">
+                        <div>
+                            <span class="lucky-number-pill" style="font-size:0.82rem; padding:3px 9px; margin-right:8px;">${num}</span>
+                            <strong>${escapeHtml(item.nome)}</strong>
+                        </div>
+                        <div style="color:var(--muted);">
+                            📱 ${escapeHtml(item.whatsapp)} ${item.vendedor ? `· 🤝 ${escapeHtml(item.vendedor)}` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.mostrarTitularNumero = function(cod) {
+            const info = resumoGlobal?.mapaNumerosOcupados?.[cod];
+            const box = document.getElementById('detalheNumeroSelecionado');
+            if (!info) return;
+            box.style.display = 'block';
+            box.innerHTML = `
+                🍀 <strong>Número ${cod}</strong> pertence a <strong>${escapeHtml(info.nome)}</strong> · WhatsApp: <strong>${escapeHtml(info.whatsapp)}</strong> ${info.vendedor ? `· Vendedor: ${escapeHtml(info.vendedor)}` : ''}
+            `;
+        };
+
+        // ==========================================
+        // ABA SORTEIO OFICIAL
+        // ==========================================
+        function renderizarAbaSorteio() {
+            const mapa = resumoGlobal?.mapaNumerosOcupados || {};
+            const totalElegiveis = Object.keys(mapa).length;
+            const pendentes = (resumoGlobal?.estatisticas?.numerosEmAnalise || 0);
+
+            document.getElementById('resumoElegiveisSorteio').innerHTML = `
+                <div>🎟️ <strong>Números pagos aptos para o sorteio:</strong> <strong style="color:var(--primary-dark); font-size:1.05rem;">${totalElegiveis} número(s)</strong></div>
+                ${pendentes > 0 ? `<div style="color:#b45309; font-weight:700; margin-top:4px;">⚠️ Atenção: Existem ${pendentes} número(s) com pagamento em análise. Confira a aba Pedidos antes de realizar o sorteio!</div>` : ''}
+            `;
+
+            const sorteios = resumoGlobal?.config?.sorteios || [];
+            const histEl = document.getElementById('listaHistoricoSorteios');
+            if (!sorteios.length) {
+                histEl.innerHTML = `<div style="color:var(--muted); font-size:0.84rem;">Nenhum sorteio realizado ainda.</div>`;
+                return;
+            }
+            histEl.innerHTML = sorteios.slice().reverse().map((s, idx) => `
+                <div style="background:#fefce8; border:2px solid #eab308; border-radius:12px; padding:12px; margin-bottom:8px;">
+                    <div style="font-size:0.75rem; font-weight:800; color:#854d0e; text-transform:uppercase;">
+                        🏆 Sorteio Oficial · ${escapeHtml(s.modo)} (${escapeHtml(s.realizadoEmTexto)})
+                    </div>
+                    <div style="font-size:1.2rem; font-weight:900; color:#14532d; margin-top:4px;">
+                        Número Ganhador: <span class="lucky-number-pill">${escapeHtml(s.numero)}</span> — ${escapeHtml(s.nome)}
+                    </div>
+                    <div style="font-size:0.84rem; margin-top:4px;">
+                        📱 WhatsApp: <strong>${escapeHtml(s.whatsapp)}</strong> ${s.vendedor ? `· 🤝 Vendedor: <strong>${escapeHtml(s.vendedor)}</strong>` : ''}
+                    </div>
+                    ${s.observacao ? `<div style="font-size:0.8rem; color:var(--muted); margin-top:3px;">📝 Obs: ${escapeHtml(s.observacao)}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        window.executarSorteioNoSistema = async function() {
+            const obs = document.getElementById('inputObsSorteioSistema').value.trim();
+            if (!confirm("Confirmar a realização do SORTEIO OFICIAL agora entre os números com pagamento confirmado?")) return;
+            try {
+                const res = await registrarSorteioOficialAdmin({ modo: 'sistema', observacao: obs });
+                await recarregarPainelCompleto();
+                alert(`🎉 NÚMERO SORTEADO: ${res.numero}\n\nGanhador(a): ${res.nome}\nWhatsApp: ${res.whatsapp}`);
+            } catch (err) {
+                alert(err.message);
+            }
+        };
+
+        window.registrarSorteioManualCulto = async function() {
+            const num = document.getElementById('inputNumeroSorteadoManual').value;
+            const obs = document.getElementById('inputObsSorteioManual').value.trim();
+            if (!num) {
+                mostrarToast("Informe o número sorteado no culto.");
+                return;
+            }
+            try {
+                const res = await registrarSorteioOficialAdmin({ modo: 'manual', numeroManual: num, observacao: obs });
+                await recarregarPainelCompleto();
+                alert(`✅ Sorteio registrado!\n\nNúmero: ${res.numero}\nGanhador(a): ${res.nome}\nWhatsApp: ${res.whatsapp}`);
+            } catch (err) {
+                alert(err.message);
+            }
+        };
+
+        // ==========================================
+        // CONFIGURAÇÕES, BACKUP E LOGS DE AUDITORIA
+        // ==========================================
+        async function renderizarAbaConfigELogs() {
+            const cfg = resumoGlobal?.config || {};
+            document.getElementById('cfgChavePix').value = cfg.chavePix || 'regiao655@gmail.com';
+            document.getElementById('cfgNomeRecebedor').value = cfg.nomeRecebedorPix || 'IEQ CENTRAL LONDRINA';
+            document.getElementById('cfgPrazoMinutos').value = cfg.prazoReservaMinutos || 30;
+
+            const logsEl = document.getElementById('listaLogsAuditoria');
+            logsEl.innerHTML = `<div style="color:var(--muted);">Carregando histórico de auditoria...</div>`;
+            try {
+                const logs = await carregarLogsAdmin();
+                if (!logs.length) {
+                    logsEl.innerHTML = `<div style="color:var(--muted);">Nenhuma ação administrativa registrada ainda.</div>`;
+                    return;
+                }
+                logsEl.innerHTML = logs.map(l => `
+                    <div style="background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:8px 10px;">
+                        <div style="font-weight:800; color:var(--ink);">
+                            🕒 ${escapeHtml(l.dataHoraTexto || '')} · <span style="color:var(--primary-dark);">${escapeHtml(l.acao)}</span>
+                        </div>
+                        <div style="font-family:monospace; font-size:0.75rem; color:var(--muted); word-break:break-all; margin-top:2px;">
+                            ${escapeHtml(JSON.stringify(l.detalhes || {}))}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                logsEl.innerHTML = `<div style="color:var(--accent-red);">Erro ao carregar logs: ${escapeHtml(err.message)}</div>`;
+            }
+        }
+
+        window.salvarConfigAdminForm = async function(e) {
+            e.preventDefault();
+            try {
+                await atualizarConfiguracoesAdmin({
+                    chavePix: document.getElementById('cfgChavePix').value.trim(),
+                    nomeRecebedorPix: document.getElementById('cfgNomeRecebedor').value.trim(),
+                    prazoReservaMinutos: Number(document.getElementById('cfgPrazoMinutos').value) || 30
+                });
+                mostrarToast("Configurações salvas com sucesso!");
+                await recarregarPainelCompleto();
+            } catch (err) {
+                alert(err.message);
+            }
+        };
+
+        window.exportarPlanilhaCSV = function() {
+            const pedidos = resumoGlobal?.pedidos || [];
+            const cabecalho = ['Protocolo', 'Nome', 'WhatsApp', 'Vendedor', 'Situacao', 'Metodo_Comprovacao', 'Quantidade_Pedida', 'Quantidade_Aprovada', 'Valor_Reais', 'Numeros_Sorteados', 'Data_Pedido', 'Observacao_Admin'];
+            const linhas = pedidos.map(p => [
+                p.protocolo || p.id,
+                p.nome || '',
+                p.whatsappFormatado || '',
+                p.vendedor || '',
+                p.statusEfetivo || '',
+                p.metodoPagamento || '',
+                p.quantidade || 0,
+                p.quantidadeAprovada || 0,
+                ((p.statusEfetivo === 'aprovado' ? p.valorPagoCentavos : p.valorTotalCentavos) / 100).toFixed(2).replace('.', ','),
+                Array.isArray(p.numeros) ? p.numeros.join(' | ') : '',
+                p.criadoEmTexto || '',
+                p.observacaoAdmin || ''
+            ]);
+
+            const csv = '\uFEFF' + [cabecalho, ...linhas]
+                .map(row => row.map(val => `"${String(val ?? '').replace(/"/g, '""')}"`).join(';'))
+                .join('\r\n');
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `acao-amigos-central-kids-${new Date().toISOString().slice(0, 10)}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+
+        window.exportarBackupJSON = function() {
+            const dadosBackup = {
+                exportadoEm: new Date().toISOString(),
+                config: resumoGlobal?.config || {},
+                estatisticas: resumoGlobal?.estatisticas || {},
+                pedidos: resumoGlobal?.pedidos || []
+            };
+            const blob = new Blob([JSON.stringify(dadosBackup, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup-central-kids-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+
+        // Auto-login se já autenticado na sessão
+        if (sessionStorage.getItem(SESSION_KEY_ADMIN) === 'true') {
+            abrirPainelAutenticado();
+        }
+    </script>
+</body>
+</html>

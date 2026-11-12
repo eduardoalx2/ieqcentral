@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Ação entre Amigos · Central Kids | IEQ Central Londrina</title>
+    <meta name="description" content="Participe da Ação entre Amigos do Central Kids (IEQ Central de Londrina). Concorra a uma linda Cesta de Natal e abençoe o ministério infantil!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <!-- CABEÇALHO DO HUB CENTRAL KIDS -->
+    <header class="top-banner">
+        <div class="top-banner-inner">
+            <div class="hub-topbar">
+                <a href="../index.html" class="back-site-link">
+                    <span>←</span> Site da Igreja
+                </a>
+                <a href="./admin.html" class="admin-shortcut-btn" title="Acesso restrito à administração">
+                    🔒 Painel Admin
+                </a>
+            </div>
+            <div class="hero-brand">
+                <div class="hero-logo-box">
+                    <img src="./assets/logo-central-kids.png" alt="Logo Central Kids">
+                </div>
+                <div class="hero-titles">
+                    <span class="hero-badge">🎄 Natal Solidário · 200 Números</span>
+                    <h1>Ação entre Amigos · Central Kids</h1>
+                    <p>Ministério Infantil da IEQ Central de Londrina</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAVEGAÇÃO DO HUB -->
+    <nav class="hub-tabs" aria-label="Navegação da Ação entre Amigos">
+        <div class="hub-tabs-bar">
+            <button type="button" class="hub-tab-btn active" id="tabBtnParticipar" onclick="navegarAba('participar')">
+                🎁 Participar
+            </button>
+            <button type="button" class="hub-tab-btn" id="tabBtnConsultar" onclick="navegarAba('consultar')">
+                🔍 Consultar
+            </button>
+            <button type="button" class="hub-tab-btn" id="tabBtnDivulgar" onclick="navegarAba('divulgar')">
+                📲 QR Code / Link
+            </button>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <!-- BANNER RESULTADO DO SORTEIO (QUANDO HOUVER) -->
+        <div id="winnerPublicBanner" class="card" style="display:none; background:linear-gradient(135deg,#fefce8,#fef08a); border:2px solid #eab308;"></div>
+
+        <!-- ==========================================
+             ABA 1: VITRINE PÚBLICA + RESERVA + PIX
+        =========================================== -->
+        <section id="viewParticipar">
+
+            <!-- VITRINE DA AÇÃO -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+                    <span style="font-size:0.78rem; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:0.04em;">
+                        ✨ Concorra a uma linda Cesta de Natal
+                    </span>
+                    <span style="font-size:0.74rem; color:var(--muted);">Toque nas fotos para ampliar</span>
+                </div>
+
+                <!-- DUAS IMAGENS EM TAMANHO EQUILIBRADO -->
+                <div class="photos-grid">
+                    <div class="photo-card" onclick="abrirZoomImagem('./assets/cesta-natal.jpg', 'Foto real da Cesta de Natal')">
+                        <img src="./assets/cesta-natal.jpg" alt="Foto real da Cesta de Natal Boas Festas">
+                        <div class="photo-caption">🎁 Cesta de Natal (Foto Real)</div>
+                    </div>
+                    <div class="photo-card" onclick="abrirZoomImagem('./assets/familia-cesta.jpg', 'Família com a Cesta de Natal')">
+                        <img src="./assets/familia-cesta.jpg" alt="Família feliz com a Cesta de Natal">
+                        <div class="photo-caption">👨‍👩‍👧‍👦 Abençoe o Central Kids</div>
+                    </div>
+                </div>
+
+                <!-- INFORMAÇÕES ESSENCIAIS -->
+                <div class="info-chips">
+                    <div class="info-chip">
+                        <div class="info-chip-label">Valor por número</div>
+                        <div class="info-chip-value highlight">R$ 5,00</div>
+                    </div>
+                    <div class="info-chip">
+                        <div class="info-chip-label">Total da Ação</div>
+                        <div class="info-chip-value">200 números (001 a 200)</div>
+                    </div>
+                    <div class="info-chip">
+                        <div class="info-chip-label">Sorteio Presencial</div>
+                        <div class="info-chip-value" style="font-size:0.86rem;">20/12/2026 · Após a Cantata</div>
+                    </div>
+                    <div class="info-chip">
+                        <div class="info-chip-label">Finalidade</div>
+                        <div class="info-chip-value" style="font-size:0.86rem;">Ministério Infantil Central Kids</div>
+                    </div>
+                </div>
+
+                <!-- PLACAR DE DISPONIBILIDADE EM TEMPO REAL -->
+                <div class="stock-box" id="stockBox">
+                    <div class="stock-header">
+                        <span class="stock-available-badge" id="lblDisponiveis">Carregando números disponíveis...</span>
+                        <span class="stock-meta" id="lblResumoEstoque">--</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="barraProgressoEstoque" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div style="font-size:0.8rem; color:var(--muted); background:#f8fafc; padding:10px 12px; border-radius:10px; border:1px solid var(--border); margin-bottom:12px;">
+                    📍 <strong>Sorteio:</strong> 20/12/2026, presencialmente no culto da IEQ Central, logo após a Cantata de Natal.<br>
+                    ⏰ <strong>Encerramento das vendas:</strong> 20/12/2026 às 22h ou quando o sorteio começar (o que acontecer primeiro).
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr; gap:8px;">
+                    <button type="button" class="btn btn-primary" id="btnIrFormulario" onclick="rolarParaFormulario()">
+                        🎟️ Quero Participar Agora
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="navegarAba('consultar')">
+                        🔍 Já participei · Consultar minha reserva ou enviar comprovante
+                    </button>
+                </div>
+            </div>
+
+            <!-- ATALHO RÁPIDO SE O CELULAR TIVER UMA RESERVA ATIVA PENDENTE -->
+            <div id="atalhoReservaAtiva" class="card" style="display:none; background:#fffbeb; border:2px solid #f59e0b;"></div>
+
+            <!-- BLOCO DE PEDIDO ATIVO (APARECE LOGO APÓS RESERVAR OU SELECIONAR UM PEDIDO) -->
+            <div id="painelPedidoAtivo" style="display:none;"></div>
+
+            <!-- FORMULÁRIO DE PARTICIPAÇÃO E RESERVA -->
+            <div class="card" id="cardFormularioReserva">
+                <h2 style="font-size:1.15rem; font-weight:800; margin-bottom:4px;">🎟️ Fazer minha Reserva</h2>
+                <p style="font-size:0.83rem; color:var(--muted); margin-bottom:14px;">
+                    Preencha seus dados abaixo. Os números de <strong>001 a 200</strong> são atribuídos automaticamente sem repetição e liberados após a confirmação do pagamento.
+                </p>
+
+                <div id="alertaVendasEncerradas" style="display:none; background:#fee2e2; color:#991b1b; padding:12px; border-radius:12px; font-weight:700; font-size:0.88rem; margin-bottom:12px;"></div>
+
+                <form id="formReserva" onsubmit="iniciarConfirmacaoReserva(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="inputNome">Seu Nome Completo *</label>
+                        <input type="text" id="inputNome" class="form-input" placeholder="Ex.: Maria Aparecida Silva" required minlength="3" maxlength="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="inputWhatsapp">Seu WhatsApp (obrigatório) *</label>
+                        <input type="tel" id="inputWhatsapp" class="form-input" placeholder="(43) 99999-9999" required maxlength="15" inputmode="numeric">
+                        <div class="form-hint">Usado para consultar sua participação e receber seus números pelo WhatsApp.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="inputVendedor">Nome do Vendedor / Quem indicou <span style="font-weight:500; color:var(--muted);">(opcional)</span></label>
+                        <input type="text" id="inputVendedor" class="form-input" placeholder="Ex.: Tia Ana / Pedro Kids (opcional)" maxlength="80">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="inputQuantidade">Quantidade de números que deseja comprar *</label>
+                        <div class="qty-presets">
+                            <button type="button" class="qty-preset-btn active" data-qty="1" onclick="definirQuantidade(1)">1 nº · R$ 5</button>
+                            <button type="button" class="qty-preset-btn" data-qty="2" onclick="definirQuantidade(2)">2 nºs · R$ 10</button>
+                            <button type="button" class="qty-preset-btn" data-qty="4" onclick="definirQuantidade(4)">4 nºs · R$ 20</button>
+                            <button type="button" class="qty-preset-btn" data-qty="10" onclick="definirQuantidade(10)">10 nºs · R$ 50</button>
+                        </div>
+                        <div class="qty-stepper">
+                            <button type="button" class="qty-step-btn" onclick="ajustarQuantidade(-1)" aria-label="Diminuir quantidade">−</button>
+                            <input type="number" id="inputQuantidade" class="form-input" style="text-align:center; font-weight:800; font-size:1.15rem;" value="1" min="1" max="200" required oninput="atualizarCalculoTotal()">
+                            <button type="button" class="qty-step-btn" onclick="ajustarQuantidade(1)" aria-label="Aumentar quantidade">+</button>
+                        </div>
+
+                        <div class="total-calc-banner">
+                            <span id="resumoQtdTexto">1 número selecionado</span>
+                            <strong id="resumoValorTexto">R$ 5,00</strong>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="btnReservarSubmit">
+                        Continuar e Reservar Números →
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             ABA 2: CONSULTA DO PARTICIPANTE
+        =========================================== -->
+        <section id="viewConsultar" style="display:none;">
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
+                    <h2 style="font-size:1.12rem; font-weight:800;">🔍 Consultar Minha Participação</h2>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="voltarPaginaInicial()">
+                        ← Página Inicial
+                    </button>
+                </div>
+                <p style="font-size:0.84rem; color:var(--muted); margin-bottom:12px;">
+                    Digite o seu <strong>WhatsApp</strong> informado na reserva para ver a situação do seu pagamento, seus números sorteados ou enviar um comprovante pendente.
+                </p>
+
+                <form onsubmit="executarConsultaPorWhatsapp(event)" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+                    <input type="tel" id="inputBuscaWhatsapp" class="form-input" placeholder="(43) 99999-9999" style="flex:1; min-width:200px;" inputmode="numeric" required>
+                    <button type="submit" class="btn btn-primary" style="width:auto; padding:12px 20px;" id="btnBuscarWhatsapp">
+                        Buscar
+                    </button>
+                </form>
+
+                <!-- PEDIDOS SALVOS NESTE CELULAR -->
+                <div id="blocoPedidosSalvosCelular" style="margin-top:12px;"></div>
+
+                <!-- RESULTADO DA BUSCA -->
+                <div id="resultadoConsultaContainer" style="margin-top:14px;"></div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             ABA 3: DIVULGAR (LINK E QR CODE DA PÁGINA)
+        =========================================== -->
+        <section id="viewDivulgar" style="display:none;">
+            <div class="card" style="text-align:center;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h2 style="font-size:1.12rem; font-weight:800;">📲 Divulgar Ação entre Amigos</h2>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="voltarPaginaInicial()">
+                        ← Página Inicial
+                    </button>
+                </div>
+                <p style="font-size:0.86rem; color:var(--muted); margin-bottom:12px;">
+                    Compartilhe o link ou mostre este QR Code para que amigos e familiares possam participar pelo celular!
+                </p>
+
+                <div class="qr-container" style="max-width:220px;">
+                    <img id="imgQrCodeDivulgacao" alt="QR Code da Página da Ação entre Amigos" src="">
+                    <div style="font-size:0.75rem; font-weight:700; color:var(--primary-dark); margin-top:6px;">
+                        Aponte a câmera do celular
+                    </div>
+                </div>
+
+                <div class="pix-key-pill" id="txtLinkDivulgacao" style="font-size:0.84rem;"></div>
+
+                <div style="display:grid; grid-template-columns: 1fr; gap:8px; max-width:380px; margin:12px auto 0;">
+                    <button type="button" class="btn btn-primary" onclick="copiarLinkDivulgacao()">
+                        📋 Copiar Link da Página
+                    </button>
+                    <button type="button" class="btn btn-whatsapp" onclick="compartilharNoWhatsApp()">
+                        💬 Compartilhar pelo WhatsApp
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL DE CONFIRMAÇÃO DO WHATSAPP ANTES DE CONCLUIR A RESERVA -->
+    <div class="modal-overlay" id="modalConfirmarWhatsapp">
+        <div class="modal-box">
+            <div style="text-align:center;">
+                <div style="font-size:2.1rem; margin-bottom:4px;">📱</div>
+                <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:6px;">Confira seu WhatsApp antes de concluir</h3>
+                <p style="font-size:0.85rem; color:var(--muted); margin-bottom:12px;">
+                    Este número será utilizado para você <strong>consultar sua participação</strong> e <strong>receber seus números da sorte</strong> após a confirmação:
+                </p>
+                <div style="background:#f0fdf4; border:2px solid #16a34a; border-radius:14px; padding:12px; margin-bottom:12px;">
+                    <div style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:#166534;">WhatsApp Informado</div>
+                    <div id="modalConfirmTelValor" style="font-size:1.38rem; font-weight:900; color:#14532d; letter-spacing:0.02em; margin-top:2px;">(43) 99999-9999</div>
+                </div>
+                <div style="background:#f8fafc; border-radius:10px; padding:10px; font-size:0.84rem; text-align:left; margin-bottom:14px; border:1px solid var(--border);">
+                    <div>👤 <strong>Participante:</strong> <span id="modalConfirmNome">--</span></div>
+                    <div>🎟️ <strong>Reserva:</strong> <span id="modalConfirmQtdValor">--</span></div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModalConfirmarWhatsapp()">
+                        ✏️ Corrigir
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnConfirmarReservaFinal" onclick="confirmarECriarReserva()">
+                        ✅ Está correto!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE ZOOM DAS FOTOS -->
+    <div class="modal-overlay" id="modalZoomFoto" onclick="fecharZoomImagem()">
+        <div class="modal-box" style="max-width:600px; padding:10px; text-align:center;" onclick="event.stopPropagation()">
+            <img id="imgZoomModal" src="" alt="Imagem ampliada" style="width:100%; max-height:75vh; object-fit:contain; border-radius:12px;">
+            <p id="legendaZoomModal" style="font-size:0.86rem; font-weight:700; margin:8px 0;"></p>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="fecharZoomImagem()">Fechar</button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toastMsg"></div>
+
+    <script type="module">
+        import {
+            VALOR_POR_NUMERO_REAIS,
+            VALOR_POR_NUMERO_CENTAVOS,
+            TOTAL_NUMEROS,
+            formatarMoedaCentavos,
+            formatarTelefone,
+            limparTelefone,
+            carregarResumoEPedidos,
+            criarPedidoReserva,
+            buscarPedidoPorId,
+            buscarPedidosPorWhatsapp,
+            enviarComprovantePedido,
+            declararPagamentoSemComprovante
+        } from './db-service.js';
+        import { gerarPayloadPix, gerarUrlQrCode } from './pix.js';
+
+        const STORAGE_KEY_PEDIDOS = 'central_kids_acao2026_meus_pedidos';
+        let estadoResumo = null;
+        let pedidoAtivo = null;
+        let timerContagem = null;
+        let dadosPendentesReserva = null;
+
+        // Máscaras de telefone automáticas no padrão (XX) XXXXX-XXXX
+        function aplicarMascaraTelefone(inputEl) {
+            if (!inputEl) return;
+            inputEl.addEventListener('input', (e) => {
+                e.target.value = formatarTelefone(e.target.value);
+            });
+        }
+        aplicarMascaraTelefone(document.getElementById('inputWhatsapp'));
+        aplicarMascaraTelefone(document.getElementById('inputBuscaWhatsapp'));
+
+        window.mostrarToast = function(msg) {
+            const t = document.getElementById('toastMsg');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3400);
+        };
+
+        function escapeHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        // Gerenciamento de pedidos salvos no navegador do celular
+        function obterIdsPedidosLocais() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY_PEDIDOS);
+                const arr = JSON.parse(raw || '[]');
+                return Array.isArray(arr) ? arr : [];
+            } catch {
+                return [];
+            }
+        }
+
+        function salvarPedidoLocal(id) {
+            if (!id) return;
+            const lista = obterIdsPedidosLocais().filter(x => x !== id);
+            lista.unshift(id);
+            try {
+                localStorage.setItem(STORAGE_KEY_PEDIDOS, JSON.stringify(lista.slice(0, 20)));
+            } catch {}
+        }
+
+        // Navegação entre abas
+        window.navegarAba = function(aba) {
+            document.getElementById('viewParticipar').style.display = aba === 'participar' ? 'block' : 'none';
+            document.getElementById('viewConsultar').style.display = aba === 'consultar' ? 'block' : 'none';
+            document.getElementById('viewDivulgar').style.display = aba === 'divulgar' ? 'block' : 'none';
+
+            document.getElementById('tabBtnParticipar').classList.toggle('active', aba === 'participar');
+            document.getElementById('tabBtnConsultar').classList.toggle('active', aba === 'consultar');
+            document.getElementById('tabBtnDivulgar').classList.toggle('active', aba === 'divulgar');
+
+            if (aba === 'consultar') {
+                carregarPedidosSalvosNaAbaConsulta();
+            } else if (aba === 'divulgar') {
+                configurarAbaDivulgacao();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.voltarPaginaInicial = function() {
+            pedidoAtivo = null;
+            document.getElementById('painelPedidoAtivo').style.display = 'none';
+            document.getElementById('cardFormularioReserva').style.display = 'block';
+            const url = new URL(window.location.href);
+            url.searchParams.delete('pedido');
+            window.history.replaceState({}, '', url.toString());
+            navegarAba('participar');
+            atualizarTelaInicial();
+        };
+
+        window.rolarParaFormulario = function() {
+            const el = document.getElementById('cardFormularioReserva');
+            if (el) {
+                el.style.display = 'block';
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                setTimeout(() => document.getElementById('inputNome')?.focus(), 350);
+            }
+        };
+
+        // Quantidade e Cálculo Automático
+        window.definirQuantidade = function(q) {
+            const input = document.getElementById('inputQuantidade');
+            input.value = q;
+            atualizarCalculoTotal();
+        };
+
+        window.ajustarQuantidade = function(delta) {
+            const input = document.getElementById('inputQuantidade');
+            const maxDisp = estadoResumo?.estatisticas?.numerosDisponiveis || TOTAL_NUMEROS;
+            let val = ( parseInt(input.value, 10) || 1 ) + delta;
+            if (val < 1) val = 1;
+            if (val > maxDisp) val = maxDisp;
+            input.value = val;
+            atualizarCalculoTotal();
+        };
+
+        window.atualizarCalculoTotal = function() {
+            const input = document.getElementById('inputQuantidade');
+            let qtd = parseInt(input.value, 10);
+            if (isNaN(qtd) || qtd < 1) qtd = 1;
+            if (qtd > TOTAL_NUMEROS) qtd = TOTAL_NUMEROS;
+
+            document.querySelectorAll('.qty-preset-btn').forEach(btn => {
+                btn.classList.toggle('active', Number(btn.dataset.qty) === qtd);
+            });
+
+            const valorReais = (qtd * VALOR_POR_NUMERO_REAIS).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('resumoQtdTexto').textContent = qtd === 1 ? '1 número selecionado' : `${qtd} números selecionados`;
+            document.getElementById('resumoValorTexto').textContent = valorReais;
+        };
+
+        // Zoom das imagens
+        window.abrirZoomImagem = function(src, legenda) {
+            document.getElementById('imgZoomModal').src = src;
+            document.getElementById('legendaZoomModal').textContent = legenda || '';
+            document.getElementById('modalZoomFoto').classList.add('active');
+        };
+
+        window.fecharZoomImagem = function() {
+            document.getElementById('modalZoomFoto').classList.remove('active');
+        };
+
+        // Carrega disponibilidade e configurações do Firestore
+        async function atualizarTelaInicial() {
+            try {
+                estadoResumo = await carregarResumoEPedidos();
+                const est = estadoResumo.estatisticas;
+                const cfg = estadoResumo.config;
+
+                const lblDisp = document.getElementById('lblDisponiveis');
+                const lblMeta = document.getElementById('lblResumoEstoque');
+                const barra = document.getElementById('barraProgressoEstoque');
+
+                lblDisp.textContent = `${est.numerosDisponiveis} de ${TOTAL_NUMEROS} números disponíveis`;
+                lblMeta.textContent = `${est.numerosVendidos} confirmados · ${est.numerosReservadosTotal} reservados/em análise`;
+
+                const pctOcupado = Math.min(100, Math.round(((TOTAL_NUMEROS - est.numerosDisponiveis) / TOTAL_NUMEROS) * 100));
+                barra.style.width = `${pctOcupado}%`;
+
+                // Se já houve sorteio e está público, mostra ganhador
+                const winnerBanner = document.getElementById('winnerPublicBanner');
+                if (Array.isArray(cfg.sorteios) && cfg.sorteios.length > 0 && cfg.divulgarResultadoPublico !== false) {
+                    const ultimo = cfg.sorteios[cfg.sorteios.length - 1];
+                    winnerBanner.style.display = 'block';
+                    winnerBanner.innerHTML = `
+                        <div style="font-size:0.75rem; font-weight:800; color:#854d0e; text-transform:uppercase;">🏆 Resultado Oficial do Sorteio</div>
+                        <div style="font-size:1.25rem; font-weight:900; color:#713f12; margin-top:4px;">
+                            Número Sorteado: <span style="background:#15803d; color:#fff; padding:2px 10px; border-radius:8px;">${escapeHtml(ultimo.numero)}</span>
+                        </div>
+                        <div style="font-size:0.95rem; font-weight:700; color:#1e293b; margin-top:4px;">
+                            Ganhador(a): ${escapeHtml(ultimo.nome)}
+                        </div>
+                        <div style="font-size:0.78rem; color:#64748b; margin-top:2px;">Realizado em ${escapeHtml(ultimo.realizadoEmTexto || '')}</div>
+                    `;
+                } else {
+                    winnerBanner.style.display = 'none';
+                }
+
+                // Bloqueia formulário se vendas encerradas ou esgotadas
+                const alertaEnc = document.getElementById('alertaVendasEncerradas');
+                const btnSubmit = document.getElementById('btnReservarSubmit');
+                const btnIrForm = document.getElementById('btnIrFormulario');
+
+                if (est.vendasEncerradas) {
+                    alertaEnc.style.display = 'block';
+                    alertaEnc.textContent = `🔒 Vendas encerradas: ${est.motivoEncerramento} Você ainda pode consultar seus números na aba Consultar.`;
+                    btnSubmit.disabled = true;
+                    btnIrForm.disabled = true;
+                    btnIrForm.textContent = '🔒 Vendas Encerradas';
+                } else if (est.numerosDisponiveis <= 0) {
+                    alertaEnc.style.display = 'block';
+                    alertaEnc.textContent = `⏳ Todos os 200 números estão vendidos ou reservados no momento. Caso alguma reserva sem pagamento expire, os números voltarão a ficar disponíveis.`;
+                    btnSubmit.disabled = true;
+                } else {
+                    alertaEnc.style.display = 'none';
+                    btnSubmit.disabled = false;
+                    btnIrForm.disabled = false;
+                    btnIrForm.textContent = '🎟️ Quero Participar Agora';
+                }
+
+                // Verifica se o participante tem reserva pendente salva neste celular para mostrar atalho rápido
+                await verificarAtalhoReservaSalvaNoCelular();
+            } catch (err) {
+                console.error("Erro ao carregar status:", err);
+                document.getElementById('lblDisponiveis').textContent = '200 números (001 a 200) · R$ 5,00 cada';
+            }
+        }
+
+        async function verificarAtalhoReservaSalvaNoCelular() {
+            const ids = obterIdsPedidosLocais();
+            const boxAtalho = document.getElementById('atalhoReservaAtiva');
+            if (!ids.length || pedidoAtivo) {
+                boxAtalho.style.display = 'none';
+                return;
+            }
+            try {
+                const ultimoPedido = await buscarPedidoPorId(ids[0]);
+                if (!ultimoPedido) {
+                    boxAtalho.style.display = 'none';
+                    return;
+                }
+                const st = ultimoPedido.statusEfetivo;
+                if (st === 'reservado_aguardando') {
+                    boxAtalho.style.display = 'block';
+                    boxAtalho.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                            <div>
+                                <div style="font-size:0.75rem; font-weight:800; color:#b45309; text-transform:uppercase;">⚡ Você tem uma reserva aguardando pagamento</div>
+                                <div style="font-size:0.95rem; font-weight:800; color:var(--ink);">
+                                    ${escapeHtml(ultimoPedido.nome)} · ${ultimoPedido.quantidade} nº(s) (${formatarMoedaCentavos(ultimoPedido.valorTotalCentavos)})
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="abrirPedidoNaTela('${ultimoPedido.id}')">
+                                Retomar Pagamento Pix / Enviar Comprovante →
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    boxAtalho.style.display = 'none';
+                }
+            } catch {
+                boxAtalho.style.display = 'none';
+            }
+        }
+
+        // Passo 1 da Reserva: pedir confirmação explícita do WhatsApp
+        window.iniciarConfirmacaoReserva = function(e) {
+            e.preventDefault();
+            const nome = document.getElementById('inputNome').value.trim();
+            const whatsapp = document.getElementById('inputWhatsapp').value.trim();
+            const vendedor = document.getElementById('inputVendedor').value.trim();
+            const quantidade = parseInt(document.getElementById('inputQuantidade').value, 10);
+
+            const telLimpo = limparTelefone(whatsapp);
+            if (nome.length < 3) {
+                mostrarToast("Por favor, digite seu nome completo.");
+                return;
+            }
+            if (telLimpo.length < 10 || telLimpo.length > 11) {
+                mostrarToast("Informe um WhatsApp válido no formato (XX) XXXXX-XXXX.");
+                document.getElementById('inputWhatsapp').focus();
+                return;
+            }
+            if (!quantidade || quantidade < 1 || quantidade > TOTAL_NUMEROS) {
+                mostrarToast("Informe uma quantidade válida de números.");
+                return;
+            }
+
+            dadosPendentesReserva = {
+                nome,
+                whatsapp: formatarTelefone(telLimpo),
+                vendedor,
+                quantidade
+            };
+
+            document.getElementById('modalConfirmTelValor').textContent = dadosPendentesReserva.whatsapp;
+            document.getElementById('modalConfirmNome').textContent = dadosPendentesReserva.nome;
+            document.getElementById('modalConfirmQtdValor').textContent = `${quantidade} número(s) = ${formatarMoedaCentavos(quantidade * VALOR_POR_NUMERO_CENTAVOS)}`;
+            document.getElementById('modalConfirmarWhatsapp').classList.add('active');
+        };
+
+        window.fecharModalConfirmarWhatsapp = function() {
+            document.getElementById('modalConfirmarWhatsapp').classList.remove('active');
+            document.getElementById('inputWhatsapp').focus();
+        };
+
+        // Passo 2 da Reserva: gravar no banco e exibir tela de Pix + Comprovante
+        window.confirmarECriarReserva = async function() {
+            if (!dadosPendentesReserva) return;
+            const btn = document.getElementById('btnConfirmarReservaFinal');
+            btn.disabled = true;
+            btn.textContent = 'Reservando...';
+
+            try {
+                const novoPedido = await criarPedidoReserva(dadosPendentesReserva);
+                salvarPedidoLocal(novoPedido.id);
+                document.getElementById('modalConfirmarWhatsapp').classList.remove('active');
+                document.getElementById('formReserva').reset();
+                definirQuantidade(1);
+
+                // Atualiza URL com ?pedido=ID para que a pessoa possa sair pro app do banco e voltar direto
+                const u = new URL(window.location.href);
+                u.searchParams.set('pedido', novoPedido.id);
+                window.history.replaceState({}, '', u.toString());
+
+                await abrirPedidoNaTela(novoPedido.id);
+                await atualizarTelaInicial();
+                mostrarToast("Reserva realizada! Efetue o Pix e informe o pagamento abaixo.");
+            } catch (err) {
+                alert(err.message || "Não foi possível concluir a reserva.");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '✅ Está correto!';
+            }
+        };
+
+        function obterRotuloStatus(st) {
+            const mapa = {
+                reservado_aguardando: '⏳ Aguardando Pagamento Pix',
+                comprovante_enviado: '🔍 Comprovante Enviado · Em Conferência',
+                declarado_sem_comprovante: '⚠️ Pagamento Informado (Sem Comprovante) · Em Conferência',
+                aprovado: '✅ Pagamento Confirmado · Números Liberados',
+                rejeitado: '❌ Pagamento Não Confirmado / Com Pendência',
+                cancelado: '🚫 Reserva Cancelada',
+                expirado: '⌛ Prazo de Reserva Expirado'
+            };
+            return mapa[st] || st;
+        }
+
+        // Renderiza o painel completo do pedido (Pix + Anexar Comprovante + Declarar Sem Comprovante + Status)
+        window.abrirPedidoNaTela = async function(pedidoId) {
+            try {
+                const [pedido, resumo] = await Promise.all([
+                    buscarPedidoPorId(pedidoId),
+                    carregarResumoEPedidos()
+                ]);
+                if (!pedido) {
+                    mostrarToast("Pedido não encontrado.");
+                    return;
+                }
+                estadoResumo = resumo;
+                pedidoAtivo = pedido;
+                salvarPedidoLocal(pedido.id);
+
+                navegarAba('participar');
+                document.getElementById('atalhoReservaAtiva').style.display = 'none';
+                document.getElementById('cardFormularioReserva').style.display = 'none';
+
+                const container = document.getElementById('painelPedidoAtivo');
+                container.style.display = 'block';
+                renderizarCardPedidoDetalhado(pedido, container, true);
+                container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } catch (err) {
+                mostrarToast("Erro ao carregar sua reserva: " + err.message);
+            }
+        };
+
+        function renderizarCardPedidoDetalhado(pedido, targetEl, mostrarBotaoNovaCompra = true) {
+            if (timerContagem) {
+                clearInterval(timerContagem);
+                timerContagem = null;
+            }
+
+            const st = pedido.statusEfetivo;
+            const cfg = estadoResumo?.config || {};
+            const chavePix = cfg.chavePix || 'regiao655@gmail.com';
+            const valorReais = (Number(pedido.valorTotalCentavos || 0) / 100);
+            const valorFormatado = formatarMoedaCentavos(pedido.valorTotalCentavos);
+            const payloadPix = gerarPayloadPix({
+                chave: chavePix,
+                nomeRecebedor: cfg.nomeRecebedorPix || 'IEQ CENTRAL LONDRINA',
+                cidade: cfg.cidadePix || 'LONDRINA',
+                valor: valorReais,
+                txid: (pedido.protocolo || 'CENTRALKIDS').replace(/[^a-zA-Z0-9]/g, '')
+            });
+            const qrPixUrl = gerarUrlQrCode(payloadPix, 220);
+
+            const linkDiretoPedido = `${window.location.origin}${window.location.pathname}?pedido=${encodeURIComponent(pedido.id)}`;
+            const mostrarBlocoPixEPagamento = (st === 'reservado_aguardando' || st === 'rejeitado');
+
+            let htmlNumerosAprovados = '';
+            if (st === 'aprovado' && Array.isArray(pedido.numeros) && pedido.numeros.length > 0) {
+                htmlNumerosAprovados = `
+                    <div style="background:#f0fdf4; border:2px solid #16a34a; border-radius:14px; padding:14px; margin:12px 0; text-align:center;">
+                        <div style="font-size:0.78rem; font-weight:800; color:#166534; text-transform:uppercase;">
+                            🎉 Seus Números da Sorte Confirmados (001 a 200)
+                        </div>
+                        <div class="lucky-numbers-wrap" style="justify-content:center; margin-top:10px;">
+                            ${pedido.numeros.map(n => `<span class="lucky-number-pill">${escapeHtml(n)}</span>`).join('')}
+                        </div>
+                        <div style="font-size:0.8rem; color:#15803d; margin-top:8px; font-weight:600;">
+                            Sorteio em 20/12/2026, após a Cantata de Natal, presencialmente no culto!
+                        </div>
+                    </div>
+                `;
+            }
+
+            let htmlSituacaoAnalise = '';
+            if (st === 'comprovante_enviado') {
+                htmlSituacaoAnalise = `
+                    <div style="background:#e0f2fe; border:1.5px solid #0284c7; border-radius:12px; padding:12px; margin:12px 0; font-size:0.86rem; color:#0c4a6e;">
+                        <strong>📥 Comprovante recebido com sucesso!</strong><br>
+                        Seu pedido está em conferência pela administração do Central Kids. Assim que o pagamento for confirmado, seus números de 001 a 200 aparecerão aqui e também poderão ser enviados no seu WhatsApp.
+                    </div>
+                `;
+            } else if (st === 'declarado_sem_comprovante') {
+                htmlSituacaoAnalise = `
+                    <div style="background:#ffedd5; border:1.5px solid #f97316; border-radius:12px; padding:12px; margin:12px 0; font-size:0.86rem; color:#7c2d12;">
+                        <strong>⚠️ Pagamento informado sem comprovante — Em Conferência</strong><br>
+                        Você informou que já realizou o pagamento sem anexar o comprovante. A equipe administrativa irá conferir o recebimento no extrato antes de aprovar e liberar os seus números.<br>
+                        <span style="font-size:0.79rem; display:block; margin-top:6px;">💡 Se quiser anexar o comprovante agora para agilizar a conferência, você ainda pode enviá-lo abaixo.</span>
+                    </div>
+                `;
+            } else if (st === 'expirado') {
+                htmlSituacaoAnalise = `
+                    <div style="background:#f1f5f9; border:1.5px solid #94a3b8; border-radius:12px; padding:12px; margin:12px 0; font-size:0.86rem; color:#334155;">
+                        <strong>⌛ Esta reserva expirou por falta de envio do comprovante no prazo.</strong><br>
+                        Se você ainda não fez o Pix, volte à página inicial e faça uma nova reserva. Se você já realizou o Pix para esta reserva, anexe o comprovante abaixo para enviarmos à análise da equipe!
+                    </div>
+                `;
+            }
+
+            let htmlObservacaoAdmin = '';
+            if (pedido.observacaoAdmin) {
+                htmlObservacaoAdmin = `
+                    <div style="background:#fef2f2; border:1.5px solid #ef4444; border-radius:12px; padding:11px; margin:10px 0; font-size:0.85rem; color:#991b1b;">
+                        <strong>📌 Aviso da Administração:</strong> ${escapeHtml(pedido.observacaoAdmin)}
+                    </div>
+                `;
+            }
+
+            const permiteEnviarComprovante = ['reservado_aguardando', 'declarado_sem_comprovante', 'rejeitado', 'expirado'].includes(st);
+
+            targetEl.innerHTML = `
+                <div class="card" style="border:2px solid var(--primary);">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+                        <div>
+                            <span class="status-badge status-${escapeHtml(st)}">${obterRotuloStatus(st)}</span>
+                            <h2 style="font-size:1.15rem; font-weight:800; margin-top:6px;">Resumo da sua Participação</h2>
+                        </div>
+                        ${mostrarBotaoNovaCompra ? `
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="voltarPaginaInicial()">
+                                ← Página Inicial
+                            </button>
+                        ` : ''}
+                    </div>
+
+                    <!-- RESUMO DO PEDIDO -->
+                    <div style="background:var(--surface-alt); border:1px solid #e7e0d3; border-radius:12px; padding:12px; font-size:0.88rem; display:grid; gap:5px;">
+                        <div>📋 <strong>Protocolo:</strong> <span style="font-family:monospace; font-weight:700;">${escapeHtml(pedido.protocolo || pedido.id.slice(0, 8))}</span></div>
+                        <div>👤 <strong>Participante:</strong> ${escapeHtml(pedido.nome)}</div>
+                        <div>📱 <strong>WhatsApp:</strong> ${escapeHtml(pedido.whatsappFormatado)}</div>
+                        ${pedido.vendedor ? `<div>🤝 <strong>Vendedor(a):</strong> ${escapeHtml(pedido.vendedor)}</div>` : ''}
+                        <div>🎟️ <strong>Quantidade:</strong> <strong>${pedido.quantidadeAprovada || pedido.quantidade} número(s)</strong></div>
+                        <div>💰 <strong>Valor Total:</strong> <strong style="color:var(--primary-dark); font-size:1.05rem;">${valorFormatado}</strong></div>
+                        ${st === 'reservado_aguardando' ? `
+                            <div style="margin-top:4px; padding-top:6px; border-top:1px dashed #cbd5e1; color:#b45309; font-weight:700;">
+                                ⏰ Prazo para informar o pagamento: <span id="cronometroReserva">--:--</span>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    ${htmlObservacaoAdmin}
+                    ${htmlNumerosAprovados}
+                    ${htmlSituacaoAnalise}
+
+                    <!-- SEÇÃO PIX (SEMPRE ACESSÍVEL ENQUANTO PENDENTE) -->
+                    ${mostrarBlocoPixEPagamento ? `
+                        <div class="pix-box">
+                            <div style="text-align:center;">
+                                <div style="font-size:0.76rem; font-weight:800; text-transform:uppercase; color:var(--primary-dark);">
+                                    1º Passo · Faça o Pix de ${valorFormatado}
+                                </div>
+                                <p style="font-size:0.8rem; color:var(--muted); margin-top:2px;">
+                                    Você pode sair para o aplicativo do seu banco e voltar para esta tela sem perder sua reserva.
+                                </p>
+                            </div>
+
+                            <div style="margin-top:10px;">
+                                <div style="font-size:0.78rem; font-weight:700; color:var(--ink); text-align:center;">Chave Pix (E-mail):</div>
+                                <div class="pix-key-pill">${escapeHtml(chavePix)}</div>
+                                <button type="button" class="btn btn-primary" onclick="copiarTextoPix('${escapeHtml(chavePix)}', 'Chave Pix copiada! Abra o app do seu banco para pagar.')">
+                                    📋 Copiar Chave Pix (${escapeHtml(chavePix)})
+                                </button>
+                            </div>
+
+                            <div style="margin-top:14px; padding-top:12px; border-top:1px solid #e2e8f0; text-align:center;">
+                                <div style="font-size:0.8rem; font-weight:700; color:var(--ink);">
+                                    Ou use o QR Code / Pix Copia e Cola (já com o valor de ${valorFormatado}):
+                                </div>
+                                <div class="qr-container">
+                                    <img src="${qrPixUrl}" alt="QR Code Pix">
+                                </div>
+                                <button type="button" class="btn btn-secondary" onclick="copiarTextoPix('${escapeHtml(payloadPix)}', 'Código Pix Copia e Cola copiado!')">
+                                    💠 Copiar Pix Copia e Cola (com valor ${valorFormatado})
+                                </button>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- SEÇÃO INFORMAR PAGAMENTO (2 POSSIBILIDADES) -->
+                    ${permiteEnviarComprovante ? `
+                        <div style="background:#fff; border:1.5px solid #cbd5e1; border-radius:15px; padding:1.1rem; margin-top:12px;">
+                            <div style="font-size:0.78rem; font-weight:800; text-transform:uppercase; color:var(--primary-dark); margin-bottom:4px;">
+                                2º Passo · Informar o Pagamento Realizado
+                            </div>
+                            <p style="font-size:0.82rem; color:var(--muted); margin-bottom:12px;">
+                                Escolha uma das duas opções abaixo após realizar o seu Pix:
+                            </p>
+
+                            <!-- OPÇÃO 1: ANEXAR COMPROVANTE -->
+                            <div style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:12px; padding:12px; margin-bottom:12px;">
+                                <div style="font-weight:800; font-size:0.92rem; color:#14532d; margin-bottom:4px;">
+                                    📎 Opção 1: Anexar Comprovante (Recomendado)
+                                </div>
+                                <p style="font-size:0.79rem; color:#166534; margin-bottom:10px;">
+                                    Tire uma foto, escolha uma imagem da galeria ou anexe o arquivo <strong>PDF</strong> do comprovante do seu banco.
+                                </p>
+
+                                <input type="file" id="inputFileComprovante_${pedido.id}" accept="image/*,application/pdf,.pdf" style="display:none;" onchange="aoSelecionarArquivoComprovante('${pedido.id}')">
+
+                                <div style="display:grid; grid-template-columns:1fr; gap:8px;">
+                                    <button type="button" class="btn btn-secondary" style="background:#fff;" onclick="document.getElementById('inputFileComprovante_${pedido.id}').click()">
+                                        📷 Escolher Foto, Galeria ou PDF do Comprovante
+                                    </button>
+                                    <div id="infoArquivoSelecionado_${pedido.id}" style="font-size:0.8rem; font-weight:700; color:#15803d; display:none;"></div>
+
+                                    <div class="upload-progress-wrap" id="progressWrap_${pedido.id}">
+                                        <div style="display:flex; justify-content:space-between; font-size:0.76rem; font-weight:700; margin-bottom:4px;">
+                                            <span id="progressLabel_${pedido.id}">Preparando envio...</span>
+                                            <span id="progressPct_${pedido.id}">0%</span>
+                                        </div>
+                                        <div class="upload-bar-bg">
+                                            <div class="upload-bar-fill" id="progressFill_${pedido.id}"></div>
+                                        </div>
+                                    </div>
+
+                                    <div id="erroUpload_${pedido.id}" style="display:none; background:#fee2e2; color:#991b1b; padding:9px; border-radius:8px; font-size:0.8rem; font-weight:600;"></div>
+
+                                    <button type="button" class="btn btn-primary" id="btnEnviarComprovante_${pedido.id}" style="display:none;" onclick="confirmarEnvioComprovante('${pedido.id}')">
+                                        📤 Enviar Comprovante Agora
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- OPÇÃO 2: INFORMAR PAGAMENTO SEM ANEXAR COMPROVANTE -->
+                            ${st !== 'declarado_sem_comprovante' ? `
+                                <div style="background:#fffbeb; border:1.5px solid #fcd34d; border-radius:12px; padding:12px;">
+                                    <div style="font-weight:800; font-size:0.88rem; color:#92400e; margin-bottom:4px;">
+                                        🙋 Opção 2: Não conseguiu anexar o comprovante?
+                                    </div>
+                                    <p style="font-size:0.78rem; color:#78350f; margin-bottom:10px;">
+                                        Se você já fez o Pix mas não conseguiu anexar o arquivo agora, clique abaixo para enviar seu pedido para conferência da administração. (Os números serão liberados após a administração conferir o recebimento).
+                                    </p>
+                                    <button type="button" class="btn btn-amber" id="btnDeclararSemComprovante_${pedido.id}" onclick="acionarDeclaracaoSemComprovante('${pedido.id}')">
+                                        Já fiz o pagamento — enviar para conferência sem comprovante
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+
+                    <!-- LINK INDIVIDUAL PARA RETORNAR DEPOIS -->
+                    <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                        <span style="font-size:0.78rem; color:var(--muted);">
+                            💡 Você pode consultar este pedido a qualquer momento pelo seu WhatsApp <strong>${escapeHtml(pedido.whatsappFormatado)}</strong> ou salvando seu link:
+                        </span>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="copiarTextoPix('${escapeHtml(linkDiretoPedido)}', 'Link de acompanhamento copiado!')">
+                            🔗 Copiar Link deste Pedido
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            if (st === 'reservado_aguardando' && pedido.expiraEm) {
+                iniciarCronometroReserva(pedido.expiraEm);
+            }
+        }
+
+        function iniciarCronometroReserva(expiraEmMs) {
+            const el = document.getElementById('cronometroReserva');
+            if (!el) return;
+            const tick = () => {
+                const diff = Number(expiraEmMs) - Date.now();
+                if (diff <= 0) {
+                    el.textContent = "Prazo encerrado (envie o comprovante se já pagou)";
+                    clearInterval(timerContagem);
+                    return;
+                }
+                const min = Math.floor(diff / 60000);
+                const seg = Math.floor((diff % 60000) / 1000);
+                el.textContent = `${String(min).padStart(2, '0')}m ${String(seg).padStart(2, '0')}s`;
+            };
+            tick();
+            timerContagem = setInterval(tick, 1000);
+        }
+
+        window.copiarTextoPix = async function(texto, msgSucesso) {
+            try {
+                await navigator.clipboard.writeText(texto);
+                mostrarToast(msgSucesso || "Copiado com sucesso!");
+            } catch {
+                const ta = document.createElement('textarea');
+                ta.value = texto;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                mostrarToast(msgSucesso || "Copiado com sucesso!");
+            }
+        };
+
+        // Upload de comprovante
+        window.aoSelecionarArquivoComprovante = function(pedidoId) {
+            const input = document.getElementById(`inputFileComprovante_${pedidoId}`);
+            const info = document.getElementById(`infoArquivoSelecionado_${pedidoId}`);
+            const btnEnviar = document.getElementById(`btnEnviarComprovante_${pedidoId}`);
+            const erroBox = document.getElementById(`erroUpload_${pedidoId}`);
+
+            erroBox.style.display = 'none';
+            const file = input?.files?.[0];
+            if (!file) {
+                info.style.display = 'none';
+                btnEnviar.style.display = 'none';
+                return;
+            }
+            const mb = (file.size / (1024 * 1024)).toFixed(2);
+            info.style.display = 'block';
+            info.textContent = `✅ Arquivo selecionado: ${file.name} (${mb} MB). Toque no botão verde abaixo para confirmar o envio.`;
+            btnEnviar.style.display = 'inline-flex';
+        };
+
+        window.confirmarEnvioComprovante = async function(pedidoId) {
+            const input = document.getElementById(`inputFileComprovante_${pedidoId}`);
+            const file = input?.files?.[0];
+            const btnEnviar = document.getElementById(`btnEnviarComprovante_${pedidoId}`);
+            const progressWrap = document.getElementById(`progressWrap_${pedidoId}`);
+            const progressFill = document.getElementById(`progressFill_${pedidoId}`);
+            const progressLabel = document.getElementById(`progressLabel_${pedidoId}`);
+            const progressPct = document.getElementById(`progressPct_${pedidoId}`);
+            const erroBox = document.getElementById(`erroUpload_${pedidoId}`);
+
+            if (!file) {
+                mostrarToast("Selecione a foto ou PDF do comprovante primeiro.");
+                return;
+            }
+
+            erroBox.style.display = 'none';
+            btnEnviar.disabled = true;
+            btnEnviar.textContent = 'Enviando comprovante...';
+            progressWrap.classList.add('active');
+
+            try {
+                const atualizado = await enviarComprovantePedido(pedidoId, file, (pct, msg) => {
+                    progressFill.style.width = `${pct}%`;
+                    progressPct.textContent = `${pct}%`;
+                    if (msg) progressLabel.textContent = msg;
+                });
+                mostrarToast("✅ Comprovante enviado com sucesso!");
+                pedidoAtivo = atualizado;
+                const container = document.getElementById('painelPedidoAtivo');
+                if (container && container.style.display !== 'none') {
+                    renderizarCardPedidoDetalhado(atualizado, container, true);
+                } else {
+                    await executarConsultaPorWhatsapp();
+                }
+                await atualizarTelaInicial();
+            } catch (err) {
+                erroBox.style.display = 'block';
+                erroBox.textContent = `⚠️ Não foi possível enviar o comprovante: ${err.message || 'Verifique sua internet e tente novamente.'}`;
+                btnEnviar.disabled = false;
+                btnEnviar.textContent = '📤 Tentar Enviar Comprovante Novamente';
+            }
+        };
+
+        window.acionarDeclaracaoSemComprovante = async function(pedidoId) {
+            const confirma = confirm(
+                "Confirmar que você JÁ FEZ o pagamento via Pix?\n\n" +
+                "Seu pedido será enviado para conferência da administração identificado como 'Pagamento informado sem comprovante'.\n" +
+                "Os números serão liberados assim que a equipe confirmar o recebimento."
+            );
+            if (!confirma) return;
+
+            const btn = document.getElementById(`btnDeclararSemComprovante_${pedidoId}`);
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = 'Enviando para conferência...';
+            }
+
+            try {
+                const atualizado = await declararPagamentoSemComprovante(pedidoId);
+                mostrarToast("Aviso enviado! Seu pedido está em conferência pela administração.");
+                pedidoAtivo = atualizado;
+                const container = document.getElementById('painelPedidoAtivo');
+                if (container && container.style.display !== 'none') {
+                    renderizarCardPedidoDetalhado(atualizado, container, true);
+                } else {
+                    await executarConsultaPorWhatsapp();
+                }
+                await atualizarTelaInicial();
+            } catch (err) {
+                alert(err.message || "Não foi possível registrar. Tente novamente.");
+                if (btn) {
+                    btn.disabled = false;
+                    btn.textContent = 'Já fiz o pagamento — enviar para conferência sem comprovante';
+                }
+            }
+        };
+
+        // ==========================================
+        // ABA CONSULTA DO PARTICIPANTE
+        // ==========================================
+        async function carregarPedidosSalvosNaAbaConsulta() {
+            const ids = obterIdsPedidosLocais();
+            const box = document.getElementById('blocoPedidosSalvosCelular');
+            if (!ids.length) {
+                box.innerHTML = '';
+                return;
+            }
+            box.innerHTML = `<div style="font-size:0.8rem; color:var(--muted);">Carregando reservas feitas neste aparelho...</div>`;
+            const pedidosEncontrados = [];
+            for (const id of ids.slice(0, 6)) {
+                try {
+                    const p = await buscarPedidoPorId(id);
+                    if (p) pedidosEncontrados.push(p);
+                } catch {}
+            }
+            if (!pedidosEncontrados.length) {
+                box.innerHTML = '';
+                return;
+            }
+            box.innerHTML = `
+                <div style="background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:10px 12px;">
+                    <div style="font-size:0.76rem; font-weight:800; color:var(--muted); text-transform:uppercase; margin-bottom:8px;">
+                        📱 Participações salvas neste celular:
+                    </div>
+                    <div style="display:grid; gap:8px;">
+                        ${pedidosEncontrados.map(p => `
+                            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; background:#fff; padding:10px; border-radius:10px; border:1px solid var(--border);">
+                                <div>
+                                    <div style="font-weight:800; font-size:0.9rem;">${escapeHtml(p.nome)} · ${p.quantidadeAprovada || p.quantidade} nº(s)</div>
+                                    <div style="font-size:0.78rem; color:var(--muted);">${obterRotuloStatus(p.statusEfetivo)}</div>
+                                    ${p.statusEfetivo === 'aprovado' && p.numeros?.length ? `<div style="font-size:0.82rem; font-weight:800; color:var(--primary-dark); margin-top:2px;">🍀 Números: ${p.numeros.join(', ')}</div>` : ''}
+                                </div>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="abrirPedidoNaTela('${p.id}')">
+                                    Abrir Detalhes →
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        window.executarConsultaPorWhatsapp = async function(e) {
+            if (e) e.preventDefault();
+            const input = document.getElementById('inputBuscaWhatsapp');
+            const tel = input.value.trim();
+            const out = document.getElementById('resultadoConsultaContainer');
+            const btn = document.getElementById('btnBuscarWhatsapp');
+
+            if (limparTelefone(tel).length < 10) {
+                mostrarToast("Digite o WhatsApp completo com DDD.");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Buscando...';
+            out.innerHTML = `<div style="padding:1rem; text-align:center; color:var(--muted);">Consultando participações de ${escapeHtml(formatarTelefone(tel))}...</div>`;
+
+            try {
+                const [lista, resumo] = await Promise.all([
+                    buscarPedidosPorWhatsapp(tel),
+                    carregarResumoEPedidos()
+                ]);
+                estadoResumo = resumo;
+
+                if (lista.length === 0) {
+                    out.innerHTML = `
+                        <div style="background:#fffbeb; border:1px solid #fde047; border-radius:12px; padding:16px; text-align:center;">
+                            <div style="font-weight:800; color:#854d0e;">Nenhuma participação encontrada para ${escapeHtml(formatarTelefone(tel))}</div>
+                            <p style="font-size:0.82rem; color:#713f12; margin-top:4px;">Verifique se o número de WhatsApp foi digitado corretamente ou faça uma nova reserva na página inicial.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                out.innerHTML = `<div id="listaCardsConsulta"></div>`;
+                const listEl = document.getElementById('listaCardsConsulta');
+                lista.forEach(p => {
+                    salvarPedidoLocal(p.id);
+                    const wrapper = document.createElement('div');
+                    listEl.appendChild(wrapper);
+                    renderizarCardPedidoDetalhado(p, wrapper, false);
+                });
+            } catch (err) {
+                out.innerHTML = `<div style="color:var(--accent-red); padding:12px;">Erro na consulta: ${escapeHtml(err.message)}</div>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Buscar';
+            }
+        };
+
+        // ==========================================
+        // ABA DIVULGAÇÃO (LINK + QR CODE)
+        // ==========================================
+        function obterUrlPublicaLimpa() {
+            const u = new URL(window.location.href);
+            u.search = '';
+            u.hash = '';
+            return u.toString();
+        }
+
+        function configurarAbaDivulgacao() {
+            const url = obterUrlPublicaLimpa();
+            document.getElementById('txtLinkDivulgacao').textContent = url;
+            document.getElementById('imgQrCodeDivulgacao').src = gerarUrlQrCode(url, 240);
+        }
+
+        window.copiarLinkDivulgacao = function() {
+            copiarTextoPix(obterUrlPublicaLimpa(), "Link da página copiado!");
+        };
+
+        window.compartilharNoWhatsApp = function() {
+            const url = obterUrlPublicaLimpa();
+            const msg = `🎄 *Ação entre Amigos do Central Kids (IEQ Central de Londrina)*\n\nParticipe por apenas *R$ 5,00* cada número e concorra a uma linda *Cesta de Natal* (são apenas 200 números)!\n\n👉 Garanta seus números aqui: ${url}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+        };
+
+        // Inicialização ao abrir a página
+        async function init() {
+            atualizarCalculoTotal();
+            await atualizarTelaInicial();
+
+            const params = new URLSearchParams(window.location.search);
+            const pedidoUrl = params.get('pedido');
+            if (pedidoUrl) {
+                await abrirPedidoNaTela(pedidoUrl);
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

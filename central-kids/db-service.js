@@ -23,7 +23,7 @@ export const DOC_GERAL_ID = "ck_acao2026_config_geral";
 export const TOTAL_NUMEROS = 200;
 export const VALOR_POR_NUMERO_CENTAVOS = 500; // R$ 5,00
 export const VALOR_POR_NUMERO_REAIS = 5;
-export const PRAZO_RESERVA_PADRAO_MIN = 30; // 30 minutos
+export const PRAZO_RESERVA_PADRAO_MIN = 0; // 0 = Infinito (não expira sozinho)
 export const DATA_LIMITE_VENDAS_ISO = "2026-12-20T22:00:00-03:00";
 export const DATA_LIMITE_VENDAS_MS = new Date(DATA_LIMITE_VENDAS_ISO).getTime();
 
@@ -33,7 +33,7 @@ export const CONFIG_PADRAO = {
     chavePix: "regiao655@gmail.com",
     nomeRecebedorPix: "IEQ CENTRAL LONDRINA",
     cidadePix: "LONDRINA",
-    prazoReservaMinutos: PRAZO_RESERVA_PADRAO_MIN,
+    prazoReservaMinutos: 0, // 0 = Infinito (sem expiração automática)
     vendasEncerradasManual: false,
     divulgarResultadoPublico: true,
     numerosVendidosMap: {},
@@ -72,9 +72,14 @@ export function formatarTelefone(tel) {
     return '';
 }
 
-export function calcularStatusEfetivo(pedido, agora = Date.now()) {
+export function calcularStatusEfetivo(pedido, agora = Date.now(), prazoConfigMin = 0) {
     if (!pedido) return 'desconhecido';
-    if (pedido.status === 'reservado_aguardando' && pedido.expiraEm && agora > Number(pedido.expiraEm)) {
+    if (Number(prazoConfigMin) <= 0) {
+        // Quando o prazo está configurado como 0 (Infinito), reservas aguardando pagamento nunca expiram sozinhas
+        if (pedido.status === 'expirado') return 'reservado_aguardando';
+        return pedido.status;
+    }
+    if (pedido.status === 'reservado_aguardando' && pedido.expiraEm && Number(pedido.expiraEm) > 0 && agora > Number(pedido.expiraEm)) {
         return 'expirado';
     }
     return pedido.status;
@@ -137,11 +142,13 @@ export async function carregarResumoEPedidos() {
     const pedidos = [];
     const expiradosParaAtualizar = [];
 
+    const prazoMinConfig = Number(config.prazoReservaMinutos ?? 0);
+
     snapPedidos.forEach(docSnap => {
         const dados = docSnap.data();
         const criadoEmVal = dados.ckCriadoEm || dados.criadoEm || 0;
-        const statusEfetivo = calcularStatusEfetivo(dados, agora);
-        if (dados.status === 'reservado_aguardando' && statusEfetivo === 'expirado') {
+        const statusEfetivo = calcularStatusEfetivo(dados, agora, prazoMinConfig);
+        if (prazoMinConfig > 0 && dados.status === 'reservado_aguardando' && statusEfetivo === 'expirado') {
             expiradosParaAtualizar.push(docSnap.id);
         }
         pedidos.push({
@@ -249,8 +256,8 @@ export async function criarPedidoReserva({ nome, whatsapp, vendedor, quantidade 
     }
 
     const agora = Date.now();
-    const prazoMin = Number(estadoAtual.config.prazoReservaMinutos) || PRAZO_RESERVA_PADRAO_MIN;
-    const expiraEm = agora + (prazoMin * 60 * 1000);
+    const prazoMin = Number(estadoAtual.config.prazoReservaMinutos ?? 0);
+    const expiraEm = prazoMin > 0 ? agora + (prazoMin * 60 * 1000) : null;
     const valorTotalCentavos = qtd * VALOR_POR_NUMERO_CENTAVOS;
     const protocolo = 'CK-' + Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + String(agora).slice(-4);
 
@@ -280,7 +287,7 @@ export async function criarPedidoReserva({ nome, whatsapp, vendedor, quantidade 
         ckCriadoEm: agora,
         criadoEmTexto: new Date(agora).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
         expiraEm,
-        expiraEmTexto: new Date(expiraEm).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+        expiraEmTexto: expiraEm ? new Date(expiraEm).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) : 'Sem expiração automática'
     };
 
     await runTransaction(db, async (transaction) => {

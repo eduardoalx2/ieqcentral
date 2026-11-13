@@ -233,7 +233,8 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">Prazo de Expiração de Reserva sem Comprovante (minutos)</label>
-                            <input type="number" id="cfgPrazoMinutos" class="form-input" min="5" max="1440" required>
+                            <input type="number" id="cfgPrazoMinutos" class="form-input" min="0" max="10080" required>
+                            <div class="form-hint">Digite <strong>0</strong> para <strong>Infinito</strong> (a reserva nunca expira sozinha; só sai se você cancelar ou rejeitar).</div>
                         </div>
                         <button type="submit" class="btn btn-primary">
                             💾 Salvar Configurações
@@ -330,7 +331,7 @@
             registrarSorteioOficialAdmin,
             carregarLogsAdmin,
             gerarMensagemWhatsAppAprovacao
-        } from './db-service.js?v=5';
+        } from './db-service.js?v=6';
 
         const SESSION_KEY_ADMIN = 'central_kids_admin_auth_ok';
         let resumoGlobal = null;
@@ -878,7 +879,7 @@
             const cfg = resumoGlobal?.config || {};
             document.getElementById('cfgChavePix').value = cfg.chavePix || 'regiao655@gmail.com';
             document.getElementById('cfgNomeRecebedor').value = cfg.nomeRecebedorPix || 'IEQ CENTRAL LONDRINA';
-            document.getElementById('cfgPrazoMinutos').value = cfg.prazoReservaMinutos || 30;
+            document.getElementById('cfgPrazoMinutos').value = cfg.prazoReservaMinutos ?? 0;
 
             const logsEl = document.getElementById('listaLogsAuditoria');
             logsEl.innerHTML = `<div style="color:var(--muted);">Carregando histórico de auditoria...</div>`;
@@ -906,10 +907,11 @@
         window.salvarConfigAdminForm = async function(e) {
             e.preventDefault();
             try {
+                const valMin = parseInt(document.getElementById('cfgPrazoMinutos').value, 10);
                 await atualizarConfiguracoesAdmin({
                     chavePix: document.getElementById('cfgChavePix').value.trim(),
                     nomeRecebedorPix: document.getElementById('cfgNomeRecebedor').value.trim(),
-                    prazoReservaMinutos: Number(document.getElementById('cfgPrazoMinutos').value) || 30
+                    prazoReservaMinutos: isNaN(valMin) || valMin < 0 ? 0 : valMin
                 });
                 mostrarToast("Configurações salvas com sucesso!");
                 await recarregarPainelCompleto();

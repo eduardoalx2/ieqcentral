@@ -28,7 +28,7 @@
                     <img src="./assets/logo-central-kids.png" alt="Logo Central Kids">
                 </div>
                 <div class="hero-titles">
-                    <span class="hero-badge">🎄 Natal Solidário · 200 Números</span>
+                    <span class="hero-badge">🎄 Natal Solidário · Central Kids</span>
                     <h1>Ação entre Amigos · Central Kids</h1>
                     <p>Ministério Infantil da IEQ Central de Londrina</p>
                 </div>
@@ -63,11 +63,21 @@
 
             <!-- VITRINE DA AÇÃO -->
             <div class="card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
-                    <span style="font-size:0.78rem; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:0.04em;">
-                        ✨ Concorra a uma linda Cesta de Natal
-                    </span>
-                    <span style="font-size:0.74rem; color:var(--muted);">Toque nas fotos para ampliar</span>
+                <!-- VITRINE PUBLICITÁRIA DA AÇÃO -->
+                <div style="background:linear-gradient(135deg, #14532d 0%, #15803d 60%, #991b1b 100%); color:#fff; border-radius:16px; padding:16px; margin-bottom:12px; box-shadow:0 6px 18px rgba(21,128,61,0.18);">
+                    <div style="display:inline-block; background:#fef08a; color:#854d0e; font-size:0.72rem; font-weight:900; text-transform:uppercase; letter-spacing:0.06em; padding:3px 10px; border-radius:999px; margin-bottom:8px;">
+                        🎄 Participe e Abençoe Nossas Crianças
+                    </div>
+                    <h2 style="font-size:1.22rem; font-weight:900; line-height:1.22; margin-bottom:6px;">
+                        Concorra a esta incrível Cesta de Natal recheada de delícias!
+                    </h2>
+                    <p style="font-size:0.86rem; color:rgba(255,255,255,0.93); line-height:1.5; margin-bottom:10px;">
+                        Com apenas <strong>R$ 5,00 por número</strong>, você concorre a uma cesta especial para celebrar com sua família e contribui diretamente com os projetos e atividades do <strong>Ministério Infantil Central Kids</strong>!
+                    </p>
+                    <div style="display:flex; flex-wrap:wrap; gap:6px; font-size:0.78rem; font-weight:700;">
+                        <span style="background:rgba(255,255,255,0.16); padding:4px 10px; border-radius:999px;">⚡ Pagamento rápido via Pix</span>
+                        <span style="background:rgba(255,255,255,0.16); padding:4px 10px; border-radius:999px;">🎁 Sorteio em 20/12 após a Cantata</span>
+                    </div>
                 </div>
 
                 <!-- DUAS IMAGENS EM TAMANHO EQUILIBRADO -->
@@ -86,11 +96,11 @@
                 <div class="info-chips">
                     <div class="info-chip">
                         <div class="info-chip-label">Valor por número</div>
-                        <div class="info-chip-value highlight">R$ 5,00</div>
+                        <div class="info-chip-value highlight">Apenas R$ 5,00</div>
                     </div>
                     <div class="info-chip">
-                        <div class="info-chip-label">Total da Ação</div>
-                        <div class="info-chip-value">200 números (001 a 200)</div>
+                        <div class="info-chip-label">Como funciona</div>
+                        <div class="info-chip-value" style="font-size:0.86rem;">Escolha quantos números quiser</div>
                     </div>
                     <div class="info-chip">
                         <div class="info-chip-label">Sorteio Presencial</div>
@@ -99,17 +109,6 @@
                     <div class="info-chip">
                         <div class="info-chip-label">Finalidade</div>
                         <div class="info-chip-value" style="font-size:0.86rem;">Ministério Infantil Central Kids</div>
-                    </div>
-                </div>
-
-                <!-- PLACAR DE DISPONIBILIDADE EM TEMPO REAL -->
-                <div class="stock-box" id="stockBox">
-                    <div class="stock-header">
-                        <span class="stock-available-badge" id="lblDisponiveis">Carregando números disponíveis...</span>
-                        <span class="stock-meta" id="lblResumoEstoque">--</span>
-                    </div>
-                    <div class="progress-track">
-                        <div class="progress-fill" id="barraProgressoEstoque" style="width: 0%;"></div>
                     </div>
                 </div>
 
@@ -451,16 +450,6 @@
                 const est = estadoResumo.estatisticas;
                 const cfg = estadoResumo.config;
 
-                const lblDisp = document.getElementById('lblDisponiveis');
-                const lblMeta = document.getElementById('lblResumoEstoque');
-                const barra = document.getElementById('barraProgressoEstoque');
-
-                lblDisp.textContent = `${est.numerosDisponiveis} de ${TOTAL_NUMEROS} números disponíveis`;
-                lblMeta.textContent = `${est.numerosVendidos} confirmados · ${est.numerosReservadosTotal} reservados/em análise`;
-
-                const pctOcupado = Math.min(100, Math.round(((TOTAL_NUMEROS - est.numerosDisponiveis) / TOTAL_NUMEROS) * 100));
-                barra.style.width = `${pctOcupado}%`;
-
                 // Se já houve sorteio e está público, mostra ganhador
                 const winnerBanner = document.getElementById('winnerPublicBanner');
                 if (Array.isArray(cfg.sorteios) && cfg.sorteios.length > 0 && cfg.divulgarResultadoPublico !== false) {
@@ -506,7 +495,6 @@
                 await verificarAtalhoReservaSalvaNoCelular();
             } catch (err) {
                 console.error("Erro ao carregar status:", err);
-                document.getElementById('lblDisponiveis').textContent = '200 números (001 a 200) · R$ 5,00 cada';
             }
         }
 

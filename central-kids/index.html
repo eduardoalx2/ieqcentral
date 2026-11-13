@@ -261,7 +261,7 @@
                 <div style="font-size:2.1rem; margin-bottom:4px;">📱</div>
                 <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:6px;">Confira seu WhatsApp antes de concluir</h3>
                 <p style="font-size:0.85rem; color:var(--muted); margin-bottom:12px;">
-                    Este número será utilizado para você <strong>consultar sua participação</strong> e <strong>receber seus números da sorte</strong> após a confirmação:
+                    Este número será utilizado para você <strong>consultar sua participação</strong> e <strong>receber seus números</strong> após a confirmação:
                 </p>
                 <div style="background:#f0fdf4; border:2px solid #16a34a; border-radius:14px; padding:12px; margin-bottom:12px;">
                     <div style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:#166534;">WhatsApp Informado</div>
@@ -309,7 +309,7 @@
             buscarPedidosPorWhatsapp,
             enviarComprovantePedido,
             declararPagamentoSemComprovante
-        } from './db-service.js?v=3';
+        } from './db-service.js?v=5';
         import { gerarPayloadPix, gerarUrlQrCode } from './pix.js';
 
         const STORAGE_KEY_PEDIDOS = 'central_kids_acao2026_meus_pedidos';
@@ -687,7 +687,7 @@
                 htmlNumerosAprovados = `
                     <div style="background:#f0fdf4; border:2px solid #16a34a; border-radius:14px; padding:14px; margin:12px 0; text-align:center;">
                         <div style="font-size:0.78rem; font-weight:800; color:#166534; text-transform:uppercase;">
-                            🎉 Seus Números da Sorte Confirmados (001 a 200)
+                            🎉 Seus Números Confirmados (001 a 200)
                         </div>
                         <div class="lucky-numbers-wrap" style="justify-content:center; margin-top:10px;">
                             ${pedido.numeros.map(n => `<span class="lucky-number-pill">${escapeHtml(n)}</span>`).join('')}
@@ -1044,7 +1044,7 @@
                                 <div>
                                     <div style="font-weight:800; font-size:0.9rem;">${escapeHtml(p.nome)} · ${p.quantidadeAprovada || p.quantidade} nº(s)</div>
                                     <div style="font-size:0.78rem; color:var(--muted);">${obterRotuloStatus(p.statusEfetivo)}</div>
-                                    ${p.statusEfetivo === 'aprovado' && p.numeros?.length ? `<div style="font-size:0.82rem; font-weight:800; color:var(--primary-dark); margin-top:2px;">🍀 Números: ${p.numeros.join(', ')}</div>` : ''}
+                                    ${p.statusEfetivo === 'aprovado' && p.numeros?.length ? `<div style="font-size:0.82rem; font-weight:800; color:var(--primary-dark); margin-top:2px;">🎟️ Números: ${p.numeros.join(', ')}</div>` : ''}
                                 </div>
                                 <button type="button" class="btn btn-primary btn-sm" onclick="abrirPedidoNaTela('${p.id}')">
                                     Abrir Detalhes →

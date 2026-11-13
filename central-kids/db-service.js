@@ -842,7 +842,7 @@ export function gerarMensagemWhatsAppAprovacao(pedido) {
         `Olá, *${pedido.nome}*! Seu pagamento foi confirmado com sucesso! 🙌\n\n` +
         `📋 *Protocolo:* ${pedido.protocolo || pedido.id.slice(0, 6).toUpperCase()}\n` +
         `🎟️ *Quantidade:* ${qtd} número(s) (${valor})\n` +
-        `🍀 *Seus números da sorte:* *${nums}*\n\n` +
+        `🎟️ *Seus números:* *${nums}*\n\n` +
         `📅 *Sorteio:* 20/12/2026, presencialmente no culto, após a Cantata de Natal.\n\n` +
         `Muito obrigado por abençoar o nosso Ministério Infantil Central Kids! 💛`
     );

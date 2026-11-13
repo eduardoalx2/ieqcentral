@@ -330,7 +330,7 @@
             registrarSorteioOficialAdmin,
             carregarLogsAdmin,
             gerarMensagemWhatsAppAprovacao
-        } from './db-service.js?v=3';
+        } from './db-service.js?v=5';
 
         const SESSION_KEY_ADMIN = 'central_kids_admin_auth_ok';
         let resumoGlobal = null;
@@ -541,7 +541,7 @@
 
                         ${st === 'aprovado' && Array.isArray(p.numeros) && p.numeros.length > 0 ? `
                             <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:10px; padding:10px; margin-bottom:10px;">
-                                <div style="font-size:0.76rem; font-weight:800; color:#166534; text-transform:uppercase;">🍀 Números Atribuídos (${p.numeros.length}):</div>
+                                <div style="font-size:0.76rem; font-weight:800; color:#166534; text-transform:uppercase;">🎟️ Números Atribuídos (${p.numeros.length}):</div>
                                 <div class="lucky-numbers-wrap">
                                     ${p.numeros.map(n => `<span class="lucky-number-pill" style="font-size:0.88rem; padding:4px 10px;">${escapeHtml(n)}</span>`).join('')}
                                 </div>
@@ -804,7 +804,7 @@
             if (!info) return;
             box.style.display = 'block';
             box.innerHTML = `
-                🍀 <strong>Número ${cod}</strong> pertence a <strong>${escapeHtml(info.nome)}</strong> · WhatsApp: <strong>${escapeHtml(info.whatsapp)}</strong> ${info.vendedor ? `· Vendedor: ${escapeHtml(info.vendedor)}` : ''}
+                🎟️ <strong>Número ${cod}</strong> pertence a <strong>${escapeHtml(info.nome)}</strong> · WhatsApp: <strong>${escapeHtml(info.whatsapp)}</strong> ${info.vendedor ? `· Vendedor: ${escapeHtml(info.vendedor)}` : ''}
             `;
         };
 

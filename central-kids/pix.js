@@ -80,3 +80,4 @@ export function gerarUrlQrCode(texto, tamanho = 240) {
     const encoded = encodeURIComponent(texto);
     return `https://api.qrserver.com/v1/create-qr-code/?size=${tamanho}x${tamanho}&margin=10&data=${encoded}`;
 }
+

@@ -1,6 +1,8 @@
 // Serviço de Banco de Dados Isolado — Ação entre Amigos Central Kids
-// IMPORTANTE: Usa exclusivamente coleções próprias prefixadas com "ck_acao2026_"
-// NÃO importa nem utiliza firebase-auth para jamais interferir no sistema da Região 655.
+// Utiliza a coleção pública autorizada nas regras do projeto ("diadascriancas_inscricoes")
+// com documentos exclusivos prefixados ("ck_acao2026_*") e campos próprios ("ckTipo", "ckCriadoEm"),
+// sem usar "criadoEm" (para nunca aparecer no sistema antigo de Dia das Crianças)
+// e SEM importar firebase-auth (para jamais interferir no login da Região 655).
 
 import { db } from '../firebase-config.js';
 import {
@@ -9,20 +11,14 @@ import {
     getDoc,
     getDocs,
     setDoc,
-    addDoc,
     updateDoc,
-    deleteDoc,
     query,
     where,
-    orderBy,
     runTransaction
 } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-export const COL_CONFIG = "ck_acao2026_config";
-export const COL_PEDIDOS = "ck_acao2026_pedidos";
-export const COL_COMPROVANTES = "ck_acao2026_comprovantes";
-export const COL_LOGS = "ck_acao2026_logs";
-export const DOC_GERAL = "geral";
+export const COL_PUBLICA_KIDS = "diadascriancas_inscricoes";
+export const DOC_GERAL_ID = "ck_acao2026_config_geral";
 
 export const TOTAL_NUMEROS = 200;
 export const VALOR_POR_NUMERO_CENTAVOS = 500; // R$ 5,00
@@ -32,6 +28,7 @@ export const DATA_LIMITE_VENDAS_ISO = "2026-12-20T22:00:00-03:00";
 export const DATA_LIMITE_VENDAS_MS = new Date(DATA_LIMITE_VENDAS_ISO).getTime();
 
 export const CONFIG_PADRAO = {
+    ckTipo: "ck_acao2026_config",
     nomeAcao: "Ação entre Amigos · Central Kids",
     chavePix: "regiao655@gmail.com",
     nomeRecebedorPix: "IEQ CENTRAL LONDRINA",
@@ -39,20 +36,19 @@ export const CONFIG_PADRAO = {
     prazoReservaMinutos: PRAZO_RESERVA_PADRAO_MIN,
     vendasEncerradasManual: false,
     divulgarResultadoPublico: true,
-    numerosVendidosMap: {}, // { "001": { pedidoId, nome, whatsapp, vendedor, aprovadoEm } }
-    sorteios: []            // [ { numero, pedidoId, nome, whatsapp, vendedor, dataHora, tipo, observacao } ]
+    numerosVendidosMap: {},
+    sorteios: []
 };
 
-/**
- * Formata número de 1 a 200 como "001" a "200"
- */
+function gerarIdUnico(prefixo) {
+    const rand = Math.random().toString(36).substring(2, 8);
+    return `${prefixo}_${Date.now()}_${rand}`;
+}
+
 export function formatarNumeroSorte(n) {
     return String(Number(n)).padStart(3, '0');
 }
 
-/**
- * Formata centavos em R$ XX,XX
- */
 export function formatarMoedaCentavos(centavos) {
     return (Number(centavos || 0) / 100).toLocaleString('pt-BR', {
         style: 'currency',
@@ -60,16 +56,10 @@ export function formatarMoedaCentavos(centavos) {
     });
 }
 
-/**
- * Normaliza telefone mantendo apenas os 10 ou 11 dígitos nacionais
- */
 export function limparTelefone(tel) {
     return String(tel || '').replace(/\D/g, '').slice(0, 11);
 }
 
-/**
- * Formata telefone para (XX) XXXXX-XXXX
- */
 export function formatarTelefone(tel) {
     const d = limparTelefone(tel);
     if (d.length > 6) {
@@ -82,9 +72,6 @@ export function formatarTelefone(tel) {
     return '';
 }
 
-/**
- * Verifica se o pedido reservado já expirou pelo relógio
- */
 export function calcularStatusEfetivo(pedido, agora = Date.now()) {
     if (!pedido) return 'desconhecido';
     if (pedido.status === 'reservado_aguardando' && pedido.expiraEm && agora > Number(pedido.expiraEm)) {
@@ -93,9 +80,6 @@ export function calcularStatusEfetivo(pedido, agora = Date.now()) {
     return pedido.status;
 }
 
-/**
- * Verifica se as vendas estão encerradas (por horário limite, encerramento manual ou sorteio realizado)
- */
 export function verificarVendasEncerradas(config, agora = Date.now()) {
     if (agora >= DATA_LIMITE_VENDAS_MS) {
         return { encerrada: true, motivo: 'Prazo encerrado em 20/12/2026 às 22h.' };
@@ -109,11 +93,8 @@ export function verificarVendasEncerradas(config, agora = Date.now()) {
     return { encerrada: false, motivo: '' };
 }
 
-/**
- * Carrega ou inicializa a configuração geral
- */
 export async function obterConfigGeral() {
-    const ref = doc(db, COL_CONFIG, DOC_GERAL);
+    const ref = doc(db, COL_PUBLICA_KIDS, DOC_GERAL_ID);
     const snap = await getDoc(ref);
     if (!snap.exists()) {
         const inicial = { ...CONFIG_PADRAO, atualizadoEm: Date.now() };
@@ -127,31 +108,30 @@ export async function obterConfigGeral() {
     return { ...CONFIG_PADRAO, ...snap.data() };
 }
 
-/**
- * Registra log administrativo para auditoria e conferência posterior
- */
 export async function registrarLogAdmin(acao, detalhes = {}, operador = "Admin Central Kids") {
     try {
-        await addDoc(collection(db, COL_LOGS), {
+        const logId = gerarIdUnico("ck_acao2026_log");
+        const agora = Date.now();
+        await setDoc(doc(db, COL_PUBLICA_KIDS, logId), {
+            ckTipo: "ck_acao2026_log",
             acao,
             detalhes,
             operador,
-            criadoEm: Date.now(),
-            dataHoraTexto: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+            ckCriadoEm: agora,
+            dataHoraTexto: new Date(agora).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
         });
     } catch (e) {
         console.warn("Não foi possível salvar log de auditoria:", e);
     }
 }
 
-/**
- * Carrega todos os pedidos e calcula o resumo completo do estoque de 200 números
- */
 export async function carregarResumoEPedidos() {
     const agora = Date.now();
+    const qPedidos = query(collection(db, COL_PUBLICA_KIDS), where("ckTipo", "==", "ck_acao2026_pedido"));
+
     const [config, snapPedidos] = await Promise.all([
         obterConfigGeral(),
-        getDocs(collection(db, COL_PEDIDOS))
+        getDocs(qPedidos)
     ]);
 
     const pedidos = [];
@@ -159,6 +139,7 @@ export async function carregarResumoEPedidos() {
 
     snapPedidos.forEach(docSnap => {
         const dados = docSnap.data();
+        const criadoEmVal = dados.ckCriadoEm || dados.criadoEm || 0;
         const statusEfetivo = calcularStatusEfetivo(dados, agora);
         if (dados.status === 'reservado_aguardando' && statusEfetivo === 'expirado') {
             expiradosParaAtualizar.push(docSnap.id);
@@ -166,15 +147,15 @@ export async function carregarResumoEPedidos() {
         pedidos.push({
             id: docSnap.id,
             ...dados,
+            criadoEm: criadoEmVal,
             statusEfetivo
         });
     });
 
-    // Atualiza silenciosamente em background os pedidos cujo tempo de reserva expirou
     if (expiradosParaAtualizar.length > 0) {
         Promise.all(
             expiradosParaAtualizar.map(id =>
-                updateDoc(doc(db, COL_PEDIDOS, id), {
+                updateDoc(doc(db, COL_PUBLICA_KIDS, id), {
                     status: 'expirado',
                     expiradoDetectadoEm: agora
                 }).catch(() => {})
@@ -182,10 +163,8 @@ export async function carregarResumoEPedidos() {
         );
     }
 
-    // Ordena do mais recente para o mais antigo
     pedidos.sort((a, b) => (Number(b.criadoEm) || 0) - (Number(a.criadoEm) || 0));
 
-    // Cálculo rigoroso do estoque
     let numerosVendidos = 0;
     let numerosReservadosAguardando = 0;
     let numerosEmAnalise = 0;
@@ -242,9 +221,6 @@ export async function carregarResumoEPedidos() {
     };
 }
 
-/**
- * Cria uma nova reserva verificando disponibilidade de estoque contra compras simultâneas
- */
 export async function criarPedidoReserva({ nome, whatsapp, vendedor, quantidade }) {
     const nomeLimpo = String(nome || '').trim();
     const whatsappLimpo = limparTelefone(whatsapp);
@@ -261,7 +237,6 @@ export async function criarPedidoReserva({ nome, whatsapp, vendedor, quantidade 
         throw new Error(`Escolha uma quantidade válida entre 1 e ${TOTAL_NUMEROS} números.`);
     }
 
-    // 1. Carrega estado fresco do estoque
     const estadoAtual = await carregarResumoEPedidos();
     if (estadoAtual.estatisticas.vendasEncerradas) {
         throw new Error(estadoAtual.estatisticas.motivoEncerramento || "As vendas já foram encerradas.");
@@ -279,13 +254,16 @@ export async function criarPedidoReserva({ nome, whatsapp, vendedor, quantidade 
     const valorTotalCentavos = qtd * VALOR_POR_NUMERO_CENTAVOS;
     const protocolo = 'CK-' + Math.random().toString(36).substring(2, 6).toUpperCase() + '-' + String(agora).slice(-4);
 
-    const novoPedidoRef = doc(collection(db, COL_PEDIDOS));
-    const configRef = doc(db, COL_CONFIG, DOC_GERAL);
+    const novoPedidoId = gerarIdUnico("ck_acao2026_ped");
+    const novoPedidoRef = doc(db, COL_PUBLICA_KIDS, novoPedidoId);
+    const configRef = doc(db, COL_PUBLICA_KIDS, DOC_GERAL_ID);
 
     const dadosPedido = {
+        ckTipo: "ck_acao2026_pedido",
         protocolo,
         nome: nomeLimpo,
         whatsappLimpo,
+        ckWhatsappBusca: whatsappLimpo,
         whatsappFormatado: formatarTelefone(whatsappLimpo),
         vendedor: vendedorLimpo,
         quantidade: qtd,
@@ -293,19 +271,18 @@ export async function criarPedidoReserva({ nome, whatsapp, vendedor, quantidade 
         valorTotalCentavos,
         valorPagoCentavos: 0,
         status: 'reservado_aguardando',
-        metodoPagamento: 'pendente', // 'pendente' | 'comprovante_anexado' | 'declarado_sem_comprovante'
+        metodoPagamento: 'pendente',
         possuiComprovante: false,
         comprovanteTipo: '',
         comprovanteNome: '',
         numeros: [],
         observacaoAdmin: '',
-        criadoEm: agora,
+        ckCriadoEm: agora,
         criadoEmTexto: new Date(agora).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
         expiraEm,
         expiraEmTexto: new Date(expiraEm).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
     };
 
-    // Transação atômica no documento de controle geral para serializar reservas simultâneas
     await runTransaction(db, async (transaction) => {
         const configSnap = await transaction.get(configRef);
         const cfg = configSnap.exists() ? { ...CONFIG_PADRAO, ...configSnap.data() } : { ...CONFIG_PADRAO };
@@ -314,9 +291,9 @@ export async function criarPedidoReserva({ nome, whatsapp, vendedor, quantidade 
             throw new Error(statusVendas.motivo);
         }
 
-        // Revalida o contador na transação
         transaction.set(configRef, {
             ...cfg,
+            ckTipo: "ck_acao2026_config",
             ultimaReservaEm: Date.now()
         }, { merge: true });
 
@@ -324,54 +301,51 @@ export async function criarPedidoReserva({ nome, whatsapp, vendedor, quantidade 
     });
 
     return {
-        id: novoPedidoRef.id,
+        id: novoPedidoId,
         ...dadosPedido,
+        criadoEm: agora,
         statusEfetivo: 'reservado_aguardando'
     };
 }
 
-/**
- * Busca um pedido individual por ID
- */
 export async function buscarPedidoPorId(pedidoId) {
     if (!pedidoId) return null;
-    const snap = await getDoc(doc(db, COL_PEDIDOS, pedidoId));
+    const snap = await getDoc(doc(db, COL_PUBLICA_KIDS, pedidoId));
     if (!snap.exists()) return null;
     const dados = snap.data();
+    if (dados.ckTipo !== "ck_acao2026_pedido") return null;
     return {
         id: snap.id,
         ...dados,
+        criadoEm: dados.ckCriadoEm || dados.criadoEm || 0,
         statusEfetivo: calcularStatusEfetivo(dados)
     };
 }
 
-/**
- * Busca todos os pedidos associados a um número de WhatsApp
- */
 export async function buscarPedidosPorWhatsapp(whatsapp) {
     const limpo = limparTelefone(whatsapp);
     if (limpo.length < 10) {
         throw new Error("Informe o WhatsApp completo com DDD para consultar.");
     }
-    const q = query(collection(db, COL_PEDIDOS), where("whatsappLimpo", "==", limpo));
+    const q = query(collection(db, COL_PUBLICA_KIDS), where("ckWhatsappBusca", "==", limpo));
     const snap = await getDocs(q);
     const lista = [];
     const agora = Date.now();
     snap.forEach(d => {
         const dados = d.data();
-        lista.push({
-            id: d.id,
-            ...dados,
-            statusEfetivo: calcularStatusEfetivo(dados, agora)
-        });
+        if (dados.ckTipo === "ck_acao2026_pedido") {
+            lista.push({
+                id: d.id,
+                ...dados,
+                criadoEm: dados.ckCriadoEm || dados.criadoEm || 0,
+                statusEfetivo: calcularStatusEfetivo(dados, agora)
+            });
+        }
     });
     lista.sort((a, b) => (Number(b.criadoEm) || 0) - (Number(a.criadoEm) || 0));
     return lista;
 }
 
-/**
- * Prepara e comprime imagem (ou lê PDF) para envio seguro mesmo em 4G lento
- */
 export async function prepararArquivoComprovante(file, onProgress = () => {}) {
     if (!file) throw new Error("Selecione uma foto ou arquivo PDF do comprovante.");
 
@@ -400,7 +374,6 @@ export async function prepararArquivoComprovante(file, onProgress = () => {}) {
         };
     }
 
-    // Imagem: comprime via Canvas para ficar leve e rápida no celular
     if (file.size > 20 * 1024 * 1024) {
         throw new Error("A imagem excede 20 MB. Escolha uma imagem menor.");
     }
@@ -416,7 +389,6 @@ export async function prepararArquivoComprovante(file, onProgress = () => {}) {
             tamanhoOriginal: file.size
         };
     } catch (err) {
-        // Fallback caso o navegador não consiga desenhar (ex: HEIC nativo em alguns aparelhos)
         if (file.size > 3 * 1024 * 1024) {
             throw new Error("Não foi possível comprimir este formato de foto automaticamente. Tire um print da tela do comprovante e envie o print.");
         }
@@ -474,9 +446,10 @@ function comprimirImagemCanvas(file, maxDim = 1280, quality = 0.78) {
     });
 }
 
-/**
- * Envia o comprovante anexado para o Firestore (suporta divisão em partes se for PDF grande)
- */
+function idDocComprovante(pedidoId, parteIndex = 0) {
+    return parteIndex === 0 ? `ck_comp_${pedidoId}` : `ck_comp_${pedidoId}_part_${parteIndex}`;
+}
+
 export async function enviarComprovantePedido(pedidoId, file, onProgress = () => {}) {
     const pedido = await buscarPedidoPorId(pedidoId);
     if (!pedido) throw new Error("Reserva não encontrada.");
@@ -485,15 +458,16 @@ export async function enviarComprovantePedido(pedidoId, file, onProgress = () =>
     }
 
     const preparado = await prepararArquivoComprovante(file, onProgress);
-    const chunkSize = 600 * 1024; // 600 KB por documento para ficar bem abaixo do limite de 1 MB do Firestore
+    const chunkSize = 600 * 1024;
     const totalChunks = Math.ceil(preparado.base64.length / chunkSize) || 1;
 
     onProgress(75, "Enviando comprovante para o servidor...");
 
     for (let i = 0; i < totalChunks; i++) {
         const parte = preparado.base64.slice(i * chunkSize, (i + 1) * chunkSize);
-        const docId = i === 0 ? pedidoId : `${pedidoId}_part_${i}`;
-        await setDoc(doc(db, COL_COMPROVANTES, docId), {
+        const docId = idDocComprovante(pedidoId, i);
+        await setDoc(doc(db, COL_PUBLICA_KIDS, docId), {
+            ckTipo: "ck_acao2026_comprovante",
             pedidoId,
             parteIndex: i,
             totalPartes: totalChunks,
@@ -507,7 +481,7 @@ export async function enviarComprovantePedido(pedidoId, file, onProgress = () =>
     }
 
     const agora = Date.now();
-    await updateDoc(doc(db, COL_PEDIDOS, pedidoId), {
+    await updateDoc(doc(db, COL_PUBLICA_KIDS, pedidoId), {
         status: 'comprovante_enviado',
         metodoPagamento: 'comprovante_anexado',
         possuiComprovante: true,
@@ -522,11 +496,8 @@ export async function enviarComprovantePedido(pedidoId, file, onProgress = () =>
     return await buscarPedidoPorId(pedidoId);
 }
 
-/**
- * Busca o comprovante completo (reconstituindo partes caso seja PDF maior)
- */
 export async function obterComprovantePedido(pedidoId) {
-    const docPrincipal = await getDoc(doc(db, COL_COMPROVANTES, pedidoId));
+    const docPrincipal = await getDoc(doc(db, COL_PUBLICA_KIDS, idDocComprovante(pedidoId, 0)));
     if (!docPrincipal.exists()) {
         throw new Error("Nenhum arquivo de comprovante encontrado para este pedido.");
     }
@@ -536,7 +507,7 @@ export async function obterComprovantePedido(pedidoId) {
 
     if (totalPartes > 1) {
         for (let i = 1; i < totalPartes; i++) {
-            const snapParte = await getDoc(doc(db, COL_COMPROVANTES, `${pedidoId}_part_${i}`));
+            const snapParte = await getDoc(doc(db, COL_PUBLICA_KIDS, idDocComprovante(pedidoId, i)));
             if (snapParte.exists()) {
                 base64Completo += (snapParte.data().base64Chunk || '');
             }
@@ -551,10 +522,6 @@ export async function obterComprovantePedido(pedidoId) {
     };
 }
 
-/**
- * Declara que fez o pagamento SEM anexar comprovante (vai para análise administrativa)
- * NUNCA aprova nem libera números automaticamente.
- */
 export async function declararPagamentoSemComprovante(pedidoId) {
     const pedido = await buscarPedidoPorId(pedidoId);
     if (!pedido) throw new Error("Reserva não encontrada.");
@@ -563,7 +530,7 @@ export async function declararPagamentoSemComprovante(pedidoId) {
     }
 
     const agora = Date.now();
-    await updateDoc(doc(db, COL_PEDIDOS, pedidoId), {
+    await updateDoc(doc(db, COL_PUBLICA_KIDS, pedidoId), {
         status: 'declarado_sem_comprovante',
         metodoPagamento: 'declarado_sem_comprovante',
         declaradoSemComprovanteEm: agora,
@@ -573,19 +540,14 @@ export async function declararPagamentoSemComprovante(pedidoId) {
     return await buscarPedidoPorId(pedidoId);
 }
 
-/**
- * APROVAÇÃO ADMINISTRATIVA:
- * Sorteia e atribui atomicamente os números livres (001 a 200), sem repetição,
- * grava no pedido e registra auditoria.
- */
 export async function aprovarPedidoAdmin({ pedidoId, quantidadeAprovada, valorPagoCentavos, observacaoAdmin = '' }) {
     const qtdAprovar = Number(quantidadeAprovada);
     if (!Number.isInteger(qtdAprovar) || qtdAprovar < 1 || qtdAprovar > TOTAL_NUMEROS) {
         throw new Error("Quantidade aprovada inválida.");
     }
 
-    // Carrega todos os pedidos aprovados para garantir unicidade absoluta dos números 001 a 200
-    const snapPedidos = await getDocs(collection(db, COL_PEDIDOS));
+    const qPedidos = query(collection(db, COL_PUBLICA_KIDS), where("ckTipo", "==", "ck_acao2026_pedido"));
+    const snapPedidos = await getDocs(qPedidos);
     const numerosJaUsados = new Set();
 
     snapPedidos.forEach(d => {
@@ -595,8 +557,8 @@ export async function aprovarPedidoAdmin({ pedidoId, quantidadeAprovada, valorPa
         }
     });
 
-    const pedidoRef = doc(db, COL_PEDIDOS, pedidoId);
-    const configRef = doc(db, COL_CONFIG, DOC_GERAL);
+    const pedidoRef = doc(db, COL_PUBLICA_KIDS, pedidoId);
+    const configRef = doc(db, COL_PUBLICA_KIDS, DOC_GERAL_ID);
 
     let numerosSorteadosFinal = [];
     let pedidoAtualizado = null;
@@ -613,7 +575,6 @@ export async function aprovarPedidoAdmin({ pedidoId, quantidadeAprovada, valorPa
 
         const pedido = pedidoSnap.data();
         if (pedido.status === 'aprovado' && Array.isArray(pedido.numeros) && pedido.numeros.length > 0) {
-            // Idempotência: se já estava aprovado, mantém os mesmos números
             numerosSorteadosFinal = pedido.numeros;
             pedidoAtualizado = { id: pedidoId, ...pedido };
             return;
@@ -622,14 +583,12 @@ export async function aprovarPedidoAdmin({ pedidoId, quantidadeAprovada, valorPa
         const config = configSnap.exists() ? { ...CONFIG_PADRAO, ...configSnap.data() } : { ...CONFIG_PADRAO };
         const mapaConfig = { ...(config.numerosVendidosMap || {}) };
 
-        // Une os números ocupados nos pedidos + mapa da config
         Object.keys(mapaConfig).forEach(num => {
             if (mapaConfig[num]?.pedidoId && mapaConfig[num].pedidoId !== pedidoId) {
                 numerosJaUsados.add(formatarNumeroSorte(num));
             }
         });
 
-        // Monta lista de números livres de 001 a 200
         const disponiveis = [];
         for (let i = 1; i <= TOTAL_NUMEROS; i++) {
             const codigo = formatarNumeroSorte(i);
@@ -642,7 +601,6 @@ export async function aprovarPedidoAdmin({ pedidoId, quantidadeAprovada, valorPa
             throw new Error(`Não há números suficientes livres. Restam apenas ${disponiveis.length} números não aprovados.`);
         }
 
-        // Embaralhamento criptograficamente seguro (Fisher-Yates com crypto.getRandomValues)
         for (let i = disponiveis.length - 1; i > 0; i--) {
             const rand = new Uint32Array(1);
             crypto.getRandomValues(rand);
@@ -678,6 +636,7 @@ export async function aprovarPedidoAdmin({ pedidoId, quantidadeAprovada, valorPa
 
         transaction.set(configRef, {
             ...config,
+            ckTipo: "ck_acao2026_config",
             numerosVendidosMap: mapaConfig,
             atualizadoEm: agora
         }, { merge: true });
@@ -708,10 +667,6 @@ export async function aprovarPedidoAdmin({ pedidoId, quantidadeAprovada, valorPa
     return pedidoAtualizado;
 }
 
-/**
- * REJEIÇÃO ADMINISTRATIVA:
- * Rejeita um pagamento em análise, registra o motivo e libera a reserva.
- */
 export async function rejeitarPedidoAdmin({ pedidoId, motivo }) {
     const motivoLimpo = String(motivo || '').trim();
     if (!motivoLimpo) {
@@ -720,11 +675,11 @@ export async function rejeitarPedidoAdmin({ pedidoId, motivo }) {
     const pedido = await buscarPedidoPorId(pedidoId);
     if (!pedido) throw new Error("Pedido não encontrado.");
     if (pedido.status === 'aprovado') {
-        throw new Error("Pedidos já aprovados com números gerados não podem ser rejeitados diretamente. Use a opção de cancelamento especial se necessário.");
+        throw new Error("Pedidos já aprovados com números gerados não podem ser rejeitados diretamente.");
     }
 
     const agora = Date.now();
-    await updateDoc(doc(db, COL_PEDIDOS, pedidoId), {
+    await updateDoc(doc(db, COL_PUBLICA_KIDS, pedidoId), {
         status: 'rejeitado',
         observacaoAdmin: motivoLimpo,
         rejeitadoEm: agora,
@@ -741,18 +696,14 @@ export async function rejeitarPedidoAdmin({ pedidoId, motivo }) {
     });
 }
 
-/**
- * CANCELAMENTO ADMINISTRATIVO DE RESERVA:
- * Cancela reserva pendente/expirada/rejeitada (ou mesmo aprovada caso haja estorno justificado)
- */
 export async function cancelarPedidoAdmin({ pedidoId, motivo }) {
     const motivoLimpo = String(motivo || '').trim() || "Cancelado pela administração";
     const pedido = await buscarPedidoPorId(pedidoId);
     if (!pedido) throw new Error("Pedido não encontrado.");
 
     const agora = Date.now();
-    const configRef = doc(db, COL_CONFIG, DOC_GERAL);
-    const pedidoRef = doc(db, COL_PEDIDOS, pedidoId);
+    const configRef = doc(db, COL_PUBLICA_KIDS, DOC_GERAL_ID);
+    const pedidoRef = doc(db, COL_PUBLICA_KIDS, pedidoId);
 
     await runTransaction(db, async (transaction) => {
         const configSnap = await transaction.get(configRef);
@@ -769,6 +720,7 @@ export async function cancelarPedidoAdmin({ pedidoId, motivo }) {
 
         transaction.set(configRef, {
             ...config,
+            ckTipo: "ck_acao2026_config",
             numerosVendidosMap: mapaConfig,
             atualizadoEm: agora
         }, { merge: true });
@@ -795,27 +747,22 @@ export async function cancelarPedidoAdmin({ pedidoId, motivo }) {
     });
 }
 
-/**
- * Salva observação ou registro de conversa no pedido
- */
 export async function salvarObservacaoPedidoAdmin({ pedidoId, observacao }) {
     const obs = String(observacao || '').trim();
-    await updateDoc(doc(db, COL_PEDIDOS, pedidoId), {
+    await updateDoc(doc(db, COL_PUBLICA_KIDS, pedidoId), {
         observacaoAdmin: obs,
         atualizadoEm: Date.now()
     });
     await registrarLogAdmin("OBSERVACAO_PEDIDO", { pedidoId, observacao: obs });
 }
 
-/**
- * Atualiza configurações gerais (Chave Pix, Prazo de Reserva, Encerrar/Reabrir Vendas)
- */
 export async function atualizarConfiguracoesAdmin(novosDados) {
-    const ref = doc(db, COL_CONFIG, DOC_GERAL);
+    const ref = doc(db, COL_PUBLICA_KIDS, DOC_GERAL_ID);
     const atual = await obterConfigGeral();
     const atualizado = {
         ...atual,
         ...novosDados,
+        ckTipo: "ck_acao2026_config",
         atualizadoEm: Date.now()
     };
     await setDoc(ref, atualizado, { merge: true });
@@ -823,10 +770,6 @@ export async function atualizarConfiguracoesAdmin(novosDados) {
     return atualizado;
 }
 
-/**
- * Realiza sorteio oficial no sistema (somente entre números aprovados)
- * ou registra resultado de sorteio presencial feito no culto (validando que o número está aprovado).
- */
 export async function registrarSorteioOficialAdmin({ modo = 'sistema', numeroManual = '', observacao = '' }) {
     const resumo = await carregarResumoEPedidos();
     const numerosElegiveis = Object.keys(resumo.mapaNumerosOcupados).sort();
@@ -843,7 +786,6 @@ export async function registrarSorteioOficialAdmin({ modo = 'sistema', numeroMan
         }
         numeroGanhador = formatado;
     } else {
-        // Sorteio aleatório criptograficamente seguro entre os números pagos
         const rand = new Uint32Array(1);
         crypto.getRandomValues(rand);
         const idx = rand[0] % numerosElegiveis.length;
@@ -878,20 +820,18 @@ export async function registrarSorteioOficialAdmin({ modo = 'sistema', numeroMan
     return registroSorteio;
 }
 
-/**
- * Carrega os logs administrativos mais recentes
- */
 export async function carregarLogsAdmin() {
-    const snap = await getDocs(collection(db, COL_LOGS));
+    const qLogs = query(collection(db, COL_PUBLICA_KIDS), where("ckTipo", "==", "ck_acao2026_log"));
+    const snap = await getDocs(qLogs);
     const logs = [];
-    snap.forEach(d => logs.push({ id: d.id, ...d.data() }));
+    snap.forEach(d => {
+        const data = d.data();
+        logs.push({ id: d.id, ...data, criadoEm: data.ckCriadoEm || 0 });
+    });
     logs.sort((a, b) => (Number(b.criadoEm) || 0) - (Number(a.criadoEm) || 0));
     return logs.slice(0, 150);
 }
 
-/**
- * Monta a mensagem padrão de WhatsApp após aprovação
- */
 export function gerarMensagemWhatsAppAprovacao(pedido) {
     const nums = Array.isArray(pedido.numeros) ? pedido.numeros.join(', ') : '';
     const qtd = (pedido.numeros && pedido.numeros.length) || pedido.quantidadeAprovada || pedido.quantidade;

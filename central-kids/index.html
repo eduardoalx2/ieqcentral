@@ -1138,8 +1138,14 @@
 
             const params = new URLSearchParams(window.location.search);
             const pedidoUrl = params.get('pedido');
+            const abaInicial = localStorage.getItem('ck_open_tab');
+            if (abaInicial) {
+                localStorage.removeItem('ck_open_tab');
+            }
             if (pedidoUrl) {
                 await abrirPedidoNaTela(pedidoUrl);
+            } else if (abaInicial === 'consultar' || params.get('aba') === 'consultar') {
+                navegarAba('consultar');
             }
         }
 

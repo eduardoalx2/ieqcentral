@@ -793,22 +793,6 @@
         <span class="hub-section-label">Eventos &amp; Projetos</span>
     </div>
 
-    <section class="r" aria-labelledby="almoco-titulo" style="position:relative;background:#17181d;color:#fff;border-radius:18px;padding:1.35rem;box-shadow:0 8px 24px rgba(0,0,0,.12);">
-        <a href="https://almoco-familia-ieq.halecucumber.chatgpt.site/?admin=1" aria-label="Administração do Almoço da Família" title="Administração" style="position:absolute;right:12px;top:12px;width:44px;height:44px;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,.12);color:white;text-decoration:none;font-size:18px;">🔒</a>
-        <div style="font:600 10px 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:#f2b441;margin-bottom:8px;">Confraternização</div>
-        <h2 id="almoco-titulo" style="font:400 1.8rem Fraunces,serif;line-height:1.1;margin:0 45px 10px 0;">Almoço da Família</h2>
-        <p style="font-size:.88rem;line-height:1.6;color:#eee;margin:0 0 10px;">Um almoço de confraternização para toda a família.</p>
-        <p style="font-size:.83rem;line-height:1.7;color:#eee;margin:0 0 10px;">📅 20 de novembro de 2026<br>🕒 <span id="almoco-horario">Horário a confirmar</span><br>📍 <span id="almoco-endereco">Endereço a confirmar</span></p>
-        <p style="font-size:.8rem;line-height:1.5;color:#eee;margin:0 0 15px;">R$ 10,00 por pessoa a partir de 6 anos.<br>Crianças até 5 anos não pagam.</p>
-        <a href="https://almoco-familia-ieq.halecucumber.chatgpt.site/#inscricao" style="display:inline-block;background:#e03838;color:#fff;border-radius:9px;padding:11px 15px;font-size:.86rem;font-weight:600;text-decoration:none;">Inscrever minha família</a>
-    </section>
-    <script>
-      fetch('https://almoco-familia-ieq.halecucumber.chatgpt.site/api/event')
-        .then(function(r){ if(!r.ok) throw new Error('indisponível'); return r.json(); })
-        .then(function(e){document.getElementById('almoco-horario').textContent=e.time_text==='A confirmar'?'Horário a confirmar':e.time_text;document.getElementById('almoco-endereco').textContent=e.address==='A confirmar'?'Endereço a confirmar':e.address;})
-        .catch(function(){});
-    </script>
-
     <section class="r" aria-labelledby="central-kids-acao-titulo" style="position:relative;background:linear-gradient(135deg,#14532d 0%,#166534 60%,#7f1d1d 100%);color:#fff;border-radius:18px;padding:1.35rem;box-shadow:0 8px 24px rgba(0,0,0,.14);">
         <a href="central-kids/admin.html" aria-label="Administração da Ação entre Amigos Central Kids" title="Painel Administrativo Central Kids" style="position:absolute;right:12px;top:12px;width:44px;height:44px;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,.14);color:white;text-decoration:none;font-size:18px;">🔒</a>
         <div style="display:flex;align-items:center;gap:12px;margin:0 48px 10px 0;">
@@ -988,6 +972,25 @@
                 <span class="hub-link-arrow">›</span>
             </summary>
             <div class="hub-accordion-body">
+                <div class="hub-link hub-sublink" style="gap:0.75rem;">
+                    <a href="https://almoco-familia-ieq.halecucumber.chatgpt.site/" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:1rem;flex:1;min-width:0;text-decoration:none;color:inherit;">
+                        <div class="hub-link-icon" style="background:#17181d;border:1px solid rgba(242,180,65,0.35);">
+                            <svg viewBox="0 0 24 24" stroke="#f2b441" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+                                <path d="M7 2v20"/>
+                                <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
+                            </svg>
+                        </div>
+                        <div class="hub-link-text">
+                            <div class="hub-link-title" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                                Almoço da Família
+                                <span style="font-size:10px;font-weight:600;color:#991b1b;background:#fef2f2;border:1px solid #fecaca;padding:1px 6px;border-radius:99px;text-transform:uppercase;letter-spacing:0.04em;">Encerrado</span>
+                            </div>
+                            <div class="hub-link-sub">Confraternização · 20/11/2026 · Inscrições encerradas</div>
+                        </div>
+                    </a>
+                    <a href="https://almoco-familia-ieq.halecucumber.chatgpt.site/?admin=1" target="_blank" rel="noopener noreferrer" aria-label="Administração do Almoço da Família" title="Administração" style="width:34px;height:34px;display:grid;place-items:center;border-radius:8px;background:var(--bg-warm);border:1px solid var(--line-soft);color:var(--ink-soft);text-decoration:none;font-size:14px;flex-shrink:0;">🔒</a>
+                </div>
                 <a href="mesdoavivamento/" class="hub-link hub-sublink">
                     <div class="hub-link-icon" style="background:linear-gradient(135deg,var(--gold),var(--red));">
                         <svg viewBox="0 0 24 24" stroke="#fff" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">

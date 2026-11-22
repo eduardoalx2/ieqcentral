@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batismo nas Águas · Central UP | IEQ Central Londrina</title>
+    <meta name="description" content="Portal interativo do Batismo nas Águas do Central UP — Minha Fé, Minha Decisão. Dia 13 de Dezembro de 2026 às 19h no Culto Gratidão.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+    <!-- Toast de Conquista Estilo Minecraft -->
+    <div id="mc-achievement-toast" class="mc-achievement-toast" role="status" aria-live="polite">
+        <div class="mc-ach-icon">💎</div>
+        <div>
+            <div class="mc-ach-label">CONQUISTA DESBLOQUEADA!</div>
+            <div class="mc-ach-name">Fé Verdadeira</div>
+        </div>
+    </div>
+
+    <div class="page-wrap">
+        <!-- BARRA SUPERIOR COM CADEADO ADMIN -->
+        <header class="top-bar">
+            <a href="../centralup/" class="top-brand" title="Central UP">
+                <img src="../centralup/logoup.png" alt="Central UP" onerror="this.style.display='none'">
+                <div class="top-brand-text">
+                    <span class="top-brand-title">CENTRAL UP</span>
+                    <span class="top-brand-sub">IEQ Central · Londrina/PR</span>
+                </div>
+            </a>
+            <div class="top-actions">
+                <a href="../" class="top-home-link">← Site IEQ</a>
+                <button type="button" id="btn-open-admin-lock" class="admin-lock-btn" aria-label="Área Administrativa" title="Gerenciar portal (Admin)">
+                    🔒
+                </button>
+            </div>
+        </header>
+
+        <!-- HERO: CONVITE DE JESUS PARA UMA NOVA VIDA -->
+        <section class="hero-block" aria-labelledby="hero-titulo">
+            <div class="hero-badge">⛏️ Série: Minha Fé, Minha Decisão · Batismo nas Águas</div>
+            <h1 id="hero-titulo" class="hero-title">
+                JESUS TE CONVIDA PARA<br><span>UMA NOVA VIDA!</span>
+            </h1>
+            <p class="hero-invite">
+                Não é apenas apertar um botão de <strong>"New Game"</strong> — é responder ao chamado de Jesus,
+                deixar o passado nas águas e começar uma <strong>nova jornada de fé</strong> ao lado dEle!
+            </p>
+
+            <div class="hero-verse-box">
+                "Portanto, se alguém está em Cristo, é nova criação. As coisas antigas já passaram; eis que surgiram coisas novas!"
+                <span>— 2 Coríntios 5:17 · Romanos 6:3-4</span>
+            </div>
+
+            <div class="hero-event-pills">
+                <div class="event-pill">📅 13 de Dezembro de 2026</div>
+                <div class="event-pill">🕖 19h · Culto Gratidão</div>
+                <div class="event-pill">📍 Travessa Belo Horizonte, 90</div>
+            </div>
+
+            <!-- Contagem Regressiva em Blocos -->
+            <div class="countdown-grid" aria-label="Contagem regressiva para o batismo">
+                <div class="cd-block"><span class="cd-num" id="cd-dias">--</span><span class="cd-lbl">Dias</span></div>
+                <div class="cd-block"><span class="cd-num" id="cd-horas">--</span><span class="cd-lbl">Horas</span></div>
+                <div class="cd-block"><span class="cd-num" id="cd-min">--</span><span class="cd-lbl">Min</span></div>
+                <div class="cd-block"><span class="cd-num" id="cd-seg">--</span><span class="cd-lbl">Seg</span></div>
+            </div>
+
+            <div class="hero-cta-row">
+                <a href="#inscricao" class="mc-btn mc-btn-emerald">📝 FAZER INSCRIÇÃO</a>
+                <a href="#game" class="mc-btn mc-btn-water">🎮 JOGAR MINI-GAME</a>
+            </div>
+            <div class="hero-grass-strip" aria-hidden="true"></div>
+        </section>
+
+        <!-- HOTBAR DE NAVEGAÇÃO (ESTILO INVENTÁRIO) -->
+        <nav class="hotbar-nav" aria-label="Navegação do portal">
+            <a href="#aprendizado" class="hotbar-slot">🗺️ O que aprenderam</a>
+            <a href="#guia-pais" class="hotbar-slot">💛 Guia dos Pais</a>
+            <a href="#game" class="hotbar-slot">🎮 Game UP</a>
+            <a href="#camiseta" id="nav-slot-camiseta" class="hotbar-slot">👕 Camiseta</a>
+            <a href="#inscricao" class="hotbar-slot">📝 Inscrição</a>
+        </nav>
+
+        <!-- SEÇÃO 1: O QUE OS UPS APRENDERAM NAS ÚLTIMAS SEMANAS -->
+        <section id="aprendizado" class="mc-section">
+            <div class="section-head">
+                <div class="section-icon" style="background:linear-gradient(135deg,#0284c7,#0369a1);">🗺️</div>
+                <div>
+                    <div class="section-kicker">Espaço dos Pais · Série de 4 Semanas</div>
+                    <h2 class="section-title">O que seu filho aprendeu</h2>
+                    <p class="section-desc">
+                        Nas últimas semanas, os pré-adolescentes do Central UP caminharam pela série
+                        <strong>"Minha Fé, Minha Decisão"</strong> para compreender biblicamente o Batismo nas Águas.
+                    </p>
+                </div>
+            </div>
+
+            <div class="aulas-grid">
+                <!-- Aula 1 -->
+                <article class="aula-card">
+                    <div class="aula-top">
+                        <span class="aula-num">FASE 01</span>
+                        <span class="aula-ref">Mc 16:15-16 · Ef 2:8-9</span>
+                    </div>
+                    <h3>💧 Antes da água, vem a fé!</h3>
+                    <p>
+                        A água não tem poder mágico nem salva ninguém. Somos salvos pela graça de Deus mediante a fé em Jesus.
+                        O batismo é a resposta pública de quem já crê no amor de Cristo.
+                    </p>
+                    <div class="aula-quote">
+                        "Eu não sou batizado para Jesus me amar. Eu quero ser batizado porque creio que Ele já me ama."
+                    </div>
+                    <div class="aula-pais-tip">
+                        <strong>💬 Em casa:</strong> Conte para seu filho como foi a sua própria experiência de fé em Jesus.
+                    </div>
+                </article>
+
+                <!-- Aula 2 -->
+                <article class="aula-card">
+                    <div class="aula-top">
+                        <span class="aula-num">FASE 02</span>
+                        <span class="aula-ref">Ap 2:10 · Rm 10:9</span>
+                    </div>
+                    <h3>👑 O preço da fidelidade</h3>
+                    <p>
+                        Com o tema <em>"Quanto vale a sua fé?"</em>, os Ups conheceram histórias reais de coragem —
+                        <strong>Estêvão</strong> (Atos 7), <strong>Policarpo</strong> e <strong>William Tyndale</strong> —
+                        aprendendo que declarar fé em Jesus é decidir permanecer fiel mesmo nos dias difíceis.
+                    </p>
+                    <div class="aula-quote">
+                        "Seja fiel até a morte, e eu lhe darei a coroa da vida." (Apocalipse 2:10)
+                    </div>
+                    <div class="aula-pais-tip">
+                        <strong>💬 Em casa:</strong> Pergunte em quais situações da escola ou entre amigos ele sente que precisa de coragem para defender a fé.
+                    </div>
+                </article>
+
+                <!-- Aula 3 -->
+                <article class="aula-card">
+                    <div class="aula-top">
+                        <span class="aula-num">FASE 03</span>
+                        <span class="aula-ref">Rm 6:3-4 · 2Co 5:17</span>
+                    </div>
+                    <h3>🌊 Uma nova vida começa!</h3>
+                    <p>
+                        Entenderam o símbolo do batismo: <strong>descer às águas</strong> representa morrer com Cristo para o passado,
+                        e <strong>sair das águas</strong> representa ressuscitar para uma nova vida! Não é apertar "new game" — Cristo perdoa,
+                        transforma e nos ensina a viver diferente.
+                    </p>
+                    <div class="aula-quote">
+                        "O batismo mostra que Deus está formando uma nova pessoa. Ele representa a nova vida que Jesus me dá."
+                    </div>
+                    <div class="aula-pais-tip">
+                        <strong>💬 Em casa:</strong> Celebre pequenas mudanças de atitude no dia a dia — ser nova criatura é um processo contínuo!
+                    </div>
+                </article>
+
+                <!-- Aula 4 -->
+                <article class="aula-card">
+                    <div class="aula-top">
+                        <span class="aula-num">FASE 04</span>
+                        <span class="aula-ref">At 8:26-39 · At 16:31</span>
+                    </div>
+                    <h3>🧭 Minha fé, minha decisão!</h3>
+                    <p>
+                        Através da história de <strong>Filipe e o eunuco etíope</strong>, refletiram sobre 3 perguntas essenciais:
+                        <em>1) Eu creio que Jesus é meu Salvador? 2) Desejo seguir Jesus e obedecer à Sua Palavra? 3) Compreendo o batismo?</em>
+                        Pais e líderes ensinam, mas a decisão de crer é pessoal.
+                    </p>
+                    <div class="aula-quote">
+                        "Outros podem me ensinar a seguir Jesus, mas a decisão de crer nele precisa ser minha!"
+                    </div>
+                    <div class="aula-pais-tip">
+                        <strong>💬 Em casa:</strong> Ouça seu filho sem pressão — faça essas 3 perguntas com carinho e orem juntos pela decisão.
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: ORIENTAÇÕES E DICAS PARA OS PAIS -->
+        <section id="guia-pais" class="mc-section">
+            <div class="section-head">
+                <div class="section-icon" style="background:linear-gradient(135deg,#eab308,#ca8a04);">💛</div>
+                <div>
+                    <div class="section-kicker">Guia Especial para a Família</div>
+                    <h2 class="section-title">Como tornar esse dia inesquecível</h2>
+                    <p class="section-desc">
+                        O Batismo nas Águas no <strong>Culto Gratidão (13/12 às 19h)</strong> será um marco espiritual para toda a vida do seu filho.
+                        Veja dicas práticas para celebrar com excelência:
+                    </p>
+                </div>
+            </div>
+
+            <div class="dicas-grid">
+                <div class="dica-card">
+                    <h3>✨ Antes do dia 13/12</h3>
+                    <ul>
+                        <li>Converse sobre as 3 perguntas da Aula 4 e confirme se a decisão nasce do coração dele.</li>
+                        <li>Escreva uma <strong>cartinha especial</strong> ou uma dedicatória na Bíblia com a data 13/12/2026 para entregar após o culto.</li>
+                        <li>Convide avós, tios, amigos e pessoas queridas para prestigiarem esse passo de fé!</li>
+                        <li>Orem juntos durante a semana agradecendo a Deus por essa nova jornada.</li>
+                    </ul>
+                </div>
+
+                <div class="dica-card">
+                    <h3>⛪ No Culto Gratidão</h3>
+                    <ul>
+                        <li>Chegue com <strong>20 a 30 minutos de antecedência</strong> (antes das 19h) na IEQ Central (Travessa Belo Horizonte, 90).</li>
+                        <li>Traga o batizando já com roupa confortável e escura por baixo (ou com a camiseta oficial do batismo).</li>
+                        <li>Combine quem da família vai filmar e tirar fotos — registre o sorriso dele saindo das águas!</li>
+                        <li>Demonstre entusiasmo: palmas, abraço apertado e palavras de afirmação fazem toda a diferença.</li>
+                    </ul>
+                </div>
+
+                <div class="dica-card">
+                    <h3>🎉 Depois do Batismo</h3>
+                    <ul>
+                        <li>Faça uma pequena comemoração em família após o culto (um lanche, sorvete ou jantar especial).</li>
+                        <li>Anote <strong>13 de dezembro</strong> no calendário como o "aniversário espiritual" dele para relembrar todo ano.</li>
+                        <li>Continue acompanhando o devocional e a caminhada no Central UP — o batismo é o começo da aventura!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Checklist interativo para os pais -->
+            <div class="checklist-box">
+                <div class="checklist-title">🎒 INVENTÁRIO DO DIA 13/12 (TOQUE PARA MARCAR)</div>
+                <div class="checklist-grid" id="pais-checklist">
+                    <label class="check-item"><input type="checkbox" data-ck="roupa_molhar"> Roupa escura/confortável que possa molhar (ou camiseta oficial)</label>
+                    <label class="check-item"><input type="checkbox" data-ck="troca_seca"> Troca de roupa seca completa + roupa íntima</label>
+                    <label class="check-item"><input type="checkbox" data-ck="toalha"> Toalha de banho</label>
+                    <label class="check-item"><input type="checkbox" data-ck="sacola"> Sacola plástica para guardar a roupa molhada</label>
+                    <label class="check-item"><input type="checkbox" data-ck="chinelo"> Chinelo confortável</label>
+                    <label class="check-item"><input type="checkbox" data-ck="cartinha"> Cartinha, Bíblia ou surpresa da família (opcional)</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: GAME INTERATIVO PARA OS UPS -->
+        <section id="game" class="mc-section">
+            <div class="section-head">
+                <div class="section-icon" style="background:linear-gradient(135deg,#22c55e,#15803d);">🎮</div>
+                <div>
+                    <div class="section-kicker">Espaço dos Ups · Mini-Game Interativo</div>
+                    <h2 class="section-title">Game: Jornada das Águas</h2>
+                    <p class="section-desc">
+                        Ei, Up! Teste tudo o que você aprendeu sobre o Batismo nas Águas, ganhe esmeraldas e desbloqueie sua patente!
+                    </p>
+                </div>
+            </div>
+
+            <div class="game-shell" id="bup-game-root"></div>
+        </section>
+
+        <!-- SEÇÃO 4: CAMISETA OFICIAL DO BATISMO (EDITÁVEL PELO ADMIN) -->
+        <section id="camiseta" class="mc-section">
+            <div class="section-head">
+                <div class="section-icon" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);">👕</div>
+                <div>
+                    <div class="section-kicker">Opcional · Edição Especial 2026</div>
+                    <h2 class="section-title" id="pub-camiseta-titulo">Camiseta Oficial · Batismo Central UP</h2>
+                    <p class="section-desc" id="pub-camiseta-desc">
+                        Garanta a camiseta oficial para o grande dia do Batismo nas Águas no Culto Gratidão (13/12 às 19h)!
+                    </p>
+                </div>
+            </div>
+
+            <div class="camiseta-layout">
+                <div class="camiseta-photo-frame" id="pub-camiseta-photo">
+                    <div class="camiseta-placeholder">
+                        <span>👕</span>
+                        Foto da camiseta em breve!
+                    </div>
+                </div>
+                <div>
+                    <div class="camiseta-price-tag" id="pub-camiseta-valor">Valor: A definir</div>
+                    <div class="camiseta-info-box">
+                        <strong style="color:#fef08a;display:block;margin-bottom:4px;">💳 Forma de Pagamento</strong>
+                        <div id="pub-camiseta-pagamento">Pagamento via PIX ou presencialmente com a liderança do Central UP.</div>
+                        <div style="margin-top:8px;font-size:0.82rem;color:#94a3b8;">
+                            📏 Tamanhos disponíveis: <strong id="pub-camiseta-tamanhos" style="color:#e2e8f0;">10, 12, 14, P, M, G, GG</strong>
+                        </div>
+                    </div>
+
+                    <div id="pub-camiseta-pix-wrap" class="camiseta-pix-row hidden">
+                        <div>
+                            <div style="font-size:0.72rem;color:#94a3b8;text-transform:uppercase;">Chave PIX</div>
+                            <div class="camiseta-pix-code" id="pub-camiseta-pix"></div>
+                        </div>
+                        <button type="button" id="btn-copy-pix" class="mc-btn mc-btn-water mc-btn-sm">📋 COPIAR PIX</button>
+                    </div>
+
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <a id="pub-camiseta-link" href="#" target="_blank" rel="noopener noreferrer" class="mc-btn mc-btn-gold hidden">
+                            🛒 COMPRAR / PEDIR CAMISETA
+                        </a>
+                        <a href="#inscricao" class="mc-btn mc-btn-stone mc-btn-sm">
+                            📝 Informar tamanho na inscrição
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 5: FICHA DE INSCRIÇÃO SIMPLES -->
+        <section id="inscricao" class="mc-section">
+            <div class="section-head">
+                <div class="section-icon" style="background:linear-gradient(135deg,#10b981,#047857);">📝</div>
+                <div>
+                    <div class="section-kicker">Dia 13/12/2026 às 19h · Culto Gratidão</div>
+                    <h2 class="section-title">Ficha de Inscrição · Batismo</h2>
+                    <p class="section-desc">
+                        Preencha os dados essenciais abaixo para confirmar a participação do seu filho(a) no Batismo nas Águas do Central UP.
+                    </p>
+                </div>
+            </div>
+
+            <div id="insc-closed-banner" class="form-alert info hidden">
+                🔒 As inscrições online estão temporariamente encerradas pela coordenação. Em caso de dúvida, fale com a liderança do Central UP.
+            </div>
+
+            <div id="insc-error-banner" class="form-alert error hidden"></div>
+
+            <form id="form-inscricao-batismo" novalidate>
+                <div class="mc-form-grid">
+                    <div class="mc-field full">
+                        <label class="mc-label" for="f-nome-up">Nome completo do Up (batizando) <span class="req">*</span></label>
+                        <input id="f-nome-up" type="text" class="mc-input" required placeholder="Nome completo da criança / pré-adolescente">
+                    </div>
+
+                    <div class="mc-field">
+                        <label class="mc-label" for="f-data-nasc">Data de nascimento <span class="req">*</span></label>
+                        <input id="f-data-nasc" type="date" class="mc-input" required>
+                    </div>
+
+                    <div class="mc-field">
+                        <label class="mc-label" for="f-filiacao">Filiação (nome da mãe e/ou pai) <span class="req">*</span></label>
+                        <input id="f-filiacao" type="text" class="mc-input" required placeholder="Ex.: Maria Silva e João Silva">
+                    </div>
+
+                    <div class="mc-field">
+                        <label class="mc-label" for="f-resp-nome">Nome do responsável <span class="req">*</span></label>
+                        <input id="f-resp-nome" type="text" class="mc-input" required placeholder="Quem está fazendo a inscrição">
+                    </div>
+
+                    <div class="mc-field">
+                        <label class="mc-label" for="f-resp-whats">WhatsApp do responsável <span class="req">*</span></label>
+                        <input id="f-resp-whats" type="tel" class="mc-input" required placeholder="(43) 99999-9999" inputmode="numeric">
+                    </div>
+
+                    <div class="mc-field full camiseta-opt-box" id="f-camiseta-box">
+                        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600;color:#fef08a;">
+                            <input id="f-quer-camiseta" type="checkbox" style="width:18px;height:18px;accent-color:#22c55e;">
+                            Deseja reservar a Camiseta Oficial do Batismo? (Opcional)
+                        </label>
+                        <div id="f-tamanho-wrap" class="hidden" style="margin-top:10px;max-width:240px;">
+                            <label class="mc-label" for="f-tamanho">Tamanho da camiseta</label>
+                            <select id="f-tamanho" class="mc-select"></select>
+                        </div>
+                    </div>
+
+                    <div class="mc-field full">
+                        <label class="mc-label" for="f-obs">Observações (opcional)</label>
+                        <textarea id="f-obs" class="mc-textarea" placeholder="Alguma informação importante ou dúvida para a liderança?"></textarea>
+                    </div>
+                </div>
+
+                <div style="margin-top:1.15rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                    <button type="submit" id="btn-submit-insc" class="mc-btn mc-btn-emerald">
+                        ✅ CONFIRMAR INSCRIÇÃO NO BATISMO
+                    </button>
+                    <span style="font-size:0.8rem;color:#94a3b8;">
+                        Sem limite de vagas · Culto Gratidão · 13/12/2026 às 19h
+                    </span>
+                </div>
+            </form>
+
+            <!-- Tela de Confirmação após Envio -->
+            <div id="insc-success-box" class="form-success-card hidden">
+                <div style="font-size:2.8rem;margin-bottom:0.4rem;">🎉💧</div>
+                <h3 class="pixel-title" style="font-size:1.05rem;color:#fef08a;margin-bottom:0.5rem;">
+                    INSCRIÇÃO CONFIRMADA!
+                </h3>
+                <p id="insc-success-msg" style="color:#e2e8f0;font-size:0.95rem;max-width:520px;margin:0 auto 1rem;"></p>
+                <div style="background:rgba(15,23,42,0.65);border:2px solid rgba(74,222,128,0.4);border-radius:6px;padding:0.85rem;max-width:460px;margin:0 auto 1.1rem;font-size:0.86rem;color:#dcfce7;">
+                    📅 <strong>13 de Dezembro de 2026 às 19h</strong><br>
+                    ⛪ Culto Gratidão · IEQ Central Londrina<br>
+                    📍 Travessa Belo Horizonte, 90 · Londrina/PR
+                </div>
+                <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                    <button type="button" id="btn-nova-inscricao" class="mc-btn mc-btn-stone mc-btn-sm">
+                        + Inscrever outro filho(a)
+                    </button>
+                    <a href="#guia-pais" class="mc-btn mc-btn-water mc-btn-sm">
+                        💛 Ver Guia dos Pais
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="portal-footer">
+            <strong>Central UP · IEQ Central Londrina</strong><br>
+            Travessa Belo Horizonte, 90 · Londrina/PR · Batismo nas Águas 2026
+        </footer>
+    </div>
+
+    <!-- MODAL 1: SENHA DO ADMIN (CADEADO) -->
+    <div id="modal-admin-login" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="login-title">
+        <div class="modal-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                <h3 id="login-title" class="pixel-title" style="font-size:0.9rem;color:#fef08a;">🔒 ACESSO ADMIN</h3>
+                <button type="button" id="btn-close-login" class="mc-btn mc-btn-stone mc-btn-sm" aria-label="Fechar">✕</button>
+            </div>
+            <p style="font-size:0.88rem;color:#cbd5e1;margin-bottom:0.9rem;">
+                Digite a senha para gerenciar as inscrições e as configurações da camiseta do Batismo Central UP.
+            </p>
+            <form id="form-admin-login">
+                <div class="mc-field" style="margin-bottom:0.85rem;">
+                    <label class="mc-label" for="admin-pass-input">Senha</label>
+                    <input id="admin-pass-input" type="password" class="mc-input" placeholder="Digite a senha" autocomplete="current-password" required>
+                </div>
+                <div id="admin-login-err" class="form-alert error hidden" style="margin-bottom:0.75rem;">
+                    Senha incorreta. Tente novamente.
+                </div>
+                <button type="submit" class="mc-btn mc-btn-emerald" style="width:100%;">🔓 ENTRAR NO PAINEL</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: PAINEL ADMINISTRATIVO COMPLETO -->
+    <div id="modal-admin-panel" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="admin-panel-title">
+        <div class="modal-box admin-panel-box">
+            <div class="admin-header">
+                <div>
+                    <h2 id="admin-panel-title" class="pixel-title" style="font-size:0.95rem;color:#fef08a;">
+                        ⚙️ PAINEL ADMIN · BATISMO CENTRAL UP
+                    </h2>
+                    <div style="font-size:0.78rem;color:#94a3b8;">Gerenciamento de inscrições e camiseta</div>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <button type="button" id="btn-admin-logout" class="mc-btn mc-btn-stone mc-btn-sm">Sair</button>
+                    <button type="button" id="btn-close-admin" class="mc-btn mc-btn-danger mc-btn-sm">✕ Fechar</button>
+                </div>
+            </div>
+
+            <div class="admin-tabs">
+                <button type="button" class="admin-tab-btn active" data-tab="inscritos">📋 Inscritos</button>
+                <button type="button" class="admin-tab-btn" data-tab="camiseta">👕 Camiseta &amp; Configurações</button>
+            </div>
+
+            <div class="admin-body">
+                <!-- ABA 1: INSCRITOS -->
+                <div id="admin-tab-inscritos">
+                    <div class="admin-stats">
+                        <div class="admin-stat"><strong id="st-total">0</strong><span>Total de inscritos</span></div>
+                        <div class="admin-stat"><strong id="st-confirmados" style="color:#4ade80;">0</strong><span>Confirmados</span></div>
+                        <div class="admin-stat"><strong id="st-pendentes" style="color:#fef08a;">0</strong><span>Pendentes</span></div>
+                        <div class="admin-stat"><strong id="st-camisetas" style="color:#7dd3fc;">0</strong><span>Com camiseta</span></div>
+                    </div>
+
+                    <div class="admin-toolbar">
+                        <input id="admin-search" type="search" class="mc-input" placeholder="Buscar por nome do Up, pais ou WhatsApp..." style="flex:1;min-width:210px;">
+                        <select id="admin-filter-status" class="mc-select" style="width:auto;min-width:140px;">
+                            <option value="todos">Todos status</option>
+                            <option value="pendente">Pendentes</option>
+                            <option value="confirmado">Confirmados</option>
+                        </select>
+                        <button type="button" id="btn-admin-refresh" class="mc-btn mc-btn-stone mc-btn-sm">🔄 Atualizar</button>
+                        <button type="button" id="btn-admin-csv" class="mc-btn mc-btn-water mc-btn-sm">📥 Exportar CSV</button>
+                        <button type="button" id="btn-admin-print" class="mc-btn mc-btn-gold mc-btn-sm">🖨️ Imprimir</button>
+                    </div>
+
+                    <div id="admin-insc-loading" style="text-align:center;padding:1.5rem;color:#94a3b8;">
+                        Carregando inscrições...
+                    </div>
+                    <div id="admin-insc-list" class="admin-insc-list"></div>
+                </div>
+
+                <!-- ABA 2: CAMISETA & CONFIGURAÇÕES -->
+                <div id="admin-tab-camiseta" class="hidden">
+                    <div id="admin-cfg-feedback" class="form-alert info hidden"></div>
+
+                    <form id="form-admin-config">
+                        <div class="mc-form-grid">
+                            <div class="mc-field full" style="background:#132033;border:2px solid #2b3e57;border-radius:8px;padding:12px;">
+                                <div style="display:flex;gap:18px;flex-wrap:wrap;">
+                                    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;">
+                                        <input id="cfg-insc-abertas" type="checkbox" style="width:18px;height:18px;accent-color:#22c55e;">
+                                        Inscrições abertas no portal (sem limite)
+                                    </label>
+                                    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;">
+                                        <input id="cfg-camiseta-ativa" type="checkbox" style="width:18px;height:18px;accent-color:#38bdf8;">
+                                        Exibir seção da Camiseta no portal
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Foto da camiseta -->
+                            <div class="mc-field full" style="background:#132033;border:2px solid #2b3e57;border-radius:8px;padding:12px;">
+                                <label class="mc-label" style="margin-bottom:8px;color:#fef08a;">📸 Foto da Camiseta (upload manual ou URL)</label>
+                                <div style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;">
+                                    <div class="admin-photo-preview" id="cfg-photo-preview">
+                                        <span style="color:#64748b;font-size:0.78rem;text-align:center;padding:8px;">Sem foto</span>
+                                    </div>
+                                    <div style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:8px;">
+                                        <input id="cfg-photo-file" type="file" accept="image/*" class="mc-input" style="padding:8px;">
+                                        <input id="cfg-photo-url" type="url" class="mc-input" placeholder="Ou cole um link direto da imagem (https://...)">
+                                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                                            <button type="button" id="btn-remove-photo" class="mc-btn mc-btn-danger mc-btn-sm">🗑️ Remover foto</button>
+                                            <span style="font-size:0.76rem;color:#94a3b8;align-self:center;">A imagem enviada é otimizada automaticamente.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mc-field">
+                                <label class="mc-label" for="cfg-titulo">Título da seção da camiseta</label>
+                                <input id="cfg-titulo" type="text" class="mc-input" placeholder="Camiseta Oficial · Batismo Central UP">
+                            </div>
+
+                            <div class="mc-field">
+                                <label class="mc-label" for="cfg-valor">Valor da camiseta</label>
+                                <input id="cfg-valor" type="text" class="mc-input" placeholder="Ex.: R$ 45,00">
+                            </div>
+
+                            <div class="mc-field full">
+                                <label class="mc-label" for="cfg-descricao">Descrição</label>
+                                <textarea id="cfg-descricao" class="mc-textarea" placeholder="Detalhes da camiseta, prazo de pedido, etc."></textarea>
+                            </div>
+
+                            <div class="mc-field full">
+                                <label class="mc-label" for="cfg-pagamento">Forma de pagamento</label>
+                                <textarea id="cfg-pagamento" class="mc-textarea" placeholder="Ex.: PIX na chave abaixo ou pagamento em dinheiro/cartão na igreja."></textarea>
+                            </div>
+
+                            <div class="mc-field">
+                                <label class="mc-label" for="cfg-pix">Chave PIX (opcional — gera botão Copiar)</label>
+                                <input id="cfg-pix" type="text" class="mc-input" placeholder="Ex.: pix@centralieq.com">
+                            </div>
+
+                            <div class="mc-field">
+                                <label class="mc-label" for="cfg-link">Link de compra ou WhatsApp (opcional)</label>
+                                <input id="cfg-link" type="url" class="mc-input" placeholder="https://wa.me/5543... ou link de pagamento">
+                            </div>
+
+                            <div class="mc-field full">
+                                <label class="mc-label" for="cfg-tamanhos">Tamanhos disponíveis (separados por vírgula)</label>
+                                <input id="cfg-tamanhos" type="text" class="mc-input" placeholder="10, 12, 14, P, M, G, GG">
+                            </div>
+                        </div>
+
+                        <div style="margin-top:1rem;">
+                            <button type="submit" id="btn-save-config" class="mc-btn mc-btn-emerald">
+                                💾 SALVAR CONFIGURAÇÕES
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: EDITAR INSCRIÇÃO -->
+    <div id="modal-edit-insc" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="edit-insc-title">
+        <div class="modal-box" style="max-width:520px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                <h3 id="edit-insc-title" class="pixel-title" style="font-size:0.88rem;color:#fef08a;">✏️ EDITAR INSCRIÇÃO</h3>
+                <button type="button" id="btn-close-edit" class="mc-btn mc-btn-stone mc-btn-sm">✕</button>
+            </div>
+            <form id="form-edit-insc">
+                <input type="hidden" id="edit-id">
+                <div class="mc-form-grid">
+                    <div class="mc-field full">
+                        <label class="mc-label" for="edit-nome-up">Nome do Up</label>
+                        <input id="edit-nome-up" type="text" class="mc-input" required>
+                    </div>
+                    <div class="mc-field">
+                        <label class="mc-label" for="edit-data-nasc">Data de nascimento</label>
+                        <input id="edit-data-nasc" type="date" class="mc-input" required>
+                    </div>
+                    <div class="mc-field">
+                        <label class="mc-label" for="edit-status">Status</label>
+                        <select id="edit-status" class="mc-select">
+                            <option value="pendente">Pendente</option>
+                            <option value="confirmado">Confirmado</option>
+                        </select>
+                    </div>
+                    <div class="mc-field full">
+                        <label class="mc-label" for="edit-filiacao">Filiação</label>
+                        <input id="edit-filiacao" type="text" class="mc-input" required>
+                    </div>
+                    <div class="mc-field">
+                        <label class="mc-label" for="edit-resp-nome">Responsável</label>
+                        <input id="edit-resp-nome" type="text" class="mc-input" required>
+                    </div>
+                    <div class="mc-field">
+                        <label class="mc-label" for="edit-resp-whats">WhatsApp</label>
+                        <input id="edit-resp-whats" type="tel" class="mc-input" required>
+                    </div>
+                    <div class="mc-field">
+                        <label class="mc-label" for="edit-camiseta">Quer camiseta?</label>
+                        <select id="edit-camiseta" class="mc-select">
+                            <option value="nao">Não</option>
+                            <option value="sim">Sim</option>
+                        </select>
+                    </div>
+                    <div class="mc-field">
+                        <label class="mc-label" for="edit-tamanho">Tamanho</label>
+                        <input id="edit-tamanho" type="text" class="mc-input" placeholder="Ex.: 12, P, M">
+                    </div>
+                    <div class="mc-field full">
+                        <label class="mc-label" for="edit-obs">Observações</label>
+                        <textarea id="edit-obs" class="mc-textarea"></textarea>
+                    </div>
+                </div>
+                <div style="margin-top:1rem;display:flex;gap:8px;justify-content:flex-end;">
+                    <button type="button" id="btn-cancel-edit" class="mc-btn mc-btn-stone mc-btn-sm">Cancelar</button>
+                    <button type="submit" class="mc-btn mc-btn-emerald mc-btn-sm">💾 Salvar alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import {
+            CONFIG_PADRAO,
+            obterConfig,
+            salvarConfig,
+            criarInscricao,
+            listarInscricoes,
+            atualizarInscricao,
+            excluirInscricao,
+            formatarTelefone,
+            limparTelefone,
+            calcularIdade,
+            formatarDataBR,
+            comprimirImagemParaBase64,
+            exportarInscricoesCSV
+        } from './db-service.js?v=1';
+        import { iniciarMiniGame } from './game.js?v=1';
+
+        const ADMIN_PASS = 'admin';
+        const ADMIN_SESSION_KEY = 'bup2026_admin_ok';
+
+        let configAtual = { ...CONFIG_PADRAO };
+        let inscricoesCache = [];
+        let fotoBase64Temp = '';
+
+        // ─── 1. CONTAGEM REGRESSIVA (13/12/2026 19:00 BRT) ───
+        function atualizarCountdown() {
+            const alvo = new Date('2026-12-13T19:00:00-03:00').getTime();
+            const diff = Math.max(0, alvo - Date.now());
+            const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const min = Math.floor((diff / (1000 * 60)) % 60);
+            const seg = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('cd-dias').textContent = String(dias).padStart(2, '0');
+            document.getElementById('cd-horas').textContent = String(horas).padStart(2, '0');
+            document.getElementById('cd-min').textContent = String(min).padStart(2, '0');
+            document.getElementById('cd-seg').textContent = String(seg).padStart(2, '0');
+        }
+        atualizarCountdown();
+        setInterval(atualizarCountdown, 1000);
+
+        // ─── 2. CHECKLIST DOS PAIS (LOCALSTORAGE) ───
+        const CK_KEY = 'bup2026_checklist_pais';
+        const ckSaved = JSON.parse(localStorage.getItem(CK_KEY) || '{}');
+        document.querySelectorAll('#pais-checklist input[type="checkbox"]').forEach((cb) => {
+            const k = cb.dataset.ck;
+            cb.checked = Boolean(ckSaved[k]);
+            cb.addEventListener('change', () => {
+                ckSaved[k] = cb.checked;
+                localStorage.setItem(CK_KEY, JSON.stringify(ckSaved));
+            });
+        });
+
+        // ─── 3. MINI-GAME INTERATIVO ───
+        iniciarMiniGame('bup-game-root');
+
+        // ─── 4. APLICAR CONFIGURAÇÕES NO PORTAL PÚBLICO ───
+        function aplicarConfigNoPortal(cfg) {
+            configAtual = { ...CONFIG_PADRAO, ...cfg };
+
+            // Camiseta
+            const secCamiseta = document.getElementById('camiseta');
+            const navCamiseta = document.getElementById('nav-slot-camiseta');
+            const boxOptCamiseta = document.getElementById('f-camiseta-box');
+
+            if (configAtual.camisetaAtiva) {
+                secCamiseta.classList.remove('hidden');
+                navCamiseta.classList.remove('hidden');
+                boxOptCamiseta.classList.remove('hidden');
+            } else {
+                secCamiseta.classList.add('hidden');
+                navCamiseta.classList.add('hidden');
+                boxOptCamiseta.classList.add('hidden');
+            }
+
+            document.getElementById('pub-camiseta-titulo').textContent =
+                configAtual.camisetaTitulo || CONFIG_PADRAO.camisetaTitulo;
+            document.getElementById('pub-camiseta-desc').textContent =
+                configAtual.camisetaDescricao || CONFIG_PADRAO.camisetaDescricao;
+            document.getElementById('pub-camiseta-valor').textContent =
+                `Valor: ${configAtual.camisetaValor || 'A definir'}`;
+            document.getElementById('pub-camiseta-pagamento').textContent =
+                configAtual.camisetaPagamento || CONFIG_PADRAO.camisetaPagamento;
+
+            const tamanhosTexto = configAtual.camisetaTamanhos || CONFIG_PADRAO.camisetaTamanhos;
+            document.getElementById('pub-camiseta-tamanhos').textContent = tamanhosTexto;
+
+            // Popular select de tamanhos na ficha
+            const selectTam = document.getElementById('f-tamanho');
+            const listaTam = tamanhosTexto.split(',').map((t) => t.trim()).filter(Boolean);
+            selectTam.innerHTML = listaTam.map((t) => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join('');
+
+            // Foto da camiseta
+            const photoFrame = document.getElementById('pub-camiseta-photo');
+            const imgSrc = configAtual.camisetaFotoBase64 || configAtual.camisetaFotoUrl;
+            if (imgSrc) {
+                photoFrame.innerHTML = `<img src="${imgSrc}" alt="Camiseta Oficial do Batismo Central UP">`;
+            } else {
+                photoFrame.innerHTML = `
+                    <div class="camiseta-placeholder">
+                        <span>👕</span>
+                        Foto da camiseta em breve!
+                    </div>
+                `;
+            }
+
+            // Chave PIX
+            const pixWrap = document.getElementById('pub-camiseta-pix-wrap');
+            if (configAtual.camisetaPix && configAtual.camisetaPix.trim()) {
+                document.getElementById('pub-camiseta-pix').textContent = configAtual.camisetaPix.trim();
+                pixWrap.classList.remove('hidden');
+            } else {
+                pixWrap.classList.add('hidden');
+            }
+
+            // Link de compra externo
+            const linkBtn = document.getElementById('pub-camiseta-link');
+            if (configAtual.camisetaLinkCompra && configAtual.camisetaLinkCompra.trim()) {
+                linkBtn.href = configAtual.camisetaLinkCompra.trim();
+                linkBtn.classList.remove('hidden');
+            } else {
+                linkBtn.classList.add('hidden');
+            }
+
+            // Controle de inscrições abertas/fechadas
+            const closedBanner = document.getElementById('insc-closed-banner');
+            const formInsc = document.getElementById('form-inscricao-batismo');
+            if (configAtual.inscricoesAbertas === false) {
+                closedBanner.classList.remove('hidden');
+                formInsc.classList.add('hidden');
+            } else {
+                closedBanner.classList.add('hidden');
+                if (document.getElementById('insc-success-box').classList.contains('hidden')) {
+                    formInsc.classList.remove('hidden');
+                }
+            }
+        }
+
+        // Copiar PIX
+        document.getElementById('btn-copy-pix').addEventListener('click', async () => {
+            const chave = configAtual.camisetaPix?.trim();
+            if (!chave) return;
+            try {
+                await navigator.clipboard.writeText(chave);
+                const btn = document.getElementById('btn-copy-pix');
+                const orig = btn.textContent;
+                btn.textContent = '✅ COPIADO!';
+                setTimeout(() => { btn.textContent = orig; }, 2200);
+            } catch (_) {
+                alert('Chave PIX: ' + chave);
+            }
+        });
+
+        // ─── 5. FORMULÁRIO DE INSCRIÇÃO ───
+        const inputWhats = document.getElementById('f-resp-whats');
+        inputWhats.addEventListener('input', () => {
+            inputWhats.value = formatarTelefone(inputWhats.value);
+        });
+
+        const cbQuerCamiseta = document.getElementById('f-quer-camiseta');
+        const wrapTamanho = document.getElementById('f-tamanho-wrap');
+        cbQuerCamiseta.addEventListener('change', () => {
+            wrapTamanho.classList.toggle('hidden', !cbQuerCamiseta.checked);
+        });
+
+        const formInsc = document.getElementById('form-inscricao-batismo');
+        const errBanner = document.getElementById('insc-error-banner');
+        const successBox = document.getElementById('insc-success-box');
+
+        formInsc.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errBanner.classList.add('hidden');
+
+            const nomeUp = document.getElementById('f-nome-up').value.trim();
+            const dataNascimento = document.getElementById('f-data-nasc').value.trim();
+            const filiacao = document.getElementById('f-filiacao').value.trim();
+            const responsavelNome = document.getElementById('f-resp-nome').value.trim();
+            const responsavelWhatsapp = limparTelefone(document.getElementById('f-resp-whats').value);
+            const querCamiseta = cbQuerCamiseta.checked;
+            const tamanhoCamiseta = document.getElementById('f-tamanho').value;
+            const observacoes = document.getElementById('f-obs').value.trim();
+
+            if (!nomeUp || !dataNascimento || !filiacao || !responsavelNome || responsavelWhatsapp.length < 10) {
+                errBanner.textContent = 'Por favor, preencha todos os campos obrigatórios (incluindo WhatsApp com DDD).';
+                errBanner.classList.remove('hidden');
+                errBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            const btnSubmit = document.getElementById('btn-submit-insc');
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = '⏳ SALVANDO INSCRIÇÃO...';
+
+            try {
+                await criarInscricao({
+                    nomeUp,
+                    dataNascimento,
+                    filiacao,
+                    responsavelNome,
+                    responsavelWhatsapp,
+                    querCamiseta,
+                    tamanhoCamiseta,
+                    observacoes
+                });
+
+                formInsc.classList.add('hidden');
+                document.getElementById('insc-success-msg').innerHTML =
+                    `A inscrição de <strong>${escapeHtml(nomeUp)}</strong> foi registrada com sucesso! ` +
+                    `Que alegria celebrar esse passo de fé com a sua família!`;
+                successBox.classList.remove('hidden');
+                successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                formInsc.reset();
+                wrapTamanho.classList.add('hidden');
+            } catch (err) {
+                console.error(err);
+                errBanner.textContent = 'Não foi possível enviar a inscrição agora. Verifique sua conexão e tente novamente.';
+                errBanner.classList.remove('hidden');
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = '✅ CONFIRMAR INSCRIÇÃO NO BATISMO';
+            }
+        });
+
+        document.getElementById('btn-nova-inscricao').addEventListener('click', () => {
+            successBox.classList.add('hidden');
+            if (configAtual.inscricoesAbertas !== false) {
+                formInsc.classList.remove('hidden');
+            }
+        });
+
+        // ─── 6. PAINEL ADMINISTRATIVO (CADEADO -> SENHA "admin") ───
+        const modalLogin = document.getElementById('modal-admin-login');
+        const modalAdmin = document.getElementById('modal-admin-panel');
+        const modalEdit = document.getElementById('modal-edit-insc');
+
+        function abrirAdminOuLogin() {
+            if (sessionStorage.getItem(ADMIN_SESSION_KEY) === '1') {
+                abrirPainelAdmin();
+            } else {
+                document.getElementById('admin-pass-input').value = '';
+                document.getElementById('admin-login-err').classList.add('hidden');
+                modalLogin.classList.add('open');
+                setTimeout(() => document.getElementById('admin-pass-input').focus(), 60);
+            }
+        }
+
+        document.getElementById('btn-open-admin-lock').addEventListener('click', abrirAdminOuLogin);
+        document.getElementById('btn-close-login').addEventListener('click', () => modalLogin.classList.remove('open'));
+        modalLogin.addEventListener('click', (e) => {
+            if (e.target === modalLogin) modalLogin.classList.remove('open');
+        });
+
+        document.getElementById('form-admin-login').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const val = document.getElementById('admin-pass-input').value.trim();
+            if (val === ADMIN_PASS) {
+                sessionStorage.setItem(ADMIN_SESSION_KEY, '1');
+                modalLogin.classList.remove('open');
+                abrirPainelAdmin();
+            } else {
+                document.getElementById('admin-login-err').classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('btn-close-admin').addEventListener('click', () => modalAdmin.classList.remove('open'));
+        document.getElementById('btn-admin-logout').addEventListener('click', () => {
+            sessionStorage.removeItem(ADMIN_SESSION_KEY);
+            modalAdmin.classList.remove('open');
+        });
+
+        // Troca de abas do admin
+        document.querySelectorAll('.admin-tab-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.admin-tab-btn').forEach((b) => b.classList.remove('active'));
+                btn.classList.add('active');
+                const tab = btn.dataset.tab;
+                document.getElementById('admin-tab-inscritos').classList.toggle('hidden', tab !== 'inscritos');
+                document.getElementById('admin-tab-camiseta').classList.toggle('hidden', tab !== 'camiseta');
+            });
+        });
+
+        async function abrirPainelAdmin() {
+            modalAdmin.classList.add('open');
+            preencherFormConfig(configAtual);
+            await carregarInscricoesAdmin();
+        }
+
+        async function carregarInscricoesAdmin() {
+            const loading = document.getElementById('admin-insc-loading');
+            const listEl = document.getElementById('admin-insc-list');
+            loading.classList.remove('hidden');
+            listEl.innerHTML = '';
+            try {
+                inscricoesCache = await listarInscricoes();
+                renderizarInscricoesAdmin();
+            } catch (err) {
+                console.error(err);
+                listEl.innerHTML = `<div class="form-alert error">Erro ao carregar inscrições. Tente atualizar.</div>`;
+            } finally {
+                loading.classList.add('hidden');
+            }
+        }
+
+        function renderizarInscricoesAdmin() {
+            const termo = (document.getElementById('admin-search').value || '').toLowerCase().trim();
+            const filtroStatus = document.getElementById('admin-filter-status').value;
+
+            const total = inscricoesCache.length;
+            const confirmados = inscricoesCache.filter((i) => i.status === 'confirmado').length;
+            const pendentes = total - confirmados;
+            const comCamiseta = inscricoesCache.filter((i) => i.querCamiseta).length;
+
+            document.getElementById('st-total').textContent = total;
+            document.getElementById('st-confirmados').textContent = confirmados;
+            document.getElementById('st-pendentes').textContent = pendentes;
+            document.getElementById('st-camisetas').textContent = comCamiseta;
+
+            const filtrados = inscricoesCache.filter((i) => {
+                if (filtroStatus !== 'todos' && (i.status || 'pendente') !== filtroStatus) return false;
+                if (!termo) return true;
+                const blob = `${i.nomeUp} ${i.filiacao} ${i.responsavelNome} ${i.responsavelWhatsapp}`.toLowerCase();
+                return blob.includes(termo);
+            });
+
+            const listEl = document.getElementById('admin-insc-list');
+            if (!filtrados.length) {
+                listEl.innerHTML = `<div style="text-align:center;padding:1.5rem;color:#94a3b8;">Nenhuma inscrição encontrada.</div>`;
+                return;
+            }
+
+            listEl.innerHTML = filtrados.map((i) => {
+                const status = i.status === 'confirmado' ? 'confirmado' : 'pendente';
+                const idade = calcularIdade(i.dataNascimento);
+                const whatsLimpo = limparTelefone(i.responsavelWhatsapp);
+                const msgWhats = encodeURIComponent(
+                    `Olá ${i.responsavelNome || ''}! Tudo bem? Aqui é da equipe do Central UP (IEQ Central). ` +
+                    `Passando sobre a inscrição do(a) ${i.nomeUp} para o Batismo nas Águas no dia 13/12 às 19h!`
+                );
+                const linkWhats = whatsLimpo ? `https://wa.me/55${whatsLimpo}?text=${msgWhats}` : '#';
+
+                return `
+                    <div class="admin-insc-card" data-id="${escapeHtml(i.id)}">
+                        <div class="admin-insc-top">
+                            <div>
+                                <strong style="font-size:1rem;color:#fff;">${escapeHtml(i.nomeUp)}</strong>
+                                <span style="font-size:0.8rem;color:#94a3b8;margin-left:6px;">
+                                    ${formatarDataBR(i.dataNascimento)} ${idade ? `(${idade})` : ''}
+                                </span>
+                            </div>
+                            <span class="status-pill ${status}">
+                                ${status === 'confirmado' ? '✅ Confirmado' : '⏳ Pendente'}
+                            </span>
+                        </div>
+                        <div class="admin-insc-meta">
+                            <div><strong>Filiação:</strong> ${escapeHtml(i.filiacao)}</div>
+                            <div><strong>Responsável:</strong> ${escapeHtml(i.responsavelNome)}</div>
+                            <div><strong>WhatsApp:</strong> ${formatarTelefone(i.responsavelWhatsapp)}</div>
+                            <div><strong>Camiseta:</strong> ${i.querCamiseta ? `Sim (Tam. ${escapeHtml(i.tamanhoCamiseta || '-')})` : 'Não'}</div>
+                            ${i.observacoes ? `<div style="grid-column:1/-1;"><strong>Obs.:</strong> ${escapeHtml(i.observacoes)}</div>` : ''}
+                            <div style="font-size:0.75rem;color:#64748b;">Inscrito em: ${escapeHtml(i.dataHoraTexto || '-')}</div>
+                        </div>
+                        <div class="admin-insc-actions">
+                            <button type="button" class="mc-btn ${status === 'confirmado' ? 'mc-btn-stone' : 'mc-btn-emerald'} mc-btn-sm js-toggle-status" data-id="${escapeHtml(i.id)}">
+                                ${status === 'confirmado' ? '↩ Marcar Pendente' : '✅ Confirmar'}
+                            </button>
+                            ${whatsLimpo ? `<a href="${linkWhats}" target="_blank" rel="noopener noreferrer" class="mc-btn mc-btn-water mc-btn-sm">💬 WhatsApp</a>` : ''}
+                            <button type="button" class="mc-btn mc-btn-gold mc-btn-sm js-edit-insc" data-id="${escapeHtml(i.id)}">✏️ Editar</button>
+                            <button type="button" class="mc-btn mc-btn-danger mc-btn-sm js-del-insc" data-id="${escapeHtml(i.id)}">🗑️ Excluir</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Eventos dos botões da lista
+            listEl.querySelectorAll('.js-toggle-status').forEach((btn) => {
+                btn.addEventListener('click', async () => {
+                    const id = btn.dataset.id;
+                    const item = inscricoesCache.find((x) => x.id === id);
+                    if (!item) return;
+                    const novoStatus = item.status === 'confirmado' ? 'pendente' : 'confirmado';
+                    btn.disabled = true;
+                    try {
+                        await atualizarInscricao(id, { status: novoStatus });
+                        item.status = novoStatus;
+                        renderizarInscricoesAdmin();
+                    } catch (err) {
+                        alert('Erro ao atualizar status.');
+                    }
+                });
+            });
+
+            listEl.querySelectorAll('.js-edit-insc').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const item = inscricoesCache.find((x) => x.id === btn.dataset.id);
+                    if (!item) return;
+                    document.getElementById('edit-id').value = item.id;
+                    document.getElementById('edit-nome-up').value = item.nomeUp || '';
+                    document.getElementById('edit-data-nasc').value = item.dataNascimento || '';
+                    document.getElementById('edit-status').value = item.status === 'confirmado' ? 'confirmado' : 'pendente';
+                    document.getElementById('edit-filiacao').value = item.filiacao || '';
+                    document.getElementById('edit-resp-nome').value = item.responsavelNome || '';
+                    document.getElementById('edit-resp-whats').value = formatarTelefone(item.responsavelWhatsapp || '');
+                    document.getElementById('edit-camiseta').value = item.querCamiseta ? 'sim' : 'nao';
+                    document.getElementById('edit-tamanho').value = item.tamanhoCamiseta || '';
+                    document.getElementById('edit-obs').value = item.observacoes || '';
+                    modalEdit.classList.add('open');
+                });
+            });
+
+            listEl.querySelectorAll('.js-del-insc').forEach((btn) => {
+                btn.addEventListener('click', async () => {
+                    const id = btn.dataset.id;
+                    const item = inscricoesCache.find((x) => x.id === id);
+                    if (!item) return;
+                    if (!confirm(`Deseja realmente excluir a inscrição de "${item.nomeUp}"?`)) return;
+                    btn.disabled = true;
+                    try {
+                        await excluirInscricao(id);
+                        inscricoesCache = inscricoesCache.filter((x) => x.id !== id);
+                        renderizarInscricoesAdmin();
+                    } catch (err) {
+                        alert('Erro ao excluir inscrição.');
+                        btn.disabled = false;
+                    }
+                });
+            });
+        }
+
+        document.getElementById('admin-search').addEventListener('input', renderizarInscricoesAdmin);
+        document.getElementById('admin-filter-status').addEventListener('change', renderizarInscricoesAdmin);
+        document.getElementById('btn-admin-refresh').addEventListener('click', carregarInscricoesAdmin);
+        document.getElementById('btn-admin-csv').addEventListener('click', () => exportarInscricoesCSV(inscricoesCache));
+        document.getElementById('btn-admin-print').addEventListener('click', () => window.print());
+
+        // Modal Editar Inscrição
+        document.getElementById('btn-close-edit').addEventListener('click', () => modalEdit.classList.remove('open'));
+        document.getElementById('btn-cancel-edit').addEventListener('click', () => modalEdit.classList.remove('open'));
+        document.getElementById('form-edit-insc').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('edit-id').value;
+            const dados = {
+                nomeUp: document.getElementById('edit-nome-up').value.trim(),
+                dataNascimento: document.getElementById('edit-data-nasc').value.trim(),
+                status: document.getElementById('edit-status').value,
+                filiacao: document.getElementById('edit-filiacao').value.trim(),
+                responsavelNome: document.getElementById('edit-resp-nome').value.trim(),
+                responsavelWhatsapp: limparTelefone(document.getElementById('edit-resp-whats').value),
+                querCamiseta: document.getElementById('edit-camiseta').value === 'sim',
+                tamanhoCamiseta: document.getElementById('edit-tamanho').value.trim(),
+                observacoes: document.getElementById('edit-obs').value.trim()
+            };
+            try {
+                await atualizarInscricao(id, dados);
+                const idx = inscricoesCache.findIndex((x) => x.id === id);
+                if (idx >= 0) inscricoesCache[idx] = { ...inscricoesCache[idx], ...dados };
+                modalEdit.classList.remove('open');
+                renderizarInscricoesAdmin();
+            } catch (err) {
+                alert('Erro ao salvar edição.');
+            }
+        });
+
+        // ─── 7. ABA CONFIGURAÇÕES DA CAMISETA & PORTAL ───
+        function atualizarPreviewFotoAdmin(src) {
+            const prev = document.getElementById('cfg-photo-preview');
+            if (src) {
+                prev.innerHTML = `<img src="${src}" alt="Prévia da camiseta">`;
+            } else {
+                prev.innerHTML = `<span style="color:#64748b;font-size:0.78rem;text-align:center;padding:8px;">Sem foto</span>`;
+            }
+        }
+
+        function preencherFormConfig(cfg) {
+            document.getElementById('cfg-insc-abertas').checked = cfg.inscricoesAbertas !== false;
+            document.getElementById('cfg-camiseta-ativa').checked = cfg.camisetaAtiva !== false;
+            document.getElementById('cfg-titulo').value = cfg.camisetaTitulo || '';
+            document.getElementById('cfg-valor').value = cfg.camisetaValor || '';
+            document.getElementById('cfg-descricao').value = cfg.camisetaDescricao || '';
+            document.getElementById('cfg-pagamento').value = cfg.camisetaPagamento || '';
+            document.getElementById('cfg-pix').value = cfg.camisetaPix || '';
+            document.getElementById('cfg-link').value = cfg.camisetaLinkCompra || '';
+            document.getElementById('cfg-tamanhos').value = cfg.camisetaTamanhos || '';
+            document.getElementById('cfg-photo-url').value = cfg.camisetaFotoUrl || '';
+            document.getElementById('cfg-photo-file').value = '';
+            fotoBase64Temp = cfg.camisetaFotoBase64 || '';
+            atualizarPreviewFotoAdmin(fotoBase64Temp || cfg.camisetaFotoUrl || '');
+        }
+
+        document.getElementById('cfg-photo-file').addEventListener('change', async (e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            try {
+                fotoBase64Temp = await comprimirImagemParaBase64(file, 820, 0.78);
+                atualizarPreviewFotoAdmin(fotoBase64Temp);
+            } catch (err) {
+                alert(err.message || 'Erro ao processar a imagem.');
+            }
+        });
+
+        document.getElementById('cfg-photo-url').addEventListener('input', (e) => {
+            const url = e.target.value.trim();
+            if (url && !fotoBase64Temp) {
+                atualizarPreviewFotoAdmin(url);
+            } else if (!url && !fotoBase64Temp) {
+                atualizarPreviewFotoAdmin('');
+            }
+        });
+
+        document.getElementById('btn-remove-photo').addEventListener('click', () => {
+            fotoBase64Temp = '';
+            document.getElementById('cfg-photo-file').value = '';
+            document.getElementById('cfg-photo-url').value = '';
+            atualizarPreviewFotoAdmin('');
+        });
+
+        document.getElementById('form-admin-config').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fb = document.getElementById('admin-cfg-feedback');
+            fb.classList.add('hidden');
+            const btnSave = document.getElementById('btn-save-config');
+            btnSave.disabled = true;
+            btnSave.textContent = '⏳ SALVANDO...';
+
+            const novosDados = {
+                inscricoesAbertas: document.getElementById('cfg-insc-abertas').checked,
+                camisetaAtiva: document.getElementById('cfg-camiseta-ativa').checked,
+                camisetaTitulo: document.getElementById('cfg-titulo').value.trim() || CONFIG_PADRAO.camisetaTitulo,
+                camisetaValor: document.getElementById('cfg-valor').value.trim() || 'A definir',
+                camisetaDescricao: document.getElementById('cfg-descricao').value.trim(),
+                camisetaPagamento: document.getElementById('cfg-pagamento').value.trim(),
+                camisetaPix: document.getElementById('cfg-pix').value.trim(),
+                camisetaLinkCompra: document.getElementById('cfg-link').value.trim(),
+                camisetaTamanhos: document.getElementById('cfg-tamanhos').value.trim() || CONFIG_PADRAO.camisetaTamanhos,
+                camisetaFotoBase64: fotoBase64Temp,
+                camisetaFotoUrl: document.getElementById('cfg-photo-url').value.trim()
+            };
+
+            try {
+                const salvo = await salvarConfig(novosDados);
+                aplicarConfigNoPortal(salvo);
+                fb.textContent = '✅ Configurações salvas e publicadas no portal com sucesso!';
+                fb.className = 'form-alert info';
+                fb.classList.remove('hidden');
+            } catch (err) {
+                console.error(err);
+                fb.textContent = 'Erro ao salvar configurações. Se a foto for muito grande, tente outra imagem.';
+                fb.className = 'form-alert error';
+                fb.classList.remove('hidden');
+            } finally {
+                btnSave.disabled = false;
+                btnSave.textContent = '💾 SALVAR CONFIGURAÇÕES';
+            }
+        });
+
+        function escapeHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // Inicialização
+        obterConfig().then(aplicarConfigNoPortal);
+    </script>
+</body>
+</html>
